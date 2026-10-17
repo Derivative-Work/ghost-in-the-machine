@@ -160,3 +160,24 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   - "S53: the scroll becomes the river from before including the robot"
 - **Choice:** Asked to pick a default-cube transition from four options (box opens/vacuums, context menu, unfold into the floor, cube becomes the head), the human chose "Box opens / vacuums".
 - **Rule:** R1 (creative direction in words and a choice between plans; the agent makes every change).
+
+## 2026-10-17T16:57:58-04:00 — C4 feedback on animatic v5
+
+- **What:** The human's notes (verbatim):
+  - "S02: I was expecting things to be unpacked from the box, not stuck vertically"
+  - "S09: there's not enough terms so it's completely black most of the time"
+  - "S11: the dev console is showing up for a frame or two"
+  - "S18: use fixed-width numbers so that the width is not constantly changing as it grows"
+  - "S22: we don't need the falling \"TOKENS\" letters anymore now that there's more variance in the words"
+  - "S23: fill the screen with them without obscuring the lyrics (maybe two more rows)"
+  - "S24: this is starting from behind the screen and lingering so I can't see any of the rest of the scene"
+  - "S26: for continuity with S27, this needs to also have the elements from there"
+  - "S27: add a \"generate\" button flying around the robot, and make it push it at the end"
+  - "S30: instead of placeholder code, use the actual code from this repository"
+  - "S44: same as S22"; "S45: same as S23"
+  - "S46: just get rid of it entirely so that S45 can have more time"
+  - "S53: the videos themselves should become the data stream by zooming out, then animating them"
+  - "S54: it should become one of the screens around the robot at S56 rather than going back out to the YouTube-style scroll"
+  - "S55: regenerate button on top of S54 as revised"
+  - "S56: contents need to go up and around the box rather than clipping into it"
+- **Rule:** R1 (creative direction in words; the agent makes the changes).
