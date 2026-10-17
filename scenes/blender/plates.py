@@ -28,7 +28,7 @@ SHOTS = json.loads((ROOT / "shots" / "shots.json").read_text())
 FPS = SHOTS["fps"]
 PANELS = ROOT / "renders" / "animatic" / "panels"
 SHOT = {s["id"]: s for s in SHOTS["shots"]}
-SCREEN_NAMES = ["consent", "counter", "chat", "terminal"]
+SCREEN_NAMES = ["consent", "counter", "chat", "terminal", "playlist", "rating"]
 
 
 def seed_value(spec):
@@ -134,7 +134,9 @@ def plate_robot(job, seed):
     reroll = "reroll" in fx  # S31: each regeneration visibly re-rolls the layout
     cx = 1.4 + ((r.random() - 0.5) * 1.6 if reroll else 0)
     rig = G.build_character((cx, 0, 0), height_scale=1.0 + (r.random() - 0.5) * (0.25 if reroll else 0.04))
-    slots = [(-1.6, 3.2, 2.6, 14), (5.2, 4.6, 2.4, -24), (-4.2, 6.5, 1.6, 26), (2.4, 8.0, 3.6, -8)]
+    # Eight screens; the last four sit close to the camera, flanking the shot (v5).
+    slots = [(-1.6, 3.2, 2.6, 14), (5.2, 4.6, 2.4, -24), (-4.2, 6.5, 1.6, 26), (2.4, 8.0, 3.6, -8),
+             (-1.4, -3.0, 0.9, 32), (2.3, -2.7, 2.7, -30), (-0.6, 0.8, 3.5, 6), (6.6, 2.2, 3.1, -30)]
     if reroll:
         r.shuffle(slots)
         slots = [(x + (r.random() - 0.5) * 3, y, z + (r.random() - 0.5) * 1.5, rz + r.randint(-30, 30)) for x, y, z, rz in slots]
@@ -142,8 +144,9 @@ def plate_robot(job, seed):
     for i, (x, y, z, rz) in enumerate(slots):
         x += (r.random() - 0.5) * 0.6
         z += (r.random() - 0.5) * 0.4
-        m = G.mat_image_screen(f"scr_{i}", PANELS / f"panel_{SCREEN_NAMES[i]}.png", 1.5)
-        screens.append((G.plane(f"screen_{i}", (2.2, 1.283), (x, y, z), (math.radians(90), 0, math.radians(rz)), m),
+        m = G.mat_image_screen(f"scr_{i}", PANELS / f"panel_{SCREEN_NAMES[i % len(SCREEN_NAMES)]}.png", 1.5)
+        size = (1.5, 0.875) if i >= 4 else (2.2, 1.283)
+        screens.append((G.plane(f"screen_{i}", size, (x, y, z), (math.radians(90), 0, math.radians(rz)), m),
                         z, r.random(), m))
     G.standard_lights(target=(cx, 0, 1.2))
     cam = G.camera(35)
@@ -232,12 +235,12 @@ def plate_chorus(job, seed):
     floor = G.grid_floor()
     rig = G.build_character((0, 0, 0), height_scale=1.0 + (r.random() - 0.5) * 0.04)
     ring = []
-    for i in range(8):
-        a = i / 8 * 2 * math.pi + (r.random() - 0.5) * 0.3
-        rad = 6.0 + (r.random() - 0.5) * 0.8
-        z = 1.6 + (r.random() - 0.5) * 1.2
-        m = G.mat_image_screen(f"ring_{i}", PANELS / f"panel_{SCREEN_NAMES[r.randrange(4)]}.png", 1.4)
-        ob = G.plane(f"ring_{i}", (2.0, 1.167), (rad * math.cos(a), rad * math.sin(a), z),
+    for i in range(12):  # v5: more screens, closer to the camera's orbit (radius 3.4)
+        a = i / 12 * 2 * math.pi + (r.random() - 0.5) * 0.25
+        rad = 4.5 + (r.random() - 0.5) * 0.7
+        z = 1.5 + (r.random() - 0.5) * 1.6
+        m = G.mat_image_screen(f"ring_{i}", PANELS / f"panel_{SCREEN_NAMES[r.randrange(len(SCREEN_NAMES))]}.png", 1.4)
+        ob = G.plane(f"ring_{i}", (1.7, 0.99), (rad * math.cos(a), rad * math.sin(a), z),
                      (math.radians(90), 0, a - math.pi / 2), m)
         ring.append((ob, z, r.random()))
     tokens = []
@@ -254,9 +257,16 @@ def plate_chorus(job, seed):
     cam = G.camera(30)
     G.bloom(scene)
     fx = set(job["fx"])
-    if "missing_texture" in fx:
-        apply_missing_texture()
     s = SHOT[job["shot"]]
+    swaps = []
+    if "missing_texture" in fx:  # v5: textures go missing one object at a time over the first 1.6 s
+        chk = checker_material()
+        order = [o for o, *_ in ring] + [o for o, *_ in tokens] + \
+                [o for o in bpy.data.objects if o.type == "MESH" and (o.parent is not None) and not o.name.startswith(("eye", "mouth"))]
+        for o in order:
+            swaps.append((o, [m for m in o.data.materials]))
+        swap_rng = random.Random(seed + 7)
+        swap_rng.shuffle(swaps)
     t0, t1 = s["start_s"], s["end_s"]
     grid = floor.active_material.node_tree.nodes["grid_amount"]
     energies = [l.data.energy for l in lights]
@@ -342,6 +352,11 @@ def plate_chorus(job, seed):
         tl = t - t0
         rig["root"].rotation_euler.z = 0.0
         rig["head"].rotation_euler.x = 0.0
+        if swaps:
+            n = int(len(swaps) * min(1.0, max(0.0, tl / 1.6)))
+            for i, (o, mats) in enumerate(swaps):
+                for k in range(len(o.data.materials)):
+                    o.data.materials[k] = chk if i < n else mats[k]
         idle(rig, t)
         G.perform(rig, t)
         float_objs(ring, t)
@@ -366,8 +381,8 @@ def plate_chorus(job, seed):
             orbit(t, 40, 4.2, 1.3)
         elif c == "dolly_zoom":
             # Vertigo: dolly in while widening the lens so the robot stays the same size and the world stretches.
-            d = 5.0 - 3.1 * G.ease(tl / max(1e-6, t1 - t0))
-            cam.data.lens = 47.0 * d / 5.0
+            d = 3.9 - 2.3 * G.ease(tl / max(1e-6, t1 - t0))  # stays inside the screen ring (radius ~4.5)
+            cam.data.lens = 44.0 * d / 3.9
             cam.location = (0, -d, 1.55)
             G.look_at(cam, (0, 0, 1.55))
         elif c == "low_up":
@@ -381,6 +396,16 @@ def plate_chorus(job, seed):
         elif c == "topdown":
             cam.location = (0, -0.001, 11 - 1.5 * G.ease(tl / max(1e-6, t1 - t0)))
             G.look_at(cam, (0, 0, 0))
+        elif c == "rise":  # v5: start at the floor looking UP at the robot, then arc up and over it, rolling
+            k = G.ease(tl / max(1e-6, t1 - t0))
+            phi = math.radians(-24 + 112 * k)        # elevation around the robot's centre
+            head = math.radians(-90 + 140 * k)       # heading swings round as it rises
+            rad, c0 = 3.0, (0, 0, 1.3)
+            cam.data.lens = 22
+            cam.location = (c0[0] + rad * math.cos(phi) * math.cos(head), c0[1] + rad * math.cos(phi) * math.sin(head),
+                            max(0.08, c0[2] + rad * math.sin(phi)))
+            G.look_at(cam, c0)
+            cam.rotation_euler.rotate_axis("Z", math.radians(35) * k)
         elif c == "dance_low":
             cam.data.lens = 24
             cam.location = (0.8, -2.4, 0.4)
@@ -419,7 +444,7 @@ def plate_chorus(job, seed):
             for ob, *_ in tokens:
                 ob.hide_render = n >= 1
             for i, (ob, *_) in enumerate(ring):
-                ob.hide_render = n >= 2 + i // 2
+                ob.hide_render = n >= 2 + i // 3
             lights[1].data.energy = 0 if n >= 6 else energies[1]
             grid.inputs[1].default_value = 0 if n >= 6 else 0.4
             lights[0].data.energy = 0 if n >= 7 else energies[0]
@@ -469,6 +494,10 @@ def plate_racks(job, seed):
         if job["cam"] == "aisle":
             curve.bevel_factor_end = 0.4 * G.ease((t - t0) / max(1e-6, t1 - t0))
             cam_path(cam, t, t0, t1, (0, -1.5, 1.4), (0, 3.5, 1.7), (0, 12, 2.2), (0, 14, 3.0))
+        elif job["cam"] == "crane_chart":  # v5: crane up out of the aisle and tilt to the climbing chart in one move
+            k = (t - t0) / max(1e-6, t1 - t0)
+            curve.bevel_factor_end = 0.15 + 0.85 * G.ease(k)
+            cam_path(cam, t, t0, t1, (0, -1.0, 0.7), (0, 6.0, 3.2), (0, 14, 2.0), (0, 20, 5.6))
         elif job["cam"] == "crane":  # rises out of the aisle as the drums come back
             curve.bevel_factor_end = 0.5 * G.ease((t - t0) / max(1e-6, t1 - t0))
             cam_path(cam, t, t0, t1, (0, -1.0, 0.7), (0, 4.0, 4.6), (0, 14, 2.0), (0, 16, 1.2))
@@ -600,12 +629,37 @@ def plate_tear(job, seed):
 # ---------- set: Blender's default scene, then the boot (Intro, Ending) ----------
 
 def plate_default_cube_boot(job, seed):
+    """S01/S02: Blender's default scene; on the first downbeat the box opens and the world springs out of it.
+    S56 ("vacuum", local clock): the box reappears and vacuums the world back in, then snaps shut."""
+    import bmesh
     scene = bpy.context.scene
     boot = G.DOWNBEATS[0]
+    fx = set(job["fx"])
+    grey = G.mat_principled("default_grey", "#cccccc", 0.5)
+    inner = G.mat_principled("box_inside", "#1a1a1e", 0.9)
+    # An open-topped default cube (so it can open), with two hinged lid flaps closing the top.
+    box = G.empty("box", (0, 0, 0))
     bpy.ops.mesh.primitive_cube_add(size=2, location=(0, 0, 1))
-    cube = bpy.context.object
-    cube.name = "default_cube"
-    cube.data.materials.append(G.mat_principled("default_grey", "#cccccc", 0.5))
+    body = bpy.context.object
+    bm = bmesh.new()
+    bm.from_mesh(body.data)
+    bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.normal.z > 0.9], context="FACES")
+    bm.to_mesh(body.data)
+    bm.free()
+    body.data.materials.append(grey)
+    sol = body.modifiers.new("solid", "SOLIDIFY")
+    sol.thickness, sol.material_offset = 0.04, 1
+    body.data.materials.append(inner)
+    G._finish(body, "default_cube", None, box)
+    hinges = []
+    for side in (-1, 1):
+        h = G.empty(f"hinge_{side}", (side * 1.0, 0, 2.0), parent=box)
+        bpy.ops.mesh.primitive_cube_add(size=1, location=(side * 0.5, 0, 2.0))
+        flap = bpy.context.object
+        flap.scale = (1.0, 2.0, 0.04)
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        G._finish(flap, f"flap_{side}", grey, h)
+        hinges.append((h, side))
     pl = bpy.data.lights.new("Light", "POINT")
     pl.energy = 1000
     plo = bpy.data.objects.new("Light", pl)
@@ -615,26 +669,59 @@ def plate_default_cube_boot(job, seed):
     cam = scene.camera
     floor = bpy.data.objects["floor"]
     world_bg = scene.world.node_tree.nodes["Background"]
-    neon = [o for o in bpy.data.objects if o.name.startswith(("screen_", "key", "rim"))]
-    char_objs = [o for o in bpy.data.objects if o.parent is not None or o.name == "char_root"]
+    lights = [o for o in bpy.data.objects if o.type == "LIGHT" and o.name.startswith(("key", "rim"))]
+    screens = [o for o in bpy.data.objects if o.name.startswith("screen_")]
     root = bpy.data.objects["char_root"]
+    char_objs = [o for o in bpy.data.objects if o.parent is not None and o.name not in ("default_cube",) and
+                 not o.name.startswith(("flap_", "hinge_"))] + [root]
     default_cam = ((7.36, -6.93, 4.96), (0, 0, 1))
     wide = ((-0.6, -6.6, 0.8), (0.9, 0.5, 1.45))
+    mouth = (0.0, 0.0, 1.6)  # where things spring out of / get sucked into
+
+    def spring(objs, k_of):
+        """Move each object from the box's mouth to where the robot set put it, scaled by k (0 = in the box)."""
+        for o, k in objs:
+            target = o.location.copy()
+            o.location = [mouth[i] + (target[i] - mouth[i]) * k for i in range(3)]
+            o.scale = (max(k, 0.001),) * 3 if o.name != "char_root" else (max(k, 0.001),) * 3
 
     def update(t):
+        if "vacuum" in fx:
+            tl = t  # local clock (clock_offset applied by the job)
+            update_robot(boot + 4.0 + tl)  # the restarted world, fully booted
+            v = G.ease((tl - 0.15) / 0.95)
+            stagger = lambda i, n: G.ease(min(1.0, max(0.0, (v * (n + 3) - i) / 3)))
+            items = screens + [root]
+            spring([(o, 1 - stagger(i, len(items))) for i, o in enumerate(items)], None)
+            floor.active_material.node_tree.nodes["grid_amount"].inputs[1].default_value = 0.4 * (1 - v)
+            box.scale = (G.ease(tl / 0.25),) * 3
+            close = G.ease((tl - 1.15) / 0.25)
+            for h, side in hinges:
+                h.rotation_euler.y = side * 2.3 * (1 - close)
+            for o in lights:
+                o.hide_render = v > 0.9
+            plo.hide_render = v < 0.9
+            world_bg.inputs["Color"].default_value = G.lin("#3d3d3d") if v > 0.95 else G.lin(G.PAL["base"])
+            cam_path(cam, t, 0.1, 1.45, wide[0], default_cam[0], wide[1], default_cam[1])
+            return
         update_robot(t)
         booted = t >= boot
-        cube.hide_render = booted and t >= boot + 0.25
-        cube.scale = ((1 - G.ease((t - boot) / 0.25)),) * 3 if booted else (1, 1, 1)
+        opening = G.ease((t - boot) / 0.3)
+        for h, side in hinges:
+            h.rotation_euler.y = side * 2.3 * opening   # the lid flaps fly open on the downbeat
+        out = lambda i: G.ease(min(1.0, max(0.0, (t - boot - 0.2 - 0.07 * i) / 0.5)))
+        if "box_open" in fx or booted:
+            spring([(o, out(i)) for i, o in enumerate(screens)] + [(root, out(len(screens)))], None)
+        else:
+            for o in screens + [root]:
+                o.scale = (0.001,) * 3
+        box.scale = (1.0 - G.ease((t - boot - 1.0) / 0.5),) * 3 if booted else (1, 1, 1)
         plo.hide_render = booted
         floor.hide_render = not booted
         world_bg.inputs["Color"].default_value = G.lin(G.PAL["base"]) if booted else G.lin("#3d3d3d")
-        for i, o in enumerate(neon):
-            o.hide_render = t < boot + G.BAR / 4 * (1 + i % 4)
+        for o in lights:
+            o.hide_render = not booted
         floor.active_material.node_tree.nodes["grid_amount"].inputs[1].default_value = 0.4 * G.ease((t - boot) / G.BAR)
-        for o in char_objs:
-            o.hide_render = t < boot + 0.15
-        root.scale = (G.ease((t - boot - 0.15) / 0.4),) * 3 if booted else (0.001,) * 3
         if booted:
             cam_path(cam, t, boot, boot + G.BAR, default_cam[0], wide[0], default_cam[1], wide[1])
         else:
@@ -714,6 +801,13 @@ def plate_stream(job, seed):
     beat_len = 60 / G.TIMING["tempo_bpm"]
 
     face = -math.pi / 2 if job["cam"] == "low" else 0.0  # the low shot looks across the stream at the robot's front
+    props = []
+    if "refs" in job["fx"]:  # v5: props from the other videos float down the stream and fly around the robot
+        names = ["check", "ticket", "cookie", "version", "flap"]
+        for i in range(10):
+            m = G.mat_image_screen(f"ref_{i}", PANELS / f"ref_{names[i % 5]}.png", 1.6)
+            ob = G.plane(f"prop_{i}", (0.9, 0.51), (0, 0, 0), (0, 0, 0), m)
+            props.append((ob, i, r.random()))
 
     def update(t):
         tl = t - t0
@@ -735,11 +829,25 @@ def plate_stream(job, seed):
                 sh.rotation_euler.y = -side * (0.3 + 0.9 * swing * (1 if (n + (side > 0)) % 2 else 0.2))
             rig["root"].location.z = rig["rest"]["root"].z + 0.07 * swing
             rig["root"].rotation_euler.z = face + 0.2 * (1 if (n // 2) % 2 else -1)
+        for ob, i, ph in props:
+            if i % 2 == 0:  # riding the stream
+                u = (ph + 0.05 * t) % 1.0
+                x, y = stream_path(u)
+                ob.location = (x, y, height(x, y) + 0.35 + 0.1 * math.sin(t * 3 + i))
+                ob.rotation_euler = (math.radians(70), 0, u * 6)
+            else:  # orbiting the dancing robot
+                a = t * (0.9 + 0.2 * i % 3) + ph * 6.28
+                ob.location = (rx + 1.6 * math.cos(a), ry + 1.6 * math.sin(a), rz + 1.2 + 0.5 * math.sin(t * 1.7 + i))
+                ob.rotation_euler = (math.radians(90), 0, a + math.pi / 2)
         if job["cam"] == "wide":  # high, looking down the descent with the robot on its rock
             cam_path(cam, t, t0, t1, (rx + 5, ry - 9, rz + 6.5), (rx + 3, ry - 8, rz + 5.5), (rx - 1, ry + 6, rz), (rx - 0.5, ry + 4, rz + 0.5))
         else:  # low, from the far bank: the stream rushes between camera and robot
             cam.data.lens = 22
-            cam_path(cam, t, t0, t1, (rx - 4.4, ry - 0.6, rz + 1.9), (rx - 4.2, ry - 1.3, rz + 2.0), (rx - 0.6, ry, rz + 0.95), (rx - 0.5, ry, rz + 1.05))
+            # v5: a slow arc across the bank so the shot keeps moving
+            k = G.ease(tl / max(1e-6, t1 - t0))
+            a = math.radians(-12 + 30 * k)
+            cam.location = (rx - 4.4 * math.cos(a), ry - 4.4 * math.sin(a) - 0.6, rz + 1.9 - 0.4 * k)
+            G.look_at(cam, (rx - 0.5, ry, rz + 1.0))
     return update
 
 

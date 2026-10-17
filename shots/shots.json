@@ -1,7 +1,7 @@
 {
  "fps": 30,
- "total_s": 198.96,
- "total_frames": 5969,
+ "total_s": 199.56,
+ "total_frames": 5987,
  "audio_end_s": 190.0,
  "shots": [
   {
@@ -47,7 +47,9 @@
     "mode": "render",
     "plate": "default_cube_boot",
     "cam": "default",
-    "fx": []
+    "fx": [
+     "box_open"
+    ]
    },
    "layers": [],
    "seed": "main",
@@ -311,9 +313,9 @@
     "Bridge 1"
    ],
    "start_s": 27.771,
-   "end_s": 29.722,
+   "end_s": 28.371,
    "start_frame": 833,
-   "end_frame": 892,
+   "end_frame": 851,
    "plate": {
     "mode": "render",
     "plate": "robot",
@@ -338,12 +340,13 @@
    "id": "S11b",
    "section": "Bridge 1",
    "anchor": [
-    "bar",
-    14
+    "section_plus",
+    "Bridge 1",
+    0.6
    ],
-   "start_s": 29.722,
+   "start_s": 28.371,
    "end_s": 31.073,
-   "start_frame": 892,
+   "start_frame": 851,
    "end_frame": 932,
    "plate": {
     "mode": "js"
@@ -436,6 +439,7 @@
    },
    "layers": [
     "bg2d",
+    "big_accept_disabled",
     "progress_1of2"
    ],
    "seed": "main",
@@ -501,7 +505,7 @@
     "captions",
     "chrome"
    ],
-   "big_captions": true,
+   "big_captions": false,
    "degrade": 0.0,
    "transition": null,
    "zoom_out": null
@@ -545,36 +549,8 @@
     1
    ],
    "start_s": 53.29,
-   "end_s": 57.214,
-   "start_frame": 1599,
-   "end_frame": 1716,
-   "plate": {
-    "mode": "js"
-   },
-   "layers": [
-    "bg2d",
-    "giant_counter"
-   ],
-   "seed": "main",
-   "global_layers": [
-    "captions",
-    "chrome"
-   ],
-   "big_captions": true,
-   "degrade": 0.0,
-   "transition": null,
-   "zoom_out": null
-  },
-  {
-   "id": "S19",
-   "section": "Pre-Chorus 1",
-   "anchor": [
-    "bar",
-    28
-   ],
-   "start_s": 57.214,
    "end_s": 59.188,
-   "start_frame": 1716,
+   "start_frame": 1599,
    "end_frame": 1776,
    "plate": {
     "mode": "render",
@@ -582,7 +558,9 @@
     "cam": "chart",
     "fx": []
    },
-   "layers": [],
+   "layers": [
+    "giant_counter"
+   ],
    "seed": "main",
    "global_layers": [
     "captions",
@@ -744,8 +722,7 @@
     "plate": "chorus",
     "cam": "wide_static",
     "fx": [
-     "lights_fade",
-     "neon_lights"
+     "lights_fade"
     ]
    },
    "layers": [],
@@ -774,7 +751,7 @@
    "plate": {
     "mode": "render",
     "plate": "chorus",
-    "cam": "topdown",
+    "cam": "rise",
     "fx": [
      "cloud"
     ]
@@ -837,7 +814,8 @@
     "plate": "stream",
     "cam": "low",
     "fx": [
-     "dance"
+     "dance",
+     "refs"
     ]
    },
    "layers": [],
@@ -977,49 +955,13 @@
    "start_frame": 3005,
    "end_frame": 3103,
    "plate": {
-    "mode": "montage",
+    "mode": "render",
     "plate": "robot",
     "cam": "wide",
-    "fx": [
-     "reroll"
-    ],
-    "seeds": [
-     "regen_montage.0",
-     "regen_montage.1",
-     "regen_montage.2",
-     "regen_montage.3",
-     "regen_montage.4",
-     "regen_montage.5"
-    ],
-    "segments": [
-     [
-      3005,
-      3034
-     ],
-     [
-      3034,
-      3064
-     ],
-     [
-      3064,
-      3093
-     ],
-     [
-      3093,
-      3122
-     ],
-     [
-      3122,
-      3151
-     ],
-     [
-      3151,
-      3103
-     ]
-    ]
+    "fx": []
    },
    "layers": [
-    "regen_badge"
+    "regen_fail"
    ],
    "seed": "main",
    "global_layers": [
@@ -1252,16 +1194,18 @@
     "drop2_end"
    ],
    "start_s": 134.885,
-   "end_s": 137.114,
+   "end_s": 141.015,
    "start_frame": 4047,
-   "end_frame": 4113,
+   "end_frame": 4230,
    "plate": {
     "mode": "render",
     "plate": "racks",
-    "cam": "crane",
+    "cam": "crane_chart",
     "fx": []
    },
-   "layers": [],
+   "layers": [
+    "giant_counter"
+   ],
    "seed": "main",
    "global_layers": [
     "captions",
@@ -1270,62 +1214,6 @@
    "big_captions": false,
    "degrade": 0.0,
    "transition": "glitch",
-   "zoom_out": null
-  },
-  {
-   "id": "S40",
-   "section": "Pre-Chorus 2",
-   "anchor": [
-    "bar",
-    69
-   ],
-   "start_s": 137.114,
-   "end_s": 139.064,
-   "start_frame": 4113,
-   "end_frame": 4172,
-   "plate": {
-    "mode": "js"
-   },
-   "layers": [
-    "bg2d",
-    "giant_counter"
-   ],
-   "seed": "main",
-   "global_layers": [
-    "captions",
-    "chrome"
-   ],
-   "big_captions": true,
-   "degrade": 0.0,
-   "transition": null,
-   "zoom_out": null
-  },
-  {
-   "id": "S41",
-   "section": "Pre-Chorus 2",
-   "anchor": [
-    "bar",
-    70
-   ],
-   "start_s": 139.064,
-   "end_s": 141.015,
-   "start_frame": 4172,
-   "end_frame": 4230,
-   "plate": {
-    "mode": "render",
-    "plate": "racks",
-    "cam": "chart",
-    "fx": []
-   },
-   "layers": [],
-   "seed": "main",
-   "global_layers": [
-    "captions",
-    "chrome"
-   ],
-   "big_captions": false,
-   "degrade": 0.0,
-   "transition": null,
    "zoom_out": null
   },
   {
@@ -1464,9 +1352,9 @@
     "trunc"
    ],
    "start_s": 154.553,
-   "end_s": 158.453,
+   "end_s": 155.353,
    "start_frame": 4637,
-   "end_frame": 4754,
+   "end_frame": 4661,
    "plate": {
     "mode": "hold",
     "src": "S44"
@@ -1489,11 +1377,11 @@
    "section": "Final Chorus",
    "anchor": [
     "event",
-    "bass_return"
+    "trunc_end"
    ],
-   "start_s": 158.453,
+   "start_s": 155.353,
    "end_s": 160.38,
-   "start_frame": 4754,
+   "start_frame": 4661,
    "end_frame": 4811,
    "plate": {
     "mode": "split",
@@ -1531,7 +1419,7 @@
    "plate": {
     "mode": "split",
     "plate": "chorus",
-    "cam": "orbit",
+    "cam": "dolly_zoom",
     "seeds": [
      "main",
      "bridge_second_run",
@@ -1540,7 +1428,7 @@
     ],
     "lag_s": 0.1,
     "fx": [
-     "clip"
+     "missing_texture"
     ]
    },
    "layers": [],
@@ -1569,7 +1457,7 @@
    "plate": {
     "mode": "split",
     "plate": "chorus",
-    "cam": "orbit",
+    "cam": "low_up",
     "seeds": [
      "main",
      "bridge_second_run",
@@ -1581,9 +1469,15 @@
      "split_extra.5",
      "split_extra.6"
     ],
-    "lag_s": 0.1
+    "lag_s": 0.1,
+    "fx": [
+     "head_up",
+     "tokens_3d"
+    ]
    },
-   "layers": [],
+   "layers": [
+    "the_rain"
+   ],
    "seed": "main",
    "global_layers": [
     "captions",
@@ -1610,13 +1504,291 @@
     "mode": "js",
     "renders": [
      {
-      "plate": "chorus",
-      "cam": "orbit",
-      "fx": [],
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
       "seed": "main",
       "span": [
        "S50",
-       "S51"
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.0",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.1",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.2",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.3",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.4",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.5",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.6",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.7",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.8",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.9",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.10",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.11",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.12",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.13",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.14",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.15",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.16",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.17",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.18",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.19",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.20",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.21",
+      "span": [
+       "S50",
+       "S55"
+      ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.22",
+      "span": [
+       "S50",
+       "S55"
       ]
      }
     ]
@@ -1675,297 +1847,7 @@
    "start_frame": 5251,
    "end_frame": 5366,
    "plate": {
-    "mode": "js",
-    "renders": [
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "main",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.0",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.1",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.2",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.3",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.4",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.5",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.6",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.7",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.8",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.9",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.10",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.11",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.12",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.13",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.14",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.15",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.16",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.17",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.18",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.19",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.20",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.21",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
-      "seed": "thumbnail_tiles.22",
-      "span": [
-       "S52",
-       "S55"
-      ]
-     }
-    ]
+    "mode": "js"
    },
    "layers": [
     "grid_scroll"
@@ -1993,7 +1875,7 @@
    "start_frame": 5366,
    "end_frame": 5507,
    "plate": {
-    "mode": "js"
+    "mode": "feedlive"
    },
    "layers": [
     "grid_scroll_fast"
@@ -2023,7 +1905,7 @@
     "mode": "js"
    },
    "layers": [
-    "grid_decel"
+    "grid_land"
    ],
    "seed": "main",
    "global_layers": [
@@ -2072,16 +1954,18 @@
     189.76
    ],
    "start_s": 189.76,
-   "end_s": 190.96,
+   "end_s": 191.56,
    "start_frame": 5693,
-   "end_frame": 5729,
+   "end_frame": 5747,
    "plate": {
     "mode": "render",
     "plate": "default_cube_boot",
     "cam": "default",
-    "fx": [],
+    "fx": [
+     "vacuum"
+    ],
     "clock": "local",
-    "black_after": 1.0
+    "black_after": 1.6
    },
    "layers": [
     "reload"
@@ -2101,12 +1985,12 @@
    "section": "End card",
    "anchor": [
     "time",
-    190.95999999999998
+    191.56
    ],
-   "start_s": 190.96,
-   "end_s": 198.96,
-   "start_frame": 5729,
-   "end_frame": 5969,
+   "start_s": 191.56,
+   "end_s": 199.56,
+   "start_frame": 5747,
+   "end_frame": 5987,
    "plate": {
     "mode": "js"
    },
@@ -2138,11 +2022,13 @@
    "shot": "S02",
    "plate": "default_cube_boot",
    "cam": "default",
-   "fx": [],
+   "fx": [
+    "box_open"
+   ],
    "seed": "main",
    "start": 133,
    "end": 192,
-   "dir": "default_cube_boot-default__main",
+   "dir": "default_cube_boot-default-box_open__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2231,7 +2117,7 @@
    "fx": [],
    "seed": "main",
    "start": 833,
-   "end": 892,
+   "end": 851,
    "dir": "robot-low__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
@@ -2251,12 +2137,12 @@
    "lag_frames": 0
   },
   {
-   "shot": "S19",
+   "shot": "S18",
    "plate": "racks",
    "cam": "chart",
    "fx": [],
    "seed": "main",
-   "start": 1716,
+   "start": 1599,
    "end": 1776,
    "dir": "racks-chart__main",
    "clock_offset_s": 0.0,
@@ -2311,27 +2197,26 @@
    "plate": "chorus",
    "cam": "wide_static",
    "fx": [
-    "lights_fade",
-    "neon_lights"
+    "lights_fade"
    ],
    "seed": "main",
    "start": 2245,
    "end": 2362,
-   "dir": "chorus-wide_static-lights_fade+neon_lights__main",
+   "dir": "chorus-wide_static-lights_fade__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
    "shot": "S25",
    "plate": "chorus",
-   "cam": "topdown",
+   "cam": "rise",
    "fx": [
     "cloud"
    ],
    "seed": "main",
    "start": 2362,
    "end": 2460,
-   "dir": "chorus-topdown-cloud__main",
+   "dir": "chorus-rise-cloud__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2354,12 +2239,13 @@
    "plate": "stream",
    "cam": "low",
    "fx": [
-    "dance"
+    "dance",
+    "refs"
    ],
    "seed": "main",
    "start": 2596,
    "end": 2715,
-   "dir": "stream-low-dance__main",
+   "dir": "stream-low-dance+refs__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2379,83 +2265,11 @@
    "shot": "S31",
    "plate": "robot",
    "cam": "wide",
-   "fx": [
-    "reroll"
-   ],
-   "seed": "regen_montage.0",
+   "fx": [],
+   "seed": "main",
    "start": 3005,
-   "end": 3034,
-   "dir": "robot-wide-reroll__regen_montage.0",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S31",
-   "plate": "robot",
-   "cam": "wide",
-   "fx": [
-    "reroll"
-   ],
-   "seed": "regen_montage.1",
-   "start": 3034,
-   "end": 3064,
-   "dir": "robot-wide-reroll__regen_montage.1",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S31",
-   "plate": "robot",
-   "cam": "wide",
-   "fx": [
-    "reroll"
-   ],
-   "seed": "regen_montage.2",
-   "start": 3064,
-   "end": 3093,
-   "dir": "robot-wide-reroll__regen_montage.2",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S31",
-   "plate": "robot",
-   "cam": "wide",
-   "fx": [
-    "reroll"
-   ],
-   "seed": "regen_montage.3",
-   "start": 3093,
-   "end": 3122,
-   "dir": "robot-wide-reroll__regen_montage.3",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S31",
-   "plate": "robot",
-   "cam": "wide",
-   "fx": [
-    "reroll"
-   ],
-   "seed": "regen_montage.4",
-   "start": 3122,
-   "end": 3151,
-   "dir": "robot-wide-reroll__regen_montage.4",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S31",
-   "plate": "robot",
-   "cam": "wide",
-   "fx": [
-    "reroll"
-   ],
-   "seed": "regen_montage.5",
-   "start": 3151,
    "end": 3103,
-   "dir": "robot-wide-reroll__regen_montage.5",
+   "dir": "robot-wide__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2505,24 +2319,12 @@
   {
    "shot": "S39",
    "plate": "racks",
-   "cam": "crane",
+   "cam": "crane_chart",
    "fx": [],
    "seed": "main",
    "start": 4047,
-   "end": 4113,
-   "dir": "racks-crane__main",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S41",
-   "plate": "racks",
-   "cam": "chart",
-   "fx": [],
-   "seed": "main",
-   "start": 4172,
    "end": 4230,
-   "dir": "racks-chart__main",
+   "dir": "racks-crane_chart__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2575,7 +2377,7 @@
    "cam": "orbit",
    "fx": [],
    "seed": "main",
-   "start": 4754,
+   "start": 4661,
    "end": 4811,
    "dir": "chorus-orbit__main",
    "clock_offset_s": 0.0,
@@ -2587,7 +2389,7 @@
    "cam": "orbit",
    "fx": [],
    "seed": "bridge_second_run",
-   "start": 4751,
+   "start": 4658,
    "end": 4808,
    "dir": "chorus-orbit__bridge_second_run",
    "clock_offset_s": 0.0,
@@ -2596,510 +2398,525 @@
   {
    "shot": "S48",
    "plate": "chorus",
-   "cam": "orbit",
+   "cam": "dolly_zoom",
    "fx": [
-    "clip"
+    "missing_texture"
    ],
    "seed": "main",
    "start": 4811,
    "end": 4927,
-   "dir": "chorus-orbit-clip__main",
+   "dir": "chorus-dolly_zoom-missing_texture__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
    "shot": "S48",
    "plate": "chorus",
-   "cam": "orbit",
+   "cam": "dolly_zoom",
    "fx": [
-    "clip"
+    "missing_texture"
    ],
    "seed": "bridge_second_run",
    "start": 4808,
    "end": 4924,
-   "dir": "chorus-orbit-clip__bridge_second_run",
+   "dir": "chorus-dolly_zoom-missing_texture__bridge_second_run",
    "clock_offset_s": 0.0,
    "lag_frames": 3
   },
   {
    "shot": "S48",
    "plate": "chorus",
-   "cam": "orbit",
+   "cam": "dolly_zoom",
    "fx": [
-    "clip"
+    "missing_texture"
    ],
    "seed": "split_extra.0",
    "start": 4805,
    "end": 4921,
-   "dir": "chorus-orbit-clip__split_extra.0",
+   "dir": "chorus-dolly_zoom-missing_texture__split_extra.0",
    "clock_offset_s": 0.0,
    "lag_frames": 6
   },
   {
    "shot": "S48",
    "plate": "chorus",
-   "cam": "orbit",
+   "cam": "dolly_zoom",
    "fx": [
-    "clip"
+    "missing_texture"
    ],
    "seed": "split_extra.1",
    "start": 4802,
    "end": 4918,
-   "dir": "chorus-orbit-clip__split_extra.1",
+   "dir": "chorus-dolly_zoom-missing_texture__split_extra.1",
    "clock_offset_s": 0.0,
    "lag_frames": 9
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "main",
    "start": 4927,
    "end": 5043,
-   "dir": "chorus-orbit__main",
+   "dir": "chorus-low_up-head_up+tokens_3d__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "bridge_second_run",
    "start": 4924,
    "end": 5040,
-   "dir": "chorus-orbit__bridge_second_run",
+   "dir": "chorus-low_up-head_up+tokens_3d__bridge_second_run",
    "clock_offset_s": 0.0,
    "lag_frames": 3
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.0",
    "start": 4921,
    "end": 5037,
-   "dir": "chorus-orbit__split_extra.0",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.0",
    "clock_offset_s": 0.0,
    "lag_frames": 6
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.1",
    "start": 4918,
    "end": 5034,
-   "dir": "chorus-orbit__split_extra.1",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.1",
    "clock_offset_s": 0.0,
    "lag_frames": 9
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.2",
    "start": 4915,
    "end": 5031,
-   "dir": "chorus-orbit__split_extra.2",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.2",
    "clock_offset_s": 0.0,
    "lag_frames": 12
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.3",
    "start": 4912,
    "end": 5028,
-   "dir": "chorus-orbit__split_extra.3",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.3",
    "clock_offset_s": 0.0,
    "lag_frames": 15
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.4",
    "start": 4909,
    "end": 5025,
-   "dir": "chorus-orbit__split_extra.4",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.4",
    "clock_offset_s": 0.0,
    "lag_frames": 18
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.5",
    "start": 4906,
    "end": 5022,
-   "dir": "chorus-orbit__split_extra.5",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.5",
    "clock_offset_s": 0.0,
    "lag_frames": 21
   },
   {
    "shot": "S49",
    "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
+   "cam": "low_up",
+   "fx": [
+    "head_up",
+    "tokens_3d"
+   ],
    "seed": "split_extra.6",
    "start": 4903,
    "end": 5019,
-   "dir": "chorus-orbit__split_extra.6",
+   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.6",
    "clock_offset_s": 0.0,
    "lag_frames": 24
   },
   {
    "shot": "S50",
-   "plate": "chorus",
-   "cam": "orbit",
-   "fx": [],
-   "seed": "main",
-   "start": 5043,
-   "end": 5251,
-   "dir": "chorus-orbit__main",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S52",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "main",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.0",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.0",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.1",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.1",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.2",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.2",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.3",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.3",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.4",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.4",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.5",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.5",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.6",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.6",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.7",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.7",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.8",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.8",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.9",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.9",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.10",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.10",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.11",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.11",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.12",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.12",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.13",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.13",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.14",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.14",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.15",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.15",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.16",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.16",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.17",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.17",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.18",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.18",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.19",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.19",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.20",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.20",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.21",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.21",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
-   "shot": "S52",
+   "shot": "S50",
    "plate": "stream",
    "cam": "wide",
    "fx": [
     "dance"
    ],
    "seed": "thumbnail_tiles.22",
-   "start": 5251,
+   "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.22",
    "clock_offset_s": 0.0,
@@ -3109,11 +2926,13 @@
    "shot": "S56",
    "plate": "default_cube_boot",
    "cam": "default",
-   "fx": [],
+   "fx": [
+    "vacuum"
+   ],
    "seed": "restart",
    "start": 5693,
-   "end": 5723,
-   "dir": "default_cube_boot-default__restart",
+   "end": 5741,
+   "dir": "default_cube_boot-default-vacuum__restart",
    "clock_offset_s": 189.76,
    "lag_frames": 0
   }

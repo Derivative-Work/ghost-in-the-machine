@@ -32,6 +32,13 @@
   #diff .body { position: absolute; left: 0; right: 0; top: 64px; line-height: 30px; }
   #diff .body div { padding-left: 22px; color: #3fbf6f; background: rgba(63, 191, 111, .08); white-space: pre; }
 
+  #regenFail .b { position: absolute; left: 740px; top: 430px; display: flex; align-items: center; gap: 16px; background: var(--surface);
+                  border: 3px solid var(--line); border-radius: 999px; padding: 22px 50px 22px 30px; font-family: var(--sans);
+                  font-weight: 700; font-size: 44px; color: var(--paper); }
+  #regenFail .b svg { width: 60px; height: 60px; }
+  #regenFail .toast { position: absolute; left: 50%; top: 110px; transform: translateX(-50%); background: #2a1212; border: 3px solid var(--accent);
+                      color: var(--paper); font-family: var(--mono); font-size: 28px; padding: 16px 28px; border-radius: 12px; white-space: nowrap; }
+  #regenFail .ver { position: absolute; left: 48px; top: 84px; font-family: var(--mono); font-size: 24px; color: var(--mid); }
   #regenBadge div { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); display: flex; gap: 14px; align-items: center;
                     background: rgba(9, 8, 11, .75); border: 2px solid var(--line); border-radius: 999px; padding: 10px 26px 10px 14px;
                     font-family: var(--mono); font-size: 28px; color: var(--paper); }
@@ -87,7 +94,7 @@
   #terminal .p { color: var(--accent); } #terminal .ok { color: var(--paper); }
 
   #hearts .h { position: absolute; font-family: var(--sans); font-weight: 800; font-size: 64px; color: var(--accent); }
-  #hearts .count { position: absolute; right: 70px; top: 100px; font-family: var(--sans); font-weight: 900; font-size: 84px;
+  #hearts .count { position: absolute; left: 60px; top: 96px; font-family: var(--sans); font-weight: 900; font-size: 84px;
                    color: var(--paper); text-shadow: 0 0 20px rgba(9,8,11,.9); }
 
   #chat .win { position: absolute; left: 300px; top: 90px; width: 1320px; height: 620px; background: var(--surface);
@@ -107,6 +114,7 @@
   .btn.primary { background: var(--accent-2); color: var(--paper); }
   .btn.ghost { border: 3px solid var(--line); color: var(--mid); }
 
+  #bigAccept .btn.off { background: #2b2b33; color: #6a6670; }
   #bigAccept .btn { position: absolute; left: 1080px; top: 760px; font-size: 92px; padding: 40px 90px; border-radius: 32px;
                     box-shadow: 0 30px 80px rgba(0,0,0,.6); }
 
@@ -125,6 +133,8 @@
   #devtools .cmd { color: var(--paper); }
 
   #icons svg { position: absolute; width: 220px; height: 220px; }
+  #icons .back { position: absolute; left: 30px; top: 250px; width: 1210px; height: 320px; border-radius: 26px;
+                 background: rgba(9, 8, 11, .88); border: 3px solid var(--line); display: none; }
   #avg .dot { position: absolute; border-radius: 50%; background: var(--mid); }
   #avg .lbl { position: absolute; font-family: var(--mono); font-size: 44px; color: var(--paper); }
 
@@ -228,6 +238,7 @@
   <div id="regenSpin" class="layer"></div>
   <div id="regenBtn" class="layer"><div class="b"></div></div>
   <div id="regenBadge" class="layer"><div></div></div>
+  <div id="regenFail" class="layer"><div class="ver"></div><div class="toast"></div><div class="b"></div></div>
   <div id="score" class="layer"><div class="p">SCORE<div class="n"></div></div></div>
   <div id="banner" class="layer"><div class="card"><h2>This site uses cookies</h2>
     <p>We and our 1,402 partners use your data to make this experience feel personal.</p>

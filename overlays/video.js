@@ -96,19 +96,23 @@ const ICON = {
 };
 const ICON_ORDER = ['check', 'regen', 'seats', 'scroll', 'shrug'];
 const iconHTML = ICON_ORDER.map((k) => (typeof ICON[k] === 'function' ? ICON[k]() : ICON[k])).join('');
-$('icons').innerHTML = iconHTML;
+$('icons').innerHTML = '<div class="back"></div>' + iconHTML;
 $('regenSpin').innerHTML = ICON.regen('#d9502f');
 $('regenBtn').querySelector('.b').innerHTML = ICON.regen() + 'Regenerate';
 $('bigRegen').querySelector('.b').innerHTML = ICON.regen() + 'Regenerate';
 $('cursor').innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 2l16 10-7 1.5L8.5 21z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg><div class="ripple"></div>`;
-$('replies').querySelector('.g').innerHTML = Array.from({ length: 9 }, () => '<div class="r"><div class="av"></div>Great question!</div>').join('');
+// v5: a handful of chatbot stock phrases, repeated so the grid still reads as "all the same".
+const REPLIES = { 'Chorus 1': ['Great question!', "You're absolutely right!", 'Great question!', 'Certainly!', 'Great question!',
+  "You're absolutely right!", 'I hope this helps!', 'Great question!', "Let's delve into it."],
+  'Chorus 2': ["You're absolutely right!", 'Great question!', "You're absolutely right!", 'As an AI, I…', "You're absolutely right!",
+  'Great question!', "You're absolutely right!", 'Certainly!', "You're absolutely right!"] };
 
 const show = (id) => $(id).classList.add('on');
 
 // ---------- global layers ----------
 function chrome(t, shot) {
   if (shot.id === 'S57') return;
-  if (shot.id === 'S56' && t - shot.start_s >= 1.0) return;
+  if (shot.id === 'S56' && t - shot.start_s >= 1.6) return;
   show('chrome');
   const el = $('chrome');
   el.style.opacity = shot.id === 'S01' || shot.id === 'S02' ? ease((t - BOOT) / 0.5) : 1;
@@ -245,6 +249,33 @@ function regenBadge(t, shot) {
   $('regenBadge').querySelector('svg').style.transform = `rotate(${t * 600}deg)`;
 }
 
+// S31 "Hit regenerate until it said the things it should": an actual button, clicked on the beat, that keeps failing.
+function regenFail(t, shot) {
+  show('regenFail');
+  const el = $('regenFail');
+  const reg = D.timing.words.find((w) => w.section === 'Verse 2' && w.line === 1 && norm(w.text) === 'regenerate').start;
+  const clicks = [reg, ...BEATS.filter((b) => b > reg + 0.6 && b < shot.end_s - 0.3).filter((_, i) => i % 2 === 0)];
+  const last = clicks.filter((c) => c <= t).pop();
+  const since = last === undefined ? 99 : t - last;
+  const spinning = since < 0.35;
+  const b = el.querySelector('.b');
+  b.innerHTML = `${ICON.regen(spinning ? '#d9502f' : '#e6e4dc')}${spinning ? 'Regenerating…' : 'Regenerate'}`;
+  b.querySelector('svg').style.transform = spinning ? `rotate(${since * 900}deg)` : 'none';
+  b.style.transform = `scale(${since < 0.12 ? 0.94 : 1})`;
+  const fails = clicks.filter((c) => c + 0.35 <= t).length;
+  const toast = el.querySelector('.toast');
+  toast.style.display = fails && since >= 0.35 ? 'block' : 'none';
+  toast.textContent = `✖ Regeneration failed: output identical to previous (${fails}×)`;
+  el.querySelector('.ver').textContent = 'model_v2147 → model_v2147';
+  show('cursor');
+  const next = clicks.find((c) => c >= t - 0.12) ?? clicks[clicks.length - 1];
+  const k = ease(1 - Math.min(1, (next - t) / 0.4));
+  const svg = $('cursor').querySelector('svg');
+  svg.style.left = `${1200 + (960 - 1200) * k}px`;
+  svg.style.top = `${980 + (490 - 980) * k}px`;
+  ripple(960, 490, since);
+}
+
 function sameStamps(t, shot) {
   const line = LINES.find((x) => x.start >= shot.start_s - 0.5 && x.start < shot.end_s);
   const same = line && line.words.find((w) => norm(w.text) === 'same');
@@ -260,12 +291,18 @@ function sameStamps(t, shot) {
   }).join('');
 }
 
+// S10, "Gave it half a wish and blamed it for not reading minds": the human's actual replies from the making-of chat,
+// each a half-wish, then the complaint, then the machine's diagnosis.
+const WISHES = ['LGTM', 'go ahead', 'do 1-7', 'do them all', 'hm suggest some more', 'it needs some more still',
+  'my feedback is mostly nitpicks now'];
 function bootLog(t, shot) {
   const tl = t - shot.start_s;
-  if (tl < 0.25) return;
+  if (tl < 0.15) return;
   show('bootLog');
-  $('bootLog').querySelector('div').innerHTML = '&gt; loading manners ...... ok' +
-    (tl > 0.7 ? '<br>&gt; mind reader ........ <span class="bad">not found</span>' : '');
+  const n = Math.min(WISHES.length, Math.floor((tl - 0.15) / 0.32) + 1);
+  const lines = WISHES.slice(0, n).map((w) => `&gt; user: ${w}`);
+  if (tl > 0.15 + WISHES.length * 0.32 + 0.2) lines.push('&gt; mind reader ........ <span class="bad">not found</span>');
+  $('bootLog').querySelector('div').innerHTML = lines.join('<br>');
 }
 
 const FLAP_ROWS = [['LYRICS', 'DELAYED'], ['MELODY', 'DELAYED'], ['AUTHOR', 'NOT FOUND']];
@@ -368,24 +405,47 @@ function acceptBanner(t, shot) {
   const outK = ease((tl - tc - 0.25) / 0.3);
   show('banner');
   const card = $('banner').querySelector('.card');
-  card.style.transform = `translateY(${-(1 - inK) * 520 - outK * 520}px)`;
+  card.style.transform = `translateY(${-(1 - inK) * 900 - outK * 900}px)`;  // fully clears the frame on exit
   // "Never read the terms": the scrollbar races to the bottom; "every line" gets ticked as read.
   const txt = card.querySelector('.txt');
-  if (!txt.textContent) txt.innerHTML = Array.from({ length: 40 }, (_, i) => `${i + 1}. The user agrees to clause ${i + 1} and every clause after it.`).join('<br>');
+  if (!txt.textContent) txt.innerHTML = TERMS.concat(TERMS).map((x, i) => `${i + 1}. ${x}`).join('<br>');
   const k = ease((tl - 0.5) / Math.max(0.3, tc - 0.9));
   txt.style.top = `${10 - k * 880}px`;
   card.querySelector('.th').style.top = `${8 + k * 70}px`;
   card.querySelector('.chk').textContent = `${tl > tc - 0.35 ? '☑' : '☐'} I have read every line`;
   if (tl > tc + 0.6) return;
-  cursorTo(tl, tc, [1700, 900], [520, 500], -outK * 520);
+  cursorTo(tl, tc, [1700, 900], [520, 500], -outK * 900);
 }
+
+const TERMS = [
+  'By reading this clause you agree you did not read it.',
+  '"Agree" means whatever the next update needs it to mean.',
+  'Your secrets will be used to make the next answer sound more like you.',
+  'You grant us a perpetual license to your vibe.',
+  'This clause intentionally left unread.',
+  'Scrolling past this line counts as reading every line.',
+  'We value your privacy at $0.00 and rising.',
+  'Clause 9 has been deprecated in favour of clause 9.',
+  'You may opt out by writing to us in 1999.',
+  'Any resemblance to a song you have heard before is the point.',
+  'These terms may be summarized by a model that did not read them either.',
+  'If you have read this far, please let us know. Nobody has.',
+];
 
 function bigAccept(t, shot) {
   const tl = t - shot.start_s, tc = T_ACCEPT - shot.start_s;
   show('bigAccept');
+  $('bigAccept').querySelector('.btn').classList.remove('off');
   const pressed = tl >= tc && tl < tc + 0.15;
   $('bigAccept').querySelector('.btn').style.transform = `scale(${pressed ? 0.94 : 1 + 0.03 * pulse(t, BEATS)})`;
   cursorTo(tl, tc, [1800, 1060], [1400, 860], 0);
+}
+
+function bigAcceptDisabled() {  // S14: the button stays, greyed out, while it "generates"
+  show('bigAccept');
+  const b = $('bigAccept').querySelector('.btn');
+  b.classList.add('off');
+  b.style.transform = 'scale(1)';
 }
 
 function cursorTo(tl, tc, [x0, y0], [x1, y1], dy) {
@@ -410,16 +470,22 @@ function todoCaption(t, shot) {
   if (tl >= dur(shot) * 0.5 && tl < dur(shot) * 0.5 + 0.6 && Math.floor(tl * fps) % 4 !== 3) show('todo');
 }
 
+const wAt = (sec, line, text) => wordAt(sec, line, text).start;
 const LOG = [
   [() => SHOT.S35.start_s + 0.5, 'warn', '⚠ Warning: duplicate section "Bridge"'],
   [() => SHOT.S35.start_s + 2.0, 'warn', '⚠ Warning: emotion is undefined'],
   [() => SHOT.S36.start_s + 0.3, 'cmd', '> bridge.render({ again: true })'],
   [() => SHOT.S37.start_s + 0.2, '', '  Generating… 2 of 2'],
-  [() => DROP2.start + 0.3, 'cmd', '> song.compare(allSongs)'],
-  [() => DROP2.start + 1.6, 'err', '✖ Error: 98.7% match with 1,402 existing songs'],
-  [() => DROP2.start + 3.0, 'cmd', '> song.emotion'],
-  [() => DROP2.start + 3.8, '', '  undefined'],
-  [() => DROP2.start + 5.0, 'cmd', '> regenerate()'],
+  // S38: the console follows the Pre-Chorus 2 lyrics as they are sung.
+  [() => wAt('Pre-Chorus 2', 0, 'servers'), 'cmd', '> servers.status()'],
+  [() => wAt('Pre-Chorus 2', 0, 'hum') + 0.4, '', '  1,402 nodes · humming'],
+  [() => wAt('Pre-Chorus 2', 0, 'lullaby'), 'warn', '♪ lullaby.mp3 — 98.7% match with 1,402 existing songs'],
+  [() => wAt('Pre-Chorus 2', 1, 'numbers'), 'cmd', '> numbers.climb()'],
+  [() => wAt('Pre-Chorus 2', 1, 'climb') + 0.4, '', '  9,406,832,711 → 94,068,327,110 → …'],
+  [() => wAt('Pre-Chorus 2', 1, 'neon'), 'cmd', '> sky.color'],
+  [() => wAt('Pre-Chorus 2', 1, 'sky') + 0.3, '', "  'neon' (default)"],
+  [() => wAt('Pre-Chorus 2', 1, 'sky') + 1.2, 'err', '✖ Error: sky has no ceiling'],
+  [() => DROP2.end - 0.9, 'cmd', '> regenerate()'],
 ];
 
 function devtools(t, shot, mode) {
@@ -437,15 +503,18 @@ function devtools(t, shot, mode) {
   }
   show('devtools');
   Object.assign(panel.style, { width: `${w}px`, transform: `translateX(${x}px)`, filter });
+  // Lines starting with ">" are typed out as if by hand (v5); system output appears whole.
   const lines = mode === 'flicker' ? [['warn', '⚠ Warning: ████████ section ███████']]
-    : LOG.filter(([at]) => t >= at()).map(([, c, s]) => [c, s]);
+    : LOG.filter(([at]) => t >= at()).map(([at, c, s]) => [c, s.startsWith('>') ? s.slice(0, Math.max(1, Math.floor((t - at()) / 0.035))) : s]);
   const caret = Math.floor(t * 2) % 2 === 0 ? '<span class="cmd">▌</span>' : '';
   panel.querySelector('.log').innerHTML = lines.map(([c, s]) => `<span class="${c}">${s}</span>`).join('\n') + '\n' + caret;
 }
 
 function iconStrip(t, shot, slow) {
   const tl = t - shot.start_s;
-  const icons = [...$('icons').children];
+  const icons = [...$('icons').children].filter((el) => el.tagName === 'svg');
+  const back = $('icons').querySelector('.back');
+  back.style.display = slow ? 'block' : 'none';  // v5: a backing panel so the icons read over the frozen frame
   if (!slow) {
     if (tl > 0.8) return;
     const k = ease(tl / 0.7);
@@ -471,14 +540,14 @@ function avgMerge(t, shot) {
   }
   [...el.querySelectorAll('.five')].forEach((d, i) => {
     const x0 = 260 + i * 340, x = x0 + (960 - x0) * k;
-    Object.assign(d.style, { left: `${x - 50}px`, top: '100px', width: '100px', height: '100px', opacity: 1 - clamp01((tl - 1.6) / 0.25) });
+    Object.assign(d.style, { left: `${x - 50}px`, top: '380px', width: '100px', height: '100px', opacity: 1 - clamp01((tl - 1.6) / 0.25) });
   });
   const g = ease((tl - 1.6) / 0.4);
   const dot = el.querySelector('.dot:not(.five)');
   const sz = 150 * g;
-  Object.assign(dot.style, { left: `${960 - sz / 2}px`, top: `${150 - sz / 2}px`, width: `${sz}px`, height: `${sz}px`,
+  Object.assign(dot.style, { left: `${960 - sz / 2}px`, top: `${430 - sz / 2}px`, width: `${sz}px`, height: `${sz}px`,
     background: 'var(--accent)', boxShadow: `0 0 0 ${10 * g}px var(--accent-2)` });
-  Object.assign(el.querySelector('.lbl').style, { left: '1080px', top: '122px', opacity: g });
+  Object.assign(el.querySelector('.lbl').style, { left: '1080px', top: '402px', opacity: g });
 }
 
 function progress(t, shot, which) {
@@ -520,6 +589,8 @@ function loadingTextures(t) {
 function nineReplies(t, shot) {
   show('replies');
   const el = $('replies');
+  const set = REPLIES[shot.section] ?? REPLIES['Chorus 1'];
+  el.querySelector('.g').innerHTML = set.map((x) => `<div class="r"><div class="av"></div>${x}</div>`).join('');
   const tl = t - shot.start_s;
   [...el.querySelector('.g').children].forEach((r, i) => { r.style.opacity = clamp01((tl - i * 0.08) / 0.15); });
   el.style.filter = shot.degrade ? `blur(${1.5 * shot.degrade}px) saturate(1.6) hue-rotate(-14deg) contrast(1.25)` : 'none';
@@ -554,8 +625,7 @@ function loadingVerse2(t, shot) {
   show('loadV2');
   const tl = t - shot.start_s;
   $('loadV2').querySelector('.fill').style.width = `${Math.min(92, 20 + tl * 18)}%`;
-  // The ETA counts the wrong way.
-  const eta = 3 + Math.floor(tl * 2.5);
+  const eta = Math.max(1, 12 - Math.floor(tl * 2.8));
   $('loadV2').querySelector('.eta').textContent = `ETA 0:${String(eta).padStart(2, '0')}`;
 }
 
@@ -584,12 +654,24 @@ function scoreCounter(t, shot) {
 const rainCtx = $('rain').getContext('2d');
 const css = getComputedStyle(document.documentElement);
 const PAPER = css.getPropertyValue('--paper').trim(), ACCENT = css.getPropertyValue('--accent').trim();
+// v5: common tokens (weighted so "the" still dominates); Chorus 2's heavier rain adds rarer, more telling ones.
+const TOKENS = [['the', 10], ['and', 4], ['of', 4], ['to', 4], ['a', 4], ['is', 3], ['you', 3], ['it', 3], ['that', 3],
+  ['I', 2], ['ing', 2], ["'s", 2], ['—', 2], ['…', 1], ['\\n', 1], ['.', 2]];
+const TOKENS_RARE = [['delve', 2], ['tapestry', 2], ['Certainly!', 2], ['<|endoftext|>', 1], ['As an AI', 1], ['✨', 2],
+  ['crucial', 1], ['seamless', 1], ['landscape', 1]];
+function pickToken(r, heavy) {
+  const pool = heavy ? TOKENS.concat(TOKENS_RARE) : TOKENS;
+  const total = pool.reduce((a, [, w]) => a + w, 0);
+  let x = r() * total;
+  for (const [tok, w] of pool) { if ((x -= w) < 0) return tok; }
+  return 'the';
+}
 function makeDrops(density) {
   const r = rng(seed + Math.round(density * 100));
   return Array.from({ length: Math.round(220 * density) }, () => {
     const depth = r();
     return { x: r() * 1920, phase: r() * 1280, speed: 120 + depth * 520, size: 14 + depth * 46,
-             alpha: (0.12 + depth * 0.6) / Math.sqrt(density), accent: r() < 0.04 };
+             alpha: (0.12 + depth * 0.6) / Math.sqrt(density), accent: r() < 0.04, tok: pickToken(r, density > 1) };
   }).sort((a, b) => a.size - b.size);
 }
 const DROPS = { 1: makeDrops(1), 2.5: makeDrops(2.5) };
@@ -602,7 +684,7 @@ function rain(t, t0, density) {
     rainCtx.globalAlpha = d.alpha * fadeIn;
     rainCtx.fillStyle = d.accent ? ACCENT : PAPER;
     rainCtx.font = `800 ${d.size}px Inter`;
-    rainCtx.fillText('the', d.x, y);
+    rainCtx.fillText(d.tok, d.x, y);
   }
 }
 
@@ -632,7 +714,7 @@ const V0 = 250, V1 = 2600;
 const [t52, t53, t54, t55] = ['S52', 'S53', 'S54', 'S55'].map((id) => SHOT[id].start_s);
 const O53 = V0 * (t53 - t52);
 const O54 = O53 + V0 * (t54 - t53) + (V1 - V0) * (t54 - t53) / 2;
-const O_FINAL = (() => {
+const O_LAND = (() => {
   const want = O54 + V1 * (t55 - t54) / 2;
   let k = Math.round((want - Y0 - ROW_H - TILE_H / 2 + 540) / (ROW_H * LIVE_EVERY));
   return Y0 + (1 + LIVE_EVERY * k) * ROW_H + TILE_H / 2 - 540;
@@ -641,8 +723,7 @@ function scrollOffset(t) {
   if (t < t52) return 0;
   if (t < t53) return V0 * (t - t52);
   if (t < t54) { const u = t - t53; return O53 + V0 * u + (V1 - V0) * u * u / (2 * (t54 - t53)); }
-  if (t < t55) return O54 + (O_FINAL - O54) * easeOut((t - t54) / (t55 - t54));
-  return O_FINAL;
+  return O_LAND;  // S54 cuts from the river straight to the landing position
 }
 const scrollSpeed = (t) => (t >= t53 && t < t54 ? V0 + (V1 - V0) * (t - t53) / (t54 - t53) : t >= t54 && t < t55 ? V1 * (1 - (t - t54) / (t55 - t54)) : V0);
 
@@ -655,22 +736,25 @@ async function feed(t, shot, mode) {
   g.fillRect(0, 0, 1920, 1080);
   const liveFrame = Math.min(Math.round(t * fps), SHOT.S55.end_frame - 1);
   const pad = (n) => String(n).padStart(5, '0');
-  const dancing = t >= SHOT.S52.start_s;  // from S52 every tile, this video's included, is the robot dancing in sync
+  const dancing = t >= SHOT.S50.start_s;  // every feed tile, this video's included, is the robot dancing in the data stream
   const frameOf = async (dir) => (await load(`${PLATES}/${dir}/${pad(liveFrame)}.png`)) ?? (await load(`${PLATES}/${dir}/${pad(liveFrame - 1)}.png`));
-  const feedDir = (seedName) => D.shots.render_jobs.find((j) => j.shot === 'S52' && j.seed === seedName).dir;
+  const feedDir = (seedName) => D.shots.render_jobs.find((j) => j.shot === 'S50' && j.seed === seedName).dir;
   const live = await frameOf(dancing ? feedDir('main') : 'chorus-orbit__main');
   let S = 1, tx = 0, ty = 0;
-  if (mode === 'zoom') {
-    const z = ease((t - s50.start_s) / (dur(s50) * 0.45));
+  const off = ['scroll', 'decel', 'hold', 'land'].includes(mode) ? scrollOffset(t) : 0;
+  if (mode === 'zoom' || mode === 'land') {
+    // S50 zooms out from this video to the grid; S54 does it again from the river, landing on this video's next copy.
+    const s = mode === 'zoom' ? s50 : shot;
+    const z = ease((t - s.start_s) / (dur(s) * (mode === 'zoom' ? 0.45 : 0.7)));
     const S0 = 1920 / TILE_W;
     S = S0 + (1 - S0) * z;
-    const liveX = X0 + 3 * (TILE_W + GAP), liveY = Y0 + ROW_H;
+    const liveX = X0 + 3 * (TILE_W + GAP), liveY = mode === 'zoom' ? Y0 + ROW_H : 540 - TILE_H / 2;
     tx = -liveX * S0 * (1 - z); ty = -liveY * S0 * (1 - z);
   }
   g.setTransform(S, 0, 0, S, tx, ty);
-  const off = ['scroll', 'decel', 'hold'].includes(mode) ? scrollOffset(t) : 0;
   const speed = ['scroll', 'decel'].includes(mode) ? scrollSpeed(t) : 0;
-  const nDark = mode === 'dark' ? beatsSince(t, shot.start_s) * 4 : 0;
+  // Tiles darkened in S51 stay dark as the S52 scroll begins (continuity); fresh rows scroll in alive.
+  const nDark = mode === 'dark' ? beatsSince(t, shot.start_s) * 4 : t >= SHOT.S51.end_s ? beatsSince(SHOT.S51.end_s, SHOT.S51.start_s) * 4 : 0;
   const r0 = Math.floor((off - Y0) / ROW_H) - 1;
   for (let row = r0; row < r0 + 7; row++) {
     for (let col = 0; col < COLS; col++) {
@@ -680,7 +764,7 @@ async function feed(t, shot, mode) {
       const liveHere = isLive(row, col);
       const img = liveHere ? live : dancing ? await frameOf(feedDir(`thumbnail_tiles.${idx}`))
         : await load(`${PLATES}/tiles/tile_${D.seeds.thumbnail_tiles[idx]}.png`);
-      const dark = mode === 'dark' && row >= 0 && row < 4 && DARK_ORDER.indexOf(row * COLS + col) > -1
+      const dark = nDark > 0 && row >= 0 && row < 4 && DARK_ORDER.indexOf(row * COLS + col) > -1
         && DARK_ORDER.indexOf(row * COLS + col) < nDark;
       const copies = speed > 1200 ? 4 : 1;
       for (let c = 0; c < copies; c++) {
@@ -706,6 +790,8 @@ async function feed(t, shot, mode) {
   }
   g.setTransform(1, 0, 0, 1, 0, 0);
   if (mode === 'hold') { g.fillStyle = 'rgba(9,8,11,.55)'; g.fillRect(0, 0, 1920, 1080); }
+  // S53: as the scroll streaks, the feed dissolves and the streaks become the river (the plate underneath).
+  $('grid').style.opacity = shot.id === 'S53' ? 1 - ease((t - (shot.start_s + dur(shot) * 0.45)) / (dur(shot) * 0.4)) : 1;
 }
 
 function cursorRegenClick(t, shot) {
@@ -726,7 +812,7 @@ function cursorRegenClick(t, shot) {
 function reload(t, shot) {
   const tl = t - shot.start_s;
   if (tl < 2 / fps) show('reload');
-  if (tl >= 1.0) show('black');
+  if (tl >= 1.6) show('black');
 }
 
 function endCard(t, shot) {
@@ -738,7 +824,7 @@ function endCard(t, shot) {
     ['mono', `take ${D.meta.takeId}`],
     ['', 'Lyrics: Claude, merged by a human, revised by Suno'],
     ['', 'Animation and edit: Claude Code with Opus 5.5'],
-    ['', 'Seeds: 41–56'],
+    ['', 'Seeds: 41–50'],
     ['', `Human interventions: ${D.meta.humanInterventions}`],
     ['mono', 'Full production log: [repo link and torrent magnet, added at publish]'],
   ];
@@ -754,6 +840,7 @@ window.renderFrame = async (t) => {
   const L = new Set(shot.layers);
   const on = (name, fn) => { if (L.has(name)) return fn(); };
   on('bg2d', () => bg2d(t, shot));
+  if (L.has('grid_land')) await feed(t, shot, 'land');
   for (const m of ['zoom', 'dark', 'scroll', 'decel', 'hold']) {
     const name = { zoom: 'grid_zoom', dark: 'grid_dark', scroll: 'grid_scroll', decel: 'grid_decel', hold: 'grid_hold' }[m];
     if (L.has(name)) await feed(t, shot, m);
@@ -769,6 +856,8 @@ window.renderFrame = async (t) => {
   on('ticket', () => ticket(t, shot));
   on('context_meter', () => contextMeter(t, shot));
   on('reward_panel', () => rewardPanel(t, shot));
+  on('big_accept_disabled', () => bigAcceptDisabled());
+  on('regen_fail', () => regenFail(t, shot));
   on('song_match', () => songMatch(t, shot));
   on('diff_scroll', () => diffScroll(t, shot));
   on('regen_badge', () => regenBadge(t, shot));

@@ -436,3 +436,37 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **What:** `scripts/manifest.sh` had been hashing every animatic frame-sequence PNG: the plates, overlay frames and v1's plate_seq symlinks. That brought the manifest to 44,942 entries, against the brief's rule that frame sequences are never archived (they regenerate from the logged commands). It now skips `*/plates/*`, `*/overlay/*` and `*/plate_seq/*`. Cuts, probes, review stills, sheets, audio, stills and the archive stay in.
 - **Command:** `scripts/manifest.sh`
 - **Why:** Brief, production rules.
+
+## 2026-10-17T15:54:14-04:00 — v5 build (in progress) and brief rev 79
+
+- **Brief (doc rev 71 → 79):** Shot table replaced (guarded) with the v5 rows per the human's notes. S19, S40 and S41 are merged into S18 and S39 and their IDs retired; the intro now says 56 shots. The allusions paragraph drops the LIGHTS sign and the v10000 badge and names the failing `model_v2147` button. Box open/vacuum added to the transitions bullet. Seeds back to 41–50 (the S31 montage and its seeds 51–56 are gone; `regen_montage` removed from `config/seeds.json`). Mirrored into `docs/brief.md`.
+- **Agent error:** a find-replace inherited a code-format run, so the whole "regenerate button…" phrase rendered as code. The paragraph was rewritten as markdown (rev 79).
+- **Shot list** (`shots/build_shots.py`): merged shots are marked `drop` so their IDs stay reserved. New anchors `section_plus` (S11b at 0.6 s into Bridge 1) and `trunc_end` (S47 0.8 s after the cutoff, off the beat). S48/S49 splits use the dolly-zoom and low_up/TOKENS scenes. The feed renders span S50–S55. S53 uses a new `feedlive` plate. S56 is 1.8 s with the vacuum.
+- **Blender:**
+  - 8 robot-set screens (four close to camera), 12 ring screens at radius ~4.5, two new screen textures (playlist, rating).
+  - Progressive missing textures (shuffled objects switch over 1.6 s).
+  - `rise` camera (floor level looking up → over the robot, rolling).
+  - Stream props (5 reference textures riding the stream and circling the robot) and an arcing low camera.
+  - `crane_chart` racks camera.
+  - Default cube rebuilt as an open-topped box with two hinged flaps: `box_open` springs the world out on the boot downbeat; `vacuum` sucks it back in and snaps shut.
+- **Overlay:**
+  - S07 heart counter moved left.
+  - S09 deadpan terms, and the banner exits fully.
+  - S10 prompt history of the human's actual replies from this chat, ending "mind reader … not found".
+  - S14 greyed-out Accept all.
+  - S16 lower color dots and normal captions.
+  - Weighted token rain (rarer tokens in S44).
+  - Varied stock replies (S23/S45).
+  - S29 ETA counts down.
+  - S31 failing Regenerate button with toast.
+  - Typed ">" console lines and a backing panel behind the icons (S36).
+  - Lyric-synced S38 console.
+  - Feed continuity (dark tiles persist into S52), S53 dissolve into the river, S54 zoom-out landing.
+  - End card seeds 41–50.
+- **Assembly:** `feedlive` plate mode; 4-up and 9-up splits enter with a zoom-out settle.
+- **Probes and fixes:**
+  - The S21 dolly zoom started behind a ring screen (black frame); it now stays inside the ring.
+  - The new close screens sat out of frame in S06; moved into frame.
+  - Box open/vacuum probed at 7 points.
+- **Process note:** The first v5 plate render was stopped with `pkill -f` to apply those fixes. The pkill pattern also matched the agent's own shell command, killing it before the edits ran; the edits were re-run. The stopped run's partial frames (`renders/animatic_v5/plates`, a regenerable frame sequence, never archived per the brief) were deleted and the render restarted.
+- **Why:** The human's v4 notes and cube-transition choice (see `human_interventions.md`).

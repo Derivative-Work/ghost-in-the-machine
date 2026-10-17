@@ -27,22 +27,21 @@ BAR = 4 * 60 / TM["tempo_bpm"]
 END_OF_AUDIO = TM["audio"]["duration_s"]
 LAST_WORD_END = TM["words"][-1]["end"]
 DROP2_END = next(d["end"] for d in TM["events"]["dropouts"] if "Pre-Chorus 2" in d["sections"])
-S22_LEN, S23_LEN = 1.2, 8.0
+S22_LEN, S23_LEN = 1.8, 8.0  # the ending (now S56: reload, then the cube vacuums the world) and the end card
 
 # Anchors: ("section", name) | ("line", section, line_index) | ("bar", n) | ("event", key) | ("time", seconds)
 R = lambda plate, cam, fx=(), **kw: dict(mode="render", plate=plate, cam=cam, fx=list(fx), **kw)
 JS = dict(mode="js")
 HOLD = lambda src, **kw: dict(mode="hold", src=src, **kw)
-SPLIT = lambda seeds, **kw: dict(mode="split", plate="chorus", cam="orbit", seeds=seeds, lag_s=0.1, **kw)
-GRID_RENDER = dict(mode="js", renders=[dict(plate="chorus", cam="orbit", fx=[], seed="main", span=("S50", "S51"))])
-# The feed (S52-S55): every tile, this video's included, is the robot dancing in the data stream at its own seed.
-FEED_RENDER = dict(mode="js", renders=[dict(plate="stream", cam="wide", fx=["dance"], seed=sd, span=("S52", "S55"))
+SPLIT = lambda seeds, cam="orbit", **kw: dict(mode="split", plate="chorus", cam=cam, seeds=seeds, lag_s=0.1, **kw)
+# The feed (S50-S55): every tile, this video's included, is the robot dancing in the data stream at its own seed.
+FEED_RENDER = dict(mode="js", renders=[dict(plate="stream", cam="wide", fx=["dance"], seed=sd, span=("S50", "S55"))
                                        for sd in ["main"] + [f"thumbnail_tiles.{i}" for i in range(23)]])
 
 SHOTS = [
     # Intro
     dict(section="Intro", anchor=("time", 0.0), plate=R("default_cube_boot", "default"), layers=[]),
-    dict(section="Intro", anchor=("bar", 1), plate=R("default_cube_boot", "default"), layers=[]),
+    dict(section="Intro", anchor=("bar", 1), plate=R("default_cube_boot", "default", ["box_open"]), layers=[]),
     dict(section="Intro", anchor=("bar", 2), plate=JS, layers=["bg2d", "terminal_boot"]),
     dict(section="Intro", anchor=("bar", 3), plate=R("robot", "screens", ["screens_power_on"]), layers=[]),
     dict(section="Intro", anchor=("bar", 4), plate=R("robot", "face", ["eyes_wake"]), layers=[]),
@@ -55,16 +54,17 @@ SHOTS = [
     # Bridge 1
     dict(section="Bridge 1", anchor=("section", "Bridge 1"), plate=R("robot", "low", freeze_first=True),
          layers=["glitch_flicker"]),
-    dict(id="S11b", section="Bridge 1", anchor=("bar", 14), plate=JS, layers=["bg2d", "song_match"]),
+    dict(id="S11b", section="Bridge 1", anchor=("section_plus", "Bridge 1", 0.6), plate=JS, layers=["bg2d", "song_match"]),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 1), plate=JS, layers=["bg2d", "icon_strip_fast"], big=True),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 2), plate=JS, layers=["bg2d", "big_accept"], big=True),
-    dict(section="Bridge 1", anchor=("event", "bridge1_beat_gap"), plate=JS, layers=["bg2d", "progress_1of2"], big=True),
+    dict(section="Bridge 1", anchor=("event", "bridge1_beat_gap"), plate=JS, layers=["bg2d", "big_accept_disabled", "progress_1of2"], big=True),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 4), plate=JS, layers=["bg2d", "flap_board"]),
-    dict(section="Bridge 1", anchor=("line", "Bridge 1", 5), plate=JS, layers=["bg2d", "avg_merge"], big=True),
+    dict(section="Bridge 1", anchor=("line", "Bridge 1", 5), plate=JS, layers=["bg2d", "avg_merge"]),
     # Pre-Chorus 1
     dict(section="Pre-Chorus 1", anchor=("section", "Pre-Chorus 1"), plate=R("robot", "lullaby", ["mobile"]), layers=[]),
-    dict(section="Pre-Chorus 1", anchor=("line", "Pre-Chorus 1", 1), plate=JS, layers=["bg2d", "giant_counter"], big=True),
-    dict(section="Pre-Chorus 1", anchor=("bar", 28), plate=R("racks", "chart"), layers=[]),
+    # The count and the graph climb together on one shot (S19 merged into S18).
+    dict(section="Pre-Chorus 1", anchor=("line", "Pre-Chorus 1", 1), plate=R("racks", "chart"), layers=["giant_counter"]),
+    dict(section="Pre-Chorus 1", anchor=("bar", 28), plate=R("racks", "chart"), layers=[], drop=True),
     # Chorus 1
     dict(section="Chorus 1", anchor=("section", "Chorus 1"), plate=R("chorus", "orbit", ["fast_entry", "sheet_ghost"]),
          layers=["regen_button"], transition="whip"),
@@ -73,20 +73,17 @@ SHOTS = [
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
          layers=["the_rain", "context_meter"], zoom_out=(0.5, 0.3)),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 4), plate=R("chorus", "wide_static", ["lights_fade", "neon_lights"]),
-         layers=[]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 5), plate=R("chorus", "topdown", ["cloud"]), layers=[]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 4), plate=R("chorus", "wide_static", ["lights_fade"]), layers=[]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 5), plate=R("chorus", "rise", ["cloud"]), layers=[]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 6), plate=R("stream", "wide", ["dance"]), layers=[]),
-    dict(section="Chorus 1", anchor=("bar", 43), plate=R("stream", "low", ["dance"]), layers=[]),
+    dict(section="Chorus 1", anchor=("bar", 43), plate=R("stream", "low", ["dance", "refs"]), layers=[]),
     dict(section="Chorus 1", anchor=("event", "stop1"), plate=JS, layers=["black_stop"]),
     dict(section="Chorus 1", anchor=("event", "stop1_end"), plate=JS, layers=["bg2d", "loading_verse2"],
          transition="glitch"),
     # Verse 2
     dict(section="Verse 2", anchor=("section", "Verse 2"), plate=JS, layers=["bg2d", "diff_scroll"]),
     dict(id="S30b", section="Verse 2", anchor=("bar", 49), plate=R("ship", "track"), layers=["check_stamp"]),
-    dict(section="Verse 2", anchor=("line", "Verse 2", 1),
-         plate=dict(mode="montage", plate="robot", cam="wide", fx=["reroll"], seeds=[f"regen_montage.{i}" for i in range(6)]),
-         layers=["regen_badge"]),
+    dict(section="Verse 2", anchor=("line", "Verse 2", 1), plate=R("robot", "wide"), layers=["regen_fail"]),
     dict(section="Verse 2", anchor=("line", "Verse 2", 2), plate=R("seats", "front", ["robot_seated"]), layers=["ticket"]),
     dict(section="Verse 2", anchor=("bar", 53), plate=R("seats", "reverse_end", ["arena", "robot_seated"]), layers=[]),
     dict(section="Verse 2", anchor=("line", "Verse 2", 3), plate=R("tear", "pullback", ["score_fade"]), layers=["reward_panel"]),
@@ -96,9 +93,11 @@ SHOTS = [
     dict(section="Bridge 2", anchor=("line", "Bridge 2", 2), plate=HOLD("S34"), layers=["devtools", "progress_2of2"]),
     # Pre-Chorus 2
     dict(section="Pre-Chorus 2", anchor=("section", "Pre-Chorus 2"), plate=HOLD("S34"), layers=["devtools_full"]),
-    dict(section="Pre-Chorus 2", anchor=("event", "drop2_end"), plate=R("racks", "crane"), layers=[], transition="glitch"),
-    dict(section="Pre-Chorus 2", anchor=("bar", 69), plate=JS, layers=["bg2d", "giant_counter"], big=True),
-    dict(section="Pre-Chorus 2", anchor=("bar", 70), plate=R("racks", "chart"), layers=[]),
+    # Servers, numbers and graph on one shot (S40 and S41 merged into S39).
+    dict(section="Pre-Chorus 2", anchor=("event", "drop2_end"), plate=R("racks", "crane_chart"), layers=["giant_counter"],
+         transition="glitch"),
+    dict(section="Pre-Chorus 2", anchor=("bar", 69), plate=JS, layers=[], drop=True),
+    dict(section="Pre-Chorus 2", anchor=("bar", 70), plate=JS, layers=[], drop=True),
     # Chorus 2: Chorus 1 again, degrading
     dict(section="Chorus 2", anchor=("section", "Chorus 2"), plate=R("chorus", "orbit", ["fast_entry"]), layers=[],
          degrade=0.35, transition="whip"),
@@ -110,20 +109,26 @@ SHOTS = [
          degrade=0.7),
     dict(section="Chorus 2", anchor=("event", "trunc"), plate=HOLD("S44"), layers=["output_truncated"], degrade=0.75),
     # Final chorus: the split multiplies, then the feed
-    dict(section="Final Chorus", anchor=("event", "bass_return"), plate=SPLIT(["main", "bridge_second_run"]), layers=[]),
+    # The error is not on the beat: [output truncated] holds 0.8 s, then the split screen cuts in.
+    dict(section="Final Chorus", anchor=("event", "trunc_end"), plate=SPLIT(["main", "bridge_second_run"]), layers=[]),
+    # The splits zoom out further on each line, repeating that line's earlier scene at more seeds.
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 1),
-         plate=SPLIT(["main", "bridge_second_run", "split_extra.0", "split_extra.1"], fx=["clip"]), layers=[]),
+         plate=SPLIT(["main", "bridge_second_run", "split_extra.0", "split_extra.1"], cam="dolly_zoom", fx=["missing_texture"]),
+         layers=[]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 2),
-         plate=SPLIT(["main", "bridge_second_run"] + [f"split_extra.{i}" for i in range(7)]), layers=[]),
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 3), plate=GRID_RENDER, layers=["grid_zoom"]),
+         plate=SPLIT(["main", "bridge_second_run"] + [f"split_extra.{i}" for i in range(7)], cam="low_up",
+                     fx=["head_up", "tokens_3d"]), layers=["the_rain"]),
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 3), plate=FEED_RENDER, layers=["grid_zoom"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 4), plate=JS, layers=["grid_dark"]),
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 5), plate=FEED_RENDER, layers=["grid_scroll"]),
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=JS, layers=["grid_scroll_fast"]),
-    dict(section="Final Chorus", anchor=("event", "beat_end"), plate=JS, layers=["grid_decel"]),
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 5), plate=JS, layers=["grid_scroll"]),
+    # The scroll speeds up until the streaks become the river itself, robot included...
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=dict(mode="feedlive"), layers=["grid_scroll_fast"]),
+    # ...then the river pulls back into a tile and the feed lands on this video again.
+    dict(section="Final Chorus", anchor=("event", "beat_end"), plate=JS, layers=["grid_land"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 7), plate=JS, layers=["grid_hold", "cursor_regen_click"]),
     # Ending
-    dict(section="Ending", anchor=("time", LAST_WORD_END), plate=R("default_cube_boot", "default", clock="local",
-                                                                     black_after=1.0), layers=["reload"], seed="restart"),
+    dict(section="Ending", anchor=("time", LAST_WORD_END), plate=R("default_cube_boot", "default", ["vacuum"], clock="local",
+                                                                     black_after=1.6), layers=["reload"], seed="restart"),
     dict(section="End card", anchor=("time", LAST_WORD_END + S22_LEN), plate=JS, layers=["end_card"], no_globals=True),
 ]
 # IDs: inserted shots carry a letter suffix (S11b) so the brief's existing IDs never change.
@@ -133,6 +138,8 @@ for s in SHOTS:
         _n += 1
         s["id"] = f"S{_n:02d}"
 assert _n == 57, _n
+# Merged shots keep their ID number reserved (so no other ID changes) but are not output.
+SHOTS = [s for s in SHOTS if not s.get("drop")]
 
 STOP1 = next(d for d in TM["events"]["dropouts"] if d["full"] and "Chorus 1" in d["sections"])
 C2_LAST_END = [w for w in TM["words"] if w["section"] == "Chorus 2"][-1]["end"]
@@ -162,6 +169,8 @@ def resolve(anchor):
         return snap(line_start(anchor[1], anchor[2]))
     if kind == "bar":
         return DOWNBEATS[anchor[1] - 1]
+    if kind == "section_plus":
+        return next(s["start"] for s in TM["sections"] if s["name"] == anchor[1]) + anchor[2]
     if kind == "event":
         ev = TM["events"]
         if anchor[1] == "bridge1_beat_gap":
@@ -176,6 +185,8 @@ def resolve(anchor):
             return DROP2_END
         if anchor[1] == "trunc":
             return C2_LAST_END + 0.15
+        if anchor[1] == "trunc_end":
+            return C2_LAST_END + 0.15 + 0.8
         if anchor[1] == "beat_end":
             return DOWNBEATS[-1] + BAR
     raise ValueError(anchor)

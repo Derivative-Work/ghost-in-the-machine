@@ -94,6 +94,8 @@ def plate(f, s=None):
         return plate(src["end_frame"] - 1, src)
     if p["mode"] == "split":
         return split(s, f)
+    if p["mode"] == "feedlive":  # S53: the feed's own live tile (this video, dancing in the river) as a full frame
+        return load(rendered(job_for("S50", "main"), f))
     if p["mode"] == "montage":
         i = next(i for i, (a, b) in enumerate(p["segments"]) if a <= f < b)
         return load(rendered(job_for(s["id"], p["seeds"][i]), f))
@@ -159,8 +161,12 @@ def transition(img, s, f):
 def composite_image(f):
     s = shot_at(f)
     img = plate(f, s)
-    if s["plate"]["mode"] in ("render", "split", "montage"):
+    if s["plate"]["mode"] in ("render", "split", "montage", "feedlive"):
         img = punch(img, f)
+    if s["plate"]["mode"] == "split" and len(s["plate"]["seeds"]) > 2 and f - s["start_frame"] < ZOOM_FRAMES:
+        # The 4-up and 9-up land like a further zoom out: they start slightly enlarged and settle.
+        k = (f - s["start_frame"]) / ZOOM_FRAMES
+        img = zoom_about(img, 1 + 0.35 * (1 - k) ** 2, 0.5, 0.5)
     if s["degrade"]:
         img = degrade(img, s["degrade"], f)
     ovl = Image.open(OVL / f"{f:05d}.png").convert("RGBA")
