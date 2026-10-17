@@ -114,7 +114,7 @@ const show = (id) => $(id).classList.add('on');
 // ---------- global layers ----------
 function chrome(t, shot) {
   if (shot.id === 'S57') return;
-  if (shot.id === 'S56' && t - shot.start_s >= 2.4) return;
+  if (shot.id === 'S56' && t - shot.start_s >= 2.3) return;  // chrome off as the cube tips onto its dark face
   show('chrome');
   const el = $('chrome');
   el.style.opacity = shot.id === 'S01' || shot.id === 'S02' ? ease((t - BOOT) / 0.5) : 1;
@@ -718,16 +718,18 @@ const load = (src) => {
   return imgCache.get(src);
 };
 const gridCtx = $('grid').getContext('2d');
-const TILE_W = 280, TILE_H = 157.5, GAP = 30, COLS = 6, X0 = 45, Y0 = 70, ROW_H = 230, LIVE_EVERY = 7;
-const isLive = (row, col) => col === 3 && ((row % LIVE_EVERY) + LIVE_EVERY) % LIVE_EVERY === 1;
+// Layout shared with the S53 3D grid (config/feed_layout.json) so the videos line up across the S52/S53 cut.
+const F = D.feed;
+const TILE_W = F.tile_w, TILE_H = F.tile_h, GAP = F.gap, COLS = F.cols, X0 = F.x0, Y0 = F.y0, ROW_H = F.row_h, LIVE_EVERY = F.live_every;
+const isLive = (row, col) => col === F.live_col && ((row % LIVE_EVERY) + LIVE_EVERY) % LIVE_EVERY === 1;
 const DARK_ORDER = (() => {
-  const r = rng(seed + 51);
+  const r = rng(seed + F.dark_seed_offset);
   const idx = Array.from({ length: 24 }, (_, i) => i).filter((i) => i !== 9);
   for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
   return idx;
 })();
 // Scroll offset (px): constant in S52, accelerating in S53, eased to a stop on a live tile in S54.
-const V0 = 250, V1 = 2600;
+const V0 = F.v0, V1 = F.v1;
 const [t52, t53, t54, t55] = ['S52', 'S53', 'S54', 'S55'].map((id) => SHOT[id].start_s);
 const O53 = V0 * (t53 - t52);
 const O54 = O53 + V0 * (t54 - t53) + (V1 - V0) * (t54 - t53) / 2;
@@ -785,6 +787,38 @@ async function feedStream(t, shot) {
   }
   g.globalAlpha = 1;
   $('grid').style.opacity = 1 - ease((tl - d * 0.75) / (d * 0.22));  // the stream of videos becomes the river
+}
+
+// S53: the 3D grid starts exactly where the 2D feed left off; the tiles' titles carry over the cut, still scrolling,
+// and fade as the videos start to peel away.
+function feedTitles(t, shot) {
+  const tl = t - shot.start_s;
+  const a = 1 - ease((tl - 0.3) / 0.3);
+  if (a <= 0) return;
+  show('titles');
+  const g = $('titles').getContext('2d');
+  g.clearRect(0, 0, 1920, 1080);
+  g.globalAlpha = a;
+  const off = scrollOffset(SHOT.S53.start_s) + V0 * Math.min(tl, 0.45);
+  const nDark = beatsSince(SHOT.S51.end_s, SHOT.S51.start_s) * F.dark_per_beat;
+  const r0 = Math.floor((off - Y0) / ROW_H) - 1;
+  for (let row = r0; row < r0 + 7; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const x = X0 + col * (TILE_W + GAP), y = Y0 + row * ROW_H - off;
+      const idx = ((row * COLS + col) % 23 + 23) % 23;
+      const di = DARK_ORDER.indexOf(row * COLS + col);
+      if (row >= 0 && row < 4 && di > -1 && di < nDark) {
+        g.fillStyle = '#847d77'; g.font = '400 14px JetBrains Mono';
+        g.fillText('Video unavailable', x + 70, y + TILE_H / 2 + 5);
+      }
+      g.fillStyle = '#e6e4dc'; g.font = '600 15px Inter';
+      const title = isLive(row, col) ? `Ghost in the Machine – Claude Opus 5.5 music video ${version(t)}` : TITLES[idx % TITLES.length];
+      g.fillText(title.length > 40 ? title.slice(0, 39) + '…' : title, x, y + TILE_H + 24);
+      g.fillStyle = '#847d77'; g.font = '400 12px JetBrains Mono';
+      g.fillText(`AI Music · ${(1 + (((idx + 30) * 37) % 90) / 10).toFixed(1)}M views`, x, y + TILE_H + 44);
+    }
+  }
+  g.globalAlpha = 1;
 }
 
 async function feed(t, shot, mode) {
@@ -873,7 +907,7 @@ function cursorRegenClick(t, shot) {
 function reload(t, shot) {
   const tl = t - shot.start_s;
   if (tl < 2 / fps) show('reload');
-  if (tl >= 2.4) show('black');
+  if (tl >= 2.95) show('black');
 }
 
 function endCard(t, shot) {
@@ -903,6 +937,7 @@ window.renderFrame = async (t) => {
   on('bg2d', () => bg2d(t, shot));
   if (L.has('grid_land')) await feed(t, shot, 'land');
   if (L.has('grid_stream')) await feedStream(t, shot);
+  if (L.has('feed_titles')) feedTitles(t, shot);
   for (const m of ['zoom', 'dark', 'scroll', 'decel', 'hold']) {
     const name = { zoom: 'grid_zoom', dark: 'grid_dark', scroll: 'grid_scroll', decel: 'grid_decel', hold: 'grid_hold' }[m];
     if (L.has(name)) await feed(t, shot, m);

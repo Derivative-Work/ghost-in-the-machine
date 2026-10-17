@@ -27,6 +27,7 @@ data = {
     "meta": {"takeId": take, "humanInterventions": interventions},
     "stems": {k: stems[k] for k in ("kick", "vocal")},
     "code": code_lines,
+    "feed": json.loads(Path("config/feed_layout.json").read_text()),
 }
 out = Path("overlays/data")
 out.mkdir(exist_ok=True)

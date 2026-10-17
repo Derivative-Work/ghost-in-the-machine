@@ -27,7 +27,7 @@ BAR = 4 * 60 / TM["tempo_bpm"]
 END_OF_AUDIO = TM["audio"]["duration_s"]
 LAST_WORD_END = TM["words"][-1]["end"]
 DROP2_END = next(d["end"] for d in TM["events"]["dropouts"] if "Pre-Chorus 2" in d["sections"])
-S22_LEN, S23_LEN = 2.6, 8.0  # the ending (now S56: reload, then the cube vacuums the world) and the end card
+S22_LEN, S23_LEN = 3.0, 8.0  # the ending (now S56: reload, then the cube vacuums the world) and the end card
 
 # Anchors: ("section", name) | ("line", section, line_index) | ("bar", n) | ("event", key) | ("time", seconds)
 R = lambda plate, cam, fx=(), **kw: dict(mode="render", plate=plate, cam=cam, fx=list(fx), **kw)
@@ -128,14 +128,14 @@ SHOTS = [
     # The feed's videos, seen top-down as a grid above the landscape, peel off one by one and drop into the river,
     # where they flow on with the tokens as the camera descends to the river view S54 opens on...
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=R("stream", "feed_dive", ["dance", "video_tiles"]),
-         layers=[]),
+         layers=["feed_titles"]),
     # ...then the river pulls back to be one of the screens around the robot; Regenerate is clicked over that scene.
     dict(section="Final Chorus", anchor=("event", "beat_end"), plate=R("robot", "screen_pullback", ["river_screen"]), layers=[]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 7), plate=R("robot", "wide_hold", ["river_screen"]),
          layers=["cursor_regen_click"]),
     # Ending
     dict(section="Ending", anchor=("time", LAST_WORD_END), plate=R("default_cube_boot", "default", ["vacuum"], clock="local",
-                                                                     black_after=2.4), layers=["reload"], seed="restart"),
+                                                                     black_after=3.0), layers=["reload"], seed="restart"),
     dict(section="End card", anchor=("time", LAST_WORD_END + S22_LEN), plate=JS, layers=["end_card"], no_globals=True),
 ]
 # IDs: inserted shots carry a letter suffix (S11b) so the brief's existing IDs never change.

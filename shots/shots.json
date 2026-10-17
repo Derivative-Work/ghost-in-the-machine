@@ -1,7 +1,7 @@
 {
  "fps": 30,
- "total_s": 200.36,
- "total_frames": 6011,
+ "total_s": 200.76,
+ "total_frames": 6023,
  "audio_end_s": 190.0,
  "shots": [
   {
@@ -1857,7 +1857,9 @@
      "video_tiles"
     ]
    },
-   "layers": [],
+   "layers": [
+    "feed_titles"
+   ],
    "seed": "main",
    "global_layers": [
     "captions",
@@ -1939,9 +1941,9 @@
     189.76
    ],
    "start_s": 189.76,
-   "end_s": 192.36,
+   "end_s": 192.76,
    "start_frame": 5693,
-   "end_frame": 5771,
+   "end_frame": 5783,
    "plate": {
     "mode": "render",
     "plate": "default_cube_boot",
@@ -1950,7 +1952,7 @@
      "vacuum"
     ],
     "clock": "local",
-    "black_after": 2.4
+    "black_after": 3.0
    },
    "layers": [
     "reload"
@@ -1970,12 +1972,12 @@
    "section": "End card",
    "anchor": [
     "time",
-    192.35999999999999
+    192.76
    ],
-   "start_s": 192.36,
-   "end_s": 200.36,
-   "start_frame": 5771,
-   "end_frame": 6011,
+   "start_s": 192.76,
+   "end_s": 200.76,
+   "start_frame": 5783,
+   "end_frame": 6023,
    "plate": {
     "mode": "js"
    },
@@ -2953,7 +2955,7 @@
    ],
    "seed": "restart",
    "start": 5693,
-   "end": 5765,
+   "end": 5783,
    "dir": "default_cube_boot-default-vacuum__restart",
    "clock_offset_s": 189.76,
    "lag_frames": 0

@@ -539,3 +539,17 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Review:** 14 frames across S52–S56 confirm the S52 grid → 3D video grid → videos diving into and flowing in the river → S53's last frame matching S54's first → river screen → Regenerate → repack (robot, then screens, then the lid).
 - **Outputs:** `renders/animatic_v7/animatic_v7.mp4` (6011 frames verified, video 200.367 s / audio 200.360 s). v6 cut moved to `archive/renders/`.
 - **Status:** Stopped at C4 for review of v7.
+
+## 2026-10-17T18:52:07-04:00 — v8 build (in progress) and brief rev 87
+
+- **S52 → S53 continuity:**
+  - The feed layout moved into `config/feed_layout.json`, read by `overlays/video.js` (via `export_overlay_data.py`) and `scenes/blender/plates.py`.
+  - Blender ports the overlay's mulberry32 PRNG bit for bit to reproduce the dark-tile shuffle.
+  - S53's `video_tiles` are now the exact rows and columns the 2D feed shows at the cut (7 rows × 6), placed by projecting the feed's pixel positions through the straight-down camera (12 m above, 28 mm lens). They carry the same videos (the live tile is this video) and the same dark tiles, and keep scrolling at the feed's 250 px/s until each peels off.
+  - A dark "page" plane behind them fades as they go.
+  - A new `feed_titles` overlay layer carries the titles and "Video unavailable" labels over the cut and fades them.
+  - **Verified:** a 50/50 blend of the last S52 frame and the first S53 frame matches to within one frame of scroll.
+- **S02:** the unpack spreads out. Stagger 0.06 s, 0.7 s per item, and the camera pulls back to a wide set view (-2.5, -13, 5.2) so every item is seen landing in place.
+- **S56:** after the lid closes, the cube tips toward the camera (0.5 s) onto its underside, now an unlit black material, while the camera pushes into that face (0.6 s) until it fills the frame. That black carries into the end card. S56 grows 2.6 → 3.0 s; chrome clears at 2.3 s. The first probe was too fast and was slowed.
+- **Brief (doc rev 84 → 87):** S02, S53 and S56 rows updated and mirrored into `docs/brief.md`.
+- **Why:** The human's v7 notes.

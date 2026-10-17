@@ -33,6 +33,36 @@ OUT_ROOT = None  # renders/<tier>/plates of the current run (set by render_job/p
 SCREEN_NAMES = ["consent", "counter", "chat", "terminal", "playlist", "rating"]
 
 
+FEED = json.loads((ROOT / "config" / "feed_layout.json").read_text())
+
+
+def mulberry32(seed):
+    """The overlay's seeded PRNG (overlays/lib/seed.js), ported bit for bit so both sides make the same choices."""
+    a = seed & 0xFFFFFFFF
+
+    def imul(x, y):
+        return (x * y) & 0xFFFFFFFF
+
+    def r():
+        nonlocal a
+        a = (a + 0x6D2B79F5) & 0xFFFFFFFF
+        t = a
+        t = imul(t ^ (t >> 15), t | 1)
+        t ^= (t + imul(t ^ (t >> 7), t | 61)) & 0xFFFFFFFF
+        return ((t ^ (t >> 14)) & 0xFFFFFFFF) / 4294967296
+    return r
+
+
+def feed_dark_order(seed):
+    """Same shuffle as video.js DARK_ORDER: which of the first 24 tiles go dark in S51, in order."""
+    r = mulberry32(seed + FEED["dark_seed_offset"])
+    idx = [i for i in range(24) if i != 9]
+    for i in range(len(idx) - 1, 0, -1):
+        j = int(r() * (i + 1))
+        idx[i], idx[j] = idx[j], idx[i]
+    return idx
+
+
 def seed_value(spec):
     """'main' | 'split_extra.3' | an int."""
     if isinstance(spec, int):
@@ -679,6 +709,11 @@ def plate_default_cube_boot(job, seed):
     sol = body.modifiers.new("solid", "SOLIDIFY")
     sol.thickness, sol.material_offset = 0.04, 1
     body.data.materials.append(inner)
+    # The underside is unlit black: at the very end the cube tips onto it and it becomes the end card's black.
+    body.data.materials.append(G.mat_emission("box_underside", "#000000", 0.0))
+    for poly in body.data.polygons:
+        if poly.normal.z < -0.9:
+            poly.material_index = 2
     G._finish(body, "default_cube", None, box)
     hinges = []
     for side in (-1, 1):
@@ -705,6 +740,7 @@ def plate_default_cube_boot(job, seed):
                  not o.name.startswith(("flap_", "hinge_"))] + [root]
     default_cam = ((7.36, -6.93, 4.96), (0, 0, 1))
     wide = ((-0.6, -6.6, 0.8), (0.9, 0.5, 1.45))
+    spread_cam = ((-2.5, -13.0, 5.2), (1.0, 1.5, 1.6))
     mouth = (0.0, 0.0, 1.6)  # where things spring out of / get sucked into
 
     def spring(objs, k_of):
@@ -731,21 +767,37 @@ def plate_default_cube_boot(job, seed):
             v = min(1.0, max(0.0, (tl - 0.3) / (0.09 * len(items) + 0.75)))
             floor.active_material.node_tree.nodes["grid_amount"].inputs[1].default_value = 0.4 * (1 - v)
             box.scale = (G.ease(tl / 0.25),) * 3
-            close = G.ease((tl - (0.3 + 0.09 * len(items) + 0.75)) / 0.25)
+            t_closed = 0.3 + 0.09 * len(items) + 0.75
+            close = G.ease((tl - t_closed) / 0.25)
             for h, side in hinges:
                 h.rotation_euler.y = side * 2.3 * (1 - close)
+            # Then the cube tips toward the camera onto its unlit underside, and the camera pushes into that black face.
+            tip = G.ease((tl - t_closed - 0.25) / 0.5)
+            to_cam = Vector((default_cam[0][0], default_cam[0][1], 0)).normalized()
+            axis = Vector((0, 0, 1)).cross(to_cam).normalized()
+            from mathutils import Matrix
+            rot = Matrix.Rotation(-math.pi / 2 * tip, 4, axis)
+            c = Vector((0, 0, 1))
+            box.matrix_world = Matrix.Translation(c - (rot.to_3x3() @ c)) @ rot
             for o in lights:
                 o.hide_render = v > 0.9
             plo.hide_render = v < 0.9
             world_bg.inputs["Color"].default_value = G.lin("#3d3d3d") if v > 0.95 else G.lin(G.PAL["base"])
-            cam_path(cam, t, 0.2, 2.2, wide[0], default_cam[0], wide[1], default_cam[1])
+            cam_path(cam, t, 0.2, t_closed, wide[0], default_cam[0], wide[1], default_cam[1])
+            if tl > t_closed + 0.2:
+                face = c + (rot.to_3x3() @ Vector((0, 0, -1)))  # centre of the underside, now facing the camera
+                push = G.ease((tl - t_closed - 0.2) / 0.6)
+                start = Vector(default_cam[0])
+                end = face + to_cam * 0.6 + Vector((0, 0, 0.05))
+                cam.location = start.lerp(end, push)
+                G.look_at(cam, Vector(default_cam[1]).lerp(face, push))
             return
         update_robot(t)
         booted = t >= boot
         opening = G.ease((t - boot) / 0.3)
         for h, side in hinges:
             h.rotation_euler.y = side * 2.3 * opening   # the lid flaps fly open on the downbeat
-        out = lambda i: min(1.0, max(0.0, (t - boot - 0.15 - 0.09 * i) / 0.75))
+        out = lambda i: min(1.0, max(0.0, (t - boot - 0.12 - 0.06 * i) / 0.7))
         if "box_open" in fx or booted:
             spring([(o, out(i)) for i, o in enumerate(screens)] + [(root, out(len(screens)))], None)
         else:
@@ -759,7 +811,8 @@ def plate_default_cube_boot(job, seed):
             o.hide_render = not booted
         floor.active_material.node_tree.nodes["grid_amount"].inputs[1].default_value = 0.4 * G.ease((t - boot) / G.BAR)
         if booted:
-            cam_path(cam, t, boot, boot + G.BAR, default_cam[0], wide[0], default_cam[1], wide[1])
+            # Pull back wide enough to watch everything spread out of the box to its place across the set.
+            cam_path(cam, t, boot, boot + G.BAR, default_cam[0], spread_cam[0], default_cam[1], spread_cam[1])
         else:
             cam.location = default_cam[0]
             G.look_at(cam, default_cam[1])
@@ -838,20 +891,49 @@ def plate_stream(job, seed):
 
     face = -math.pi / 2 if job["cam"] == "low" else 0.0  # the low shot looks across the stream at the robot's front
     tiles = []
+    page = None
     if "video_tiles" in job["fx"]:
-        # S53 on: the feed's other videos as panels. They start as a top-down grid high above the landscape, peel off
-        # one by one, arc down into the river and flow on with the tokens (the same motion in the S53 shot and in
-        # the main river render that S54's screen plays).
-        s53 = SHOT["S53"]
-        tile_jobs = [j for j in SHOTS["render_jobs"] if j["shot"] == "S50" and j["seed"].startswith("thumbnail_tiles")]
-        gx0, gy0, gz = rx - 0.6, ry + 2.0, 12.0
-        for i in range(24):
-            col, row = i % 6, i // 6
-            m = G.mat_image_screen(f"vt_{i}", PANELS / "panel_playlist.png", 1.5)
-            ob = G.plane(f"vtile_{i}", (2.0, 1.125), (0, 0, 0), (0, 0, 0), m)
-            node = next(n for n in m.node_tree.nodes if n.type == "TEX_IMAGE")
-            slot = (gx0 + (col - 2.5) * 2.25, gy0 + (1.5 - row) * 1.35, gz)
-            tiles.append((ob, node, tile_jobs[i % len(tile_jobs)], slot, (i * 0.37) % 0.55, 0.45 + 0.07 * i))
+        # S53 on: the feed's videos as panels. At the cut they sit exactly where the 2D feed (S52) draws them, seen by
+        # a straight-down camera, still scrolling at the feed's speed; then they peel off one by one, arc down into the
+        # river and flow on with the tokens (the same motion in the S53 shot and in the main river render S54 plays).
+        s51, s52, s53 = SHOT["S51"], SHOT["S52"], SHOT["S53"]
+        tile_jobs = {j["seed"]: j for j in SHOTS["render_jobs"] if j["shot"] == "S50"}
+        f_ = FEED
+        o53 = f_["v0"] * (s53["start_s"] - s52["start_s"])
+        n_dark = f_["dark_per_beat"] * sum(1 for bt in G.BEATS if s51["start_s"] <= bt <= s51["end_s"])
+        dark_order = feed_dark_order(SEEDS["main"])
+        cam_h, lens = 12.0, 28.0
+        plane_w = cam_h * 36.0 / lens
+        plane_h = plane_w * 1080 / 1920
+        gcx, gcy, gz = rx - 0.6, ry + 2.0, 12.0
+        to_world = lambda px, py: (gcx + (px / 1920 - 0.5) * plane_w, gcy + (0.5 - py / 1080) * plane_h)
+        tw = f_["tile_w"] / 1920 * plane_w
+        r0 = int((o53 - f_["y0"]) // f_["row_h"]) - 1
+        k = 0
+        for row in range(r0, r0 + 7):
+            for col in range(f_["cols"]):
+                cell = row * f_["cols"] + col
+                live = col == f_["live_col"] and row % f_["live_every"] == 1
+                idx = cell % f_["tiles_per_cycle"]
+                dark = n_dark > 0 and 0 <= row < 4 and cell in dark_order and dark_order.index(cell) < n_dark
+                m = G.mat_image_screen(f"vt_{k}", PANELS / "panel_playlist.png", 0.0 if dark else 1.0)
+                ob = G.plane(f"vtile_{k}", (tw, tw * f_["tile_h"] / f_["tile_w"]), (0, 0, gz), (0, 0, 0), m)
+                node = next(n for n in m.node_tree.nodes if n.type == "TEX_IMAGE")
+                tj = tile_jobs["main"] if live else tile_jobs[f"thumbnail_tiles.{idx}"]
+                px = f_["x0"] + col * (f_["tile_w"] + f_["gap"]) + f_["tile_w"] / 2
+                py0 = f_["y0"] + row * f_["row_h"] + f_["tile_h"] / 2 - o53
+                tiles.append((ob, node, tj, (px, py0), (k * 0.29) % 0.55, 0.45 + 0.045 * k, dark))
+                k += 1
+        # The feed's dark page behind the tiles, fading away as they peel off to reveal the landscape below.
+        pm = bpy.data.materials.new("page")
+        pm.use_nodes = True
+        nt = pm.node_tree
+        nt.nodes.clear()
+        em, tr, mx, out = (nt.nodes.new(n) for n in ("ShaderNodeEmission", "ShaderNodeBsdfTransparent", "ShaderNodeMixShader", "ShaderNodeOutputMaterial"))
+        em.inputs["Color"].default_value, em.inputs["Strength"].default_value = G.lin(G.PAL["base"]), 1.0
+        nt.links.new(tr.outputs[0], mx.inputs[1]); nt.links.new(em.outputs[0], mx.inputs[2]); nt.links.new(mx.outputs[0], out.inputs[0])
+        page = (G.plane("page", (60, 60), (gcx, gcy, gz - 0.05), (0, 0, 0), pm), mx)
+        feed_world = (to_world, o53, gz)
 
     def tile_frame(job_, f):
         for back in range(4):
@@ -902,21 +984,28 @@ def plate_stream(job, seed):
                 sh.rotation_euler.y = -side * (0.3 + 0.9 * swing * (1 if (n + (side > 0)) % 2 else 0.2))
             rig["root"].location.z = rig["rest"]["root"].z + 0.07 * swing
             rig["root"].rotation_euler.z = face + 0.2 * (1 if (n // 2) % 2 else -1)
-        for ob, node, tj, slot, u0, delay in tiles:
+        if page is not None:
+            ts = t - SHOT["S53"]["start_s"]
+            page[0].hide_render = ts < 0 or ts > 1.2
+            page[1].inputs[0].default_value = 1.0 - G.ease((ts - 0.35) / 0.6)
+        for ob, node, tj, (px, py0), u0, delay, dark in tiles:
             ts = t - SHOT["S53"]["start_s"]
             ob.hide_render = ts < 0
             if ts < 0:
                 continue
-            img = tile_frame(tj, round(t * FPS))
-            if img is not None:
-                node.image = img
+            if not dark:
+                img = tile_frame(tj, round(t * FPS))
+                if img is not None:
+                    node.image = img
+            to_world, o53, gz = feed_world
+            # Where the 2D feed would draw this tile now: the scroll keeps going at the feed's speed.
+            sx, sy = to_world(px, py0 - FEED["v0"] * min(ts, delay))
             land = delay + 1.3
-            if ts < land:  # peel off the grid and arc down into the river
+            if ts < land:  # peel off the page and arc down into the river
                 k = G.ease(max(0.0, (ts - delay) / 1.3))
                 ex, ey = stream_path(u0)
                 ez = height(ex, ey) + 0.2
-                ob.location = (slot[0] + (ex - slot[0]) * k, slot[1] + (ey - slot[1]) * k,
-                               slot[2] + (ez - slot[2]) * k + 2.0 * math.sin(math.pi * k))
+                ob.location = (sx + (ex - sx) * k, sy + (ey - sy) * k, gz + (ez - gz) * k + 2.0 * math.sin(math.pi * k))
                 ob.rotation_euler = (math.radians(55) * k, 0, math.radians(20) * math.sin(math.pi * k))
             else:  # part of the stream now, flowing down it with the tokens
                 u = min(0.999, u0 + 0.05 * (ts - land))
@@ -950,7 +1039,8 @@ def plate_stream(job, seed):
         if job["cam"] == "feed_dive":
             # Top-down on the grid of videos, then descend to the river view the main render holds (S54 opens on it).
             k = G.ease((tl - 0.9) / max(1e-6, (t1 - t0) - 1.1))
-            top, top_t = (rx - 0.6, ry + 2.0 - 0.01, 24.0), (rx - 0.6, ry + 2.0, 0)
+            cam.data.lens = 28
+            top, top_t = (rx - 0.6, ry + 2.0 - 1e-4, 24.0), (rx - 0.6, ry + 2.0, 0)  # 12 m above the grid, lens 28
             end, end_t = (rx + 3, ry - 8, rz + 5.5), (rx - 0.5, ry + 4, rz + 0.5)
             cam.location = [top[i] + (end[i] - top[i]) * k for i in range(3)]
             G.look_at(cam, [top_t[i] + (end_t[i] - top_t[i]) * k for i in range(3)])
@@ -1058,9 +1148,9 @@ def render_tiles(out_dir, width, height, samples, t):
 
 
 def render_probe(index, out_dir, width, height, samples, frac):
-    """One frame at a fraction of a job's range, for smoke tests (reads video frames from the animatic_v6 plates)."""
+    """One frame at a fraction of a job's range, for smoke tests (reads video frames from the animatic_v7 plates)."""
     global OUT_ROOT
-    OUT_ROOT = ROOT / "renders" / "animatic_v6" / "plates"
+    OUT_ROOT = ROOT / "renders" / "animatic_v7" / "plates"
     job = SHOTS["render_jobs"][index]
     scene = G.reset(width, height, samples)
     strip_metadata(scene)

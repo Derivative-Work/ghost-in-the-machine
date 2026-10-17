@@ -1,0 +1,6 @@
+{
+  "_doc": "The S50-S55 feed grid, shared by overlays/video.js (2D) and scenes/blender/plates.py (S53's 3D grid) so the videos line up across the S52/S53 cut. Pixel units on the 1920x1080 stage.",
+  "tile_w": 280, "tile_h": 157.5, "gap": 30, "cols": 6, "x0": 45, "y0": 70, "row_h": 230,
+  "live_every": 7, "live_col": 3, "tiles_per_cycle": 23,
+  "v0": 250, "v1": 2600, "dark_per_beat": 4, "dark_seed_offset": 51
+}
