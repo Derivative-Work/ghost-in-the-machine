@@ -1,0 +1,32 @@
+# Large files: excluded from git, hashed in MANIFEST.sha256, published via torrent + IA.
+audio/track/
+audio/stems/
+renders/
+takes/
+reference/stills/
+*.wav
+*.mp3
+*.flac
+*.zip
+*.blend
+*.blend1
+*.mp4
+*.mov
+*.mkv
+*.webm
+transcripts/
+
+# Inspiration videos: never published, never hashed into the manifest. Linked from reference/inspiration.md.
+reference/inspiration/
+
+# Regenerable: never archived; versions and regen commands are logged instead.
+frames/
+**/frames/
+cache/
+**/__pycache__/
+.venv/
+venv/
+node_modules/
+models/
+*.pt
+*.safetensors
