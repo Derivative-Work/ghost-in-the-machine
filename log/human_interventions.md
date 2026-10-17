@@ -79,3 +79,9 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** The human reviewed animatic v1: "the lyrics synchronization is spot on but clearly I did not review the spec closely enough -- it needs more scenes and cuts as it feels pretty static right now. Suggest some more". The agent is proposing additions. Nothing has been changed yet.
 - **Why:** The cut feels static. 23 shots average 8.7 s; S09 alone is 37 s.
 - **Rule:** R1 (rejecting a plan; creative direction given in words, the agent makes the change).
+
+## 2026-10-17T13:04:04-04:00 — v2 shot list approved
+
+- **What:** The human approved ("go ahead") the agent's proposal: cut on every lyric line (~2 bars) for about 55 shots; multi-camera coverage of the 3D scenes; alternating 3D and 2D type-led shots; new scenes (intro inserts, hearts, autocomplete chat, giant counter, missing textures, nine identical replies, lights fading, top-down, dance in a code stream, black full stop, loading screen, THE END reverse shot, degraded Chorus 2, multiplying split screen, tiles going dark, endless feed scroll); style-spec transitions. The Bridge 2 freeze and Pre-Chorus 2 dropout stay static on purpose.
+- **Why:** C4 feedback: the cut was too static.
+- **Rule:** R1 (approving a plan).
