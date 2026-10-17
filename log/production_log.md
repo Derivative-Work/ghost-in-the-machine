@@ -352,3 +352,42 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - Intro now says 58 shots. Step 4 adds seeds 51–56 for the S31 montage; the end card reads "Seeds: 41–56".
   - Mirrored into `docs/brief.md` (the table generated from the v2 table file with per-row edits).
 - **Why:** The human approved items 1–7.
+
+## 2026-10-17T14:10:07-04:00 — C4: animatic v3 (items 1–7)
+
+- **What:** Built and rendered animatic v3 with the approved additions.
+  - **Music:**
+    - `scripts/stem_envelopes.py` writes `timing/stems.json` at 30 fps: 331 kick onsets as decaying pulses, 284 bass onsets, synth and vocal envelopes, and 5 vocal spectrum bands.
+    - Plates: lights ×(1+0.6·kick), screens ×(0.75+0.6·synth), a bass ripple ring in the floor shader (new `ripple_r`/`ripple_amp` nodes).
+    - Assembly: a 4% punch-in on every downbeat (3D plates only).
+  - **Robot performance** (`gitm_scene.py`: `build_character` + `perform`; schedule in `shots.json` "performance"):
+    - A 5-bar equalizer mouth driven by the vocal bands.
+    - Eye glyph sets (happy, squint, heart, sleepy, xx) chosen by lyric.
+    - Point and reach_up gestures, eased.
+  - **Kinetic captions** (`overlays/video.js`): per-word pop with overshoot and a rise; lines lift away on exit. In 2D shots the current word fills the frame with the line small beneath. The accent word pops like the others and settles at normal size.
+  - **2D motion:** the grid drifts and brightens on the kick, faint windows drift behind, content pushes in 4.5% per shot, and an idle cursor wanders.
+  - **Camera:** DOF pulls (wide, medium); fast 180° chorus entries; dolly zoom (lens 47→18 mm while dollying 5.0→1.9 m); a crane in the racks; the lullaby camera.
+  - **Transitions:** zoom-throughs S07→S08 and S22→S23 (8 frames each way); a glitch at each montage re-roll.
+  - **New moments:**
+    - S11b song recognition
+    - S17 crib mobile of server racks (sleepy, swaying)
+    - S22/S44 3D TOKENS letters (Inter, extruded)
+    - S23/S45 SAME stamps
+    - S30 million-line diff
+    - S31 regenerate montage: 6 re-rolls at seeds 51–56 with strong layout variation, plus a badge
+    - S32 the robot seated in the theater
+    - S52–S55 the feed of dancing tiles: 24 dance renders, one per tile seed plus main
+  - **Shot list:** `shots/build_shots.py` adds S11b (letter-suffix IDs), montage segments and jobs, zoom_out points and the performance schedule. 58 shots, average 3.43 s, 74 render jobs.
+- **Iterations:**
+  - **Probes:** the mouth rendered on the chest. Cause: Blender 5's `transform_apply(scale=True)` defaults also apply location and rotation, leaving every rounded box's origin at the world origin, so scaling the mouth moved it. The same bug put the floating token cubes at double height in v1/v2. Fixed by applying scale only.
+  - **Overlay tests:** the accent word's lasting 1.12× scale overlapped its neighbours, so the accent now settles at 1×; the diff body ran over its header; the SAME stamps were initially under the replies in the DOM; the 2D push scale leaked into non-2D shots and is now reset per frame.
+- **Commands:**
+  - `.venv/bin/python scripts/stem_envelopes.py`
+  - `blender … plates.py -- probe …` for 27 distinct variants
+  - `scripts/render_plates.sh animatic_v3 640 360 8 2` (74 jobs + tiles)
+  - `.venv/bin/python scripts/export_overlay_data.py` (now includes the kick and vocal envelopes)
+  - `.venv/bin/python scripts/assemble.py animatic_v3 640 360 2 6 --hud --name animatic_v3` (3 m 11 s)
+- **Outputs:** `renders/animatic_v3/animatic_v3.mp4` (5969 frames verified, video 198.967 s / audio 198.960 s); `renders/animatic_v3/{plates,overlay,probe,review}/`; sheets.
+- **Not done (not chosen):** full 30 fps rendering. Plates still step 2.
+- **Why:** The human approved items 1–7.
+- **Status:** Stopped at C4 for review of v3.
