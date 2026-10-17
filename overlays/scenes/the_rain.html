@@ -1,0 +1,36 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../tokens.css">
+<!-- S09/S18 "Tokens falling like the rain": a particle rain of the word "the". Pure function of (t, seed). -->
+<canvas id="c"></canvas>
+<script type="module">
+  import { rng, params } from '../lib/seed.js';
+  const { seed, width: W, height: H } = params();
+  const q = new URLSearchParams(location.search);
+  const density = Number(q.get('density') ?? 1);  // S18 uses a heavier rain
+  const c = document.getElementById('c');
+  c.width = W; c.height = H;
+  const ctx = c.getContext('2d');
+  const css = getComputedStyle(document.documentElement);
+  const paper = css.getPropertyValue('--paper').trim();
+  const accent = css.getPropertyValue('--accent').trim();
+  const k = H / 1080;  // sizes and speeds are authored at 1080p and scale with the frame
+  const r = rng(seed);
+  const drops = Array.from({ length: Math.round(260 * density) }, () => {
+    const depth = r();  // 0 = far, 1 = near
+    return { x: r() * W, phase: r() * (H + 200 * k), speed: (120 + depth * 520) * k, size: (14 + depth * 46) * k,
+             alpha: 0.15 + depth * 0.75, accent: r() < 0.04 };
+  });
+  drops.sort((a, b) => a.size - b.size);
+  window.renderFrame = (t) => {
+    ctx.clearRect(0, 0, W, H);
+    for (const d of drops) {
+      const y = ((d.phase + d.speed * t) % (H + 200 * k)) - 100 * k;
+      ctx.globalAlpha = d.alpha;
+      ctx.fillStyle = d.accent ? accent : paper;
+      ctx.font = `800 ${d.size}px Inter`;
+      ctx.fillText('the', d.x, y);
+    }
+  };
+  window.ready = document.fonts.load('800 40px Inter');
+</script>

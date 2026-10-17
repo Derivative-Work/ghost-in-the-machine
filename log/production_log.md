@@ -210,3 +210,19 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Outputs:** Brief doc rev 54; `docs/brief.md`
 - **Why:** Human instruction (see `human_interventions.md`); C3 findings in the step 3 entry.
 - **Lyrics:** "out" confirmed by the human. `lyrics/as_sung.txt` and the timing map are unchanged.
+
+## 2026-10-17T12:01:20-04:00 — Step 4: fix the seeds
+
+- **What:**
+  - **Seed config:** `config/seeds.json` is the single source of seeds: main 41, bridge_second_run 42, restart 43.
+  - **Helpers:** `overlays/lib/seed.js` (mulberry32 PRNG with the seed from the URL) and `scenes/blender/lib/gitm_seeds.py` (`random.Random` per seed name). Every frame is a pure function of (t, seed); nothing accumulates state between frames.
+  - **JS frame harness:** `scripts/render_frames.mjs` renders any HTML scene with `window.renderFrame(t)` to transparent PNGs, with the seed resolved by name.
+  - **First seeded scene:** `overlays/scenes/the_rain.html` (S09/S18). Sizes and speeds scale with frame height.
+  - **Check:** `scripts/check_seeds.sh` greps for unseeded randomness, renders the JS rain frame 90 and a Blender seeded scatter twice at seed 41 and once at 42, and compares SHA-256s.
+- **Iterations:**
+  1. Blender run a ≠ run b by hash. A pixel comparison showed 0 differing pixels; only the PNG metadata stamps (Date, RenderTime) differed. Added `scenes/blender/lib/gitm_render.py:strip_metadata`, so identical pixels now give identical bytes.
+  2. A visual check showed the rain was resolution-dependent (absolute pixel sizes). Scaled it by H/1080.
+- **Result:** PASS. JS seed 41 a = b (`dc4fa148…`), seed 42 differs. Blender seed 41 a = b (`867a3a1d…`), seed 42 differs.
+- **Commands:** `scripts/check_seeds.sh` (3 runs; outputs in `renders/draft/seed_check/<timestamp>/`)
+- **Caveat:** Reproducibility is per machine. GPU and driver differences can change pixels for the same seed between the GTX 970 and the RTX 5090. The seed-42 split screen and all finals will be rendered on the 5090, and `check_seeds.sh` must be rerun there.
+- **Why:** Brief, pre-production step 4.
