@@ -35,8 +35,8 @@ JS = dict(mode="js")
 HOLD = lambda src, **kw: dict(mode="hold", src=src, **kw)
 SPLIT = lambda seeds, **kw: dict(mode="split", plate="chorus", cam="orbit", seeds=seeds, lag_s=0.1, **kw)
 GRID_RENDER = dict(mode="js", renders=[dict(plate="chorus", cam="orbit", fx=[], seed="main", span=("S50", "S51"))])
-# The feed (S52-S55): every tile, this video's included, is the robot dancing in sync at its own seed.
-FEED_RENDER = dict(mode="js", renders=[dict(plate="chorus", cam="orbit", fx=["dance"], seed=sd, span=("S52", "S55"))
+# The feed (S52-S55): every tile, this video's included, is the robot dancing in the data stream at its own seed.
+FEED_RENDER = dict(mode="js", renders=[dict(plate="stream", cam="wide", fx=["dance"], seed=sd, span=("S52", "S55"))
                                        for sd in ["main"] + [f"thumbnail_tiles.{i}" for i in range(23)]])
 
 SHOTS = [
@@ -51,7 +51,7 @@ SHOTS = [
     dict(section="Verse 1", anchor=("bar", 6), plate=R("robot", "face"), layers=["hearts"], zoom_out=(0.5, 0.45)),
     dict(section="Verse 1", anchor=("line", "Verse 1", 1), plate=JS, layers=["bg2d", "chat_autocomplete"]),
     dict(section="Verse 1", anchor=("line", "Verse 1", 2), plate=R("robot", "medium"), layers=["accept_banner"]),
-    dict(section="Verse 1", anchor=("line", "Verse 1", 3), plate=R("robot", "medium", ["shrug"]), layers=["todo_caption"]),
+    dict(section="Verse 1", anchor=("line", "Verse 1", 3), plate=R("robot", "medium", ["shrug"]), layers=["todo_caption", "boot_log"]),
     # Bridge 1
     dict(section="Bridge 1", anchor=("section", "Bridge 1"), plate=R("robot", "low", freeze_first=True),
          layers=["glitch_flicker"]),
@@ -59,36 +59,37 @@ SHOTS = [
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 1), plate=JS, layers=["bg2d", "icon_strip_fast"], big=True),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 2), plate=JS, layers=["bg2d", "big_accept"], big=True),
     dict(section="Bridge 1", anchor=("event", "bridge1_beat_gap"), plate=JS, layers=["bg2d", "progress_1of2"], big=True),
-    dict(section="Bridge 1", anchor=("line", "Bridge 1", 4), plate=R("robot", "face", ["eyes_dim"]), layers=[]),
+    dict(section="Bridge 1", anchor=("line", "Bridge 1", 4), plate=JS, layers=["bg2d", "flap_board"]),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 5), plate=JS, layers=["bg2d", "avg_merge"], big=True),
     # Pre-Chorus 1
     dict(section="Pre-Chorus 1", anchor=("section", "Pre-Chorus 1"), plate=R("robot", "lullaby", ["mobile"]), layers=[]),
     dict(section="Pre-Chorus 1", anchor=("line", "Pre-Chorus 1", 1), plate=JS, layers=["bg2d", "giant_counter"], big=True),
     dict(section="Pre-Chorus 1", anchor=("bar", 28), plate=R("racks", "chart"), layers=[]),
     # Chorus 1
-    dict(section="Chorus 1", anchor=("section", "Chorus 1"), plate=R("chorus", "orbit", ["fast_entry"]),
+    dict(section="Chorus 1", anchor=("section", "Chorus 1"), plate=R("chorus", "orbit", ["fast_entry", "sheet_ghost"]),
          layers=["regen_button"], transition="whip"),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 1), plate=R("chorus", "dolly_zoom", ["missing_texture"]),
          layers=["loading_textures"]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
-         layers=["the_rain"], zoom_out=(0.5, 0.3)),
+         layers=["the_rain", "context_meter"], zoom_out=(0.5, 0.3)),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 4), plate=R("chorus", "wide_static", ["lights_fade"]), layers=[]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 5), plate=R("chorus", "topdown"), layers=[]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 6), plate=R("chorus", "dance_wide", ["dance"]),
-         layers=["code_stream"]),
-    dict(section="Chorus 1", anchor=("bar", 43), plate=R("chorus", "dance_low", ["dance"]), layers=["code_stream"]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 4), plate=R("chorus", "wide_static", ["lights_fade", "neon_lights"]),
+         layers=[]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 5), plate=R("chorus", "topdown", ["cloud"]), layers=[]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 6), plate=R("stream", "wide", ["dance"]), layers=[]),
+    dict(section="Chorus 1", anchor=("bar", 43), plate=R("stream", "low", ["dance"]), layers=[]),
     dict(section="Chorus 1", anchor=("event", "stop1"), plate=JS, layers=["black_stop"]),
     dict(section="Chorus 1", anchor=("event", "stop1_end"), plate=JS, layers=["bg2d", "loading_verse2"],
          transition="glitch"),
     # Verse 2
-    dict(section="Verse 2", anchor=("section", "Verse 2"), plate=JS, layers=["bg2d", "diff_scroll", "check_stamp"]),
+    dict(section="Verse 2", anchor=("section", "Verse 2"), plate=JS, layers=["bg2d", "diff_scroll"]),
+    dict(id="S30b", section="Verse 2", anchor=("bar", 49), plate=R("ship", "track"), layers=["check_stamp"]),
     dict(section="Verse 2", anchor=("line", "Verse 2", 1),
          plate=dict(mode="montage", plate="robot", cam="wide", fx=["reroll"], seeds=[f"regen_montage.{i}" for i in range(6)]),
          layers=["regen_badge"]),
-    dict(section="Verse 2", anchor=("line", "Verse 2", 2), plate=R("seats", "front", ["robot_seated"]), layers=[]),
-    dict(section="Verse 2", anchor=("bar", 53), plate=R("seats", "reverse_end"), layers=[]),
-    dict(section="Verse 2", anchor=("line", "Verse 2", 3), plate=R("tear", "face"), layers=["score_counter"]),
+    dict(section="Verse 2", anchor=("line", "Verse 2", 2), plate=R("seats", "front", ["robot_seated"]), layers=["ticket"]),
+    dict(section="Verse 2", anchor=("bar", 53), plate=R("seats", "reverse_end", ["arena", "robot_seated"]), layers=[]),
+    dict(section="Verse 2", anchor=("line", "Verse 2", 3), plate=R("tear", "pullback", ["score_fade"]), layers=["reward_panel"]),
     # Bridge 2: the freeze (static on purpose)
     dict(section="Bridge 2", anchor=("section", "Bridge 2"), plate=HOLD("S34"), layers=["devtools"]),
     dict(section="Bridge 2", anchor=("line", "Bridge 2", 1), plate=HOLD("S34"), layers=["devtools", "icon_strip_slow"]),
@@ -104,7 +105,7 @@ SHOTS = [
     dict(section="Chorus 2", anchor=("line", "Chorus 2", 1), plate=R("chorus", "dolly_zoom", ["missing_texture"]),
          layers=["loading_textures"], degrade=0.5),
     dict(section="Chorus 2", anchor=("line", "Chorus 2", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
-         layers=["the_rain_heavy"], degrade=0.6),
+         layers=["the_rain_heavy", "context_meter"], degrade=0.6),
     dict(section="Chorus 2", anchor=("line", "Chorus 2", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"],
          degrade=0.7),
     dict(section="Chorus 2", anchor=("event", "trunc"), plate=HOLD("S44"), layers=["output_truncated"], degrade=0.75),

@@ -37,6 +37,44 @@
                     font-family: var(--mono); font-size: 28px; color: var(--paper); }
   #regenBadge svg { width: 40px; height: 40px; }
 
+  #bootLog div { position: absolute; left: 90px; top: 110px; font-family: var(--mono); font-size: 30px; line-height: 1.6;
+                 color: var(--mid); background: rgba(9, 8, 11, .7); padding: 14px 22px; border: 2px solid var(--line); border-radius: 10px; }
+  #bootLog .bad { color: var(--accent); }
+
+  #flap .board { position: absolute; left: 330px; top: 170px; width: 1260px; background: #0d0d10; border: 3px solid var(--line);
+                 border-radius: 14px; padding: 34px 44px; font-family: var(--mono); }
+  #flap .hd { color: var(--mid); font-size: 24px; letter-spacing: .14em; margin-bottom: 18px; }
+  #flap .row { display: flex; gap: 6px; margin: 10px 0; }
+  #flap .c { width: 46px; height: 64px; background: #1a1a20; border-radius: 6px; color: var(--paper); font-size: 44px; line-height: 64px;
+             text-align: center; border-bottom: 2px solid #000; }
+  #flap .c.red { color: var(--accent); }
+
+  #ticket .tk { position: absolute; left: 1180px; top: 250px; width: 620px; height: 300px; background: var(--paper); color: var(--base);
+                border-radius: 18px; font-family: var(--mono); padding: 30px 38px; box-sizing: border-box; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+  #ticket .tk .a { font-size: 22px; letter-spacing: .2em; color: #6b6660; }
+  #ticket .tk .b { font-family: var(--sans); font-weight: 900; font-size: 54px; letter-spacing: -0.02em; margin: 14px 0 8px; }
+  #ticket .tk .c { font-size: 24px; }
+  #ticket .stamp { position: absolute; left: 1290px; top: 340px; font-family: var(--sans); font-weight: 900; font-size: 92px;
+                   color: var(--accent); border: 10px solid var(--accent); border-radius: 18px; padding: 0 26px; }
+
+  #ctx div { position: absolute; left: 48px; top: 84px; font-family: var(--mono); font-size: 24px; color: var(--paper);
+             background: rgba(9, 8, 11, .7); padding: 10px 16px; border: 2px solid var(--line); border-radius: 8px; width: 520px; }
+  #ctx .bar { height: 10px; background: #000; margin-top: 8px; border-radius: 5px; overflow: hidden; }
+  #ctx .bar i { display: block; height: 100%; background: var(--accent); }
+
+  #reward .p { position: absolute; left: 1250px; top: 170px; width: 600px; background: rgba(20, 20, 25, .92); border: 3px solid var(--line);
+               border-radius: 18px; padding: 30px 36px; font-family: var(--mono); color: var(--mid); font-size: 26px; box-sizing: border-box; }
+  #reward .score { font-family: var(--sans); font-weight: 900; color: var(--paper); font-size: 110px; letter-spacing: -0.03em; }
+  #reward .r { display: flex; justify-content: space-between; margin: 8px 0; }
+  #reward .r b { color: #3fbf6f; font-weight: 500; } #reward .r .down { color: var(--accent); }
+
+  #banner .terms { height: 120px; overflow: hidden; position: relative; background: var(--base); border-radius: 8px; padding: 10px 50px 10px 16px;
+                   font-family: var(--mono); font-size: 16px; color: var(--mid); line-height: 1.5; margin-bottom: 18px; }
+  #banner .terms .txt { position: absolute; left: 16px; right: 50px; }
+  #banner .terms .sb { position: absolute; right: 10px; top: 8px; bottom: 8px; width: 12px; background: var(--line); border-radius: 6px; }
+  #banner .terms .th { position: absolute; right: 10px; width: 12px; height: 34px; background: var(--accent); border-radius: 6px; }
+  #banner .chk { font-size: 26px; color: var(--paper); margin-bottom: 22px; }
+
   #sameStamps .st { position: absolute; font-family: var(--sans); font-weight: 900; font-size: 64px; color: var(--accent);
                     border: 6px solid var(--accent); border-radius: 12px; padding: 0 16px; transform: rotate(-8deg); }
 
@@ -193,9 +231,16 @@
   <div id="score" class="layer"><div class="p">SCORE<div class="n"></div></div></div>
   <div id="banner" class="layer"><div class="card"><h2>This site uses cookies</h2>
     <p>We and our 1,402 partners use your data to make this experience feel personal.</p>
+    <div class="terms"><div class="txt"></div><div class="sb"></div><div class="th"></div></div>
+    <div class="chk"></div>
     <span class="btn primary">Accept all</span><span class="btn ghost">Manage</span></div></div>
   <div id="bigAccept" class="layer"><span class="btn primary">Accept all</span></div>
   <div id="todo" class="layer"><div>// TODO: make this part sad</div></div>
+  <div id="bootLog" class="layer"><div></div></div>
+  <div id="flap" class="layer"><div class="board"><div class="hd">CREDITS · STATUS</div><div class="rows"></div></div></div>
+  <div id="ticket" class="layer"><div class="tk"><div class="a">ADMIT ONE · NO REFUNDS</div><div class="b">FRONT ROW · A1</div><div class="c">THE ENDING · TONIGHT · LIVE</div></div><div class="stamp">SOLD OUT</div></div>
+  <div id="ctx" class="layer"><div><span class="t"></span><div class="bar"><i></i></div></div></div>
+  <div id="reward" class="layer"><div class="p"></div></div>
   <div id="loadingTex" class="layer"><div></div></div>
   <div id="devtools" class="layer"><div class="panel"><div class="tabs"><span>Elements</span><span class="sel">Console</span>
     <span>Sources</span><span>Network</span></div><div class="log"></div></div></div>

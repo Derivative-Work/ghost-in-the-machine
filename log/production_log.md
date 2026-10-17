@@ -391,3 +391,13 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Not done (not chosen):** full 30 fps rendering. Plates still step 2.
 - **Why:** The human approved items 1–7.
 - **Status:** Stopped at C4 for review of v3.
+
+## 2026-10-17T14:40:06-04:00 — Brief: v4 allusions (doc rev 69 → 71)
+
+- **What:**
+  - Replaced the shot table (guarded, `ifHash ece6da75` / `ifRev 69`) with the v4 rows: S09, S10, S12, S13, S15, S16, S20, S22, S24–S27, S30, S31–S34, S44, S52 changed, and S30b (LOOKS GOOD ship) inserted.
+  - Added an "Allusions (v4)" paragraph mapping each new moment to the reference it nods to, stating that none copies frames, text or jokes.
+  - Intro now says 59 shots, with S11b and S30b as letter-suffix inserts.
+  - Mirrored into `docs/brief.md`.
+- **Agent's deviation from its own pitch:** The S34 reward panel uses the agent's own rows (helpful / agreeable / on-brand / self ▼), not Run It Again's "honesty: not scored". The pitch had quoted that line, which would have copied the reference's joke.
+- **Why:** The human approved all the v4 ideas.

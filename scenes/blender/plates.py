@@ -264,9 +264,63 @@ def plate_chorus(job, seed):
     beat_len = 60 / G.TIMING["tempo_bpm"]
     lights_e = list(zip(lights, energies))
     scr = screens_of([o for o, *_ in ring])
+    font = bpy.data.fonts.load(str(ROOT / "assets" / "fonts" / "Inter[opsz,wght].ttf"), check_existing=True)
+    ghost = None
+    if "sheet_ghost" in fx:  # S20: the literal ghost; the sheet is whipped off on the whip pan
+        sheet = G.mat_principled("sheet", G.PAL["paper"], 0.8)
+        hole = G.mat_principled("hole", "#000000", 1.0)
+        ghost = G.empty("ghost", (0, 0, 0), parent=rig["root"])
+        bpy.ops.mesh.primitive_cone_add(vertices=32, radius1=0.85, radius2=0.42, depth=1.75, location=(0, 0, 0.95))
+        G._finish(bpy.context.object, "sheet_body", sheet, ghost)
+        bpy.ops.object.shade_smooth()
+        bpy.ops.mesh.primitive_uv_sphere_add(radius=0.46, location=(0, 0, 1.82))
+        G._finish(bpy.context.object, "sheet_head", sheet, ghost)
+        bpy.ops.object.shade_smooth()
+        for side in (-1, 1):
+            G.rounded_box(f"sheet_eye_{side}", (0.09, 0.05, 0.13), (side * 0.15, -0.43, 1.88), hole, 0.04, parent=ghost)
+    neon = []
+    if "neon_lights" in fx:  # S24: a neon LIGHTS sign behind the robot goes out one letter per beat
+        for i, ch in enumerate("LIGHTS"):
+            cu = bpy.data.curves.new(f"neon_{i}", "FONT")
+            cu.body, cu.font, cu.extrude, cu.size, cu.align_x = ch, font, 0.04, 1.5, "CENTER"
+            ob = bpy.data.objects.new(f"neon_{i}", cu)
+            scene.collection.objects.link(ob)
+            ob.data.materials.append(G.mat_emission(f"neon_mat_{i}", G.PAL["accent"], 9))
+            ob.location, ob.rotation_euler = ((i - 2.5) * 1.1, 3.4, 2.5), (math.pi / 2, 0, 0)
+            neon.append(ob)
+    clouds, rays = [], []
+    if "cloud" in fx:  # S25: looking down from inside the cloud, rays falling on the lone robot
+        scene.world.node_tree.nodes["Principled Volume"].inputs["Density"].default_value = 0.02
+        cl = bpy.data.materials.new("cloud")
+        cl.use_nodes = True
+        nt = cl.node_tree
+        nt.nodes.clear()
+        tc, nz = nt.nodes.new("ShaderNodeTexCoord"), nt.nodes.new("ShaderNodeTexNoise")
+        nz.inputs["Scale"].default_value, nz.inputs["Detail"].default_value = 0.45, 3.0
+        ramp = nt.nodes.new("ShaderNodeValToRGB")
+        ramp.color_ramp.elements[0].position, ramp.color_ramp.elements[1].position = 0.45, 0.8
+        em, tr, mix = nt.nodes.new("ShaderNodeEmission"), nt.nodes.new("ShaderNodeBsdfTransparent"), nt.nodes.new("ShaderNodeMixShader")
+        em.inputs["Color"].default_value, em.inputs["Strength"].default_value = G.lin("#d8dae4"), 0.9
+        out = nt.nodes.new("ShaderNodeOutputMaterial")
+        nt.links.new(tc.outputs["Object"], nz.inputs["Vector"])
+        nt.links.new(nz.outputs["Fac"], ramp.inputs["Fac"])
+        nt.links.new(ramp.outputs["Color"], mix.inputs[0])
+        nt.links.new(tr.outputs[0], mix.inputs[1]); nt.links.new(em.outputs[0], mix.inputs[2])
+        nt.links.new(mix.outputs[0], out.inputs[0])
+        cl.blend_method = "BLEND" if hasattr(cl, "blend_method") else None
+        for i in range(4):
+            ob = G.plane(f"cloud_{i}", (9, 9), ((r.random() - 0.5) * 3, (r.random() - 0.5) * 3, 6.5 + i * 0.9), (0, 0, r.random() * 3), cl)
+            clouds.append((ob, ob.location.copy(), r.random()))
+        for i in range(3):
+            sp = bpy.data.lights.new(f"ray_{i}", "SPOT")
+            sp.energy, sp.spot_size, sp.spot_blend, sp.color = 700, 0.22, 0.6, G.lin("#e8d9b0")[:3]
+            ob = bpy.data.objects.new(f"ray_{i}", sp)
+            scene.collection.objects.link(ob)
+            ob.location = ((i - 1) * 1.4, 0.5 * (i - 1), 9)
+            G.look_at(ob, (0, 0, 0))
+            rays.append(ob)
     letters = []
     if "tokens_3d" in fx:  # "TOKENS" falls as solid letters around the robot
-        font = bpy.data.fonts.load(str(ROOT / "assets" / "fonts" / "Inter[opsz,wght].ttf"), check_existing=True)
         lm = G.mat_emission("letters", G.PAL["paper"], 2.5)
         for i, ch in enumerate("TOKENS"):
             cu = bpy.data.curves.new(f"tok3d_{i}", "FONT")
@@ -320,10 +374,10 @@ def plate_chorus(job, seed):
             cam.data.lens = 24
             cam.location = (0.5, -1.7, 0.35)
             G.look_at(cam, (0, 0, 2.2))
-        elif c == "wide_static":
-            cam.data.lens = 28
-            cam.location = (0, -7.5, 2.4)
-            G.look_at(cam, (0, 0, 1.2))
+        elif c == "wide_static":  # inside the screen ring, so nothing blocks the robot or the sign
+            cam.data.lens = 22
+            cam.location = (0, -4.8, 1.9)
+            G.look_at(cam, (0, 0, 1.6))
         elif c == "topdown":
             cam.location = (0, -0.001, 11 - 1.5 * G.ease(tl / max(1e-6, t1 - t0)))
             G.look_at(cam, (0, 0, 0))
@@ -333,6 +387,17 @@ def plate_chorus(job, seed):
             G.look_at(cam, (0, 0, 1.4))
         if "head_up" in fx:
             rig["head"].rotation_euler.x = 0.35 * G.ease(tl / 0.6)
+        if ghost is not None:
+            k = G.ease((tl - 0.3) / 0.4)  # whipped off up and out of frame
+            ghost.location = (2.5 * k, 0, 4.0 * k)
+            ghost.rotation_euler = (0, -1.2 * k, 0)
+            for o in ghost.children:
+                o.hide_render = tl > 0.75
+        for i, ob in enumerate(neon):
+            on = beats_since(t, t0) < i + 2
+            ob.active_material.node_tree.nodes["Emission"].inputs["Strength"].default_value = 9.0 if on else 0.0
+        for ob, base, ph in clouds:
+            ob.location = (base.x + 0.4 * t, base.y + 0.25 * math.sin(t * 0.5 + ph * 6), base.z)
         for i, (ob, (x, y, z0, ph)) in enumerate(letters):
             # Each letter drops in on its own half beat and settles, spinning.
             k = G.ease((tl - 0.15 * i) / 0.9)
@@ -436,6 +501,33 @@ def plate_seats(job, seed):
             leg = bpy.data.objects[f"leg_{side}"]
             leg.rotation_euler.x = math.pi / 2
             leg.location = (side * 0.15, -0.33, 0.66)
+    if "arena" in job["fx"]:  # S33: the front row isn't alone; the whole arena is the same robot
+        unit = bpy.data.collections.new("seat_unit")
+        scene.collection.children.link(unit)
+        before = set(bpy.data.objects)
+        G.rounded_box("u_seat", (0.8, 0.7, 0.18), (0, 0, 0.45), seat, 0.06)
+        G.rounded_box("u_back", (0.8, 0.14, 0.9), (0, -0.35, 0.95), seat, 0.06)
+        urig = G.build_character((0, 0, 0))
+        urig["root"].location, urig["root"].rotation_euler.z = (0, 0, -0.16), math.pi
+        for side in (-1, 1):
+            leg = bpy.data.objects[f"leg_{side}"]
+            leg.rotation_euler.x, leg.location = math.pi / 2, (side * 0.15, -0.33, 0.66)
+        for name, objs in urig["eye_sets"].items():  # no performance for the crowd: plain eyes only
+            for e in objs:
+                e.hide_render = name != "normal"
+        for ob in set(bpy.data.objects) - before:
+            for c in list(ob.users_collection):
+                c.objects.unlink(ob)
+            unit.objects.link(ob)
+        bpy.context.view_layer.layer_collection.children["seat_unit"].exclude = True
+        for row in range(1, 11):
+            for i in range(-10, 11):
+                inst = bpy.data.objects.new(f"crowd_{row}_{i}", None)
+                inst.instance_type, inst.instance_collection = "COLLECTION", unit
+                inst.location = (i * 1.0, -row * 1.4, row * 0.38)
+                scene.collection.objects.link(inst)
+        # Light the crowd's backs from behind the camera so the rows read as robots, not silhouettes.
+        G.area_light("crowd_back", "#b8c4ff", 2500, 14, (0, -22, 12), (0, -7, 1))
     end = G.mat_image_screen("the_end", PANELS / "panel_the_end.png", 1.6)
     G.plane("the_end", (7.2, 4.05), (0, 9, 2.6), (math.radians(90), 0, 0), end)
     G.area_light("stage", G.PAL["accent"], 220, 8, (0, 7, 4), (0, 0, 0.5))
@@ -454,6 +546,8 @@ def plate_seats(job, seed):
             G.perform(rig, t)
         if job["cam"] == "front":  # the seats face the camera
             cam_path(cam, t, t0, t1, (0.8, 5.0, 1.3), (0.4, 4.2, 1.2), (0, 0, 0.6), (0, 0, 0.7))
+        elif "arena" in job["fx"]:  # from just behind our robot, pull back and up to reveal the rows behind it
+            cam_path(cam, t, t0, t1, (0, -0.85, 2.15), (0, -17.5, 7.8), (0, 9, 2.0), (0, 6, 1.2))
         else:  # reverse: from behind the empty seats toward THE END
             cam_path(cam, t, t0, t1, (0, -4.6, 2.3), (0, -4.0, 2.3), (0, 9, 2.5), (0, 9, 2.7))
     return update
@@ -480,11 +574,22 @@ def plate_tear(job, seed):
     scene.collection.objects.link(spinner)
     spinner.data.materials.append(G.mat_emission("spin_mat", G.PAL["paper"], 10))
     root = bpy.data.objects["char_root"]
+    cam = scene.camera
+    fade_order = ["arm_-1", "arm_1", "leg_-1", "leg_1", "pelvis", "torso"]  # "a little more would go"
 
     def update(t):
         tl = t - s["start_s"]
         update_robot(t)
         z = root.location.z
+        if job["cam"] == "pullback":  # from the tear out to the whole robot, which loses a piece per score
+            k = G.ease(tl / (s["end_s"] - s["start_s"]))
+            cam.data.lens = 40 - 8 * k
+            cam.location = (hx - 0.35 + 0.2 * k, -1.35 - 3.6 * k, hz + 0.02 - 0.55 * k + z)
+            G.look_at(cam, (hx + 0.05 - 0.05 * k, 0, hz - 0.02 - 0.6 * k + z))
+        if "score_fade" in job["fx"]:
+            n = beats_since(t, s["start_s"] + 1.0)
+            for i, name in enumerate(fade_order):
+                bpy.data.objects[name].hide_render = n > i
         # Starts under one eye and slides down the screen face.
         spinner.location = (hx + 0.1, -0.245, hz - 0.03 + z - 0.09 * G.ease((tl - 0.6) / 2.6))
         spinner.rotation_euler = (0, -tl * 2 * math.pi * 1.25, 0)
@@ -538,8 +643,156 @@ def plate_default_cube_boot(job, seed):
     return update
 
 
+# ---------- set: the data stream (loss landscape) ----------
+
+def stream_path(u):
+    """The river's centre line, u in 0..1 from the far ridge down to the minimum near camera."""
+    return (3.2 * math.sin(u * 5.0) * (1 - u) + 0.4, 30 - 34 * u)
+
+
+def plate_stream(job, seed):
+    """S26/S27 and the feed: a river of tokens running down a contoured loss landscape to a glowing minimum,
+    the robot dancing on a rock mid-stream (gradient descent, literally)."""
+    r = random.Random(seed)
+    scene = bpy.context.scene
+    G.void_world(scene, haze=0.006)
+    pts = [stream_path(i / 240) for i in range(241)]
+
+    def height(x, y):
+        d = min((x - px) ** 2 + (y - py) ** 2 for px, py in pts[::3]) ** 0.5
+        hills = 0.11 * (y + 4) + 0.9 * math.sin(x * 0.45) * math.cos(y * 0.3) + 0.5 * math.sin(x * 0.9 + y * 0.2)
+        return max(0.0, hills) * (1 - 0.85 * math.exp(-(d / 2.2) ** 2)) - 0.25 * math.exp(-(d / 1.0) ** 2)
+
+    bpy.ops.mesh.primitive_grid_add(x_subdivisions=110, y_subdivisions=110, size=44, location=(0, 12, 0))
+    terrain = bpy.context.object
+    terrain.name = "terrain"
+    for v in terrain.data.vertices:
+        w = terrain.matrix_world @ v.co
+        v.co.z = height(w.x, w.y)
+    bpy.ops.object.shade_smooth()
+    # Contour lines in --line over the base colour, every 0.33 m of height.
+    m = bpy.data.materials.new("contours")
+    m.use_nodes = True
+    nt = m.node_tree
+    nt.nodes.clear()
+    N, L = nt.nodes.new, nt.links.new
+    geo, sep = N("ShaderNodeNewGeometry"), N("ShaderNodeSeparateXYZ")
+    L(geo.outputs["Position"], sep.inputs[0])
+    mul = N("ShaderNodeMath"); mul.operation = "MULTIPLY"; mul.inputs[1].default_value = 3.0; L(sep.outputs["Z"], mul.inputs[0])
+    fr = N("ShaderNodeMath"); fr.operation = "FRACT"; L(mul.outputs[0], fr.inputs[0])
+    lt = N("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.06; L(fr.outputs[0], lt.inputs[0])
+    base = N("ShaderNodeBsdfPrincipled"); base.inputs["Base Color"].default_value = G.lin("#121117"); base.inputs["Roughness"].default_value = 0.6
+    line = N("ShaderNodeEmission"); line.inputs["Color"].default_value = G.lin("#6a6276"); line.inputs["Strength"].default_value = 2.0
+    mix = N("ShaderNodeMixShader"); L(lt.outputs[0], mix.inputs[0]); L(base.outputs[0], mix.inputs[1]); L(line.outputs[0], mix.inputs[2])
+    out = N("ShaderNodeOutputMaterial"); L(mix.outputs[0], out.inputs[0])
+    terrain.data.materials.append(m)
+    # The glowing minimum where the stream ends.
+    mx, my = stream_path(1.0)
+    bpy.ops.mesh.primitive_torus_add(major_radius=0.9, minor_radius=0.05, location=(mx, my, height(mx, my) + 0.05))
+    G._finish(bpy.context.object, "minimum", G.mat_emission("min_mat", G.PAL["accent"], 14), None)
+    # Tokens flowing down the stream.
+    tok_mats = [G.mat_emission("tk_a", G.PAL["accent2"], 6), G.mat_emission("tk_p", G.PAL["paper"], 4),
+                G.mat_emission("tk_o", G.PAL["accent"], 6)]
+    flow = []
+    for i in range(170):
+        ob = G.rounded_box(f"flow_{i}", (0.16, 0.16, 0.05), (0, 0, 0), tok_mats[0 if r.random() < 0.65 else 1 + (r.random() < 0.3)], 0.01)
+        flow.append((ob, r.random(), (r.random() - 0.5) * 1.4, 0.035 + r.random() * 0.03))
+    # The robot dances on a rock beside the stream, two-thirds of the way down.
+    ru = 0.72
+    rx, ry = stream_path(ru)
+    rx += 1.6
+    rz = height(rx, ry)
+    G.rounded_box("rock", (1.3, 1.1, 0.7), (rx, ry, rz + 0.1), G.mat_principled("rock_m", G.PAL["surface"], 0.8), 0.2)
+    rig = G.build_character((rx, ry, rz + 0.45))
+    lights = [G.area_light("key_a", "#b8c4ff", 900, 6, (rx - 5, ry - 6, rz + 7), (rx, ry, rz)),
+              G.area_light("rim", G.PAL["accent"], 120, 2, (rx + 1, ry + 3, rz + 3), (rx, ry, rz + 1))]
+    cam = G.camera(28)
+    G.bloom(scene)
+    s = SHOT[job["shot"]]
+    t0, t1 = s["start_s"], s["end_s"]
+    le = [(l, l.data.energy) for l in lights]
+    beat_len = 60 / G.TIMING["tempo_bpm"]
+
+    face = -math.pi / 2 if job["cam"] == "low" else 0.0  # the low shot looks across the stream at the robot's front
+
+    def update(t):
+        tl = t - t0
+        rig["root"].rotation_euler.z = face
+        idle(rig, t)
+        G.perform(rig, t)
+        react(t, le)
+        for ob, ph, lat, sp in flow:
+            u = (ph + sp * t) % 1.0
+            x, y = stream_path(u)
+            ob.location = (x + lat * (1 - u * 0.6), y, height(x, y) + 0.08)
+            ob.rotation_euler.z = u * 20
+        if "dance" in job["fx"]:
+            prior = [b for b in G.BEATS if b <= t]
+            n = len(prior)
+            ph = (t - prior[-1]) / beat_len if prior else 0.0
+            swing = math.sin(math.pi * min(1.0, ph))
+            for side, sh in rig["shoulders"].items():
+                sh.rotation_euler.y = -side * (0.3 + 0.9 * swing * (1 if (n + (side > 0)) % 2 else 0.2))
+            rig["root"].location.z = rig["rest"]["root"].z + 0.07 * swing
+            rig["root"].rotation_euler.z = face + 0.2 * (1 if (n // 2) % 2 else -1)
+        if job["cam"] == "wide":  # high, looking down the descent with the robot on its rock
+            cam_path(cam, t, t0, t1, (rx + 5, ry - 9, rz + 6.5), (rx + 3, ry - 8, rz + 5.5), (rx - 1, ry + 6, rz), (rx - 0.5, ry + 4, rz + 0.5))
+        else:  # low, from the far bank: the stream rushes between camera and robot
+            cam.data.lens = 22
+            cam_path(cam, t, t0, t1, (rx - 4.4, ry - 0.6, rz + 1.9), (rx - 4.2, ry - 1.3, rz + 2.0), (rx - 0.6, ry, rz + 0.95), (rx - 0.5, ry, rz + 1.05))
+    return update
+
+
+# ---------- set: the container ship (Verse 2) ----------
+
+def plate_ship(job, seed):
+    """S30b: the merged lines ship out; containers spell LOOKS GOOD (the stamp lands in the overlay)."""
+    scene = bpy.context.scene
+    G.void_world(scene)
+    floor = G.grid_floor()
+    hullm = G.mat_principled("hull", G.PAL["surface"], 0.5)
+    deck = G.mat_principled("deck", G.PAL["line"], 0.6)
+    win = G.mat_emission("win", "#ffd27a", 5)
+    ship = G.empty("ship", (0, 0, 0))
+    G.rounded_box("hull", (12.5, 2.6, 1.4), (0, 0, 0.5), hullm, 0.3, parent=ship)
+    G.rounded_box("bow", (1.8, 2.0, 1.2), (6.6, 0, 0.6), hullm, 0.5, parent=ship)
+    G.rounded_box("bridge", (1.6, 2.2, 2.4), (-5.4, 0, 2.4), deck, 0.08, parent=ship)
+    for i in range(4):
+        G.rounded_box(f"win_{i}", (0.24, 0.02, 0.2), (-6.0 + i * 0.4, -1.11, 3.1), win, 0.02, parent=ship)
+    font = bpy.data.fonts.load(str(ROOT / "assets" / "fonts" / "Inter[opsz,wght].ttf"), check_existing=True)
+    cmats = [G.mat_principled("cont_a", "#2a2a35", 0.5), G.mat_principled("cont_b", "#33303b", 0.5)]
+    lm = G.mat_emission("cont_letter", G.PAL["paper"], 3)
+    for i, ch in enumerate("LOOKS GOOD"):
+        x = -4.0 + i * 0.98
+        G.rounded_box(f"cont_{i}", (0.92, 2.3, 1.05), (x, 0, 1.75), cmats[i % 2], 0.03, parent=ship)
+        if ch != " ":
+            cu = bpy.data.curves.new(f"cl_{i}", "FONT")
+            cu.body, cu.font, cu.size, cu.align_x, cu.align_y = ch, font, 0.8, "CENTER", "CENTER"
+            ob = bpy.data.objects.new(f"cl_{i}", cu)
+            scene.collection.objects.link(ob)
+            ob.data.materials.append(lm)
+            ob.location, ob.rotation_euler = (x, -1.17, 1.75), (math.pi / 2, 0, 0)
+            ob.parent = ship
+    lights = [G.area_light("key", "#b8c4ff", 700, 8, (-3, -9, 7), (0, 0, 1)),
+              G.area_light("rim", G.PAL["accent"], 200, 3, (2, 5, 4), (0, 0, 1))]
+    cam = G.camera(30)
+    G.bloom(scene)
+    s = SHOT[job["shot"]]
+    t0, t1 = s["start_s"], s["end_s"]
+    le = [(l, l.data.energy) for l in lights]
+
+    def update(t):
+        react(t, le, (), floor)
+        ship.location = (0.6 * (t - t0), 0, 0.06 * math.sin(t * 1.3))
+        ship.rotation_euler = (0.02 * math.sin(t * 1.1), 0, 0)
+        cam_path(cam, t, t0, t1, (-1.5, -11.5, 1.6), (0.5, -10.5, 1.9), (0, 0, 1.5), (1.4, 0, 1.6))
+    return update
+
+
 PLATES = {
     "default_cube_boot": plate_default_cube_boot,
+    "stream": plate_stream,
+    "ship": plate_ship,
     "robot": plate_robot,
     "chorus": plate_chorus,
     "racks": plate_racks,

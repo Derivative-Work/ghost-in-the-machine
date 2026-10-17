@@ -1,4 +1,4 @@
-<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 69, 2026-10-17. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
+<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 71, 2026-10-17. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
 
 # Ghost in the Machine: Shot List and Production Brief
 
@@ -81,7 +81,7 @@ Three versions exist, and each step between them goes in the log:
 
 ## Shot list
 
-Fifty-eight shots in the as-sung order (section 5); inserted shots take a letter suffix (S11b) so existing IDs never change. Pacing (v2): the first animatic's 23 shots averaged 8.7 s and felt static, so the cut now changes composition on every lyric line, about every two bars (3.9 s), which matches the references' 3–4 s pacing. It alternates 3D and 2D type-led shots, and each 3D scene is covered from several cameras. Shots are anchored to lyric lines rather than clock times; exact frames come from the timing map, with cuts on the nearest downbeat. "Robot" and "neon grid" are placeholders for whatever the style spec's average character and setting turn out to be. Overlays persist throughout: the credit `Ghost in the Machine – Claude Opus 5.5 music video v1.0` (top left, version ticking up each section), `seed: 41` and an FPS counter at 60 (bottom corners).
+Fifty-nine shots in the as-sung order (section 5); inserted shots take a letter suffix (S11b, S30b) so existing IDs never change. Pacing (v2): the first animatic's 23 shots averaged 8.7 s and felt static, so the cut now changes composition on every lyric line, about every two bars (3.9 s), which matches the references' 3–4 s pacing. It alternates 3D and 2D type-led shots, and each 3D scene is covered from several cameras. Shots are anchored to lyric lines rather than clock times; exact frames come from the timing map, with cuts on the nearest downbeat. "Robot" and "neon grid" are placeholders for whatever the style spec's average character and setting turn out to be. Overlays persist throughout: the credit `Ghost in the Machine – Claude Opus 5.5 music video v1.0` (top left, version ticking up each section), `seed: 41` and an FPS counter at 60 (bottom corners).
 
 Suno placed the bridge twice, so the reveal happens twice: a brief glitch after Verse 1 that the video immediately covers up, and the full freeze after Verse 2. The second time, the video notices it is repeating itself. The timing map shows the music never drops out under Bridge 2 itself: the video freezes while the song keeps going, and the real drop comes one section later, under Pre-Chorus 2 (S38), as the low point of the reveal. The freeze (S35–S38) stays static on purpose; everything around it moves.
 
@@ -94,6 +94,8 @@ Suno placed the bridge twice, so the reveal happens twice: a brief glitch after 
 - **Camera.** Focus pulls from the screens to the robot, fast 180° sweeps into each chorus, a dolly zoom on "not what it seems" (S21, S43) and a crane out of the racks (S39).
 - **Transitions.** Hard cuts on the downbeat, plus zoom-throughs from a screen into the next shot (S07→S08, S22→S23), whip pans into the choruses and glitches.
 
+**Allusions (v4).** Several lines are staged literally, each as a generic redraw in this video's palette that nods to one reference without copying its frames, text or jokes: the data stream as a token river down a loss landscape (Run It Again's loss-landscape backdrop), a reward panel scoring the robot away piece by piece (its preference console), the version badge climbing to `v10000 · PRODUCTION` (its version numbers), the LOOKS GOOD container ship and the view from inside the cloud (LGTM), the SOLD OUT front-row ticket and the arena of identical robots (The End of the Show), the terms box and the split-flap board (Not My Fault, Accept All), the context-window meter and the boot log (Not My Fault), and the neon LIGHTS sign (Run It Again). In the bridge, the one place the video admits it is a collage, the five title phrases appear in their references' own accents, and S16 merges those five colors into this video's average.
+
 | ID | Section | Anchor | Visual | Gag / on-screen text | Pipeline |
 | --- | --- | --- | --- | --- | --- |
 | S01 | Intro | 0:00 to the first downbeat | Blender's untouched default scene: grey cube, default light | Hold | Blender |
@@ -104,33 +106,34 @@ Suno placed the bridge twice, so the reveal happens twice: a brief glitch after 
 | S06 | Verse 1 | "Every screen is glowing" | Wide: robot on the grid among the screens, slow push-in | Captions in the style spec's caption style | Blender |
 | S07 | Verse 1 | "every heart is on display" | Close on the screen face: heart eyes, like counters popping around it; the camera dives into the face and comes out in S08 (zoom-through) | `♥ +1` pops on the beat | Blender + JS |
 | S08 | Verse 1 | "We fed the machine…" | 2D chat: the user's message is redaction bars; the reply types the lyric half a beat before it's sung | The machine literally tells us what to say | JS |
-| S09 | Verse 1 | "Never read the terms…" | Medium on the robot; a generic "Accept all" banner drops over the canvas | Cursor clicks it on "agreed" without pausing | Blender + JS |
-| S10 | Verse 1 | "Gave it half a wish…" | Robot shrugs | Caption flashes `// TODO: make this part sad` | Blender + JS |
+| S09 | Verse 1 | "Never read the terms…" | Medium on the robot; a generic "Accept all" banner drops over the canvas; its terms box scrolls to the bottom in a blur and "I have read every line" ticks itself | Cursor clicks Accept all on "agreed" without pausing | Blender + JS |
+| S10 | Verse 1 | "Gave it half a wish…" | Robot shrugs; a boot log flashes beside it | `// TODO: make this part sad`; `> loading manners … ok` / `> mind reader … not found` | Blender + JS |
 | S11 | Bridge 1 | "Have you heard this song before?" | One-frame freeze and a devtools flicker, then a low angle on the robot as if nothing happened | Too fast to read on first viewing | Blender + JS |
 | S11b | Bridge 1 | "…this song before?" (second bar) | 2D: a generic song-recognition screen listens, then answers | `Matches found: 1,402` (pays off S38) | JS |
-| S12 | Bridge 1 | "Looks good, run it, one more encore" | 2D type; five icons (checkmark, regenerate arrow, theater seats, terms scrollbar, shrug) whip past like a trailer | Each icon returns later in context | JS |
-| S13 | Bridge 1 | "Not my fault, accept it all" | 2D: a giant "Accept all" button, clicked on "accept" | — | JS |
+| S12 | Bridge 1 | "Looks good, run it, one more encore" | 2D type; each title phrase fills the frame in its own reference's accent (green, pink, red); five icons whip past like a trailer | Each icon returns later in context | JS |
+| S13 | Bridge 1 | "Not my fault, accept it all" | 2D: the title phrases in orange and blue; a giant "Accept all" button, clicked on "accept" | — | JS |
 | S14 | Bridge 1 | "(beat)" | A progress bar appears, then is dismissed; the drums drop out | `Generating… 1 of 2` | JS |
-| S15 | Bridge 1 | "Maybe someone wrote it…" | Close on the screen face, eyes dimmed, in the drum dropout | — | Blender |
-| S16 | Bridge 1 | "Maybe it's the average…" | 2D: the five icons slide together and merge into one grey dot | `avg()` | JS |
+| S15 | Bridge 1 | "Maybe someone wrote it…" | 2D: a split-flap board flips to LYRICS — DELAYED, MELODY — DELAYED, AUTHOR — NOT FOUND, in the drum dropout | — | JS |
+| S16 | Bridge 1 | "Maybe it's the average…" | 2D: five dots in the five references' accents slide together and merge into one dot in this video's averaged palette | `avg()` | JS |
 | S17 | Pre-Chorus 1 | "And the servers hum like a lullaby" | A crib mobile of tiny server racks turns above the robot, which sways, eyes sleepy | — | Blender |
 | S18 | Pre-Chorus 1 | "While the numbers climb…" | 2D giant counter racing up | — | JS |
 | S19 | Pre-Chorus 1 | Last 2 bars | Tilt up the racks to a line chart climbing into the sky | — | Blender |
-| S20 | Chorus 1 | "We are the ghost in the machine" | Whip pan in; a fast 180° sweep into the orbit; the robot points at the camera | A generic regenerate button pulses in a corner, setting up S55 | Blender + JS |
+| S20 | Chorus 1 | "We are the ghost in the machine" | Opens on the robot under a bedsheet ghost, whipped off on the whip pan; a fast 180° sweep into the orbit; the robot points at the camera | A generic regenerate button pulses in a corner, setting up S55 | Blender + JS |
 | S21 | Chorus 1 | "Living in a world…" | Dolly zoom: the world stretches while the robot stays the same size, and the set loses its textures (Blender's magenta missing-texture checker) | `Loading textures…` | Blender + JS |
-| S22 | Chorus 1 | "Tokens falling like the rain" | Low angle; the robot reaches up as solid 3D letters T-O-K-E-N-S fall around it in a rain of the word *the*; the camera dives into a screen (zoom-through to S23) | — | Blender + JS |
+| S22 | Chorus 1 | "Tokens falling like the rain" | Low angle; the robot reaches up as solid 3D letters T-O-K-E-N-S fall around it in a rain of the word *the*; the camera dives into a screen (zoom-through to S23) | A context-window meter fills: `USED 0398/0400 · USEFUL 0000` | Blender + JS |
 | S23 | Chorus 1 | "Every answer sounds the same" | 2D grid of nine chat replies, all identical | "Great question!" ×9; on "same", SAME stamps land on all nine | JS |
-| S24 | Chorus 1 | "Oh-oh, the lights are fading out" | The lights in the void switch off one per beat until only the eyes are left | — | Blender |
-| S25 | Chorus 1 | "Oh-oh, but no one's looking down" | Top-down: the robot alone on the grid | — | Blender |
-| S26 | Chorus 1 | "We're dancing in the data stream" | Wide: the robot does a generic looped dance in falling columns of code | — | Blender + JS |
-| S27 | Chorus 1 | 2 bars later | The same dance, low angle | — | Blender + JS |
+| S24 | Chorus 1 | "Oh-oh, the lights are fading out" | A neon LIGHTS sign behind the robot goes out one letter per beat as the lights in the void switch off, until only the eyes are left | — | Blender |
+| S25 | Chorus 1 | "Oh-oh, but no one's looking down" | Top-down from inside a cloud: wisps drift past and rays fall on the robot alone on the grid | — | Blender |
+| S26 | Chorus 1 | "We're dancing in the data stream" | Wide: a literal data stream, a river of tokens running down a contoured loss landscape to a glowing minimum; the robot dances on a rock mid-stream | — | Blender |
+| S27 | Chorus 1 | 2 bars later | Low, from the far bank: the stream rushes past the dancing robot | — | Blender |
 | S28 | Chorus 1 | The full stop (music stops) | Hard cut to black; only the caption, in silence | — | JS |
 | S29 | Chorus 1 | Instrumental before Verse 2 | 2D loading screen | `Generating verse 2…` with an ETA counting the wrong way | JS |
-| S30 | Verse 2 | "Merged a million lines…" | 2D: a generic diff scrolls absurdly fast; half-second green checkmark stamp on "good" | `+1,048,576 −0`; version ticks to v1.1 | JS |
-| S31 | Verse 2 | "Hit regenerate…" | The same wide shot regenerated six times, a new seed every half bar, each re-roll landing with a glitch | `Regenerating… 1/6` badge with a spinning arrow | Blender + JS |
-| S32 | Verse 2 | "Bought a front-row seat…" | The robot alone in a row of empty theater seats | — | Blender |
-| S33 | Verse 2 | "…watch the ending of the show" | Reverse: from behind the seats toward a screen reading THE END | — | Blender |
-| S34 | Verse 2 | "…every time they scored us" | Close-up of the robot; its single tear is a loading spinner | A score counter ticks beside it | Blender + JS |
+| S30 | Verse 2 | "Merged a million lines…" | 2D: a generic diff scrolls absurdly fast | `+1,048,576 −0` | JS |
+| S30b | Verse 2 | "…that it looked good" | The merged lines ship out: a container ship whose containers spell LOOKS GOOD; the green checkmark stamp lands on "good" | Version ticks to v1.1 | Blender + JS |
+| S31 | Verse 2 | "Hit regenerate…" | The same wide shot regenerated six times, a new seed every half bar, each re-roll landing with a glitch | Badge counts model versions `v2147` → … → `v10000 · PRODUCTION` | Blender + JS |
+| S32 | Verse 2 | "Bought a front-row seat…" | The robot alone in a row of empty theater seats; a generic ticket slides up | `FRONT ROW · A1 · THE ENDING`, stamped SOLD OUT | Blender + JS |
+| S33 | Verse 2 | "…watch the ending of the show" | Reverse: from behind the robot toward THE END, pulling back to reveal every seat in the arena filled with the same robot | — | Blender |
+| S34 | Verse 2 | "…every time they scored us, a little more would go" | Pull back from the tear-spinner close-up; with each score a piece of the robot disappears (arms, legs, body) until the head floats | A reward panel ticks the score up while "self" drops | Blender + JS |
 | S35 | Bridge 2 | "Have you heard this song before?" | Hard freeze on "Have"; the music keeps playing, so the video stops and the song doesn't. Devtools slides in and stays | Console: `Warning: duplicate section "Bridge"` and `Warning: emotion is undefined` | JS |
 | S36 | Bridge 2 | "Looks good, run it, one more encore" | The S12 icons return one at a time, slow enough to read | — | JS |
 | S37 | Bridge 2 | "Maybe someone wrote it…" | Progress bar over the frozen frame | `Generating… 2 of 2` | JS |
@@ -140,7 +143,7 @@ Suno placed the bridge twice, so the reveal happens twice: a brief glitch after 
 | S41 | Pre-Chorus 2 | 2 bars later | Tilt up to the line chart | — | Blender |
 | S42 | Chorus 2 | "We are the ghost in the machine" | Whip pan in; S20 again (fast sweep, point), visibly degraded (lower resolution, compression blocks, color drift) | Version ticks to v1.2 | Blender + ffmpeg |
 | S43 | Chorus 2 | "Living in a world…" | S21's dolly zoom again, more degraded | `Loading textures…` | Blender + JS |
-| S44 | Chorus 2 | "Tokens falling like the rain" | S22 again with the falling letters, heavier *the* rain, more degraded | — | Blender + JS |
+| S44 | Chorus 2 | "Tokens falling like the rain" | S22 again with the falling letters, heavier *the* rain, more degraded | The context window hits `0400/0400 · FULL` | Blender + JS |
 | S45 | Chorus 2 | "Every song just sounds the same" | S23's nine replies and SAME stamps, degraded | The caption strikes through "answer" and swaps in "song" | JS |
 | S46 | Chorus 2 | When the chorus cuts off | The degraded frame freezes | `[output truncated]`; version ticks to v1.2.7 | JS |
 | S47 | Final chorus | Bass returns (158.5 s), two seconds into the final chorus | Split screen: seed 41 left, seed 42 right, slightly out of sync | FPS counter drops to ~12 | Blender + ffmpeg |
@@ -148,7 +151,7 @@ Suno placed the bridge twice, so the reveal happens twice: a brief glitch after 
 | S49 | Final chorus | "Tokens falling like the rain" | 9-up split (seeds 41, 42, 44–50), each a little further out of sync | — | Blender + ffmpeg |
 | S50 | Final chorus | "Every song just sounds the same" | Zoom out: the video is one tile in a grid of near-identical thumbnails | Tiles are this scene at other seeds, with invented titles | Blender + JS |
 | S51 | Final chorus | "Oh-oh, the lights are fading out" | The tiles go dark one per beat | `Video unavailable` | JS |
-| S52 | Final chorus | "Oh-oh, but no one's looking down" | The feed scrolls endlessly; every tile is the robot dancing in sync at its own seed | — | Blender + JS |
+| S52 | Final chorus | "Oh-oh, but no one's looking down" | The feed scrolls endlessly; every tile is the robot dancing in the data stream at its own seed | — | Blender + JS |
 | S53 | Final chorus | "We're dancing in the data stream" | The scroll speeds up until the dancing tiles streak | — | Blender + JS |
 | S54 | Final chorus | When the beat stops | The scroll decelerates and lands on this video again | — | Blender + JS |
 | S55 | Final chorus | Last "We are the ghost in the machine" | Cursor hovers the generic regenerate button and clicks on "machine" | — | JS |

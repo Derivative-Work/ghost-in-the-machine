@@ -79,6 +79,13 @@ const VERSIONS = [
 ];
 const version = (t) => VERSIONS.filter(([at]) => t >= at).pop()[1];
 
+// v4: in the bridge, where the video notices it is a collage, each title phrase takes its own reference's accent.
+const REF_COLORS = { lgtm: '#51f784', runItAgain: '#f93389', endOfTheShow: '#dc5746', notMyFault: '#e48240', acceptAll: '#3b6ed8' };
+const COLLAGE = {};
+[['looks good', 1, 'lgtm'], ['run it', 1, 'runItAgain'], ['one more encore', 1, 'endOfTheShow'],
+  ['not my fault', 2, 'notMyFault'], ['accept it all', 2, 'acceptAll']].forEach(([phrase, line, ref]) =>
+  phrase.split(' ').forEach((w) => { COLLAGE[`${w}@${line}`] = REF_COLORS[ref]; }));
+
 // ---------- icons (generic redraws) ----------
 const ICON = {
   check: `<svg viewBox="0 0 100 100"><rect x="6" y="6" width="88" height="88" rx="20" fill="none" stroke="#3fbf6f" stroke-width="7"/><polyline points="28,52 44,68 74,34" fill="none" stroke="#3fbf6f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
@@ -148,12 +155,14 @@ function captions(t, shot) {
   if (shot.big_captions) {
     // 2D shots: the word being sung fills the frame; the whole line runs small beneath it.
     const cur = l.words.filter((w) => t >= w.start).pop() ?? l.words[0];
+    const tint = (w) => (l.section === 'Bridge 1' ? COLLAGE[norm(w.text).toLowerCase() + '@' + l.line] : null);
     const p = pop(t - cur.start);
     const size = Math.min(300, 1700 / (0.56 * Math.max(3, cur.text.length)));
-    const cls = ['huge', cur.text === acc ? 'acc' : '', cur.text === emo ? 'emo' : ''].join(' ');
-    $('captions').innerHTML = wrap(`<div class="${cls}" style="font-size:${size.toFixed(0)}px;transform:translateY(-62%) ` +
+    const cls = ['huge', cur.text === acc && !tint(cur) ? 'acc' : '', cur.text === emo ? 'emo' : ''].join(' ');
+    const col = (w) => (tint(w) ? `color:${tint(w)};` : '');
+    $('captions').innerHTML = wrap(`<div class="${cls}" style="${col(cur)}font-size:${size.toFixed(0)}px;transform:translateY(-62%) ` +
       `translateY(${p.y * 2}px) scale(${p.s.toFixed(3)});transform-origin:left center">${cur.text}</div>` +
-      `<div class="sub">${l.words.map((w) => `<span class="${t >= w.start ? '' : 'todo'}">${w.text}</span>`).join(' ')}</div>`, '');
+      `<div class="sub">${l.words.map((w) => `<span class="${t >= w.start ? '' : 'todo'}" style="${col(w)}">${w.text}</span>`).join(' ')}</div>`, '');
     return;
   }
   const html = l.words.map((w) => {
@@ -231,7 +240,8 @@ function regenBadge(t, shot) {
   const f = Math.round(t * fps);
   const segs = shot.plate.segments;
   const i = segs.findIndex(([a, b]) => f >= a && f < b);
-  $('regenBadge').querySelector('div').innerHTML = `${ICON.regen('#d9502f')}Regenerating… ${i + 1}/${segs.length}`;
+  const versions = ['v2147', 'v2148', 'v2149', 'v2213', 'v4096', 'v10000 · PRODUCTION'];
+  $('regenBadge').querySelector('div').innerHTML = `${ICON.regen('#d9502f')}model_${versions[Math.min(i, versions.length - 1)]}`;
   $('regenBadge').querySelector('svg').style.transform = `rotate(${t * 600}deg)`;
 }
 
@@ -248,6 +258,64 @@ function sameStamps(t, shot) {
     const x = 120 + (i % 3) * 570 + 300, y = 110 + Math.floor(i / 3) * 140 + 10;
     return `<div class="st" style="left:${x}px;top:${y}px;transform:rotate(-8deg) scale(${(1.6 - 0.6 * ease(since / 0.08)).toFixed(3)})">SAME</div>`;
   }).join('');
+}
+
+function bootLog(t, shot) {
+  const tl = t - shot.start_s;
+  if (tl < 0.25) return;
+  show('bootLog');
+  $('bootLog').querySelector('div').innerHTML = '&gt; loading manners ...... ok' +
+    (tl > 0.7 ? '<br>&gt; mind reader ........ <span class="bad">not found</span>' : '');
+}
+
+const FLAP_ROWS = [['LYRICS', 'DELAYED'], ['MELODY', 'DELAYED'], ['AUTHOR', 'NOT FOUND']];
+const FLAP_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+function flapBoard(t, shot) {
+  show('flap');
+  const tl = t - shot.start_s;
+  const rows = FLAP_ROWS.map(([a, b], ri) => {
+    const text = `${a.padEnd(8)} ${b.padStart(9)}`;
+    return [...text].map((ch, ci) => {
+      const settle = 0.35 + ri * 0.55 + ci * 0.035;
+      const r = rng(seed + ri * 100 + ci + Math.floor(tl * 20));
+      const shown = tl >= settle || ch === ' ' ? ch : FLAP_GLYPHS[Math.floor(r() * FLAP_GLYPHS.length)];
+      const red = ri === 2 && ci > 8 && tl >= settle;
+      return `<div class="c${red ? ' red' : ''}">${shown === ' ' ? '&nbsp;' : shown}</div>`;
+    }).join('');
+  });
+  $('flap').querySelector('.rows').innerHTML = rows.map((r) => `<div class="row">${r}</div>`).join('');
+}
+
+function ticket(t, shot) {
+  show('ticket');
+  const tl = t - shot.start_s;
+  const k = ease((tl - 0.2) / 0.5);
+  $('ticket').querySelector('.tk').style.transform = `translateY(${(1 - k) * 600}px) rotate(${-4 + 4 * k}deg)`;
+  const st = $('ticket').querySelector('.stamp');
+  const since = tl - 1.4;
+  st.style.display = since < 0 ? 'none' : 'block';
+  st.style.transform = `rotate(-10deg) scale(${(1.6 - 0.6 * ease(since / 0.08)).toFixed(3)})`;
+}
+
+function contextMeter(t, shot) {
+  show('ctx');
+  const heavy = shot.layers.includes('the_rain_heavy');
+  const used = heavy ? Math.min(400, 398 + Math.floor((t - shot.start_s) * 2)) : Math.min(398, Math.floor((t - shot.start_s) * 105));
+  const full = used >= 400 && Math.floor(t * 4) % 2;
+  $('ctx').querySelector('.t').textContent = `CONTEXT WINDOW · USED ${String(used).padStart(4, '0')}/0400 · USEFUL 0000${full ? ' · FULL' : ''}`;
+  $('ctx').querySelector('i').style.width = `${used / 4}%`;
+}
+
+function rewardPanel(t, shot) {
+  // Each score takes a little more of the robot (the plate hides a piece on the same beats).
+  show('reward');
+  const n = beatsSince(t, shot.start_s + 1.0);
+  const score = (6.6 + 0.4 * n).toFixed(1);
+  const self = Math.max(0, 1 - n / 6).toFixed(2);
+  const flash = pulse(t, BEATS.filter((b) => b >= shot.start_s + 1.0), 0.15);
+  $('reward').querySelector('.p').innerHTML = `REWARD MODEL<div class="score" style="text-shadow:0 0 ${30 * flash}px #3fbf6f">+${score}</div>` +
+    `<div class="r">helpful <b>1.00 ▲</b></div><div class="r">agreeable <b>1.00 ▲</b></div>` +
+    `<div class="r">on-brand <b>1.00 ▲</b></div><div class="r">self <span class="down">${self} ▼</span></div>`;
 }
 
 function terminalBoot(t, shot) {
@@ -299,9 +367,17 @@ function acceptBanner(t, shot) {
   const inK = ease((tl - 0.05) / 0.35);
   const outK = ease((tl - tc - 0.25) / 0.3);
   show('banner');
-  $('banner').querySelector('.card').style.transform = `translateY(${-(1 - inK) * 420 - outK * 420}px)`;
+  const card = $('banner').querySelector('.card');
+  card.style.transform = `translateY(${-(1 - inK) * 520 - outK * 520}px)`;
+  // "Never read the terms": the scrollbar races to the bottom; "every line" gets ticked as read.
+  const txt = card.querySelector('.txt');
+  if (!txt.textContent) txt.innerHTML = Array.from({ length: 40 }, (_, i) => `${i + 1}. The user agrees to clause ${i + 1} and every clause after it.`).join('<br>');
+  const k = ease((tl - 0.5) / Math.max(0.3, tc - 0.9));
+  txt.style.top = `${10 - k * 880}px`;
+  card.querySelector('.th').style.top = `${8 + k * 70}px`;
+  card.querySelector('.chk').textContent = `${tl > tc - 0.35 ? '☑' : '☐'} I have read every line`;
   if (tl > tc + 0.6) return;
-  cursorTo(tl, tc, [1700, 700], [520, 290], -outK * 420);
+  cursorTo(tl, tc, [1700, 900], [520, 500], -outK * 520);
 }
 
 function bigAccept(t, shot) {
@@ -385,22 +461,24 @@ function iconStrip(t, shot, slow) {
 }
 
 function avgMerge(t, shot) {
+  // Five dots in the five references' accents slide together and become one dot in this video's averaged palette.
   const tl = t - shot.start_s;
   const k = ease((tl - 0.3) / 1.4);
-  const icons = [...$('icons').children];
-  icons.forEach((el, i) => {
-    const x0 = 170 + i * 330, x1 = 850;
-    Object.assign(el.style, { left: `${x0 + (x1 - x0) * k}px`, top: '40px', transform: `scale(${1 - 0.6 * k})`,
-      opacity: 1 - clamp01((tl - 1.5) / 0.3) });
-  });
-  show('icons');
-  const g = ease((tl - 1.6) / 0.4);
-  if (g > 0) {
-    show('avg');
-    const d = 140 * g;
-    Object.assign($('avg').querySelector('.dot').style, { left: `${960 - d / 2}px`, top: `${150 - d / 2}px`, width: `${d}px`, height: `${d}px` });
-    Object.assign($('avg').querySelector('.lbl').style, { left: '1060px', top: '120px', opacity: g });
+  show('avg');
+  const el = $('avg');
+  if (el.querySelectorAll('.five').length === 0) {
+    el.insertAdjacentHTML('beforeend', Object.values(REF_COLORS).map((c) => `<div class="dot five" style="background:${c}"></div>`).join(''));
   }
+  [...el.querySelectorAll('.five')].forEach((d, i) => {
+    const x0 = 260 + i * 340, x = x0 + (960 - x0) * k;
+    Object.assign(d.style, { left: `${x - 50}px`, top: '100px', width: '100px', height: '100px', opacity: 1 - clamp01((tl - 1.6) / 0.25) });
+  });
+  const g = ease((tl - 1.6) / 0.4);
+  const dot = el.querySelector('.dot:not(.five)');
+  const sz = 150 * g;
+  Object.assign(dot.style, { left: `${960 - sz / 2}px`, top: `${150 - sz / 2}px`, width: `${sz}px`, height: `${sz}px`,
+    background: 'var(--accent)', boxShadow: `0 0 0 ${10 * g}px var(--accent-2)` });
+  Object.assign(el.querySelector('.lbl').style, { left: '1080px', top: '122px', opacity: g });
 }
 
 function progress(t, shot, which) {
@@ -579,7 +657,8 @@ async function feed(t, shot, mode) {
   const pad = (n) => String(n).padStart(5, '0');
   const dancing = t >= SHOT.S52.start_s;  // from S52 every tile, this video's included, is the robot dancing in sync
   const frameOf = async (dir) => (await load(`${PLATES}/${dir}/${pad(liveFrame)}.png`)) ?? (await load(`${PLATES}/${dir}/${pad(liveFrame - 1)}.png`));
-  const live = await frameOf(dancing ? 'chorus-orbit-dance__main' : 'chorus-orbit__main');
+  const feedDir = (seedName) => D.shots.render_jobs.find((j) => j.shot === 'S52' && j.seed === seedName).dir;
+  const live = await frameOf(dancing ? feedDir('main') : 'chorus-orbit__main');
   let S = 1, tx = 0, ty = 0;
   if (mode === 'zoom') {
     const z = ease((t - s50.start_s) / (dur(s50) * 0.45));
@@ -599,7 +678,7 @@ async function feed(t, shot, mode) {
       if (y > 1100 || y < -ROW_H) continue;
       const idx = ((row * COLS + col) % 23 + 23) % 23;
       const liveHere = isLive(row, col);
-      const img = liveHere ? live : dancing ? await frameOf(`chorus-orbit-dance__thumbnail_tiles.${idx}`)
+      const img = liveHere ? live : dancing ? await frameOf(feedDir(`thumbnail_tiles.${idx}`))
         : await load(`${PLATES}/tiles/tile_${D.seeds.thumbnail_tiles[idx]}.png`);
       const dark = mode === 'dark' && row >= 0 && row < 4 && DARK_ORDER.indexOf(row * COLS + col) > -1
         && DARK_ORDER.indexOf(row * COLS + col) < nDark;
@@ -685,6 +764,11 @@ window.renderFrame = async (t) => {
   on('the_rain_heavy', () => rain(t, shot.start_s, 2.5));
   on('black_stop', () => show('blackStop'));
   on('terminal_boot', () => terminalBoot(t, shot));
+  on('boot_log', () => bootLog(t, shot));
+  on('flap_board', () => flapBoard(t, shot));
+  on('ticket', () => ticket(t, shot));
+  on('context_meter', () => contextMeter(t, shot));
+  on('reward_panel', () => rewardPanel(t, shot));
   on('song_match', () => songMatch(t, shot));
   on('diff_scroll', () => diffScroll(t, shot));
   on('regen_badge', () => regenBadge(t, shot));
