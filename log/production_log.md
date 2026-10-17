@@ -151,3 +151,44 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **What:** Replaced the spec's "Open questions for C1" section with the recorded decisions. Moving on to pre-production step 3 (timing map).
 - **Outputs:** `style/style_spec.md`
 - **Why:** Checkpoint C1 approved (see `human_interventions.md`).
+
+## 2026-10-17T11:53:50-04:00 — Step 3: timing map
+
+- **What:**
+  - Beat tracking on the drums stem (librosa).
+  - Forced alignment of `lyrics/as_sung.txt` against the vocals stem (torchaudio MMS_FA: 20 s emission chunks with 2 s context, one global CTC alignment).
+  - Sections from the first word of each section, snapped to the downbeat.
+  - Dropouts, music end and last line from the non-vocal stems' RMS.
+- **Environment:**
+  - Added librosa 1.0.0, soundfile, torch 2.8.0+cpu, torchaudio 2.8.0+cpu (CPU index, since the GTX 970 is sm_52) and faster-whisper.
+  - The MMS_FA model was downloaded to `~/.cache/torch/hub/checkpoints/model.pt` and the faster-whisper `medium.en` model to the HF cache. Both are regenerable, not archived.
+- **Results:**
+  - Tempo **123.05 bpm**. The style prompt asked for 120. Beat interval median 0.488 s, std 9 ms. 368 beats, 92 bars, 4/4 assumed. Downbeat phase is 2, chosen by kick energy.
+  - 309 words.
+  - Sections: Intro 0–12.03, Verse 1 –27.77, Bridge 1 –49.39, Pre-Chorus 1 –59.19, Chorus 1 –96.27, Verse 2 –111.85, Bridge 2 –125.46, Pre-Chorus 2 –141.01, Chorus 2 –156.50, Final Chorus –189.76, Outro –190.00 (s).
+- **Cross-check:**
+  - Independent faster-whisper (`medium.en`) transcription of the vocals stem. Whisper skipped 0–30 s on the full run, so that span was rerun alone.
+  - 288/309 words matched; start difference median 86 ms, p90 314 ms.
+  - Whisper puts line-initial words 0.4–0.6 s earlier, but nearly every MMS line start sits on a vocal-stem onset (±50 ms), so the agent kept MMS. Unmatched words are Whisper mishearings: hum→home, line→life, ghost→ghosts.
+  - Whisper hears "the lights are fading **now**" where the as-sung lyrics say "out", twice. Flagged for the human's ear check; the lyrics were not changed.
+- **Found against the brief:**
+  - **There is no music dropout in Bridge 2.** Drums and bass play throughout 111.85–125.46.
+  - Suno put dropouts here instead:
+    - Intro 4.5–11.8
+    - Bridge 1 second half into Pre-Chorus 1, 43.8–51.1: drums out under "Maybe someone wrote it…"
+    - A full stop at the end of Chorus 1, 90.5–92.2: under its last "We are the ghost in the machine"
+    - **Pre-Chorus 2, 127.8–134.9:** drums and bass out under "And the servers hum… neon sky"
+    - The ending, 186.5–190.0
+  - In the final chorus, vocals enter at 156.73 but the bass returns at **158.52**, the actual "slam".
+  - The music decays from 187.15, and the last line (187.64–189.76) sits over the tail.
+- **Commands:**
+  - `.venv/bin/python scripts/timing_map.py` (run 3 times: first pass; dropout/events rewrite; last_line index fix)
+  - `.venv/bin/python scripts/transcribe_check.py`. It first failed because faster-whisper's PyAV decoder is incompatible with the installed av, so the script now decodes with librosa.
+  - Ad-hoc per-bar stem-energy and onset analyses (stdin scripts; results in this entry)
+  - `.venv/bin/python scripts/c3_preview.py`
+- **Outputs:**
+  - `timing/timing_map.json`, `timing/whisper_words.json`
+  - `renders/draft/c3/timing_preview.{ass,mp4}` (960×540, 30 fps, captions, section/bar labels, beat flashes, dropout flags)
+  - Check frames `renders/draft/c3/check_*.png`
+- **Why:** Brief, pre-production step 3 and checkpoint C3.
+- **Status:** Stopped at C3. The human checks sync by ear; corrections go in the intervention log.

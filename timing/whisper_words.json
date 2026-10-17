@@ -1,0 +1,1855 @@
+{
+ "model": "medium.en",
+ "segments": [
+  {
+   "start": 30.0,
+   "end": 32.1,
+   "text": "Before looks good",
+   "words": [
+    {
+     "w": "Before",
+     "start": 30.0,
+     "end": 30.94,
+     "p": 0.075
+    },
+    {
+     "w": "looks",
+     "start": 30.94,
+     "end": 31.54,
+     "p": 0.583
+    },
+    {
+     "w": "good",
+     "start": 31.54,
+     "end": 32.1,
+     "p": 0.956
+    }
+   ]
+  },
+  {
+   "start": 32.1,
+   "end": 33.92,
+   "text": "Run it one more",
+   "words": [
+    {
+     "w": "Run",
+     "start": 32.1,
+     "end": 32.38,
+     "p": 0.058
+    },
+    {
+     "w": "it",
+     "start": 32.38,
+     "end": 32.88,
+     "p": 0.539
+    },
+    {
+     "w": "one",
+     "start": 32.88,
+     "end": 33.34,
+     "p": 0.739
+    },
+    {
+     "w": "more",
+     "start": 33.34,
+     "end": 33.92,
+     "p": 0.983
+    }
+   ]
+  },
+  {
+   "start": 33.92,
+   "end": 36.68,
+   "text": "Encore not my fault",
+   "words": [
+    {
+     "w": "Encore",
+     "start": 33.92,
+     "end": 34.9,
+     "p": 0.595
+    },
+    {
+     "w": "not",
+     "start": 34.9,
+     "end": 35.26,
+     "p": 0.282
+    },
+    {
+     "w": "my",
+     "start": 35.26,
+     "end": 35.74,
+     "p": 0.99
+    },
+    {
+     "w": "fault",
+     "start": 35.74,
+     "end": 36.68,
+     "p": 0.99
+    }
+   ]
+  },
+  {
+   "start": 38.0,
+   "end": 40.86,
+   "text": "Accept it all",
+   "words": [
+    {
+     "w": "Accept",
+     "start": 38.0,
+     "end": 38.72,
+     "p": 0.707
+    },
+    {
+     "w": "it",
+     "start": 38.72,
+     "end": 39.32,
+     "p": 0.937
+    },
+    {
+     "w": "all",
+     "start": 39.32,
+     "end": 40.86,
+     "p": 0.967
+    }
+   ]
+  },
+  {
+   "start": 42.0,
+   "end": 44.22,
+   "text": "Maybe someone wrote it",
+   "words": [
+    {
+     "w": "Maybe",
+     "start": 42.0,
+     "end": 42.78,
+     "p": 0.944
+    },
+    {
+     "w": "someone",
+     "start": 42.78,
+     "end": 43.32,
+     "p": 0.978
+    },
+    {
+     "w": "wrote",
+     "start": 43.32,
+     "end": 43.7,
+     "p": 0.949
+    },
+    {
+     "w": "it",
+     "start": 43.7,
+     "end": 44.22,
+     "p": 0.994
+    }
+   ]
+  },
+  {
+   "start": 44.22,
+   "end": 45.78,
+   "text": "Maybe no one did",
+   "words": [
+    {
+     "w": "Maybe",
+     "start": 44.22,
+     "end": 44.74,
+     "p": 0.693
+    },
+    {
+     "w": "no",
+     "start": 44.74,
+     "end": 45.1,
+     "p": 0.992
+    },
+    {
+     "w": "one",
+     "start": 45.1,
+     "end": 45.36,
+     "p": 0.977
+    },
+    {
+     "w": "did",
+     "start": 45.36,
+     "end": 45.78,
+     "p": 0.994
+    }
+   ]
+  },
+  {
+   "start": 45.78,
+   "end": 48.0,
+   "text": "Maybe it's the average",
+   "words": [
+    {
+     "w": "Maybe",
+     "start": 45.78,
+     "end": 46.74,
+     "p": 0.963
+    },
+    {
+     "w": "it's",
+     "start": 46.74,
+     "end": 47.12,
+     "p": 0.966
+    },
+    {
+     "w": "the",
+     "start": 47.12,
+     "end": 47.48,
+     "p": 0.994
+    },
+    {
+     "w": "average",
+     "start": 47.48,
+     "end": 48.0,
+     "p": 0.997
+    }
+   ]
+  },
+  {
+   "start": 48.0,
+   "end": 51.04,
+   "text": "Of everything we fed in the servers",
+   "words": [
+    {
+     "w": "Of",
+     "start": 48.0,
+     "end": 48.38,
+     "p": 0.256
+    },
+    {
+     "w": "everything",
+     "start": 48.38,
+     "end": 48.96,
+     "p": 0.988
+    },
+    {
+     "w": "we",
+     "start": 48.96,
+     "end": 49.28,
+     "p": 0.975
+    },
+    {
+     "w": "fed",
+     "start": 49.28,
+     "end": 49.76,
+     "p": 0.86
+    },
+    {
+     "w": "in",
+     "start": 49.76,
+     "end": 50.06,
+     "p": 0.28
+    },
+    {
+     "w": "the",
+     "start": 50.06,
+     "end": 50.36,
+     "p": 0.86
+    },
+    {
+     "w": "servers",
+     "start": 50.36,
+     "end": 51.04,
+     "p": 0.649
+    }
+   ]
+  },
+  {
+   "start": 51.04,
+   "end": 53.34,
+   "text": "Home like a lullaby",
+   "words": [
+    {
+     "w": "Home",
+     "start": 51.04,
+     "end": 51.62,
+     "p": 0.717
+    },
+    {
+     "w": "like",
+     "start": 51.62,
+     "end": 52.0,
+     "p": 0.963
+    },
+    {
+     "w": "a",
+     "start": 52.0,
+     "end": 52.34,
+     "p": 0.982
+    },
+    {
+     "w": "lullaby",
+     "start": 52.34,
+     "end": 53.34,
+     "p": 0.998
+    }
+   ]
+  },
+  {
+   "start": 53.34,
+   "end": 55.38,
+   "text": "While the numbers climb",
+   "words": [
+    {
+     "w": "While",
+     "start": 53.34,
+     "end": 53.96,
+     "p": 0.962
+    },
+    {
+     "w": "the",
+     "start": 53.96,
+     "end": 54.24,
+     "p": 0.993
+    },
+    {
+     "w": "numbers",
+     "start": 54.24,
+     "end": 54.6,
+     "p": 0.989
+    },
+    {
+     "w": "climb",
+     "start": 54.6,
+     "end": 55.38,
+     "p": 0.988
+    }
+   ]
+  },
+  {
+   "start": 55.38,
+   "end": 57.48,
+   "text": "To the neon sky",
+   "words": [
+    {
+     "w": "To",
+     "start": 55.38,
+     "end": 55.92,
+     "p": 0.393
+    },
+    {
+     "w": "the",
+     "start": 55.92,
+     "end": 56.22,
+     "p": 0.995
+    },
+    {
+     "w": "neon",
+     "start": 56.22,
+     "end": 56.66,
+     "p": 0.991
+    },
+    {
+     "w": "sky",
+     "start": 56.66,
+     "end": 57.48,
+     "p": 0.986
+    }
+   ]
+  },
+  {
+   "start": 57.48,
+   "end": 66.28,
+   "text": "We are the ghost in the machine Living in a world that's not what it seems",
+   "words": [
+    {
+     "w": "We",
+     "start": 57.48,
+     "end": 58.86,
+     "p": 0.077
+    },
+    {
+     "w": "are",
+     "start": 58.86,
+     "end": 59.88,
+     "p": 0.855
+    },
+    {
+     "w": "the",
+     "start": 59.88,
+     "end": 60.08,
+     "p": 0.959
+    },
+    {
+     "w": "ghost",
+     "start": 60.08,
+     "end": 60.3,
+     "p": 0.882
+    },
+    {
+     "w": "in",
+     "start": 60.3,
+     "end": 60.64,
+     "p": 0.916
+    },
+    {
+     "w": "the",
+     "start": 60.64,
+     "end": 60.88,
+     "p": 0.983
+    },
+    {
+     "w": "machine",
+     "start": 60.88,
+     "end": 61.64,
+     "p": 0.957
+    },
+    {
+     "w": "Living",
+     "start": 61.64,
+     "end": 63.12,
+     "p": 0.619
+    },
+    {
+     "w": "in",
+     "start": 63.12,
+     "end": 63.84,
+     "p": 0.992
+    },
+    {
+     "w": "a",
+     "start": 63.84,
+     "end": 64.08,
+     "p": 0.971
+    },
+    {
+     "w": "world",
+     "start": 64.08,
+     "end": 64.26,
+     "p": 0.998
+    },
+    {
+     "w": "that's",
+     "start": 64.26,
+     "end": 64.56,
+     "p": 0.907
+    },
+    {
+     "w": "not",
+     "start": 64.56,
+     "end": 64.88,
+     "p": 0.994
+    },
+    {
+     "w": "what",
+     "start": 64.88,
+     "end": 65.3,
+     "p": 0.991
+    },
+    {
+     "w": "it",
+     "start": 65.3,
+     "end": 65.76,
+     "p": 0.991
+    },
+    {
+     "w": "seems",
+     "start": 65.76,
+     "end": 66.28,
+     "p": 0.983
+    }
+   ]
+  },
+  {
+   "start": 66.28,
+   "end": 74.3,
+   "text": "Tokens falling like the rain Every answer sounds the same",
+   "words": [
+    {
+     "w": "Tokens",
+     "start": 66.28,
+     "end": 67.3,
+     "p": 0.331
+    },
+    {
+     "w": "falling",
+     "start": 67.3,
+     "end": 67.76,
+     "p": 0.932
+    },
+    {
+     "w": "like",
+     "start": 67.76,
+     "end": 68.4,
+     "p": 0.991
+    },
+    {
+     "w": "the",
+     "start": 68.4,
+     "end": 68.78,
+     "p": 0.991
+    },
+    {
+     "w": "rain",
+     "start": 68.78,
+     "end": 70.3,
+     "p": 0.974
+    },
+    {
+     "w": "Every",
+     "start": 70.3,
+     "end": 71.32,
+     "p": 0.962
+    },
+    {
+     "w": "answer",
+     "start": 71.32,
+     "end": 71.7,
+     "p": 0.949
+    },
+    {
+     "w": "sounds",
+     "start": 71.7,
+     "end": 72.32,
+     "p": 0.983
+    },
+    {
+     "w": "the",
+     "start": 72.32,
+     "end": 72.58,
+     "p": 0.972
+    },
+    {
+     "w": "same",
+     "start": 72.58,
+     "end": 74.3,
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 74.3,
+   "end": 81.26,
+   "text": "Oh, the lights are fading now Oh, but no one's looking down",
+   "words": [
+    {
+     "w": "Oh,",
+     "start": 74.3,
+     "end": 75.16,
+     "p": 0.466
+    },
+    {
+     "w": "the",
+     "start": 75.5,
+     "end": 75.74,
+     "p": 0.979
+    },
+    {
+     "w": "lights",
+     "start": 75.74,
+     "end": 76.0,
+     "p": 0.994
+    },
+    {
+     "w": "are",
+     "start": 76.0,
+     "end": 76.24,
+     "p": 0.996
+    },
+    {
+     "w": "fading",
+     "start": 76.24,
+     "end": 76.56,
+     "p": 0.975
+    },
+    {
+     "w": "now",
+     "start": 76.56,
+     "end": 77.6,
+     "p": 0.603
+    },
+    {
+     "w": "Oh,",
+     "start": 77.6,
+     "end": 78.96,
+     "p": 0.737
+    },
+    {
+     "w": "but",
+     "start": 79.36,
+     "end": 79.64,
+     "p": 0.973
+    },
+    {
+     "w": "no",
+     "start": 79.64,
+     "end": 79.92,
+     "p": 0.996
+    },
+    {
+     "w": "one's",
+     "start": 79.92,
+     "end": 80.22,
+     "p": 0.963
+    },
+    {
+     "w": "looking",
+     "start": 80.22,
+     "end": 80.56,
+     "p": 0.99
+    },
+    {
+     "w": "down",
+     "start": 80.56,
+     "end": 81.26,
+     "p": 0.999
+    }
+   ]
+  },
+  {
+   "start": 81.26,
+   "end": 85.76,
+   "text": "We're dancing in the data stream",
+   "words": [
+    {
+     "w": "We're",
+     "start": 81.26,
+     "end": 82.42,
+     "p": 0.35
+    },
+    {
+     "w": "dancing",
+     "start": 82.42,
+     "end": 82.92,
+     "p": 0.83
+    },
+    {
+     "w": "in",
+     "start": 82.92,
+     "end": 83.34,
+     "p": 0.961
+    },
+    {
+     "w": "the",
+     "start": 83.34,
+     "end": 83.74,
+     "p": 0.971
+    },
+    {
+     "w": "data",
+     "start": 83.74,
+     "end": 84.12,
+     "p": 0.673
+    },
+    {
+     "w": "stream",
+     "start": 84.12,
+     "end": 85.76,
+     "p": 0.716
+    }
+   ]
+  },
+  {
+   "start": 90.08,
+   "end": 92.76,
+   "text": "We are the ghost in the machine",
+   "words": [
+    {
+     "w": "We",
+     "start": 90.08,
+     "end": 90.78,
+     "p": 0.664
+    },
+    {
+     "w": "are",
+     "start": 90.78,
+     "end": 91.1,
+     "p": 0.992
+    },
+    {
+     "w": "the",
+     "start": 91.1,
+     "end": 91.34,
+     "p": 0.989
+    },
+    {
+     "w": "ghost",
+     "start": 91.34,
+     "end": 91.58,
+     "p": 0.877
+    },
+    {
+     "w": "in",
+     "start": 91.58,
+     "end": 91.86,
+     "p": 0.88
+    },
+    {
+     "w": "the",
+     "start": 91.86,
+     "end": 92.08,
+     "p": 0.972
+    },
+    {
+     "w": "machine",
+     "start": 92.08,
+     "end": 92.76,
+     "p": 0.986
+    }
+   ]
+  },
+  {
+   "start": 95.82,
+   "end": 99.62,
+   "text": "Merged a million lines and swore that it looked good",
+   "words": [
+    {
+     "w": "Merged",
+     "start": 95.82,
+     "end": 96.52,
+     "p": 0.811
+    },
+    {
+     "w": "a",
+     "start": 96.52,
+     "end": 96.72,
+     "p": 0.991
+    },
+    {
+     "w": "million",
+     "start": 96.72,
+     "end": 97.02,
+     "p": 0.994
+    },
+    {
+     "w": "lines",
+     "start": 97.02,
+     "end": 97.68,
+     "p": 0.933
+    },
+    {
+     "w": "and",
+     "start": 97.68,
+     "end": 97.9,
+     "p": 0.869
+    },
+    {
+     "w": "swore",
+     "start": 97.9,
+     "end": 98.3,
+     "p": 0.998
+    },
+    {
+     "w": "that",
+     "start": 98.3,
+     "end": 98.7,
+     "p": 0.985
+    },
+    {
+     "w": "it",
+     "start": 98.7,
+     "end": 98.88,
+     "p": 0.912
+    },
+    {
+     "w": "looked",
+     "start": 98.88,
+     "end": 99.08,
+     "p": 0.822
+    },
+    {
+     "w": "good",
+     "start": 99.08,
+     "end": 99.62,
+     "p": 0.998
+    }
+   ]
+  },
+  {
+   "start": 99.62,
+   "end": 103.44,
+   "text": "Hit regenerate until it said the things it should",
+   "words": [
+    {
+     "w": "Hit",
+     "start": 99.62,
+     "end": 100.28,
+     "p": 0.58
+    },
+    {
+     "w": "regenerate",
+     "start": 100.28,
+     "end": 101.12,
+     "p": 0.771
+    },
+    {
+     "w": "until",
+     "start": 101.12,
+     "end": 101.72,
+     "p": 0.761
+    },
+    {
+     "w": "it",
+     "start": 101.72,
+     "end": 101.96,
+     "p": 0.734
+    },
+    {
+     "w": "said",
+     "start": 101.96,
+     "end": 102.24,
+     "p": 0.983
+    },
+    {
+     "w": "the",
+     "start": 102.24,
+     "end": 102.44,
+     "p": 0.986
+    },
+    {
+     "w": "things",
+     "start": 102.44,
+     "end": 102.8,
+     "p": 0.996
+    },
+    {
+     "w": "it",
+     "start": 102.8,
+     "end": 102.96,
+     "p": 0.825
+    },
+    {
+     "w": "should",
+     "start": 102.96,
+     "end": 103.44,
+     "p": 0.998
+    }
+   ]
+  },
+  {
+   "start": 103.44,
+   "end": 107.38,
+   "text": "Bought a front row seat to watch the ending of the show",
+   "words": [
+    {
+     "w": "Bought",
+     "start": 103.44,
+     "end": 103.78,
+     "p": 0.856
+    },
+    {
+     "w": "a",
+     "start": 103.78,
+     "end": 104.08,
+     "p": 0.984
+    },
+    {
+     "w": "front",
+     "start": 104.08,
+     "end": 104.44,
+     "p": 0.995
+    },
+    {
+     "w": "row",
+     "start": 104.44,
+     "end": 104.78,
+     "p": 0.665
+    },
+    {
+     "w": "seat",
+     "start": 104.78,
+     "end": 105.14,
+     "p": 0.999
+    },
+    {
+     "w": "to",
+     "start": 105.14,
+     "end": 105.46,
+     "p": 0.963
+    },
+    {
+     "w": "watch",
+     "start": 105.46,
+     "end": 105.68,
+     "p": 0.999
+    },
+    {
+     "w": "the",
+     "start": 105.68,
+     "end": 106.0,
+     "p": 0.996
+    },
+    {
+     "w": "ending",
+     "start": 106.0,
+     "end": 106.34,
+     "p": 0.992
+    },
+    {
+     "w": "of",
+     "start": 106.34,
+     "end": 106.72,
+     "p": 0.994
+    },
+    {
+     "w": "the",
+     "start": 106.72,
+     "end": 106.86,
+     "p": 0.984
+    },
+    {
+     "w": "show",
+     "start": 106.86,
+     "end": 107.38,
+     "p": 0.998
+    }
+   ]
+  },
+  {
+   "start": 107.38,
+   "end": 111.5,
+   "text": "And every time they scored us, a little more would go",
+   "words": [
+    {
+     "w": "And",
+     "start": 107.38,
+     "end": 107.8,
+     "p": 0.387
+    },
+    {
+     "w": "every",
+     "start": 107.8,
+     "end": 108.26,
+     "p": 0.971
+    },
+    {
+     "w": "time",
+     "start": 108.26,
+     "end": 108.62,
+     "p": 0.877
+    },
+    {
+     "w": "they",
+     "start": 108.62,
+     "end": 108.78,
+     "p": 0.842
+    },
+    {
+     "w": "scored",
+     "start": 108.78,
+     "end": 109.1,
+     "p": 0.973
+    },
+    {
+     "w": "us,",
+     "start": 109.1,
+     "end": 109.44,
+     "p": 0.982
+    },
+    {
+     "w": "a",
+     "start": 109.54,
+     "end": 109.82,
+     "p": 0.963
+    },
+    {
+     "w": "little",
+     "start": 109.82,
+     "end": 110.2,
+     "p": 0.995
+    },
+    {
+     "w": "more",
+     "start": 110.2,
+     "end": 110.58,
+     "p": 0.995
+    },
+    {
+     "w": "would",
+     "start": 110.58,
+     "end": 110.82,
+     "p": 0.994
+    },
+    {
+     "w": "go",
+     "start": 110.82,
+     "end": 111.5,
+     "p": 0.999
+    }
+   ]
+  },
+  {
+   "start": 111.5,
+   "end": 115.04,
+   "text": "Have you heard this song before?",
+   "words": [
+    {
+     "w": "Have",
+     "start": 111.5,
+     "end": 112.1,
+     "p": 0.532
+    },
+    {
+     "w": "you",
+     "start": 112.1,
+     "end": 112.66,
+     "p": 0.998
+    },
+    {
+     "w": "heard",
+     "start": 112.66,
+     "end": 113.0,
+     "p": 0.986
+    },
+    {
+     "w": "this",
+     "start": 113.0,
+     "end": 113.52,
+     "p": 0.994
+    },
+    {
+     "w": "song",
+     "start": 113.52,
+     "end": 114.04,
+     "p": 0.999
+    },
+    {
+     "w": "before?",
+     "start": 114.04,
+     "end": 115.04,
+     "p": 0.993
+    }
+   ]
+  },
+  {
+   "start": 115.32,
+   "end": 118.98,
+   "text": "Looks good running one more encore",
+   "words": [
+    {
+     "w": "Looks",
+     "start": 115.32,
+     "end": 115.58,
+     "p": 0.946
+    },
+    {
+     "w": "good",
+     "start": 115.58,
+     "end": 116.02,
+     "p": 0.973
+    },
+    {
+     "w": "running",
+     "start": 116.02,
+     "end": 116.72,
+     "p": 0.216
+    },
+    {
+     "w": "one",
+     "start": 116.72,
+     "end": 117.4,
+     "p": 0.474
+    },
+    {
+     "w": "more",
+     "start": 117.4,
+     "end": 117.94,
+     "p": 0.997
+    },
+    {
+     "w": "encore",
+     "start": 117.94,
+     "end": 118.98,
+     "p": 0.819
+    }
+   ]
+  },
+  {
+   "start": 118.98,
+   "end": 122.84,
+   "text": "Maybe someone wrote it, maybe no one did",
+   "words": [
+    {
+     "w": "Maybe",
+     "start": 118.98,
+     "end": 119.4,
+     "p": 0.947
+    },
+    {
+     "w": "someone",
+     "start": 119.4,
+     "end": 120.2,
+     "p": 0.992
+    },
+    {
+     "w": "wrote",
+     "start": 120.2,
+     "end": 120.8,
+     "p": 0.99
+    },
+    {
+     "w": "it,",
+     "start": 120.8,
+     "end": 121.06,
+     "p": 0.984
+    },
+    {
+     "w": "maybe",
+     "start": 121.14,
+     "end": 121.38,
+     "p": 0.986
+    },
+    {
+     "w": "no",
+     "start": 121.38,
+     "end": 121.9,
+     "p": 0.997
+    },
+    {
+     "w": "one",
+     "start": 121.9,
+     "end": 122.38,
+     "p": 0.985
+    },
+    {
+     "w": "did",
+     "start": 122.38,
+     "end": 122.84,
+     "p": 0.998
+    }
+   ]
+  },
+  {
+   "start": 122.84,
+   "end": 126.8,
+   "text": "Maybe it's the average of everything we've fed",
+   "words": [
+    {
+     "w": "Maybe",
+     "start": 122.84,
+     "end": 123.32,
+     "p": 0.965
+    },
+    {
+     "w": "it's",
+     "start": 123.32,
+     "end": 123.72,
+     "p": 0.988
+    },
+    {
+     "w": "the",
+     "start": 123.72,
+     "end": 124.0,
+     "p": 0.996
+    },
+    {
+     "w": "average",
+     "start": 124.0,
+     "end": 124.6,
+     "p": 0.998
+    },
+    {
+     "w": "of",
+     "start": 124.6,
+     "end": 125.0,
+     "p": 0.996
+    },
+    {
+     "w": "everything",
+     "start": 125.0,
+     "end": 125.58,
+     "p": 0.996
+    },
+    {
+     "w": "we've",
+     "start": 125.58,
+     "end": 126.46,
+     "p": 0.704
+    },
+    {
+     "w": "fed",
+     "start": 126.46,
+     "end": 126.8,
+     "p": 0.967
+    }
+   ]
+  },
+  {
+   "start": 126.8,
+   "end": 130.66,
+   "text": "And the server's home like a lullaby",
+   "words": [
+    {
+     "w": "And",
+     "start": 126.8,
+     "end": 127.12,
+     "p": 0.944
+    },
+    {
+     "w": "the",
+     "start": 127.12,
+     "end": 127.42,
+     "p": 0.992
+    },
+    {
+     "w": "server's",
+     "start": 127.42,
+     "end": 128.44,
+     "p": 0.901
+    },
+    {
+     "w": "home",
+     "start": 128.44,
+     "end": 128.78,
+     "p": 0.951
+    },
+    {
+     "w": "like",
+     "start": 128.78,
+     "end": 129.06,
+     "p": 0.962
+    },
+    {
+     "w": "a",
+     "start": 129.06,
+     "end": 129.42,
+     "p": 0.979
+    },
+    {
+     "w": "lullaby",
+     "start": 129.42,
+     "end": 130.66,
+     "p": 0.999
+    }
+   ]
+  },
+  {
+   "start": 130.66,
+   "end": 134.42,
+   "text": "While the numbers climb to the neon sky",
+   "words": [
+    {
+     "w": "While",
+     "start": 130.66,
+     "end": 130.98,
+     "p": 0.008
+    },
+    {
+     "w": "the",
+     "start": 130.98,
+     "end": 131.28,
+     "p": 0.971
+    },
+    {
+     "w": "numbers",
+     "start": 131.28,
+     "end": 131.94,
+     "p": 0.921
+    },
+    {
+     "w": "climb",
+     "start": 131.94,
+     "end": 132.64,
+     "p": 0.982
+    },
+    {
+     "w": "to",
+     "start": 132.64,
+     "end": 132.94,
+     "p": 0.947
+    },
+    {
+     "w": "the",
+     "start": 132.94,
+     "end": 133.18,
+     "p": 0.993
+    },
+    {
+     "w": "neon",
+     "start": 133.18,
+     "end": 133.58,
+     "p": 0.876
+    },
+    {
+     "w": "sky",
+     "start": 133.58,
+     "end": 134.42,
+     "p": 0.925
+    }
+   ]
+  },
+  {
+   "start": 140.70000000000002,
+   "end": 143.36,
+   "text": "We are the ghosts in the machine",
+   "words": [
+    {
+     "w": "We",
+     "start": 140.7,
+     "end": 141.36,
+     "p": 0.661
+    },
+    {
+     "w": "are",
+     "start": 141.36,
+     "end": 141.7,
+     "p": 0.989
+    },
+    {
+     "w": "the",
+     "start": 141.7,
+     "end": 141.92,
+     "p": 0.984
+    },
+    {
+     "w": "ghosts",
+     "start": 141.92,
+     "end": 142.14,
+     "p": 0.93
+    },
+    {
+     "w": "in",
+     "start": 142.14,
+     "end": 142.44,
+     "p": 0.962
+    },
+    {
+     "w": "the",
+     "start": 142.44,
+     "end": 142.66,
+     "p": 0.959
+    },
+    {
+     "w": "machine",
+     "start": 142.66,
+     "end": 143.36,
+     "p": 0.806
+    }
+   ]
+  },
+  {
+   "start": 144.5,
+   "end": 147.52,
+   "text": "Living in a world that's not what it seems",
+   "words": [
+    {
+     "w": "Living",
+     "start": 144.5,
+     "end": 145.16,
+     "p": 0.651
+    },
+    {
+     "w": "in",
+     "start": 145.16,
+     "end": 145.6,
+     "p": 0.996
+    },
+    {
+     "w": "a",
+     "start": 145.6,
+     "end": 145.8,
+     "p": 0.987
+    },
+    {
+     "w": "world",
+     "start": 145.8,
+     "end": 146.02,
+     "p": 0.999
+    },
+    {
+     "w": "that's",
+     "start": 146.02,
+     "end": 146.34,
+     "p": 0.962
+    },
+    {
+     "w": "not",
+     "start": 146.34,
+     "end": 146.5,
+     "p": 0.998
+    },
+    {
+     "w": "what",
+     "start": 146.5,
+     "end": 146.78,
+     "p": 0.998
+    },
+    {
+     "w": "it",
+     "start": 146.78,
+     "end": 147.04,
+     "p": 0.99
+    },
+    {
+     "w": "seems",
+     "start": 147.04,
+     "end": 147.52,
+     "p": 0.992
+    }
+   ]
+  },
+  {
+   "start": 148.36,
+   "end": 152.06,
+   "text": "Tokens falling like the rain",
+   "words": [
+    {
+     "w": "Tokens",
+     "start": 148.36,
+     "end": 149.02,
+     "p": 0.771
+    },
+    {
+     "w": "falling",
+     "start": 149.02,
+     "end": 149.52,
+     "p": 0.916
+    },
+    {
+     "w": "like",
+     "start": 149.52,
+     "end": 150.12,
+     "p": 0.992
+    },
+    {
+     "w": "the",
+     "start": 150.12,
+     "end": 150.58,
+     "p": 0.578
+    },
+    {
+     "w": "rain",
+     "start": 150.58,
+     "end": 152.06,
+     "p": 0.996
+    }
+   ]
+  },
+  {
+   "start": 152.06,
+   "end": 155.48,
+   "text": "Every song just sounds the same",
+   "words": [
+    {
+     "w": "Every",
+     "start": 152.06,
+     "end": 152.94,
+     "p": 0.957
+    },
+    {
+     "w": "song",
+     "start": 152.94,
+     "end": 153.3,
+     "p": 0.945
+    },
+    {
+     "w": "just",
+     "start": 153.3,
+     "end": 153.48,
+     "p": 0.987
+    },
+    {
+     "w": "sounds",
+     "start": 153.48,
+     "end": 154.02,
+     "p": 0.982
+    },
+    {
+     "w": "the",
+     "start": 154.02,
+     "end": 154.3,
+     "p": 0.989
+    },
+    {
+     "w": "same",
+     "start": 154.3,
+     "end": 155.48,
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 156.3,
+   "end": 159.52,
+   "text": "We are the ghosts in the machine",
+   "words": [
+    {
+     "w": "We",
+     "start": 156.3,
+     "end": 156.96,
+     "p": 0.965
+    },
+    {
+     "w": "are",
+     "start": 156.96,
+     "end": 157.22,
+     "p": 0.998
+    },
+    {
+     "w": "the",
+     "start": 157.22,
+     "end": 157.38,
+     "p": 0.998
+    },
+    {
+     "w": "ghosts",
+     "start": 157.38,
+     "end": 157.68,
+     "p": 0.985
+    },
+    {
+     "w": "in",
+     "start": 157.68,
+     "end": 157.96,
+     "p": 0.998
+    },
+    {
+     "w": "the",
+     "start": 157.96,
+     "end": 158.2,
+     "p": 0.968
+    },
+    {
+     "w": "machine",
+     "start": 158.2,
+     "end": 159.52,
+     "p": 0.998
+    }
+   ]
+  },
+  {
+   "start": 159.52,
+   "end": 163.44,
+   "text": "Living in a world that's not what it seems",
+   "words": [
+    {
+     "w": "Living",
+     "start": 159.52,
+     "end": 160.48,
+     "p": 0.003
+    },
+    {
+     "w": "in",
+     "start": 160.48,
+     "end": 161.1,
+     "p": 0.983
+    },
+    {
+     "w": "a",
+     "start": 161.1,
+     "end": 161.34,
+     "p": 0.977
+    },
+    {
+     "w": "world",
+     "start": 161.34,
+     "end": 161.5,
+     "p": 0.993
+    },
+    {
+     "w": "that's",
+     "start": 161.5,
+     "end": 161.82,
+     "p": 0.918
+    },
+    {
+     "w": "not",
+     "start": 161.82,
+     "end": 162.0,
+     "p": 0.995
+    },
+    {
+     "w": "what",
+     "start": 162.0,
+     "end": 162.26,
+     "p": 0.995
+    },
+    {
+     "w": "it",
+     "start": 162.26,
+     "end": 162.56,
+     "p": 0.984
+    },
+    {
+     "w": "seems",
+     "start": 162.56,
+     "end": 163.44,
+     "p": 0.985
+    }
+   ]
+  },
+  {
+   "start": 163.44,
+   "end": 167.7,
+   "text": "Tokens falling like the rain",
+   "words": [
+    {
+     "w": "Tokens",
+     "start": 163.44,
+     "end": 164.5,
+     "p": 0.312
+    },
+    {
+     "w": "falling",
+     "start": 164.5,
+     "end": 164.98,
+     "p": 0.947
+    },
+    {
+     "w": "like",
+     "start": 164.98,
+     "end": 165.54,
+     "p": 0.991
+    },
+    {
+     "w": "the",
+     "start": 165.54,
+     "end": 166.02,
+     "p": 0.971
+    },
+    {
+     "w": "rain",
+     "start": 166.02,
+     "end": 167.7,
+     "p": 0.994
+    }
+   ]
+  },
+  {
+   "start": 167.7,
+   "end": 171.42,
+   "text": "Every song just sounds the same",
+   "words": [
+    {
+     "w": "Every",
+     "start": 167.7,
+     "end": 168.4,
+     "p": 0.911
+    },
+    {
+     "w": "song",
+     "start": 168.4,
+     "end": 168.78,
+     "p": 0.968
+    },
+    {
+     "w": "just",
+     "start": 168.78,
+     "end": 168.96,
+     "p": 0.927
+    },
+    {
+     "w": "sounds",
+     "start": 168.96,
+     "end": 169.48,
+     "p": 0.984
+    },
+    {
+     "w": "the",
+     "start": 169.48,
+     "end": 169.78,
+     "p": 0.986
+    },
+    {
+     "w": "same",
+     "start": 169.78,
+     "end": 171.42,
+     "p": 1.0
+    }
+   ]
+  },
+  {
+   "start": 171.42,
+   "end": 174.54,
+   "text": "Oh, the lights are fading now",
+   "words": [
+    {
+     "w": "Oh,",
+     "start": 171.42,
+     "end": 172.16,
+     "p": 0.545
+    },
+    {
+     "w": "the",
+     "start": 172.62,
+     "end": 172.88,
+     "p": 0.967
+    },
+    {
+     "w": "lights",
+     "start": 172.88,
+     "end": 173.12,
+     "p": 0.987
+    },
+    {
+     "w": "are",
+     "start": 173.12,
+     "end": 173.4,
+     "p": 0.994
+    },
+    {
+     "w": "fading",
+     "start": 173.4,
+     "end": 173.7,
+     "p": 0.987
+    },
+    {
+     "w": "now",
+     "start": 173.7,
+     "end": 174.54,
+     "p": 0.727
+    }
+   ]
+  },
+  {
+   "start": 174.54,
+   "end": 178.26,
+   "text": "Oh, oh, oh, but no one's looking down",
+   "words": [
+    {
+     "w": "Oh,",
+     "start": 174.54,
+     "end": 174.92,
+     "p": 0.606
+    },
+    {
+     "w": "oh,",
+     "start": 175.54,
+     "end": 175.54,
+     "p": 0.639
+    },
+    {
+     "w": "oh,",
+     "start": 175.54,
+     "end": 176.4,
+     "p": 0.915
+    },
+    {
+     "w": "but",
+     "start": 176.46,
+     "end": 176.68,
+     "p": 0.781
+    },
+    {
+     "w": "no",
+     "start": 176.68,
+     "end": 177.0,
+     "p": 0.993
+    },
+    {
+     "w": "one's",
+     "start": 177.0,
+     "end": 177.28,
+     "p": 0.97
+    },
+    {
+     "w": "looking",
+     "start": 177.28,
+     "end": 177.6,
+     "p": 0.971
+    },
+    {
+     "w": "down",
+     "start": 177.6,
+     "end": 178.26,
+     "p": 0.993
+    }
+   ]
+  },
+  {
+   "start": 178.26,
+   "end": 183.04,
+   "text": "Oh, oh, we're dancing in the data stream",
+   "words": [
+    {
+     "w": "Oh,",
+     "start": 178.26,
+     "end": 178.72,
+     "p": 0.837
+    },
+    {
+     "w": "oh,",
+     "start": 179.5,
+     "end": 179.5,
+     "p": 0.975
+    },
+    {
+     "w": "we're",
+     "start": 179.52,
+     "end": 179.54,
+     "p": 0.789
+    },
+    {
+     "w": "dancing",
+     "start": 179.54,
+     "end": 179.96,
+     "p": 0.981
+    },
+    {
+     "w": "in",
+     "start": 179.96,
+     "end": 180.38,
+     "p": 0.991
+    },
+    {
+     "w": "the",
+     "start": 180.38,
+     "end": 180.76,
+     "p": 0.972
+    },
+    {
+     "w": "data",
+     "start": 180.76,
+     "end": 181.14,
+     "p": 0.563
+    },
+    {
+     "w": "stream",
+     "start": 181.14,
+     "end": 183.04,
+     "p": 0.863
+    }
+   ]
+  },
+  {
+   "start": 187.12,
+   "end": 189.5,
+   "text": "We are the ghosts in the machine",
+   "words": [
+    {
+     "w": "We",
+     "start": 187.12,
+     "end": 187.76,
+     "p": 0.621
+    },
+    {
+     "w": "are",
+     "start": 187.76,
+     "end": 188.1,
+     "p": 0.957
+    },
+    {
+     "w": "the",
+     "start": 188.1,
+     "end": 188.28,
+     "p": 0.976
+    },
+    {
+     "w": "ghosts",
+     "start": 188.28,
+     "end": 188.6,
+     "p": 0.386
+    },
+    {
+     "w": "in",
+     "start": 188.6,
+     "end": 188.86,
+     "p": 0.955
+    },
+    {
+     "w": "the",
+     "start": 188.86,
+     "end": 189.06,
+     "p": 0.927
+    },
+    {
+     "w": "machine",
+     "start": 189.06,
+     "end": 189.5,
+     "p": 0.957
+    }
+   ]
+  }
+ ]
+}

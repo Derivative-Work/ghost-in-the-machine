@@ -1,0 +1,3627 @@
+{
+ "generated_by": "scripts/timing_map.py",
+ "audio": {
+  "file": "audio/track/Ghost in the Machine.wav",
+  "sha256": "78a7464cd1d077a6f9e6e416f080e290e3adaecbfad8b898ba36cfe39c79e53b",
+  "duration_s": 190.0,
+  "sample_rate": 48000
+ },
+ "tempo_bpm": 123.05,
+ "time_signature": "4/4 (assumed)",
+ "downbeat_phase": 2,
+ "beats": [
+  3.413,
+  3.924,
+  4.435,
+  4.923,
+  5.41,
+  5.898,
+  6.385,
+  6.873,
+  7.361,
+  7.848,
+  8.313,
+  8.777,
+  9.242,
+  9.706,
+  10.17,
+  10.635,
+  11.099,
+  11.564,
+  12.028,
+  12.516,
+  13.003,
+  13.491,
+  14.002,
+  14.489,
+  14.977,
+  15.464,
+  15.952,
+  16.44,
+  16.951,
+  17.438,
+  17.926,
+  18.413,
+  18.901,
+  19.389,
+  19.9,
+  20.387,
+  20.875,
+  21.362,
+  21.85,
+  22.338,
+  22.848,
+  23.336,
+  23.824,
+  24.311,
+  24.799,
+  25.287,
+  25.797,
+  26.285,
+  26.773,
+  27.283,
+  27.771,
+  28.259,
+  28.746,
+  29.234,
+  29.722,
+  30.209,
+  30.697,
+  31.184,
+  31.695,
+  32.183,
+  32.67,
+  33.158,
+  33.646,
+  34.133,
+  34.644,
+  35.132,
+  35.619,
+  36.107,
+  36.595,
+  37.082,
+  37.593,
+  38.081,
+  38.568,
+  39.056,
+  39.544,
+  40.031,
+  40.542,
+  41.03,
+  41.517,
+  42.005,
+  42.493,
+  42.98,
+  43.491,
+  43.979,
+  44.466,
+  44.977,
+  45.465,
+  45.952,
+  46.44,
+  46.951,
+  47.438,
+  47.926,
+  48.414,
+  48.901,
+  49.389,
+  49.876,
+  50.364,
+  50.852,
+  51.339,
+  51.827,
+  52.315,
+  52.802,
+  53.29,
+  53.777,
+  54.265,
+  54.776,
+  55.263,
+  55.751,
+  56.239,
+  56.726,
+  57.214,
+  57.725,
+  58.212,
+  58.7,
+  59.188,
+  59.675,
+  60.163,
+  60.674,
+  61.161,
+  61.649,
+  62.137,
+  62.624,
+  63.112,
+  63.599,
+  64.087,
+  64.575,
+  65.062,
+  65.55,
+  66.038,
+  66.525,
+  67.013,
+  67.5,
+  68.011,
+  68.476,
+  68.986,
+  69.451,
+  69.962,
+  70.449,
+  70.937,
+  71.425,
+  71.912,
+  72.4,
+  72.887,
+  73.375,
+  73.863,
+  74.35,
+  74.838,
+  75.326,
+  75.813,
+  76.301,
+  76.788,
+  77.276,
+  77.764,
+  78.251,
+  78.739,
+  79.226,
+  79.714,
+  80.202,
+  80.689,
+  81.177,
+  81.665,
+  82.152,
+  82.64,
+  83.127,
+  83.615,
+  84.103,
+  84.59,
+  85.078,
+  85.566,
+  86.053,
+  86.541,
+  87.028,
+  87.516,
+  88.004,
+  88.491,
+  88.979,
+  89.466,
+  89.954,
+  90.442,
+  90.929,
+  91.417,
+  91.905,
+  92.369,
+  92.857,
+  93.344,
+  93.832,
+  94.319,
+  94.807,
+  95.295,
+  95.782,
+  96.27,
+  96.758,
+  97.245,
+  97.733,
+  98.22,
+  98.708,
+  99.196,
+  99.683,
+  100.171,
+  100.659,
+  101.146,
+  101.611,
+  102.121,
+  102.609,
+  103.097,
+  103.561,
+  104.072,
+  104.536,
+  105.024,
+  105.511,
+  105.999,
+  106.487,
+  106.974,
+  107.462,
+  107.95,
+  108.437,
+  108.925,
+  109.412,
+  109.9,
+  110.388,
+  110.875,
+  111.363,
+  111.851,
+  112.338,
+  112.803,
+  113.29,
+  113.778,
+  114.265,
+  114.753,
+  115.241,
+  115.728,
+  116.216,
+  116.703,
+  117.191,
+  117.679,
+  118.143,
+  118.654,
+  119.142,
+  119.629,
+  120.117,
+  120.581,
+  121.069,
+  121.556,
+  122.044,
+  122.532,
+  123.019,
+  123.507,
+  123.995,
+  124.482,
+  124.97,
+  125.457,
+  125.945,
+  126.433,
+  126.92,
+  127.408,
+  127.896,
+  128.383,
+  128.871,
+  129.358,
+  129.846,
+  130.334,
+  130.821,
+  131.309,
+  131.796,
+  132.261,
+  132.748,
+  133.236,
+  133.724,
+  134.211,
+  134.699,
+  135.187,
+  135.651,
+  136.139,
+  136.626,
+  137.114,
+  137.601,
+  138.089,
+  138.577,
+  139.064,
+  139.552,
+  140.04,
+  140.527,
+  141.015,
+  141.502,
+  141.967,
+  142.454,
+  142.942,
+  143.43,
+  143.917,
+  144.405,
+  144.893,
+  145.357,
+  145.845,
+  146.332,
+  146.82,
+  147.307,
+  147.795,
+  148.283,
+  148.77,
+  149.235,
+  149.722,
+  150.21,
+  150.698,
+  151.185,
+  151.673,
+  152.16,
+  152.648,
+  153.112,
+  153.6,
+  154.088,
+  154.575,
+  155.063,
+  155.55,
+  156.015,
+  156.502,
+  156.99,
+  157.478,
+  157.965,
+  158.453,
+  158.941,
+  159.405,
+  159.893,
+  160.38,
+  160.868,
+  161.355,
+  161.82,
+  162.307,
+  162.795,
+  163.283,
+  163.747,
+  164.235,
+  164.722,
+  165.21,
+  165.698,
+  166.185,
+  166.65,
+  167.137,
+  167.625,
+  168.112,
+  168.6,
+  169.088,
+  169.552,
+  170.04,
+  170.527,
+  171.015,
+  171.503,
+  171.99,
+  172.455,
+  172.942,
+  173.43,
+  173.917,
+  174.405,
+  174.869,
+  175.357,
+  175.845,
+  176.332,
+  176.82,
+  177.284,
+  177.772,
+  178.26,
+  178.747,
+  179.212,
+  179.699,
+  180.187,
+  180.674,
+  181.139,
+  181.626,
+  182.114
+ ],
+ "downbeats": [
+  4.435,
+  6.385,
+  8.313,
+  10.17,
+  12.028,
+  14.002,
+  15.952,
+  17.926,
+  19.9,
+  21.85,
+  23.824,
+  25.797,
+  27.771,
+  29.722,
+  31.695,
+  33.646,
+  35.619,
+  37.593,
+  39.544,
+  41.517,
+  43.491,
+  45.465,
+  47.438,
+  49.389,
+  51.339,
+  53.29,
+  55.263,
+  57.214,
+  59.188,
+  61.161,
+  63.112,
+  65.062,
+  67.013,
+  68.986,
+  70.937,
+  72.887,
+  74.838,
+  76.788,
+  78.739,
+  80.689,
+  82.64,
+  84.59,
+  86.541,
+  88.491,
+  90.442,
+  92.369,
+  94.319,
+  96.27,
+  98.22,
+  100.171,
+  102.121,
+  104.072,
+  105.999,
+  107.95,
+  109.9,
+  111.851,
+  113.778,
+  115.728,
+  117.679,
+  119.629,
+  121.556,
+  123.507,
+  125.457,
+  127.408,
+  129.358,
+  131.309,
+  133.236,
+  135.187,
+  137.114,
+  139.064,
+  141.015,
+  142.942,
+  144.893,
+  146.82,
+  148.77,
+  150.698,
+  152.648,
+  154.575,
+  156.502,
+  158.453,
+  160.38,
+  162.307,
+  164.235,
+  166.185,
+  168.112,
+  170.04,
+  171.99,
+  173.917,
+  175.845,
+  177.772,
+  179.699,
+  181.626
+ ],
+ "bars": [
+  {
+   "index": 1,
+   "start": 4.435,
+   "end": 6.385
+  },
+  {
+   "index": 2,
+   "start": 6.385,
+   "end": 8.313
+  },
+  {
+   "index": 3,
+   "start": 8.313,
+   "end": 10.17
+  },
+  {
+   "index": 4,
+   "start": 10.17,
+   "end": 12.028
+  },
+  {
+   "index": 5,
+   "start": 12.028,
+   "end": 14.002
+  },
+  {
+   "index": 6,
+   "start": 14.002,
+   "end": 15.952
+  },
+  {
+   "index": 7,
+   "start": 15.952,
+   "end": 17.926
+  },
+  {
+   "index": 8,
+   "start": 17.926,
+   "end": 19.9
+  },
+  {
+   "index": 9,
+   "start": 19.9,
+   "end": 21.85
+  },
+  {
+   "index": 10,
+   "start": 21.85,
+   "end": 23.824
+  },
+  {
+   "index": 11,
+   "start": 23.824,
+   "end": 25.797
+  },
+  {
+   "index": 12,
+   "start": 25.797,
+   "end": 27.771
+  },
+  {
+   "index": 13,
+   "start": 27.771,
+   "end": 29.722
+  },
+  {
+   "index": 14,
+   "start": 29.722,
+   "end": 31.695
+  },
+  {
+   "index": 15,
+   "start": 31.695,
+   "end": 33.646
+  },
+  {
+   "index": 16,
+   "start": 33.646,
+   "end": 35.619
+  },
+  {
+   "index": 17,
+   "start": 35.619,
+   "end": 37.593
+  },
+  {
+   "index": 18,
+   "start": 37.593,
+   "end": 39.544
+  },
+  {
+   "index": 19,
+   "start": 39.544,
+   "end": 41.517
+  },
+  {
+   "index": 20,
+   "start": 41.517,
+   "end": 43.491
+  },
+  {
+   "index": 21,
+   "start": 43.491,
+   "end": 45.465
+  },
+  {
+   "index": 22,
+   "start": 45.465,
+   "end": 47.438
+  },
+  {
+   "index": 23,
+   "start": 47.438,
+   "end": 49.389
+  },
+  {
+   "index": 24,
+   "start": 49.389,
+   "end": 51.339
+  },
+  {
+   "index": 25,
+   "start": 51.339,
+   "end": 53.29
+  },
+  {
+   "index": 26,
+   "start": 53.29,
+   "end": 55.263
+  },
+  {
+   "index": 27,
+   "start": 55.263,
+   "end": 57.214
+  },
+  {
+   "index": 28,
+   "start": 57.214,
+   "end": 59.188
+  },
+  {
+   "index": 29,
+   "start": 59.188,
+   "end": 61.161
+  },
+  {
+   "index": 30,
+   "start": 61.161,
+   "end": 63.112
+  },
+  {
+   "index": 31,
+   "start": 63.112,
+   "end": 65.062
+  },
+  {
+   "index": 32,
+   "start": 65.062,
+   "end": 67.013
+  },
+  {
+   "index": 33,
+   "start": 67.013,
+   "end": 68.986
+  },
+  {
+   "index": 34,
+   "start": 68.986,
+   "end": 70.937
+  },
+  {
+   "index": 35,
+   "start": 70.937,
+   "end": 72.887
+  },
+  {
+   "index": 36,
+   "start": 72.887,
+   "end": 74.838
+  },
+  {
+   "index": 37,
+   "start": 74.838,
+   "end": 76.788
+  },
+  {
+   "index": 38,
+   "start": 76.788,
+   "end": 78.739
+  },
+  {
+   "index": 39,
+   "start": 78.739,
+   "end": 80.689
+  },
+  {
+   "index": 40,
+   "start": 80.689,
+   "end": 82.64
+  },
+  {
+   "index": 41,
+   "start": 82.64,
+   "end": 84.59
+  },
+  {
+   "index": 42,
+   "start": 84.59,
+   "end": 86.541
+  },
+  {
+   "index": 43,
+   "start": 86.541,
+   "end": 88.491
+  },
+  {
+   "index": 44,
+   "start": 88.491,
+   "end": 90.442
+  },
+  {
+   "index": 45,
+   "start": 90.442,
+   "end": 92.369
+  },
+  {
+   "index": 46,
+   "start": 92.369,
+   "end": 94.319
+  },
+  {
+   "index": 47,
+   "start": 94.319,
+   "end": 96.27
+  },
+  {
+   "index": 48,
+   "start": 96.27,
+   "end": 98.22
+  },
+  {
+   "index": 49,
+   "start": 98.22,
+   "end": 100.171
+  },
+  {
+   "index": 50,
+   "start": 100.171,
+   "end": 102.121
+  },
+  {
+   "index": 51,
+   "start": 102.121,
+   "end": 104.072
+  },
+  {
+   "index": 52,
+   "start": 104.072,
+   "end": 105.999
+  },
+  {
+   "index": 53,
+   "start": 105.999,
+   "end": 107.95
+  },
+  {
+   "index": 54,
+   "start": 107.95,
+   "end": 109.9
+  },
+  {
+   "index": 55,
+   "start": 109.9,
+   "end": 111.851
+  },
+  {
+   "index": 56,
+   "start": 111.851,
+   "end": 113.778
+  },
+  {
+   "index": 57,
+   "start": 113.778,
+   "end": 115.728
+  },
+  {
+   "index": 58,
+   "start": 115.728,
+   "end": 117.679
+  },
+  {
+   "index": 59,
+   "start": 117.679,
+   "end": 119.629
+  },
+  {
+   "index": 60,
+   "start": 119.629,
+   "end": 121.556
+  },
+  {
+   "index": 61,
+   "start": 121.556,
+   "end": 123.507
+  },
+  {
+   "index": 62,
+   "start": 123.507,
+   "end": 125.457
+  },
+  {
+   "index": 63,
+   "start": 125.457,
+   "end": 127.408
+  },
+  {
+   "index": 64,
+   "start": 127.408,
+   "end": 129.358
+  },
+  {
+   "index": 65,
+   "start": 129.358,
+   "end": 131.309
+  },
+  {
+   "index": 66,
+   "start": 131.309,
+   "end": 133.236
+  },
+  {
+   "index": 67,
+   "start": 133.236,
+   "end": 135.187
+  },
+  {
+   "index": 68,
+   "start": 135.187,
+   "end": 137.114
+  },
+  {
+   "index": 69,
+   "start": 137.114,
+   "end": 139.064
+  },
+  {
+   "index": 70,
+   "start": 139.064,
+   "end": 141.015
+  },
+  {
+   "index": 71,
+   "start": 141.015,
+   "end": 142.942
+  },
+  {
+   "index": 72,
+   "start": 142.942,
+   "end": 144.893
+  },
+  {
+   "index": 73,
+   "start": 144.893,
+   "end": 146.82
+  },
+  {
+   "index": 74,
+   "start": 146.82,
+   "end": 148.77
+  },
+  {
+   "index": 75,
+   "start": 148.77,
+   "end": 150.698
+  },
+  {
+   "index": 76,
+   "start": 150.698,
+   "end": 152.648
+  },
+  {
+   "index": 77,
+   "start": 152.648,
+   "end": 154.575
+  },
+  {
+   "index": 78,
+   "start": 154.575,
+   "end": 156.502
+  },
+  {
+   "index": 79,
+   "start": 156.502,
+   "end": 158.453
+  },
+  {
+   "index": 80,
+   "start": 158.453,
+   "end": 160.38
+  },
+  {
+   "index": 81,
+   "start": 160.38,
+   "end": 162.307
+  },
+  {
+   "index": 82,
+   "start": 162.307,
+   "end": 164.235
+  },
+  {
+   "index": 83,
+   "start": 164.235,
+   "end": 166.185
+  },
+  {
+   "index": 84,
+   "start": 166.185,
+   "end": 168.112
+  },
+  {
+   "index": 85,
+   "start": 168.112,
+   "end": 170.04
+  },
+  {
+   "index": 86,
+   "start": 170.04,
+   "end": 171.99
+  },
+  {
+   "index": 87,
+   "start": 171.99,
+   "end": 173.917
+  },
+  {
+   "index": 88,
+   "start": 173.917,
+   "end": 175.845
+  },
+  {
+   "index": 89,
+   "start": 175.845,
+   "end": 177.772
+  },
+  {
+   "index": 90,
+   "start": 177.772,
+   "end": 179.699
+  },
+  {
+   "index": 91,
+   "start": 179.699,
+   "end": 181.626
+  },
+  {
+   "index": 92,
+   "start": 181.626,
+   "end": 190.0
+  }
+ ],
+ "sections": [
+  {
+   "name": "Intro",
+   "start": 0.0,
+   "end": 12.028
+  },
+  {
+   "name": "Verse 1",
+   "note": null,
+   "start": 12.028,
+   "first_word": 12.013,
+   "last_word": 27.729,
+   "lines": [
+    "Every screen is glowing, every heart is on display",
+    "We fed the machine our secrets, now it tells us what to say",
+    "Never read the terms, we just agreed to every line",
+    "Gave it half a wish and blamed it for not reading minds"
+   ],
+   "end": 27.771
+  },
+  {
+   "name": "Bridge 1",
+   "note": null,
+   "start": 27.771,
+   "first_word": 27.729,
+   "last_word": 49.832,
+   "lines": [
+    "Have you heard this song before?",
+    "Looks good, run it, one more encore",
+    "Not my fault, accept it all",
+    "(beat)",
+    "Maybe someone wrote it, maybe no one did",
+    "Maybe it\u2019s the average of everything we fed"
+   ],
+   "end": 49.389
+  },
+  {
+   "name": "Pre-Chorus 1",
+   "note": null,
+   "start": 49.389,
+   "first_word": 49.872,
+   "last_word": 57.06,
+   "lines": [
+    "And the servers hum like a lullaby",
+    "While the numbers climb to the neon sky"
+   ],
+   "end": 59.188
+  },
+  {
+   "name": "Chorus 1",
+   "note": null,
+   "start": 59.188,
+   "first_word": 59.403,
+   "last_word": 92.698,
+   "lines": [
+    "We are the ghost in the machine",
+    "Living in a world that\u2019s not what it seems",
+    "Tokens falling like the rain",
+    "Every answer sounds the same",
+    "Oh-oh, the lights are fading out",
+    "Oh-oh, but no one\u2019s looking down",
+    "We\u2019re dancing in the data stream",
+    "We are the ghost in the machine"
+   ],
+   "end": 96.27
+  },
+  {
+   "name": "Verse 2",
+   "note": null,
+   "start": 96.27,
+   "first_word": 96.221,
+   "last_word": 110.917,
+   "lines": [
+    "Merged a million lines and swore that it looked good",
+    "Hit regenerate until it said the things it should",
+    "Bought a front-row seat to watch the ending of the show",
+    "And every time they scored us, a little more would go"
+   ],
+   "end": 111.851
+  },
+  {
+   "name": "Bridge 2",
+   "note": "music drops out",
+   "start": 111.851,
+   "first_word": 111.818,
+   "last_word": 126.894,
+   "lines": [
+    "Have you heard this song before?",
+    "Looks good, run it, one more encore",
+    "Maybe someone wrote it, maybe no one did",
+    "Maybe it\u2019s the average of everything we fed"
+   ],
+   "end": 125.457
+  },
+  {
+   "name": "Pre-Chorus 2",
+   "note": null,
+   "start": 125.457,
+   "first_word": 126.954,
+   "last_word": 134.421,
+   "lines": [
+    "And the servers hum like a lullaby",
+    "While the numbers climb to the neon sky"
+   ],
+   "end": 141.015
+  },
+  {
+   "name": "Chorus 2",
+   "note": null,
+   "start": 141.015,
+   "first_word": 141.209,
+   "last_word": 154.403,
+   "lines": [
+    "We are the ghost in the machine",
+    "Living in a world that\u2019s not what it seems",
+    "Tokens falling like the rain",
+    "Every song just sounds the same"
+   ],
+   "end": 156.502
+  },
+  {
+   "name": "Final Chorus",
+   "note": "beat slams back",
+   "start": 156.502,
+   "first_word": 156.725,
+   "last_word": 189.76,
+   "lines": [
+    "We are the ghost in the machine",
+    "Living in a world that\u2019s not what it seems",
+    "Tokens falling like the rain",
+    "Every song just sounds the same",
+    "Oh-oh, the lights are fading out",
+    "Oh-oh, but no one\u2019s looking down",
+    "We\u2019re dancing in the data stream",
+    "We are the ghost in the machine"
+   ],
+   "end": 189.76
+  },
+  {
+   "name": "Outro",
+   "start": 189.76,
+   "end": 190.0
+  }
+ ],
+ "events": {
+  "first_vocal": 12.013,
+  "bridge1_beat_gap": {
+   "start": 39.702,
+   "end": 42.425
+  },
+  "dropouts": [
+   {
+    "start": 0.0,
+    "end": 3.297,
+    "sections": [
+     "Intro"
+    ],
+    "full": false
+   },
+   {
+    "start": 4.528,
+    "end": 11.773,
+    "sections": [
+     "Intro"
+    ],
+    "full": false
+   },
+   {
+    "start": 43.816,
+    "end": 51.061,
+    "sections": [
+     "Bridge 1",
+     "Pre-Chorus 1"
+    ],
+    "full": false
+   },
+   {
+    "start": 90.511,
+    "end": 92.183,
+    "sections": [
+     "Chorus 1"
+    ],
+    "full": true
+   },
+   {
+    "start": 127.849,
+    "end": 134.885,
+    "sections": [
+     "Pre-Chorus 2"
+    ],
+    "full": false
+   },
+   {
+    "start": 186.549,
+    "end": 189.986,
+    "sections": [
+     "Final Chorus",
+     "Outro"
+    ],
+    "full": true
+   }
+  ],
+  "bridge2_dropout": null,
+  "bridge2_dropout_note": "No music dropout in Bridge 2 despite the lyric tag; see dropouts for where Suno put them.",
+  "final_chorus_return": {
+   "vocal": 156.725,
+   "downbeat": 156.502,
+   "bass_return": 158.523
+  },
+  "music_end": 187.153,
+  "last_line": {
+   "start": 187.638,
+   "end": 189.76
+  }
+ },
+ "words": [
+  {
+   "text": "Every",
+   "start": 12.013,
+   "end": 12.313,
+   "score": 0.654,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "screen",
+   "start": 12.393,
+   "end": 12.733,
+   "score": 0.862,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "is",
+   "start": 12.773,
+   "end": 12.874,
+   "score": 0.663,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "glowing,",
+   "start": 12.934,
+   "end": 13.434,
+   "score": 0.519,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "every",
+   "start": 13.574,
+   "end": 13.815,
+   "score": 0.682,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "heart",
+   "start": 13.955,
+   "end": 14.255,
+   "score": 0.619,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "is",
+   "start": 14.315,
+   "end": 14.455,
+   "score": 0.407,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "on",
+   "start": 14.555,
+   "end": 14.675,
+   "score": 0.758,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "display",
+   "start": 14.695,
+   "end": 15.256,
+   "score": 0.871,
+   "section": "Verse 1",
+   "line": 0
+  },
+  {
+   "text": "We",
+   "start": 15.456,
+   "end": 15.536,
+   "score": 0.862,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "fed",
+   "start": 15.636,
+   "end": 15.877,
+   "score": 0.706,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "the",
+   "start": 15.917,
+   "end": 16.017,
+   "score": 0.788,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "machine",
+   "start": 16.137,
+   "end": 16.678,
+   "score": 0.687,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "our",
+   "start": 16.718,
+   "end": 16.798,
+   "score": 0.08,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "secrets,",
+   "start": 16.898,
+   "end": 17.338,
+   "score": 0.54,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "now",
+   "start": 17.418,
+   "end": 17.619,
+   "score": 0.922,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "it",
+   "start": 17.719,
+   "end": 17.799,
+   "score": 0.427,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "tells",
+   "start": 17.859,
+   "end": 18.179,
+   "score": 0.891,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "us",
+   "start": 18.219,
+   "end": 18.319,
+   "score": 0.917,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "what",
+   "start": 18.399,
+   "end": 18.54,
+   "score": 0.805,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "to",
+   "start": 18.62,
+   "end": 18.7,
+   "score": 0.76,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "say",
+   "start": 18.86,
+   "end": 19.2,
+   "score": 0.883,
+   "section": "Verse 1",
+   "line": 1
+  },
+  {
+   "text": "Never",
+   "start": 19.841,
+   "end": 20.201,
+   "score": 0.532,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "read",
+   "start": 20.341,
+   "end": 20.542,
+   "score": 0.364,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "the",
+   "start": 20.562,
+   "end": 20.662,
+   "score": 0.243,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "terms,",
+   "start": 20.782,
+   "end": 21.102,
+   "score": 0.854,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "we",
+   "start": 21.122,
+   "end": 21.202,
+   "score": 0.579,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "just",
+   "start": 21.302,
+   "end": 21.563,
+   "score": 0.731,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "agreed",
+   "start": 21.623,
+   "end": 22.023,
+   "score": 0.533,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "to",
+   "start": 22.043,
+   "end": 22.163,
+   "score": 0.498,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "every",
+   "start": 22.404,
+   "end": 22.644,
+   "score": 0.701,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "line",
+   "start": 22.784,
+   "end": 23.425,
+   "score": 0.247,
+   "section": "Verse 1",
+   "line": 2
+  },
+  {
+   "text": "Gave",
+   "start": 23.765,
+   "end": 24.065,
+   "score": 0.158,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "it",
+   "start": 24.085,
+   "end": 24.226,
+   "score": 0.11,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "half",
+   "start": 24.286,
+   "end": 24.486,
+   "score": 0.422,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "a",
+   "start": 24.586,
+   "end": 24.606,
+   "score": 0.261,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "wish",
+   "start": 24.726,
+   "end": 25.006,
+   "score": 0.55,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "and",
+   "start": 25.046,
+   "end": 25.166,
+   "score": 0.262,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "blamed",
+   "start": 25.227,
+   "end": 25.547,
+   "score": 0.48,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "it",
+   "start": 25.567,
+   "end": 25.627,
+   "score": 0.106,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "for",
+   "start": 25.687,
+   "end": 25.887,
+   "score": 0.789,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "not",
+   "start": 25.987,
+   "end": 26.168,
+   "score": 0.852,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "reading",
+   "start": 26.268,
+   "end": 26.628,
+   "score": 0.545,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "minds",
+   "start": 26.708,
+   "end": 27.729,
+   "score": 0.371,
+   "section": "Verse 1",
+   "line": 3
+  },
+  {
+   "text": "Have",
+   "start": 27.729,
+   "end": 28.25,
+   "score": 0.087,
+   "section": "Bridge 1",
+   "line": 0
+  },
+  {
+   "text": "you",
+   "start": 28.27,
+   "end": 28.37,
+   "score": 0.474,
+   "section": "Bridge 1",
+   "line": 0
+  },
+  {
+   "text": "heard",
+   "start": 28.69,
+   "end": 28.991,
+   "score": 0.534,
+   "section": "Bridge 1",
+   "line": 0
+  },
+  {
+   "text": "this",
+   "start": 29.191,
+   "end": 29.411,
+   "score": 0.605,
+   "section": "Bridge 1",
+   "line": 0
+  },
+  {
+   "text": "song",
+   "start": 29.651,
+   "end": 30.032,
+   "score": 0.827,
+   "section": "Bridge 1",
+   "line": 0
+  },
+  {
+   "text": "before?",
+   "start": 30.172,
+   "end": 31.013,
+   "score": 0.44,
+   "section": "Bridge 1",
+   "line": 0
+  },
+  {
+   "text": "Looks",
+   "start": 31.173,
+   "end": 31.513,
+   "score": 0.685,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "good,",
+   "start": 31.633,
+   "end": 31.914,
+   "score": 0.152,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "run",
+   "start": 32.154,
+   "end": 32.334,
+   "score": 0.721,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "it,",
+   "start": 32.694,
+   "end": 32.754,
+   "score": 0.168,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "one",
+   "start": 33.195,
+   "end": 33.355,
+   "score": 0.935,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "more",
+   "start": 33.615,
+   "end": 33.836,
+   "score": 0.728,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "encore",
+   "start": 34.176,
+   "end": 34.957,
+   "score": 0.275,
+   "section": "Bridge 1",
+   "line": 1
+  },
+  {
+   "text": "Not",
+   "start": 35.077,
+   "end": 35.237,
+   "score": 0.317,
+   "section": "Bridge 1",
+   "line": 2
+  },
+  {
+   "text": "my",
+   "start": 35.337,
+   "end": 35.477,
+   "score": 0.477,
+   "section": "Bridge 1",
+   "line": 2
+  },
+  {
+   "text": "fault,",
+   "start": 35.758,
+   "end": 38.18,
+   "score": 0.283,
+   "section": "Bridge 1",
+   "line": 2
+  },
+  {
+   "text": "accept",
+   "start": 38.3,
+   "end": 39.021,
+   "score": 0.477,
+   "section": "Bridge 1",
+   "line": 2
+  },
+  {
+   "text": "it",
+   "start": 39.121,
+   "end": 39.301,
+   "score": 0.48,
+   "section": "Bridge 1",
+   "line": 2
+  },
+  {
+   "text": "all",
+   "start": 39.401,
+   "end": 39.702,
+   "score": 0.037,
+   "section": "Bridge 1",
+   "line": 2
+  },
+  {
+   "text": "Maybe",
+   "start": 42.425,
+   "end": 42.785,
+   "score": 0.59,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "someone",
+   "start": 42.905,
+   "end": 43.366,
+   "score": 0.505,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "wrote",
+   "start": 43.386,
+   "end": 43.786,
+   "score": 0.354,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "it,",
+   "start": 43.786,
+   "end": 43.906,
+   "score": 0.089,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "maybe",
+   "start": 44.407,
+   "end": 44.747,
+   "score": 0.555,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "no",
+   "start": 44.907,
+   "end": 45.007,
+   "score": 0.878,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "one",
+   "start": 45.228,
+   "end": 45.368,
+   "score": 0.52,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "did",
+   "start": 45.408,
+   "end": 45.588,
+   "score": 0.321,
+   "section": "Bridge 1",
+   "line": 4
+  },
+  {
+   "text": "Maybe",
+   "start": 46.389,
+   "end": 46.729,
+   "score": 0.547,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "it\u2019s",
+   "start": 46.909,
+   "end": 47.03,
+   "score": 0.345,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "the",
+   "start": 47.11,
+   "end": 47.21,
+   "score": 0.167,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "average",
+   "start": 47.51,
+   "end": 48.131,
+   "score": 0.343,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "of",
+   "start": 48.171,
+   "end": 48.351,
+   "score": 0.558,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "everything",
+   "start": 48.451,
+   "end": 49.072,
+   "score": 0.745,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "we",
+   "start": 49.112,
+   "end": 49.192,
+   "score": 0.47,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "fed",
+   "start": 49.312,
+   "end": 49.832,
+   "score": 0.528,
+   "section": "Bridge 1",
+   "line": 5
+  },
+  {
+   "text": "And",
+   "start": 49.872,
+   "end": 50.053,
+   "score": 0.324,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 50.053,
+   "end": 50.133,
+   "score": 0.013,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "servers",
+   "start": 50.273,
+   "end": 51.234,
+   "score": 0.449,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "hum",
+   "start": 51.314,
+   "end": 51.694,
+   "score": 0.241,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "like",
+   "start": 51.754,
+   "end": 52.055,
+   "score": 0.224,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "a",
+   "start": 52.095,
+   "end": 52.115,
+   "score": 0.612,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "lullaby",
+   "start": 52.275,
+   "end": 52.876,
+   "score": 0.259,
+   "section": "Pre-Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "While",
+   "start": 53.737,
+   "end": 53.997,
+   "score": 0.243,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "the",
+   "start": 53.997,
+   "end": 54.077,
+   "score": 0.085,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "numbers",
+   "start": 54.237,
+   "end": 54.617,
+   "score": 0.75,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "climb",
+   "start": 54.678,
+   "end": 55.719,
+   "score": 0.177,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "to",
+   "start": 55.779,
+   "end": 55.859,
+   "score": 0.37,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "the",
+   "start": 55.959,
+   "end": 56.059,
+   "score": 0.224,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "neon",
+   "start": 56.179,
+   "end": 56.76,
+   "score": 0.694,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "sky",
+   "start": 56.84,
+   "end": 57.06,
+   "score": 0.538,
+   "section": "Pre-Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "We",
+   "start": 59.403,
+   "end": 59.543,
+   "score": 0.36,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "are",
+   "start": 59.603,
+   "end": 59.763,
+   "score": 0.031,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 59.883,
+   "end": 59.983,
+   "score": 0.021,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "ghost",
+   "start": 60.103,
+   "end": 60.384,
+   "score": 0.504,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "in",
+   "start": 60.424,
+   "end": 60.524,
+   "score": 0.647,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 60.604,
+   "end": 60.704,
+   "score": 0.159,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "machine",
+   "start": 60.824,
+   "end": 62.426,
+   "score": 0.658,
+   "section": "Chorus 1",
+   "line": 0
+  },
+  {
+   "text": "Living",
+   "start": 62.846,
+   "end": 63.567,
+   "score": 0.567,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "in",
+   "start": 63.627,
+   "end": 63.807,
+   "score": 0.613,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "a",
+   "start": 63.807,
+   "end": 63.827,
+   "score": 0.002,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "world",
+   "start": 63.847,
+   "end": 63.947,
+   "score": 0.094,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "that\u2019s",
+   "start": 63.947,
+   "end": 64.468,
+   "score": 0.298,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "not",
+   "start": 64.548,
+   "end": 64.788,
+   "score": 0.355,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "what",
+   "start": 65.008,
+   "end": 65.289,
+   "score": 0.245,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "it",
+   "start": 65.349,
+   "end": 65.449,
+   "score": 0.045,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "seems",
+   "start": 65.729,
+   "end": 66.51,
+   "score": 0.473,
+   "section": "Chorus 1",
+   "line": 1
+  },
+  {
+   "text": "Tokens",
+   "start": 66.71,
+   "end": 67.391,
+   "score": 0.485,
+   "section": "Chorus 1",
+   "line": 2
+  },
+  {
+   "text": "falling",
+   "start": 67.451,
+   "end": 67.952,
+   "score": 0.533,
+   "section": "Chorus 1",
+   "line": 2
+  },
+  {
+   "text": "like",
+   "start": 67.952,
+   "end": 68.432,
+   "score": 0.237,
+   "section": "Chorus 1",
+   "line": 2
+  },
+  {
+   "text": "the",
+   "start": 68.452,
+   "end": 68.552,
+   "score": 0.035,
+   "section": "Chorus 1",
+   "line": 2
+  },
+  {
+   "text": "rain",
+   "start": 68.692,
+   "end": 70.294,
+   "score": 0.247,
+   "section": "Chorus 1",
+   "line": 2
+  },
+  {
+   "text": "Every",
+   "start": 70.694,
+   "end": 71.335,
+   "score": 0.53,
+   "section": "Chorus 1",
+   "line": 3
+  },
+  {
+   "text": "answer",
+   "start": 71.455,
+   "end": 71.736,
+   "score": 0.387,
+   "section": "Chorus 1",
+   "line": 3
+  },
+  {
+   "text": "sounds",
+   "start": 71.836,
+   "end": 72.376,
+   "score": 0.442,
+   "section": "Chorus 1",
+   "line": 3
+  },
+  {
+   "text": "the",
+   "start": 72.376,
+   "end": 72.456,
+   "score": 0.012,
+   "section": "Chorus 1",
+   "line": 3
+  },
+  {
+   "text": "same",
+   "start": 72.576,
+   "end": 74.579,
+   "score": 0.238,
+   "section": "Chorus 1",
+   "line": 3
+  },
+  {
+   "text": "Oh-oh,",
+   "start": 74.619,
+   "end": 75.419,
+   "score": 0.13,
+   "section": "Chorus 1",
+   "line": 4
+  },
+  {
+   "text": "the",
+   "start": 75.519,
+   "end": 75.6,
+   "score": 0.031,
+   "section": "Chorus 1",
+   "line": 4
+  },
+  {
+   "text": "lights",
+   "start": 75.76,
+   "end": 76.02,
+   "score": 0.294,
+   "section": "Chorus 1",
+   "line": 4
+  },
+  {
+   "text": "are",
+   "start": 76.08,
+   "end": 76.2,
+   "score": 0.039,
+   "section": "Chorus 1",
+   "line": 4
+  },
+  {
+   "text": "fading",
+   "start": 76.24,
+   "end": 76.781,
+   "score": 0.598,
+   "section": "Chorus 1",
+   "line": 4
+  },
+  {
+   "text": "out",
+   "start": 76.861,
+   "end": 78.483,
+   "score": 0.052,
+   "section": "Chorus 1",
+   "line": 4
+  },
+  {
+   "text": "Oh-oh,",
+   "start": 78.543,
+   "end": 79.364,
+   "score": 0.152,
+   "section": "Chorus 1",
+   "line": 5
+  },
+  {
+   "text": "but",
+   "start": 79.444,
+   "end": 79.584,
+   "score": 0.619,
+   "section": "Chorus 1",
+   "line": 5
+  },
+  {
+   "text": "no",
+   "start": 79.684,
+   "end": 79.784,
+   "score": 0.86,
+   "section": "Chorus 1",
+   "line": 5
+  },
+  {
+   "text": "one\u2019s",
+   "start": 79.984,
+   "end": 80.144,
+   "score": 0.543,
+   "section": "Chorus 1",
+   "line": 5
+  },
+  {
+   "text": "looking",
+   "start": 80.184,
+   "end": 80.565,
+   "score": 0.276,
+   "section": "Chorus 1",
+   "line": 5
+  },
+  {
+   "text": "down",
+   "start": 80.645,
+   "end": 81.105,
+   "score": 0.803,
+   "section": "Chorus 1",
+   "line": 5
+  },
+  {
+   "text": "We\u2019re",
+   "start": 82.106,
+   "end": 82.327,
+   "score": 0.109,
+   "section": "Chorus 1",
+   "line": 6
+  },
+  {
+   "text": "dancing",
+   "start": 82.327,
+   "end": 83.027,
+   "score": 0.263,
+   "section": "Chorus 1",
+   "line": 6
+  },
+  {
+   "text": "in",
+   "start": 83.128,
+   "end": 83.248,
+   "score": 0.44,
+   "section": "Chorus 1",
+   "line": 6
+  },
+  {
+   "text": "the",
+   "start": 83.328,
+   "end": 83.408,
+   "score": 0.295,
+   "section": "Chorus 1",
+   "line": 6
+  },
+  {
+   "text": "data",
+   "start": 83.548,
+   "end": 84.149,
+   "score": 0.32,
+   "section": "Chorus 1",
+   "line": 6
+  },
+  {
+   "text": "stream",
+   "start": 84.229,
+   "end": 90.515,
+   "score": 0.319,
+   "section": "Chorus 1",
+   "line": 6
+  },
+  {
+   "text": "We",
+   "start": 90.635,
+   "end": 90.736,
+   "score": 0.769,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "are",
+   "start": 90.956,
+   "end": 91.076,
+   "score": 0.265,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "the",
+   "start": 91.096,
+   "end": 91.196,
+   "score": 0.533,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "ghost",
+   "start": 91.336,
+   "end": 91.636,
+   "score": 0.554,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "in",
+   "start": 91.677,
+   "end": 91.777,
+   "score": 0.517,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "the",
+   "start": 91.837,
+   "end": 91.937,
+   "score": 0.439,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "machine",
+   "start": 92.037,
+   "end": 92.698,
+   "score": 0.592,
+   "section": "Chorus 1",
+   "line": 7
+  },
+  {
+   "text": "Merged",
+   "start": 96.221,
+   "end": 96.482,
+   "score": 0.281,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "a",
+   "start": 96.542,
+   "end": 96.562,
+   "score": 0.23,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "million",
+   "start": 96.622,
+   "end": 97.122,
+   "score": 0.498,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "lines",
+   "start": 97.222,
+   "end": 97.723,
+   "score": 0.579,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "and",
+   "start": 97.763,
+   "end": 97.843,
+   "score": 0.154,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "swore",
+   "start": 97.883,
+   "end": 98.344,
+   "score": 0.191,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "that",
+   "start": 98.424,
+   "end": 98.704,
+   "score": 0.184,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "it",
+   "start": 98.764,
+   "end": 98.844,
+   "score": 0.103,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "looked",
+   "start": 98.904,
+   "end": 99.164,
+   "score": 0.158,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "good",
+   "start": 99.164,
+   "end": 99.485,
+   "score": 0.186,
+   "section": "Verse 2",
+   "line": 0
+  },
+  {
+   "text": "Hit",
+   "start": 99.885,
+   "end": 100.185,
+   "score": 0.14,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "regenerate",
+   "start": 100.346,
+   "end": 101.367,
+   "score": 0.94,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "until",
+   "start": 101.407,
+   "end": 101.807,
+   "score": 0.97,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "it",
+   "start": 101.867,
+   "end": 101.927,
+   "score": 0.058,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "said",
+   "start": 102.027,
+   "end": 102.248,
+   "score": 0.953,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "the",
+   "start": 102.308,
+   "end": 102.388,
+   "score": 0.918,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "things",
+   "start": 102.508,
+   "end": 102.808,
+   "score": 0.914,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "it",
+   "start": 102.848,
+   "end": 102.928,
+   "score": 0.151,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "should",
+   "start": 103.008,
+   "end": 103.449,
+   "score": 0.574,
+   "section": "Verse 2",
+   "line": 1
+  },
+  {
+   "text": "Bought",
+   "start": 103.529,
+   "end": 103.789,
+   "score": 0.291,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "a",
+   "start": 103.829,
+   "end": 103.849,
+   "score": 0.496,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "front-row",
+   "start": 103.969,
+   "end": 104.81,
+   "score": 0.604,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "seat",
+   "start": 104.95,
+   "end": 105.171,
+   "score": 0.283,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "to",
+   "start": 105.211,
+   "end": 105.311,
+   "score": 0.936,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "watch",
+   "start": 105.451,
+   "end": 105.751,
+   "score": 0.316,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "the",
+   "start": 105.751,
+   "end": 105.811,
+   "score": 0.213,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "ending",
+   "start": 106.012,
+   "end": 106.412,
+   "score": 0.916,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "of",
+   "start": 106.552,
+   "end": 106.652,
+   "score": 0.434,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "the",
+   "start": 106.692,
+   "end": 106.772,
+   "score": 0.616,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "show",
+   "start": 106.893,
+   "end": 107.393,
+   "score": 0.833,
+   "section": "Verse 2",
+   "line": 2
+  },
+  {
+   "text": "And",
+   "start": 107.553,
+   "end": 107.753,
+   "score": 0.709,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "every",
+   "start": 108.014,
+   "end": 108.234,
+   "score": 0.735,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "time",
+   "start": 108.334,
+   "end": 108.634,
+   "score": 0.414,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "they",
+   "start": 108.654,
+   "end": 108.734,
+   "score": 0.13,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "scored",
+   "start": 108.774,
+   "end": 109.155,
+   "score": 0.467,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "us,",
+   "start": 109.215,
+   "end": 109.315,
+   "score": 0.547,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "a",
+   "start": 109.655,
+   "end": 109.675,
+   "score": 0.978,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "little",
+   "start": 109.856,
+   "end": 110.236,
+   "score": 0.764,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "more",
+   "start": 110.316,
+   "end": 110.556,
+   "score": 0.447,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "would",
+   "start": 110.576,
+   "end": 110.717,
+   "score": 0.255,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "go",
+   "start": 110.817,
+   "end": 110.917,
+   "score": 0.783,
+   "section": "Verse 2",
+   "line": 3
+  },
+  {
+   "text": "Have",
+   "start": 111.818,
+   "end": 112.318,
+   "score": 0.088,
+   "section": "Bridge 2",
+   "line": 0
+  },
+  {
+   "text": "you",
+   "start": 112.338,
+   "end": 112.458,
+   "score": 0.465,
+   "section": "Bridge 2",
+   "line": 0
+  },
+  {
+   "text": "heard",
+   "start": 112.759,
+   "end": 113.019,
+   "score": 0.386,
+   "section": "Bridge 2",
+   "line": 0
+  },
+  {
+   "text": "this",
+   "start": 113.259,
+   "end": 113.479,
+   "score": 0.72,
+   "section": "Bridge 2",
+   "line": 0
+  },
+  {
+   "text": "song",
+   "start": 113.72,
+   "end": 114.02,
+   "score": 0.556,
+   "section": "Bridge 2",
+   "line": 0
+  },
+  {
+   "text": "before?",
+   "start": 114.22,
+   "end": 115.121,
+   "score": 0.593,
+   "section": "Bridge 2",
+   "line": 0
+  },
+  {
+   "text": "Looks",
+   "start": 115.221,
+   "end": 115.582,
+   "score": 0.378,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "good,",
+   "start": 115.702,
+   "end": 115.942,
+   "score": 0.115,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "run",
+   "start": 116.182,
+   "end": 116.423,
+   "score": 0.492,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "it,",
+   "start": 116.743,
+   "end": 116.863,
+   "score": 0.022,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "one",
+   "start": 117.223,
+   "end": 117.424,
+   "score": 0.778,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "more",
+   "start": 117.644,
+   "end": 117.944,
+   "score": 0.605,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "encore",
+   "start": 118.224,
+   "end": 118.945,
+   "score": 0.194,
+   "section": "Bridge 2",
+   "line": 1
+  },
+  {
+   "text": "Maybe",
+   "start": 119.105,
+   "end": 119.426,
+   "score": 0.678,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "someone",
+   "start": 119.566,
+   "end": 120.487,
+   "score": 0.607,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "wrote",
+   "start": 120.507,
+   "end": 120.907,
+   "score": 0.507,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "it,",
+   "start": 120.927,
+   "end": 120.967,
+   "score": 0.012,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "maybe",
+   "start": 121.047,
+   "end": 121.368,
+   "score": 0.87,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "no",
+   "start": 121.528,
+   "end": 121.628,
+   "score": 0.858,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "one",
+   "start": 122.089,
+   "end": 122.409,
+   "score": 0.755,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "did",
+   "start": 122.489,
+   "end": 122.929,
+   "score": 0.531,
+   "section": "Bridge 2",
+   "line": 2
+  },
+  {
+   "text": "Maybe",
+   "start": 122.989,
+   "end": 123.35,
+   "score": 0.81,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "it\u2019s",
+   "start": 123.51,
+   "end": 123.67,
+   "score": 0.228,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "the",
+   "start": 123.71,
+   "end": 123.81,
+   "score": 0.425,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "average",
+   "start": 124.111,
+   "end": 124.711,
+   "score": 0.305,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "of",
+   "start": 124.791,
+   "end": 124.932,
+   "score": 0.873,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "everything",
+   "start": 125.032,
+   "end": 125.792,
+   "score": 0.74,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "we",
+   "start": 125.893,
+   "end": 126.013,
+   "score": 0.684,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "fed",
+   "start": 126.333,
+   "end": 126.894,
+   "score": 0.717,
+   "section": "Bridge 2",
+   "line": 3
+  },
+  {
+   "text": "And",
+   "start": 126.954,
+   "end": 127.134,
+   "score": 0.125,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 127.134,
+   "end": 127.194,
+   "score": 0.006,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "servers",
+   "start": 127.314,
+   "end": 128.315,
+   "score": 0.295,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "hum",
+   "start": 128.335,
+   "end": 128.776,
+   "score": 0.258,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "like",
+   "start": 128.856,
+   "end": 129.156,
+   "score": 0.619,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "a",
+   "start": 129.156,
+   "end": 129.176,
+   "score": 0.007,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "lullaby",
+   "start": 129.296,
+   "end": 130.658,
+   "score": 0.301,
+   "section": "Pre-Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "While",
+   "start": 130.778,
+   "end": 130.978,
+   "score": 0.121,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "the",
+   "start": 131.018,
+   "end": 131.098,
+   "score": 0.383,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "numbers",
+   "start": 131.258,
+   "end": 132.119,
+   "score": 0.306,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "climb",
+   "start": 132.199,
+   "end": 132.64,
+   "score": 0.167,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "to",
+   "start": 132.72,
+   "end": 132.84,
+   "score": 0.57,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "the",
+   "start": 132.96,
+   "end": 133.04,
+   "score": 0.736,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "neon",
+   "start": 133.16,
+   "end": 133.561,
+   "score": 0.453,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "sky",
+   "start": 133.621,
+   "end": 134.421,
+   "score": 0.286,
+   "section": "Pre-Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "We",
+   "start": 141.209,
+   "end": 141.309,
+   "score": 0.535,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "are",
+   "start": 141.569,
+   "end": 141.689,
+   "score": 0.236,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 141.689,
+   "end": 141.769,
+   "score": 0.128,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "ghost",
+   "start": 141.929,
+   "end": 142.19,
+   "score": 0.243,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "in",
+   "start": 142.25,
+   "end": 142.33,
+   "score": 0.599,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 142.41,
+   "end": 142.51,
+   "score": 0.207,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "machine",
+   "start": 142.65,
+   "end": 143.291,
+   "score": 0.562,
+   "section": "Chorus 2",
+   "line": 0
+  },
+  {
+   "text": "Living",
+   "start": 144.612,
+   "end": 145.353,
+   "score": 0.302,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "in",
+   "start": 145.393,
+   "end": 145.593,
+   "score": 0.336,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "a",
+   "start": 145.633,
+   "end": 145.653,
+   "score": 0.326,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "world",
+   "start": 145.793,
+   "end": 146.034,
+   "score": 0.208,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "that\u2019s",
+   "start": 146.054,
+   "end": 146.234,
+   "score": 0.267,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "not",
+   "start": 146.294,
+   "end": 146.454,
+   "score": 0.755,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "what",
+   "start": 146.534,
+   "end": 146.774,
+   "score": 0.642,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "it",
+   "start": 146.815,
+   "end": 146.895,
+   "score": 0.348,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "seems",
+   "start": 146.995,
+   "end": 147.475,
+   "score": 0.391,
+   "section": "Chorus 2",
+   "line": 1
+  },
+  {
+   "text": "Tokens",
+   "start": 148.456,
+   "end": 149.137,
+   "score": 0.46,
+   "section": "Chorus 2",
+   "line": 2
+  },
+  {
+   "text": "falling",
+   "start": 149.177,
+   "end": 149.638,
+   "score": 0.521,
+   "section": "Chorus 2",
+   "line": 2
+  },
+  {
+   "text": "like",
+   "start": 149.678,
+   "end": 150.158,
+   "score": 0.552,
+   "section": "Chorus 2",
+   "line": 2
+  },
+  {
+   "text": "the",
+   "start": 150.178,
+   "end": 150.278,
+   "score": 0.055,
+   "section": "Chorus 2",
+   "line": 2
+  },
+  {
+   "text": "rain",
+   "start": 150.418,
+   "end": 152.38,
+   "score": 0.381,
+   "section": "Chorus 2",
+   "line": 2
+  },
+  {
+   "text": "Every",
+   "start": 152.501,
+   "end": 152.921,
+   "score": 0.429,
+   "section": "Chorus 2",
+   "line": 3
+  },
+  {
+   "text": "song",
+   "start": 153.041,
+   "end": 153.301,
+   "score": 0.498,
+   "section": "Chorus 2",
+   "line": 3
+  },
+  {
+   "text": "just",
+   "start": 153.321,
+   "end": 153.462,
+   "score": 0.082,
+   "section": "Chorus 2",
+   "line": 3
+  },
+  {
+   "text": "sounds",
+   "start": 153.542,
+   "end": 154.062,
+   "score": 0.35,
+   "section": "Chorus 2",
+   "line": 3
+  },
+  {
+   "text": "the",
+   "start": 154.062,
+   "end": 154.142,
+   "score": 0.028,
+   "section": "Chorus 2",
+   "line": 3
+  },
+  {
+   "text": "same",
+   "start": 154.162,
+   "end": 154.403,
+   "score": 0.196,
+   "section": "Chorus 2",
+   "line": 3
+  },
+  {
+   "text": "We",
+   "start": 156.725,
+   "end": 156.845,
+   "score": 0.042,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "are",
+   "start": 157.105,
+   "end": 157.226,
+   "score": 0.024,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 157.226,
+   "end": 157.306,
+   "score": 0.06,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "ghost",
+   "start": 157.446,
+   "end": 157.726,
+   "score": 0.032,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "in",
+   "start": 157.766,
+   "end": 157.866,
+   "score": 0.072,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "the",
+   "start": 157.926,
+   "end": 158.026,
+   "score": 0.019,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "machine",
+   "start": 158.187,
+   "end": 160.329,
+   "score": 0.133,
+   "section": "Final Chorus",
+   "line": 0
+  },
+  {
+   "text": "Living",
+   "start": 160.409,
+   "end": 160.849,
+   "score": 0.081,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "in",
+   "start": 160.949,
+   "end": 161.09,
+   "score": 0.366,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "a",
+   "start": 161.11,
+   "end": 161.13,
+   "score": 0.145,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "world",
+   "start": 161.27,
+   "end": 161.49,
+   "score": 0.287,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "that\u2019s",
+   "start": 161.55,
+   "end": 161.73,
+   "score": 0.258,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "not",
+   "start": 161.79,
+   "end": 161.97,
+   "score": 0.401,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "what",
+   "start": 162.011,
+   "end": 162.231,
+   "score": 0.219,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "it",
+   "start": 162.291,
+   "end": 162.371,
+   "score": 0.175,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "seems",
+   "start": 162.471,
+   "end": 163.452,
+   "score": 0.23,
+   "section": "Final Chorus",
+   "line": 1
+  },
+  {
+   "text": "Tokens",
+   "start": 163.933,
+   "end": 164.613,
+   "score": 0.711,
+   "section": "Final Chorus",
+   "line": 2
+  },
+  {
+   "text": "falling",
+   "start": 164.653,
+   "end": 165.094,
+   "score": 0.434,
+   "section": "Final Chorus",
+   "line": 2
+  },
+  {
+   "text": "like",
+   "start": 165.154,
+   "end": 165.634,
+   "score": 0.449,
+   "section": "Final Chorus",
+   "line": 2
+  },
+  {
+   "text": "the",
+   "start": 165.654,
+   "end": 165.734,
+   "score": 0.009,
+   "section": "Final Chorus",
+   "line": 2
+  },
+  {
+   "text": "rain",
+   "start": 165.875,
+   "end": 167.837,
+   "score": 0.452,
+   "section": "Final Chorus",
+   "line": 2
+  },
+  {
+   "text": "Every",
+   "start": 168.117,
+   "end": 168.397,
+   "score": 0.471,
+   "section": "Final Chorus",
+   "line": 3
+  },
+  {
+   "text": "song",
+   "start": 168.517,
+   "end": 168.778,
+   "score": 0.643,
+   "section": "Final Chorus",
+   "line": 3
+  },
+  {
+   "text": "just",
+   "start": 168.798,
+   "end": 168.938,
+   "score": 0.05,
+   "section": "Final Chorus",
+   "line": 3
+  },
+  {
+   "text": "sounds",
+   "start": 168.998,
+   "end": 169.538,
+   "score": 0.363,
+   "section": "Final Chorus",
+   "line": 3
+  },
+  {
+   "text": "the",
+   "start": 169.538,
+   "end": 169.599,
+   "score": 0.019,
+   "section": "Final Chorus",
+   "line": 3
+  },
+  {
+   "text": "same",
+   "start": 169.719,
+   "end": 171.521,
+   "score": 0.215,
+   "section": "Final Chorus",
+   "line": 3
+  },
+  {
+   "text": "Oh-oh,",
+   "start": 171.641,
+   "end": 172.622,
+   "score": 0.06,
+   "section": "Final Chorus",
+   "line": 4
+  },
+  {
+   "text": "the",
+   "start": 172.662,
+   "end": 172.762,
+   "score": 0.147,
+   "section": "Final Chorus",
+   "line": 4
+  },
+  {
+   "text": "lights",
+   "start": 172.882,
+   "end": 173.162,
+   "score": 0.441,
+   "section": "Final Chorus",
+   "line": 4
+  },
+  {
+   "text": "are",
+   "start": 173.222,
+   "end": 173.322,
+   "score": 0.236,
+   "section": "Final Chorus",
+   "line": 4
+  },
+  {
+   "text": "fading",
+   "start": 173.342,
+   "end": 173.783,
+   "score": 0.511,
+   "section": "Final Chorus",
+   "line": 4
+  },
+  {
+   "text": "out",
+   "start": 173.983,
+   "end": 175.144,
+   "score": 0.22,
+   "section": "Final Chorus",
+   "line": 4
+  },
+  {
+   "text": "Oh-oh,",
+   "start": 175.144,
+   "end": 176.466,
+   "score": 0.206,
+   "section": "Final Chorus",
+   "line": 5
+  },
+  {
+   "text": "but",
+   "start": 176.526,
+   "end": 176.646,
+   "score": 0.306,
+   "section": "Final Chorus",
+   "line": 5
+  },
+  {
+   "text": "no",
+   "start": 176.766,
+   "end": 176.866,
+   "score": 0.886,
+   "section": "Final Chorus",
+   "line": 5
+  },
+  {
+   "text": "one\u2019s",
+   "start": 177.066,
+   "end": 177.227,
+   "score": 0.423,
+   "section": "Final Chorus",
+   "line": 5
+  },
+  {
+   "text": "looking",
+   "start": 177.307,
+   "end": 177.647,
+   "score": 0.566,
+   "section": "Final Chorus",
+   "line": 5
+  },
+  {
+   "text": "down",
+   "start": 177.727,
+   "end": 178.208,
+   "score": 0.73,
+   "section": "Final Chorus",
+   "line": 5
+  },
+  {
+   "text": "We\u2019re",
+   "start": 178.968,
+   "end": 179.249,
+   "score": 0.005,
+   "section": "Final Chorus",
+   "line": 6
+  },
+  {
+   "text": "dancing",
+   "start": 179.409,
+   "end": 180.11,
+   "score": 0.255,
+   "section": "Final Chorus",
+   "line": 6
+  },
+  {
+   "text": "in",
+   "start": 180.19,
+   "end": 180.31,
+   "score": 0.451,
+   "section": "Final Chorus",
+   "line": 6
+  },
+  {
+   "text": "the",
+   "start": 180.37,
+   "end": 180.47,
+   "score": 0.211,
+   "section": "Final Chorus",
+   "line": 6
+  },
+  {
+   "text": "data",
+   "start": 180.61,
+   "end": 181.191,
+   "score": 0.263,
+   "section": "Final Chorus",
+   "line": 6
+  },
+  {
+   "text": "stream",
+   "start": 181.231,
+   "end": 187.077,
+   "score": 0.438,
+   "section": "Final Chorus",
+   "line": 6
+  },
+  {
+   "text": "We",
+   "start": 187.638,
+   "end": 187.738,
+   "score": 0.689,
+   "section": "Final Chorus",
+   "line": 7
+  },
+  {
+   "text": "are",
+   "start": 187.958,
+   "end": 188.098,
+   "score": 0.333,
+   "section": "Final Chorus",
+   "line": 7
+  },
+  {
+   "text": "the",
+   "start": 188.118,
+   "end": 188.198,
+   "score": 0.594,
+   "section": "Final Chorus",
+   "line": 7
+  },
+  {
+   "text": "ghost",
+   "start": 188.338,
+   "end": 188.619,
+   "score": 0.495,
+   "section": "Final Chorus",
+   "line": 7
+  },
+  {
+   "text": "in",
+   "start": 188.659,
+   "end": 188.779,
+   "score": 0.532,
+   "section": "Final Chorus",
+   "line": 7
+  },
+  {
+   "text": "the",
+   "start": 188.859,
+   "end": 188.919,
+   "score": 0.034,
+   "section": "Final Chorus",
+   "line": 7
+  },
+  {
+   "text": "machine",
+   "start": 189.059,
+   "end": 189.76,
+   "score": 0.537,
+   "section": "Final Chorus",
+   "line": 7
+  }
+ ]
+}

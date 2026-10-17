@@ -7,7 +7,22 @@ dependencies = [
     "numpy",
     "pillow",
     "scikit-learn",
+    "librosa",
+    "soundfile",
+    "torch==2.8.*",
+    "torchaudio==2.8.*",
+    "faster-whisper",
 ]
 
 [tool.uv]
 package = false
+
+# CPU-only PyTorch: the GTX 970 draft box (sm_52) is not supported by current CUDA builds; alignment runs on CPU.
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchaudio = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
