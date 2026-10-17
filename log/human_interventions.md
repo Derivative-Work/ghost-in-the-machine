@@ -104,3 +104,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   7. New moments: regenerate montage, million-line diff, song recognition, server-rack crib mobile, the robot alone in the theater, a dancing feed.
 - Item 8 (render the animatic at the full 30 fps) was **not** chosen. v3 keeps step 2.
 - **Rule:** R1 (approving a plan).
+
+## 2026-10-17T14:25:38-04:00 — C4 feedback on animatic v3: lyric-literal and reference-alluding ideas
+
+- **What:** The human reviewed animatic v3: "It needs some more still, try to find some that use the words or allude to the source videos (such as a literal \"data stream\" alluding to \"Run It Again\" 's backdrop evoking gradient descent during RLHF)". The agent is researching the references and proposing additions. Nothing has been changed yet.
+- **Rule:** R1 (creative direction given in words; the agent makes the change).
