@@ -85,3 +85,9 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** The human approved ("go ahead") the agent's proposal: cut on every lyric line (~2 bars) for about 55 shots; multi-camera coverage of the 3D scenes; alternating 3D and 2D type-led shots; new scenes (intro inserts, hearts, autocomplete chat, giant counter, missing textures, nine identical replies, lights fading, top-down, dance in a code stream, black full stop, loading screen, THE END reverse shot, degraded Chorus 2, multiplying split screen, tiles going dark, endless feed scroll); style-spec transitions. The Bridge 2 freeze and Pre-Chorus 2 dropout stay static on purpose.
 - **Why:** C4 feedback: the cut was too static.
 - **Rule:** R1 (approving a plan).
+
+## 2026-10-17T13:33:00-04:00 — C4 feedback on animatic v2: more ideas, more dynamic scenes
+
+- **What:** The human reviewed animatic v2: "hm suggest some more, including ways to make the existing scenes more dynamic". The agent is proposing additions. Nothing has been changed yet.
+- **Why:** Within-shot motion still reads as static.
+- **Rule:** R1 (creative direction given in words; the agent makes the change).
