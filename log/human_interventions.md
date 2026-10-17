@@ -196,3 +196,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** "also S56's repacking needs the same treatment as the unpacking"
 - **Rule:** R1 (creative direction in words; the agent makes the change).
+
+## 2026-10-17T18:47:58-04:00 — C4 feedback on animatic v7
+
+- **What:** "The box open still needs to have them contents spread out. There is a continuity issue between S52 and S53: make sure the videos line up between cuts. Transition to the end credits by rotating the cube onto an unlit face."
+- **Rule:** R1 (creative direction in words; the agent makes the changes).
