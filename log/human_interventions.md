@@ -91,3 +91,16 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** The human reviewed animatic v2: "hm suggest some more, including ways to make the existing scenes more dynamic". The agent is proposing additions. Nothing has been changed yet.
 - **Why:** Within-shot motion still reads as static.
 - **Rule:** R1 (creative direction given in words; the agent makes the change).
+
+## 2026-10-17T13:36:59-04:00 — v3 additions approved (items 1–7)
+
+- **What:** The human said "do 1-7" to the agent's list:
+  1. Everything reacts to the stems: drums → downbeat punch-ins and light pulses; bass → floor ripples; synth → screen flicker; vocals → the robot's mouth.
+  2. Robot performance: singing equalizer mouth, eye expressions per lyric, gestures.
+  3. Kinetic captions; words that break into 3D.
+  4. Camera moves: dolly zoom on "not what it seems", fast 180° chorus entries, cranes, depth-of-field pulls.
+  5. 2D shots that keep moving.
+  6. Zoom-through and match-cut transitions.
+  7. New moments: regenerate montage, million-line diff, song recognition, server-rack crib mobile, the robot alone in the theater, a dancing feed.
+- Item 8 (render the animatic at the full 30 fps) was **not** chosen. v3 keeps step 2.
+- **Rule:** R1 (approving a plan).
