@@ -1,7 +1,7 @@
 {
  "fps": 30,
- "total_s": 199.56,
- "total_frames": 5987,
+ "total_s": 200.36,
+ "total_frames": 6011,
  "audio_end_s": 190.0,
  "shots": [
   {
@@ -1482,18 +1482,6 @@
       "fx": [
        "dance"
       ],
-      "seed": "main",
-      "span": [
-       "S50",
-       "S55"
-      ]
-     },
-     {
-      "plate": "stream",
-      "cam": "wide",
-      "fx": [
-       "dance"
-      ],
       "seed": "thumbnail_tiles.0",
       "span": [
        "S50",
@@ -1763,6 +1751,19 @@
        "S50",
        "S55"
       ]
+     },
+     {
+      "plate": "stream",
+      "cam": "wide",
+      "fx": [
+       "dance",
+       "video_tiles"
+      ],
+      "seed": "main",
+      "span": [
+       "S50",
+       "S55"
+      ]
      }
     ]
    },
@@ -1848,11 +1849,15 @@
    "start_frame": 5366,
    "end_frame": 5507,
    "plate": {
-    "mode": "feedlive"
+    "mode": "render",
+    "plate": "stream",
+    "cam": "feed_dive",
+    "fx": [
+     "dance",
+     "video_tiles"
+    ]
    },
-   "layers": [
-    "grid_stream"
-   ],
+   "layers": [],
    "seed": "main",
    "global_layers": [
     "captions",
@@ -1934,9 +1939,9 @@
     189.76
    ],
    "start_s": 189.76,
-   "end_s": 191.56,
+   "end_s": 192.36,
    "start_frame": 5693,
-   "end_frame": 5747,
+   "end_frame": 5771,
    "plate": {
     "mode": "render",
     "plate": "default_cube_boot",
@@ -1945,7 +1950,7 @@
      "vacuum"
     ],
     "clock": "local",
-    "black_after": 1.6
+    "black_after": 2.4
    },
    "layers": [
     "reload"
@@ -1965,12 +1970,12 @@
    "section": "End card",
    "anchor": [
     "time",
-    191.56
+    192.35999999999999
    ],
-   "start_s": 191.56,
-   "end_s": 199.56,
-   "start_frame": 5747,
-   "end_frame": 5987,
+   "start_s": 192.36,
+   "end_s": 200.36,
+   "start_frame": 5771,
+   "end_frame": 6011,
    "plate": {
     "mode": "js"
    },
@@ -2566,20 +2571,6 @@
    "fx": [
     "dance"
    ],
-   "seed": "main",
-   "start": 5043,
-   "end": 5693,
-   "dir": "stream-wide-dance__main",
-   "clock_offset_s": 0.0,
-   "lag_frames": 0
-  },
-  {
-   "shot": "S50",
-   "plate": "stream",
-   "cam": "wide",
-   "fx": [
-    "dance"
-   ],
    "seed": "thumbnail_tiles.0",
    "start": 5043,
    "end": 5693,
@@ -2896,6 +2887,36 @@
    "lag_frames": 0
   },
   {
+   "shot": "S50",
+   "plate": "stream",
+   "cam": "wide",
+   "fx": [
+    "dance",
+    "video_tiles"
+   ],
+   "seed": "main",
+   "start": 5043,
+   "end": 5693,
+   "dir": "stream-wide-dance+video_tiles__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S53",
+   "plate": "stream",
+   "cam": "feed_dive",
+   "fx": [
+    "dance",
+    "video_tiles"
+   ],
+   "seed": "main",
+   "start": 5366,
+   "end": 5507,
+   "dir": "stream-feed_dive-dance+video_tiles__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
    "shot": "S54",
    "plate": "robot",
    "cam": "screen_pullback",
@@ -2932,7 +2953,7 @@
    ],
    "seed": "restart",
    "start": 5693,
-   "end": 5741,
+   "end": 5765,
    "dir": "default_cube_boot-default-vacuum__restart",
    "clock_offset_s": 189.76,
    "lag_frames": 0

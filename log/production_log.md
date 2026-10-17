@@ -517,3 +517,14 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - `.venv/bin/python scripts/assemble.py animatic_v6 640 360 2 6 --hud --name animatic_v6` (2 m 26 s)
 - **Outputs:** `renders/animatic_v6/animatic_v6.mp4` (5987 frames verified, video 199.567 s / audio 199.560 s); review sheet. v5 cut moved to `archive/renders/`.
 - **Status:** Stopped at C4 for review of v6.
+
+## 2026-10-17T17:53:32-04:00 — v7 build (in progress) and brief rev 84
+
+- **S53 → S54:** S53 is now a Blender shot (`stream` / `feed_dive` with `video_tiles`), replacing the 2D fade.
+  - It opens top-down on 24 video panels in a grid 12 m above the landscape, each textured per frame with a feed tile's render. They peel off one by one (0.07 s stagger), arc down into the river and flow on with the tokens, while the camera descends to the main river render's camera position.
+  - The main river render (`video_tiles` added, rendered after the 23 tile renders it reads) carries the same panels from S53 on, so the river S54's screen plays has the videos in it.
+  - Panels enlarged to 2.0 × 1.125 m after the first probe.
+- **S56:** the repack is now the exact reverse of the S02 unpack: robot first, then the screens in reverse order, same arcs, 0.09 s stagger, 0.75 s each. The lid closes after the last item. S56 grows 1.8 → 2.6 s (black at 2.4 s); overlay chrome and black timing follow.
+- **Brief (doc rev 81 → 84):** S53, S54 and S56 rows updated and mirrored into `docs/brief.md`.
+- **Probes:** S53 at 4 points, the main river render at 2, S56 at 4.
+- **Why:** The human's v6 notes (S53 → S54; S56 repack).

@@ -27,7 +27,7 @@ BAR = 4 * 60 / TM["tempo_bpm"]
 END_OF_AUDIO = TM["audio"]["duration_s"]
 LAST_WORD_END = TM["words"][-1]["end"]
 DROP2_END = next(d["end"] for d in TM["events"]["dropouts"] if "Pre-Chorus 2" in d["sections"])
-S22_LEN, S23_LEN = 1.8, 8.0  # the ending (now S56: reload, then the cube vacuums the world) and the end card
+S22_LEN, S23_LEN = 2.6, 8.0  # the ending (now S56: reload, then the cube vacuums the world) and the end card
 
 # Anchors: ("section", name) | ("line", section, line_index) | ("bar", n) | ("event", key) | ("time", seconds)
 R = lambda plate, cam, fx=(), **kw: dict(mode="render", plate=plate, cam=cam, fx=list(fx), **kw)
@@ -35,8 +35,10 @@ JS = dict(mode="js")
 HOLD = lambda src, **kw: dict(mode="hold", src=src, **kw)
 SPLIT = lambda seeds, cam="orbit", **kw: dict(mode="split", plate="chorus", cam=cam, seeds=seeds, lag_s=0.1, **kw)
 # The feed (S50-S55): every tile, this video's included, is the robot dancing in the data stream at its own seed.
+# Tiles render first: the main render (this video) carries the other videos flowing in its river from S53 on.
 FEED_RENDER = dict(mode="js", renders=[dict(plate="stream", cam="wide", fx=["dance"], seed=sd, span=("S50", "S55"))
-                                       for sd in ["main"] + [f"thumbnail_tiles.{i}" for i in range(23)]])
+                                       for sd in [f"thumbnail_tiles.{i}" for i in range(23)]] +
+                   [dict(plate="stream", cam="wide", fx=["dance", "video_tiles"], seed="main", span=("S50", "S55"))])
 
 SHOTS = [
     # Intro
@@ -123,15 +125,17 @@ SHOTS = [
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 3), plate=FEED_RENDER, layers=["grid_zoom"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 4), plate=JS, layers=["grid_dark"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 5), plate=JS, layers=["grid_scroll"]),
-    # The feed zooms out and the videos themselves flow into a data stream, which becomes the river, robot included...
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=dict(mode="feedlive"), layers=["grid_stream"]),
+    # The feed's videos, seen top-down as a grid above the landscape, peel off one by one and drop into the river,
+    # where they flow on with the tokens as the camera descends to the river view S54 opens on...
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=R("stream", "feed_dive", ["dance", "video_tiles"]),
+         layers=[]),
     # ...then the river pulls back to be one of the screens around the robot; Regenerate is clicked over that scene.
     dict(section="Final Chorus", anchor=("event", "beat_end"), plate=R("robot", "screen_pullback", ["river_screen"]), layers=[]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 7), plate=R("robot", "wide_hold", ["river_screen"]),
          layers=["cursor_regen_click"]),
     # Ending
     dict(section="Ending", anchor=("time", LAST_WORD_END), plate=R("default_cube_boot", "default", ["vacuum"], clock="local",
-                                                                     black_after=1.6), layers=["reload"], seed="restart"),
+                                                                     black_after=2.4), layers=["reload"], seed="restart"),
     dict(section="End card", anchor=("time", LAST_WORD_END + S22_LEN), plate=JS, layers=["end_card"], no_globals=True),
 ]
 # IDs: inserted shots carry a letter suffix (S11b) so the brief's existing IDs never change.

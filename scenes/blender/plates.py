@@ -723,20 +723,22 @@ def plate_default_cube_boot(job, seed):
         if "vacuum" in fx:
             tl = t  # local clock (clock_offset applied by the job)
             update_robot(boot + 4.0 + tl)  # the restarted world, fully booted
-            v = min(1.0, max(0.0, (tl - 0.15) / 0.95))
-            stagger = lambda i, n: min(1.0, max(0.0, (v * (n + 3) - i) / 3))
-            items = screens + [root]
-            spring([(o, 1 - stagger(i, len(items))) for i, o in enumerate(items)], None)
+            # The exact reverse of the S02 unpack: robot first, then each screen, lifted up over the rim and
+            # dropped in along the same arcs, at the same 0.09 s stagger and 0.75 s per item.
+            items = [root] + screens[::-1]
+            k_of = lambda i: 1.0 - min(1.0, max(0.0, (tl - 0.3 - 0.09 * i) / 0.75))
+            spring([(o, k_of(i)) for i, o in enumerate(items)], None)
+            v = min(1.0, max(0.0, (tl - 0.3) / (0.09 * len(items) + 0.75)))
             floor.active_material.node_tree.nodes["grid_amount"].inputs[1].default_value = 0.4 * (1 - v)
             box.scale = (G.ease(tl / 0.25),) * 3
-            close = G.ease((tl - 1.15) / 0.25)
+            close = G.ease((tl - (0.3 + 0.09 * len(items) + 0.75)) / 0.25)
             for h, side in hinges:
                 h.rotation_euler.y = side * 2.3 * (1 - close)
             for o in lights:
                 o.hide_render = v > 0.9
             plo.hide_render = v < 0.9
             world_bg.inputs["Color"].default_value = G.lin("#3d3d3d") if v > 0.95 else G.lin(G.PAL["base"])
-            cam_path(cam, t, 0.1, 1.45, wide[0], default_cam[0], wide[1], default_cam[1])
+            cam_path(cam, t, 0.2, 2.2, wide[0], default_cam[0], wide[1], default_cam[1])
             return
         update_robot(t)
         booted = t >= boot
@@ -835,6 +837,29 @@ def plate_stream(job, seed):
     beat_len = 60 / G.TIMING["tempo_bpm"]
 
     face = -math.pi / 2 if job["cam"] == "low" else 0.0  # the low shot looks across the stream at the robot's front
+    tiles = []
+    if "video_tiles" in job["fx"]:
+        # S53 on: the feed's other videos as panels. They start as a top-down grid high above the landscape, peel off
+        # one by one, arc down into the river and flow on with the tokens (the same motion in the S53 shot and in
+        # the main river render that S54's screen plays).
+        s53 = SHOT["S53"]
+        tile_jobs = [j for j in SHOTS["render_jobs"] if j["shot"] == "S50" and j["seed"].startswith("thumbnail_tiles")]
+        gx0, gy0, gz = rx - 0.6, ry + 2.0, 12.0
+        for i in range(24):
+            col, row = i % 6, i // 6
+            m = G.mat_image_screen(f"vt_{i}", PANELS / "panel_playlist.png", 1.5)
+            ob = G.plane(f"vtile_{i}", (2.0, 1.125), (0, 0, 0), (0, 0, 0), m)
+            node = next(n for n in m.node_tree.nodes if n.type == "TEX_IMAGE")
+            slot = (gx0 + (col - 2.5) * 2.25, gy0 + (1.5 - row) * 1.35, gz)
+            tiles.append((ob, node, tile_jobs[i % len(tile_jobs)], slot, (i * 0.37) % 0.55, 0.45 + 0.07 * i))
+
+    def tile_frame(job_, f):
+        for back in range(4):
+            path = OUT_ROOT / job_["dir"] / f"{f - back:05d}.png"
+            if path.exists():
+                return bpy.data.images.load(str(path), check_existing=True)
+        return None
+
     gen = None
     if "gen_button" in job["fx"]:  # v6: a Generate button orbits the robot; in S27 the robot presses it (the music stops)
         gen = G.empty("gen_button", (rx, ry, rz + 1.5))
@@ -877,6 +902,27 @@ def plate_stream(job, seed):
                 sh.rotation_euler.y = -side * (0.3 + 0.9 * swing * (1 if (n + (side > 0)) % 2 else 0.2))
             rig["root"].location.z = rig["rest"]["root"].z + 0.07 * swing
             rig["root"].rotation_euler.z = face + 0.2 * (1 if (n // 2) % 2 else -1)
+        for ob, node, tj, slot, u0, delay in tiles:
+            ts = t - SHOT["S53"]["start_s"]
+            ob.hide_render = ts < 0
+            if ts < 0:
+                continue
+            img = tile_frame(tj, round(t * FPS))
+            if img is not None:
+                node.image = img
+            land = delay + 1.3
+            if ts < land:  # peel off the grid and arc down into the river
+                k = G.ease(max(0.0, (ts - delay) / 1.3))
+                ex, ey = stream_path(u0)
+                ez = height(ex, ey) + 0.2
+                ob.location = (slot[0] + (ex - slot[0]) * k, slot[1] + (ey - slot[1]) * k,
+                               slot[2] + (ez - slot[2]) * k + 2.0 * math.sin(math.pi * k))
+                ob.rotation_euler = (math.radians(55) * k, 0, math.radians(20) * math.sin(math.pi * k))
+            else:  # part of the stream now, flowing down it with the tokens
+                u = min(0.999, u0 + 0.05 * (ts - land))
+                x, y = stream_path(u)
+                ob.location = (x + 0.3 * math.sin(u * 30 + delay), y, height(x, y) + 0.22)
+                ob.rotation_euler = (math.radians(55), 0, 0.15 * math.sin(t * 1.5 + delay))
         if gen is not None:
             press_t = t1 - 0.35
             k = G.ease((t - (t1 - 1.1)) / 0.6) if "gen_press" in job["fx"] else 0.0
@@ -901,7 +947,14 @@ def plate_stream(job, seed):
                 a = t * (0.9 + 0.2 * i % 3) + ph * 6.28
                 ob.location = (rx + 1.6 * math.cos(a), ry + 1.6 * math.sin(a), rz + 1.2 + 0.5 * math.sin(t * 1.7 + i))
                 ob.rotation_euler = (math.radians(90), 0, a + math.pi / 2)
-        if job["cam"] == "wide":  # high, looking down the descent with the robot on its rock
+        if job["cam"] == "feed_dive":
+            # Top-down on the grid of videos, then descend to the river view the main render holds (S54 opens on it).
+            k = G.ease((tl - 0.9) / max(1e-6, (t1 - t0) - 1.1))
+            top, top_t = (rx - 0.6, ry + 2.0 - 0.01, 24.0), (rx - 0.6, ry + 2.0, 0)
+            end, end_t = (rx + 3, ry - 8, rz + 5.5), (rx - 0.5, ry + 4, rz + 0.5)
+            cam.location = [top[i] + (end[i] - top[i]) * k for i in range(3)]
+            G.look_at(cam, [top_t[i] + (end_t[i] - top_t[i]) * k for i in range(3)])
+        elif job["cam"] == "wide":  # high, looking down the descent with the robot on its rock
             cam_path(cam, t, t0, t1, (rx + 5, ry - 9, rz + 6.5), (rx + 3, ry - 8, rz + 5.5), (rx - 1, ry + 6, rz), (rx - 0.5, ry + 4, rz + 0.5))
         else:  # low, from the far bank: the stream rushes between camera and robot
             cam.data.lens = 22
@@ -1005,9 +1058,9 @@ def render_tiles(out_dir, width, height, samples, t):
 
 
 def render_probe(index, out_dir, width, height, samples, frac):
-    """One frame at a fraction of a job's range, for smoke tests (reads the river frames from the animatic_v5 plates)."""
+    """One frame at a fraction of a job's range, for smoke tests (reads video frames from the animatic_v6 plates)."""
     global OUT_ROOT
-    OUT_ROOT = ROOT / "renders" / "animatic_v5" / "plates"
+    OUT_ROOT = ROOT / "renders" / "animatic_v6" / "plates"
     job = SHOTS["render_jobs"][index]
     scene = G.reset(width, height, samples)
     strip_metadata(scene)

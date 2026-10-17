@@ -114,7 +114,7 @@ const show = (id) => $(id).classList.add('on');
 // ---------- global layers ----------
 function chrome(t, shot) {
   if (shot.id === 'S57') return;
-  if (shot.id === 'S56' && t - shot.start_s >= 1.6) return;
+  if (shot.id === 'S56' && t - shot.start_s >= 2.4) return;
   show('chrome');
   const el = $('chrome');
   el.style.opacity = shot.id === 'S01' || shot.id === 'S02' ? ease((t - BOOT) / 0.5) : 1;
@@ -873,7 +873,7 @@ function cursorRegenClick(t, shot) {
 function reload(t, shot) {
   const tl = t - shot.start_s;
   if (tl < 2 / fps) show('reload');
-  if (tl >= 1.6) show('black');
+  if (tl >= 2.4) show('black');
 }
 
 function endCard(t, shot) {

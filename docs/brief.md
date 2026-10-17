@@ -1,4 +1,4 @@
-<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 81, 2026-10-17. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
+<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 84, 2026-10-17. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
 
 # Ghost in the Machine: Shot List and Production Brief
 
@@ -148,10 +148,10 @@ Suno placed the bridge twice, so the reveal happens twice: a brief glitch after 
 | S50 | Final chorus | "Every song just sounds the same" | Zoom out: the video is one tile in a grid of near-identical thumbnails, every one the robot dancing in the data stream at its own seed | Tiles carry invented titles | Blender + JS |
 | S51 | Final chorus | "Oh-oh, the lights are fading out" | The tiles go dark one per beat | `Video unavailable` | JS |
 | S52 | Final chorus | "Oh-oh, but no one's looking down" | The feed starts to scroll from exactly where S51 left it, dark tiles included; fresh rows scroll in alive | — | Blender + JS |
-| S53 | Final chorus | "We're dancing in the data stream" | The feed zooms out; the videos themselves leave the grid and flow down the frame as a data stream, which dissolves into the river, robot included | — | Blender + JS |
-| S54 | Final chorus | When the beat stops | The river, filling the frame, pulls back to be one of the screens around the robot | — | Blender |
+| S53 | Final chorus | "We're dancing in the data stream" | Top-down, the feed's videos float as a grid high above the data-stream landscape; one by one they peel off, arc down into the river and flow on with the tokens as the camera descends to the river and the dancing robot | — | Blender + JS |
+| S54 | Final chorus | When the beat stops | The river, filling the frame with the videos still flowing in it, pulls back to be one of the screens around the robot | — | Blender |
 | S55 | Final chorus | Last "We are the ghost in the machine" | Over that wide shot, the cursor hovers a generic Regenerate button and clicks on "machine" | — | Blender + JS |
-| S56 | Ending | After the last word (189.8 s); runs past the end of the audio, over silence | Page reloads (`seed: 43`); the default cube reappears and the world rises up and around it and drops in through its open top, then the lid snaps shut; hard cut to black at 1.6 s | — | Blender + JS |
+| S56 | Ending | After the last word (189.8 s); runs past the end of the audio, over silence | Page reloads (`seed: 43`); the default cube reappears and the world is packed back in, the exact reverse of S02's unpacking: the robot, then each screen, lifted up over the rim and dropped in through the open top along the same arcs; the lid snaps shut; hard cut to black at 2.4 s | — | Blender + JS |
 | S57 | End card | After black | Credits on black | See section 7 | ffmpeg |
 
 All icons, buttons and UI are generic redraws: no real product's interface, logo or the inspiration videos' characters.

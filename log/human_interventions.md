@@ -191,3 +191,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** "so close: for S53 into S54, I want the videos to become an actual part of the stream rather than doing a fadeout"
 - **Rule:** R1 (creative direction in words; the agent makes the change).
+
+## 2026-10-17T17:51:04-04:00 — C4 feedback on animatic v6 (follow-up)
+
+- **What:** "also S56's repacking needs the same treatment as the unpacking"
+- **Rule:** R1 (creative direction in words; the agent makes the change).
