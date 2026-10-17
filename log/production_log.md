@@ -507,3 +507,13 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - S53: the feed zooms out, then 18 videos leave the grid and flow down an S-shaped stream that dissolves into the river. The first tries were too dense (84 tiles); now 18 evenly spaced.
 - **Assembly:** a `tear` transition (9 frames of RGB split and band shifts, seeded per frame).
 - **Why:** The human's v5 notes and S11 answer.
+
+## 2026-10-17T17:44:10-04:00 — C4: animatic v6 (v5 notes addressed)
+
+- **What:** Rendered and assembled animatic v6 with the changes in the v6 build entry above. 55 shots; 199.567 s.
+- **Commands:**
+  - `scripts/render_plates.sh animatic_v6 640 360 8 2` (69 jobs; S54/S55 read the river frames rendered earlier in the same run)
+  - `.venv/bin/python scripts/export_overlay_data.py`
+  - `.venv/bin/python scripts/assemble.py animatic_v6 640 360 2 6 --hud --name animatic_v6` (2 m 26 s)
+- **Outputs:** `renders/animatic_v6/animatic_v6.mp4` (5987 frames verified, video 199.567 s / audio 199.560 s); review sheet. v5 cut moved to `archive/renders/`.
+- **Status:** Stopped at C4 for review of v6.
