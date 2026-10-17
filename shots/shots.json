@@ -9,22 +9,25 @@
    "section": "Intro",
    "anchor": [
     "time",
-    0.0,
-    false
+    0.0
    ],
    "pipeline": "Blender + JS",
    "start_s": 0.0,
    "end_s": 12.028,
    "start_frame": 0,
    "end_frame": 361,
-   "blender_plate": "default_cube_boot",
-   "js_layers": [],
+   "plate": {
+    "mode": "render",
+    "plate": "default_cube_boot"
+   },
+   "layers": [],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Default scene holds ~1 s, neon world boots on the first downbeat (4.4 s). Overlays fade in."
+   "big_captions": false,
+   "notes": "Default scene holds until the first downbeat (4.4 s), then the neon world boots. Overlays fade in."
   },
   {
    "id": "S02",
@@ -38,13 +41,17 @@
    "end_s": 19.9,
    "start_frame": 361,
    "end_frame": 597,
-   "blender_plate": "robot_screens",
-   "js_layers": [],
+   "plate": {
+    "mode": "render",
+    "plate": "robot_screens"
+   },
+   "layers": [],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
+   "big_captions": false,
    "notes": "Robot on the grid among floating screens. Lines 1-2."
   },
   {
@@ -55,13 +62,16 @@
     "Verse 1",
     2
    ],
-   "pipeline": "JS",
+   "pipeline": "JS over held plate",
    "start_s": 19.9,
    "end_s": 23.824,
    "start_frame": 597,
    "end_frame": 715,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "hold",
+    "src": "S02"
+   },
+   "layers": [
     "accept_banner"
    ],
    "seed": "main",
@@ -69,7 +79,8 @@
     "captions",
     "chrome"
    ],
-   "notes": "Accept-all banner over the S02 plate (held); cursor clicks on \"agreed\"."
+   "big_captions": false,
+   "notes": "Accept-all banner over the held S02 frame; cursor clicks on \"agreed\" without pausing."
   },
   {
    "id": "S04",
@@ -84,8 +95,11 @@
    "end_s": 27.771,
    "start_frame": 715,
    "end_frame": 833,
-   "blender_plate": "robot_shrug",
-   "js_layers": [
+   "plate": {
+    "mode": "render",
+    "plate": "robot_shrug"
+   },
+   "layers": [
     "todo_caption"
    ],
    "seed": "main",
@@ -93,6 +107,7 @@
     "captions",
     "chrome"
    ],
+   "big_captions": false,
    "notes": "Shrug; caption flashes // TODO: make this part sad."
   },
   {
@@ -102,21 +117,26 @@
     "section",
     "Bridge 1"
    ],
-   "pipeline": "JS",
+   "pipeline": "Blender + JS",
    "start_s": 27.771,
    "end_s": 31.695,
    "start_frame": 833,
    "end_frame": 951,
-   "blender_plate": null,
-   "js_layers": [
-    "glitch_devtools_flicker"
+   "plate": {
+    "mode": "render",
+    "plate": "robot_screens",
+    "freeze_first": true
+   },
+   "layers": [
+    "glitch_flicker"
    ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "One-frame freeze on \"Have\", devtools flickers; music continues. Plate: last S04 frame + held S02."
+   "big_captions": false,
+   "notes": "One-frame freeze on \"Have\" and a devtools flicker, then the video carries on as if nothing happened."
   },
   {
    "id": "S06",
@@ -126,13 +146,16 @@
     "Bridge 1",
     1
    ],
-   "pipeline": "JS",
+   "pipeline": "JS (2D)",
    "start_s": 31.695,
    "end_s": 39.544,
    "start_frame": 951,
    "end_frame": 1186,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
     "icon_strip_fast"
    ],
    "seed": "main",
@@ -140,7 +163,8 @@
     "captions",
     "chrome"
    ],
-   "notes": "Five generic icons whip past."
+   "big_captions": true,
+   "notes": "Five generic icons whip past like a trailer."
   },
   {
    "id": "S07",
@@ -149,13 +173,16 @@
     "event",
     "bridge1_beat_gap"
    ],
-   "pipeline": "JS",
+   "pipeline": "JS (2D)",
    "start_s": 39.544,
    "end_s": 49.389,
    "start_frame": 1186,
    "end_frame": 1482,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
     "progress_1of2"
    ],
    "seed": "main",
@@ -163,6 +190,7 @@
     "captions",
     "chrome"
    ],
+   "big_captions": true,
    "notes": "Progress bar Generating... 1 of 2, dismissed. Drums drop out 43.8-51.1 s."
   },
   {
@@ -177,14 +205,18 @@
    "end_s": 59.188,
    "start_frame": 1482,
    "end_frame": 1776,
-   "blender_plate": "server_racks",
-   "js_layers": [],
+   "plate": {
+    "mode": "render",
+    "plate": "server_racks"
+   },
+   "layers": [],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Racks pulse on beats; line chart climbs."
+   "big_captions": false,
+   "notes": "Racks pulse on the beat; a line chart climbs into the sky."
   },
   {
    "id": "S09",
@@ -198,8 +230,11 @@
    "end_s": 96.27,
    "start_frame": 1776,
    "end_frame": 2888,
-   "blender_plate": "chorus_orbit",
-   "js_layers": [
+   "plate": {
+    "mode": "render",
+    "plate": "chorus_orbit"
+   },
+   "layers": [
     "the_rain",
     "regen_button"
    ],
@@ -208,7 +243,8 @@
     "captions",
     "chrome"
    ],
-   "notes": "Slow orbit, uniform easing; the-rain; regenerate button pulses in a corner. Full stop 90.5-92.2 s."
+   "big_captions": false,
+   "notes": "Slow orbit, uniform easing; the-rain from \"Tokens falling\"; regenerate button pulses. Full stop 90.5-92.2 s."
   },
   {
    "id": "S10",
@@ -217,13 +253,16 @@
     "section",
     "Verse 2"
    ],
-   "pipeline": "JS",
+   "pipeline": "JS (2D)",
    "start_s": 96.27,
    "end_s": 100.171,
    "start_frame": 2888,
    "end_frame": 3005,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
     "check_stamp"
    ],
    "seed": "main",
@@ -231,7 +270,8 @@
     "captions",
     "chrome"
    ],
-   "notes": "Green check stamp on \"good\"; version -> v1.1."
+   "big_captions": true,
+   "notes": "Half-second green check stamp on \"good\"; version ticks to v1.1."
   },
   {
    "id": "S11",
@@ -241,13 +281,16 @@
     "Verse 2",
     1
    ],
-   "pipeline": "JS",
+   "pipeline": "JS (2D)",
    "start_s": 100.171,
    "end_s": 104.072,
    "start_frame": 3005,
    "end_frame": 3122,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
     "regen_spin"
    ],
    "seed": "main",
@@ -255,6 +298,7 @@
     "captions",
     "chrome"
    ],
+   "big_captions": true,
    "notes": "Spinning regenerate arrow."
   },
   {
@@ -270,14 +314,18 @@
    "end_s": 107.95,
    "start_frame": 3122,
    "end_frame": 3238,
-   "blender_plate": "theater_seats",
-   "js_layers": [],
+   "plate": {
+    "mode": "render",
+    "plate": "theater_seats"
+   },
+   "layers": [],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Empty seats facing the grid."
+   "big_captions": false,
+   "notes": "Row of empty theater seats facing the grid."
   },
   {
    "id": "S13",
@@ -292,8 +340,11 @@
    "end_s": 111.851,
    "start_frame": 3238,
    "end_frame": 3356,
-   "blender_plate": "robot_tear",
-   "js_layers": [
+   "plate": {
+    "mode": "render",
+    "plate": "robot_tear"
+   },
+   "layers": [
     "score_counter"
    ],
    "seed": "main",
@@ -301,7 +352,8 @@
     "captions",
     "chrome"
    ],
-   "notes": "Close-up; tear is a loading spinner (screen face); score counter."
+   "big_captions": false,
+   "notes": "Close-up; the single tear is a loading spinner on the screen face; a score counter ticks."
   },
   {
    "id": "S14",
@@ -310,21 +362,25 @@
     "section",
     "Bridge 2"
    ],
-   "pipeline": "JS",
+   "pipeline": "JS over held plate",
    "start_s": 111.851,
    "end_s": 115.728,
    "start_frame": 3356,
    "end_frame": 3472,
-   "blender_plate": null,
-   "js_layers": [
-    "freeze_devtools"
+   "plate": {
+    "mode": "hold",
+    "src": "S13"
+   },
+   "layers": [
+    "devtools"
    ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Hard freeze on \"Have\" over music that keeps playing; devtools slides in and stays. Plate: held last S13 frame."
+   "big_captions": false,
+   "notes": "Hard freeze on \"Have\" while the music keeps playing; devtools slides in and stays."
   },
   {
    "id": "S15",
@@ -334,22 +390,26 @@
     "Bridge 2",
     1
    ],
-   "pipeline": "JS",
+   "pipeline": "JS over held plate",
    "start_s": 115.728,
    "end_s": 119.629,
    "start_frame": 3472,
    "end_frame": 3589,
-   "blender_plate": null,
-   "js_layers": [
-    "icon_strip_slow",
-    "freeze_devtools"
+   "plate": {
+    "mode": "hold",
+    "src": "S13"
+   },
+   "layers": [
+    "devtools",
+    "icon_strip_slow"
    ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "S06 icons return one by one, readable."
+   "big_captions": false,
+   "notes": "The S06 icons return one at a time, slow enough to read."
   },
   {
    "id": "S16",
@@ -359,21 +419,25 @@
     "Bridge 2",
     2
    ],
-   "pipeline": "JS",
+   "pipeline": "JS over held plate",
    "start_s": 119.629,
    "end_s": 125.457,
    "start_frame": 3589,
    "end_frame": 3764,
-   "blender_plate": null,
-   "js_layers": [
-    "progress_2of2",
-    "freeze_devtools"
+   "plate": {
+    "mode": "hold",
+    "src": "S13"
+   },
+   "layers": [
+    "devtools",
+    "progress_2of2"
    ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
+   "big_captions": false,
    "notes": "Generating... 2 of 2 over the frozen frame."
   },
   {
@@ -383,22 +447,27 @@
     "section",
     "Pre-Chorus 2"
    ],
-   "pipeline": "Blender + JS",
+   "pipeline": "JS over held plate, then Blender",
    "start_s": 125.457,
    "end_s": 141.015,
    "start_frame": 3764,
    "end_frame": 4230,
-   "blender_plate": "server_racks",
-   "js_layers": [
-    "freeze_devtools_full",
-    "lyric_goes_here"
+   "plate": {
+    "mode": "hold_then",
+    "src": "S13",
+    "until": 134.885,
+    "plate": "server_racks"
+   },
+   "layers": [
+    "devtools_full"
    ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Dropout 127.8-134.9 s: devtools expands; racks (S08 plate) snap back when drums return; one frame of Lyric goes here on the snap-back."
+   "big_captions": false,
+   "notes": "Dropout: devtools expands to fill the frozen frame; at the drums' return (134.9 s) it snaps shut and the S08 racks are back; one frame of caption reads Lyric goes here."
   },
   {
    "id": "S18",
@@ -412,10 +481,12 @@
    "end_s": 158.453,
    "start_frame": 4230,
    "end_frame": 4754,
-   "blender_plate": "chorus_orbit",
-   "js_layers": [
+   "plate": {
+    "mode": "render",
+    "plate": "chorus_orbit"
+   },
+   "layers": [
     "the_rain_heavy",
-    "strike_answer",
     "output_truncated"
    ],
    "seed": "main",
@@ -423,7 +494,8 @@
     "captions",
     "chrome"
    ],
-   "notes": "Heavier rain; answer->song strike; [output truncated] when the chorus cuts off, held until the slam; version -> v1.2.7."
+   "big_captions": false,
+   "notes": "Heavier rain; the caption strikes \"answer\" for \"song\"; [output truncated] when the chorus cuts off, held until the slam; version ticks to v1.2.7."
   },
   {
    "id": "S19",
@@ -432,19 +504,28 @@
     "event",
     "bass_return"
    ],
-   "pipeline": "Blender + ffmpeg",
+   "pipeline": "Blender x2 + split",
    "start_s": 158.453,
    "end_s": 168.112,
    "start_frame": 4754,
    "end_frame": 5043,
-   "blender_plate": "chorus_orbit_split",
-   "js_layers": [],
+   "plate": {
+    "mode": "split",
+    "plate": "chorus_orbit",
+    "seeds": [
+     "main",
+     "bridge_second_run"
+    ],
+    "lag_s": 0.1
+   },
+   "layers": [],
    "seed": "main+bridge_second_run",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Split screen seed 41 | 42, slightly out of sync; camera clips through the head; FPS counter -> ~12."
+   "big_captions": false,
+   "notes": "Split screen seed 41 | 42, slightly out of sync; camera clips through the head; FPS counter ~12."
   },
   {
    "id": "S20",
@@ -454,19 +535,30 @@
     "Final Chorus",
     3
    ],
-   "pipeline": "Blender + ffmpeg",
+   "pipeline": "Blender (tiles) + JS grid",
    "start_s": 168.112,
    "end_s": 187.538,
    "start_frame": 5043,
    "end_frame": 5626,
-   "blender_plate": "thumbnail_grid",
-   "js_layers": [],
+   "plate": {
+    "mode": "js",
+    "renders": [
+     {
+      "plate": "chorus_orbit",
+      "seed": "main"
+     }
+    ]
+   },
+   "layers": [
+    "thumbnail_grid"
+   ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "notes": "Zoom out to a grid of near-identical tiles (this scene at other seeds, invented titles)."
+   "big_captions": false,
+   "notes": "Zoom out: the video is one tile in a grid of near-identical thumbnails (this scene at other seeds, invented titles)."
   },
   {
    "id": "S21",
@@ -481,8 +573,11 @@
    "end_s": 189.76,
    "start_frame": 5626,
    "end_frame": 5693,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "thumbnail_grid",
     "cursor_regen_click"
    ],
    "seed": "main",
@@ -490,23 +585,28 @@
     "captions",
     "chrome"
    ],
-   "notes": "Cursor hovers the regenerate button and clicks. Music decays under the last line."
+   "big_captions": false,
+   "notes": "Over the held grid, the cursor hovers a generic regenerate button and clicks on \"machine\"."
   },
   {
    "id": "S22",
    "section": "Ending",
    "anchor": [
     "time",
-    189.76,
-    false
+    189.76
    ],
-   "pipeline": "JS + ffmpeg",
+   "pipeline": "Blender + JS",
    "start_s": 189.76,
    "end_s": 190.96,
    "start_frame": 5693,
    "end_frame": 5729,
-   "blender_plate": "default_cube_boot",
-   "js_layers": [
+   "plate": {
+    "mode": "render",
+    "plate": "default_cube_boot",
+    "clock": "local",
+    "black_after": 1.0
+   },
+   "layers": [
     "reload"
    ],
    "seed": "restart",
@@ -514,6 +614,7 @@
     "captions",
     "chrome"
    ],
+   "big_captions": false,
    "notes": "Page reloads; S01 restarts at seed 43; hard cut to black ~1 s in. Runs past the audio."
   },
   {
@@ -521,21 +622,137 @@
    "section": "End card",
    "anchor": [
     "time",
-    190.95999999999998,
-    false
+    190.95999999999998
    ],
-   "pipeline": "ffmpeg",
+   "pipeline": "JS",
    "start_s": 190.96,
    "end_s": 198.96,
    "start_frame": 5729,
    "end_frame": 5969,
-   "blender_plate": null,
-   "js_layers": [
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
     "end_card"
    ],
    "seed": "main",
    "global_layers": [],
+   "big_captions": false,
    "notes": "Credits on black, one line at a time. No captions or chrome."
+  }
+ ],
+ "render_jobs": [
+  {
+   "shot": "S01",
+   "plate": "default_cube_boot",
+   "seed": "main",
+   "start": 0,
+   "end": 361,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S02",
+   "plate": "robot_screens",
+   "seed": "main",
+   "start": 361,
+   "end": 597,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S04",
+   "plate": "robot_shrug",
+   "seed": "main",
+   "start": 715,
+   "end": 833,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S05",
+   "plate": "robot_screens",
+   "seed": "main",
+   "start": 833,
+   "end": 951,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S08",
+   "plate": "server_racks",
+   "seed": "main",
+   "start": 1482,
+   "end": 1776,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S09",
+   "plate": "chorus_orbit",
+   "seed": "main",
+   "start": 1776,
+   "end": 2888,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S12",
+   "plate": "theater_seats",
+   "seed": "main",
+   "start": 3122,
+   "end": 3238,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S13",
+   "plate": "robot_tear",
+   "seed": "main",
+   "start": 3238,
+   "end": 3356,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S17",
+   "plate": "server_racks",
+   "seed": "main",
+   "start": 4047,
+   "end": 4230,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S18",
+   "plate": "chorus_orbit",
+   "seed": "main",
+   "start": 4230,
+   "end": 4754,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S19",
+   "plate": "chorus_orbit",
+   "seed": "main",
+   "start": 4754,
+   "end": 5043,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S19",
+   "plate": "chorus_orbit",
+   "seed": "bridge_second_run",
+   "start": 4751,
+   "end": 5040,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S20",
+   "plate": "chorus_orbit",
+   "seed": "main",
+   "start": 5043,
+   "end": 5626,
+   "clock_offset_s": 0.0
+  },
+  {
+   "shot": "S22",
+   "plate": "default_cube_boot",
+   "seed": "restart",
+   "start": 5693,
+   "end": 5723,
+   "clock_offset_s": 189.76
   }
  ]
 }

@@ -1,0 +1,121 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="tokens.css">
+<!-- Every JS layer of the video, for any frame: window.renderFrame(t). Driven by overlays/data/data.js.
+     Authored on a 1920x1080 stage, scaled to the render size. Query: ?seed=&fps=&w=&h=&plates=<dir rel. to this file> -->
+<style>
+  body { overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; }
+  .layer { position: absolute; inset: 0; display: none; }
+  .on { display: block; }
+  canvas.layer { width: 1920px; height: 1080px; }
+
+  #bg2d { background-color: var(--base);
+          background-image: linear-gradient(rgba(74, 69, 80, .22) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(74, 69, 80, .22) 1px, transparent 1px);
+          background-size: 80px 80px; }
+
+  .card { position: absolute; background: var(--surface); border: 3px solid var(--line); border-radius: 18px;
+          font-family: var(--sans); color: var(--paper); box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  #banner .card { left: 360px; width: 1200px; top: 90px; padding: 44px 56px; }
+  #banner h2 { margin: 0 0 14px; font-size: 40px; font-weight: 700; letter-spacing: -0.01em; }
+  #banner p { margin: 0 0 30px; font-size: 26px; color: var(--mid); }
+  .btn { display: inline-block; font-weight: 700; font-size: 28px; padding: 18px 40px; border-radius: 12px; margin-right: 18px; }
+  .btn.primary { background: var(--accent-2); color: var(--paper); }
+  .btn.ghost { border: 3px solid var(--line); color: var(--mid); }
+
+  #cursor svg { position: absolute; width: 46px; height: 46px; filter: drop-shadow(0 4px 6px rgba(0,0,0,.6)); }
+  #cursor .ripple { position: absolute; border: 4px solid var(--paper); border-radius: 50%; }
+
+  #todo div { position: absolute; left: 120px; top: 640px; font-family: var(--mono); font-size: 44px; color: var(--accent); }
+
+  #devtools .panel { position: absolute; top: 0; right: 0; height: 1080px; background: #141419; border-left: 3px solid var(--line);
+                     font-family: var(--mono); font-size: 24px; color: var(--mid); box-sizing: border-box; overflow: hidden; }
+  #devtools .tabs { display: flex; gap: 34px; padding: 18px 28px; border-bottom: 2px solid var(--line); font-size: 22px; }
+  #devtools .tabs .sel { color: var(--paper); border-bottom: 3px solid var(--accent-2); padding-bottom: 8px; }
+  #devtools .log { padding: 18px 28px; line-height: 1.7; white-space: pre-wrap; }
+  #devtools .warn { color: #e8b04a; background: rgba(232, 176, 74, .08); display: block; margin: 0 -28px; padding: 2px 28px; }
+  #devtools .err { color: var(--accent); background: rgba(217, 80, 47, .1); display: block; margin: 0 -28px; padding: 2px 28px; }
+  #devtools .cmd { color: var(--paper); }
+
+  #icons svg { position: absolute; width: 220px; height: 220px; }
+
+  #progress .card { left: 560px; top: 300px; width: 800px; padding: 40px 48px; }
+  #progress .label { font-family: var(--mono); font-size: 32px; color: var(--paper); margin-bottom: 26px; }
+  #progress .track { height: 18px; background: var(--base); border-radius: 9px; overflow: hidden; }
+  #progress .fill { height: 100%; background: var(--accent); }
+
+  #stamp .s { position: absolute; left: 1480px; top: 150px; width: 420px; text-align: center; color: #3fbf6f;
+              font-family: var(--sans); font-weight: 900; }
+  #stamp .s .box { border: 14px solid #3fbf6f; border-radius: 40px; font-size: 220px; line-height: 300px; }
+  #stamp .s .word { font-size: 64px; letter-spacing: 0.08em; margin-top: 18px; }
+
+  #regenSpin svg { position: absolute; left: 1180px; top: 220px; width: 520px; height: 520px; }
+
+  #regenBtn .b, #bigRegen .b { position: absolute; display: flex; align-items: center; gap: 14px; background: var(--surface);
+              border: 3px solid var(--line); border-radius: 999px; font-family: var(--sans); font-weight: 700; color: var(--paper); }
+  #regenBtn .b { right: 60px; top: 110px; padding: 14px 28px 14px 18px; font-size: 26px; }
+  #regenBtn svg { width: 40px; height: 40px; }
+  #bigRegen .b { left: 720px; top: 500px; padding: 26px 52px 26px 34px; font-size: 48px; }
+  #bigRegen svg { width: 72px; height: 72px; }
+
+  #score .p { position: absolute; left: 1250px; top: 260px; font-family: var(--mono); color: var(--mid); font-size: 30px; letter-spacing: .1em; }
+  #score .n { font-family: var(--sans); font-weight: 900; color: var(--paper); font-size: 120px; letter-spacing: -0.03em; }
+
+  #truncated div { position: absolute; left: 0; right: 0; top: 470px; text-align: center; font-family: var(--mono);
+                   font-size: 54px; color: var(--paper); }
+  #truncated span { background: var(--surface); border: 3px solid var(--line); padding: 20px 40px; border-radius: 12px; }
+
+  #captions .line { position: absolute; left: 120px; bottom: 150px; width: 1300px; font-family: var(--sans); font-weight: 800;
+                    font-size: 76px; line-height: 1.08; letter-spacing: -0.02em; color: var(--paper);
+                    text-shadow: 0 0 24px rgba(9, 8, 11, .95), 0 0 6px rgba(9, 8, 11, .9); }
+  #captions .line.big { bottom: auto; top: 50%; transform: translateY(-50%); font-size: 150px; width: 1500px; line-height: 1.02; }
+  #captions .todo { opacity: .3; }
+  #captions .acc { color: var(--accent); }
+  #captions .emo { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: 0; }
+  #captions .struck { position: relative; opacity: .45; }
+  #captions .struck::after { content: ""; position: absolute; left: -2%; top: 52%; height: 8px; background: var(--accent);
+                             width: var(--strike, 0%); }
+
+  #chrome div { position: absolute; font-family: var(--mono); font-size: 22px; color: var(--mid); letter-spacing: 0.02em; }
+  #chrome .tl { top: 40px; left: 48px; } #chrome .bl { bottom: 40px; left: 48px; }
+  #chrome .bl2 { bottom: 40px; left: 1008px; } #chrome .br { bottom: 40px; right: 48px; }
+
+  #reload, #black, #endcard { background: #000; }
+  #reload .flash { position: absolute; inset: 0; background: var(--paper); }
+  #endcard .lines { position: absolute; left: 240px; top: 260px; font-family: var(--sans); font-weight: 600; font-size: 46px;
+                    line-height: 1.75; color: #fff; }
+  #endcard .lines div { opacity: 0; }
+  #hud { display: none; left: auto; right: 48px; top: 80px; bottom: auto; inset: 80px 48px auto auto; font-family: var(--mono);
+         font-size: 26px; color: #ffe14d; background: rgba(0,0,0,.6); padding: 6px 14px; height: fit-content; width: fit-content; }
+  #endcard .lines .mono { font-family: var(--mono); font-weight: 400; font-size: 34px; color: var(--mid); }
+</style>
+<body>
+<div id="stage">
+  <div id="bg2d" class="layer"></div>
+  <canvas id="grid" class="layer" width="1920" height="1080"></canvas>
+  <canvas id="rain" class="layer" width="1920" height="1080"></canvas>
+  <div id="icons" class="layer"></div>
+  <div id="progress" class="layer"><div class="card"><div class="label"></div><div class="track"><div class="fill"></div></div></div></div>
+  <div id="stamp" class="layer"><div class="s"><div class="box">✓</div><div class="word">APPROVED</div></div></div>
+  <div id="regenSpin" class="layer"></div>
+  <div id="regenBtn" class="layer"><div class="b"></div></div>
+  <div id="score" class="layer"><div class="p">SCORE<div class="n"></div></div></div>
+  <div id="banner" class="layer"><div class="card"><h2>This site uses cookies</h2>
+    <p>We and our 1,402 partners use your data to make this experience feel personal.</p>
+    <span class="btn primary">Accept all</span><span class="btn ghost">Manage</span></div></div>
+  <div id="todo" class="layer"><div>// TODO: make this part sad</div></div>
+  <div id="devtools" class="layer"><div class="panel"><div class="tabs"><span>Elements</span><span class="sel">Console</span>
+    <span>Sources</span><span>Network</span></div><div class="log"></div></div></div>
+  <div id="truncated" class="layer"><div><span>[output truncated]</span></div></div>
+  <div id="bigRegen" class="layer"><div class="b"></div></div>
+  <div id="captions" class="layer"></div>
+  <div id="chrome" class="layer"><div class="tl"></div><div class="bl"></div><div class="bl2"></div><div class="br"></div></div>
+  <div id="cursor" class="layer"></div>
+  <div id="reload" class="layer"><div class="flash"></div></div>
+  <div id="black" class="layer"></div>
+  <div id="endcard" class="layer"><div class="lines"></div></div>
+  <div id="hud" class="layer"></div>
+</div>
+<script type="module" src="video.js"></script>
+</body>

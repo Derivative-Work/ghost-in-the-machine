@@ -246,3 +246,49 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - 1 ffmpeg (S23)
   - Global caption and chrome layers run over S01–S22.
 - **Why:** Brief, pre-production step 5. `shots.json` drives the C4 animatic and the final renders.
+
+## 2026-10-17T12:25:36-04:00 — C4: animatic v1
+
+- **What:** Built the full production pipeline and rendered every shot at final timing, rough and low-res.
+  - **Shot list:** `shots/build_shots.py` rewritten with a plate mode per shot: render, hold (freezes), hold_then (S17), split (S19), js (2D shots and the S20 grid). It now also records big captions for the 2D shots (per the C1 critique) and generates the Blender render jobs.
+  - **Seeds:** added `thumbnail_tiles` (1001–1023) to `config/seeds.json` for the S20 neighbour tiles.
+  - **Blender:**
+    - `scenes/blender/lib/gitm_scene.py`: shared palette, materials, character rig, world, lights, bloom, easing and beat pulse.
+    - `scenes/blender/plates.py`: 7 plates (default_cube_boot, robot_screens, robot_shrug, server_racks, chorus_orbit, theater_seats, robot_tear) plus thumbnail tiles. Each sets every animated value from t alone.
+    - `scripts/render_plates.sh` runs all jobs.
+  - **Screen textures:** `overlays/panels/{chat,terminal}.html`.
+  - **Overlay:**
+    - `overlays/video.html` + `overlays/video.js`: one page renders every JS layer for any frame (captions with accent/emotional words, strike-through, Lyric goes here; chrome with the version schedule, seed labels and FPS gag; banner, cursor, TODO, devtools flicker/side/full with console log, icon strips, progress 1/2 and 2/2, stamp, spinning arrow, regen buttons, score, the-rain, output truncated, thumbnail grid, reload, end card; optional review HUD).
+    - `overlays/captions_style.json` holds accent and emotional words per line.
+    - `scripts/export_overlay_data.py` writes `overlays/data/data.js`.
+    - `scripts/render_frames.mjs` now reports page and console errors and passes extra query params.
+  - **Assembly:** `scripts/assemble.py` builds the plate sequence, renders the overlay in 6 parallel Puppeteer processes, composites in Python and pipes raw RGB to ffmpeg with the audio padded to the video's length.
+  - **Review:** `scripts/sheet.py` makes labelled contact sheets.
+- **Iterations:**
+  - Plate smoke test, one frame per job. In chorus_orbit the screen ring blocked the robot and the fixed rim light washed it orange. Fixes: camera inside the ring, screens facing inward, two soft keys plus a weak rim. Second test: the orbit showed the robot's back, so the robot now turns with the camera.
+  - Overlay test frames:
+    - Captions were missing everywhere but the last line. Bug: each line's display window read the next line's start before it was computed (NaN). Fixed with two passes.
+    - Layout collisions fixed: banner covering caption, icons crossing the big caption, stamp on caption, heavy rain burying caption, S21 button under caption. The banner now drops from the top, icons run along the top band, the stamp moved right, heavy-rain alpha is divided by √density, captions got a dark glow, and the button moved up.
+    - S20/S21 test frames were first empty. Agent error: `| head -3` killed node with SIGPIPE.
+  - Composite attempts. Failed outputs were kept in `archive/renders/`:
+    1. `apad` + `-shortest` stopped at the audio's end (189.5 s), with an internal ENOSPC; the disk was fine. → `animatic_v1_truncated_at_audio_end.mp4`
+    2. `apad=whole_dur` padded by the full duration, giving 389 s of audio. → `animatic_v1_audio_389s.mp4`
+    3. With `pad_dur`, 61 frames were dropped. Cause: a pixel-format change between RGB and RGBA plates made ffmpeg reinit the filter graph. → `animatic_v1_dropped_61_frames.mp4`
+    4. After making all plates RGBA, 50 frames were still dropped. Causes: Blender PNGs carry a gAMA chunk that PIL's don't, and Chrome writes opaque frames as RGB. → `animatic_v1_dropped_50_frames.mp4`
+    5. Final approach: composite in Python and pipe raw RGB. All 5969 frames; video 198.967 s, audio 198.960 s.
+- **Commands:**
+  - `scripts/render_plates.sh animatic 640 360 8 2`: 640×360, 8 TAA samples, every 2nd frame held. 5 m 49 s total, about 0.07 s per frame on the GTX 970.
+  - `.venv/bin/python scripts/export_overlay_data.py`
+  - `.venv/bin/python scripts/assemble.py animatic 640 360 2 6 --hud --name animatic_v1` (overlay render 2 m 40 s, composite 24 s)
+- **Outputs:**
+  - `renders/animatic/animatic_v1.mp4` (640×360, 30 fps, 198.97 s, with a shot/timecode HUD)
+  - `renders/animatic/{plates,plate_seq,overlay}/`
+  - Review sheets `renders/animatic/*sheet*.jpg`
+- **Known rough spots (agent review):**
+  - S13: the tear spinner sits slightly off the face.
+  - S12: the seats are dark and tightly framed.
+  - S08: the line chart is faint.
+  - S09/S18: rain density over the robot is to be tuned.
+  - All plates render at 2 fps-steps.
+- **Why:** Brief, checkpoint C4: every shot as a rough low-res render at final timing; human approves the cut.
+- **Status:** Stopped at C4.

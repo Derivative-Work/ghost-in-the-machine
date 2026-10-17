@@ -1,0 +1,35 @@
+{
+  "_doc": "Caption styling per lyric line (style spec): one accent word (the line's key noun) and at most one emotional word per section, set in Instrument Serif Italic. Keyed by the line's text as sung.",
+  "accent": {
+    "Every screen is glowing, every heart is on display": "screen",
+    "We fed the machine our secrets, now it tells us what to say": "secrets,",
+    "Never read the terms, we just agreed to every line": "terms,",
+    "Gave it half a wish and blamed it for not reading minds": "wish",
+    "Have you heard this song before?": "song",
+    "Looks good, run it, one more encore": "encore",
+    "Not my fault, accept it all": "accept",
+    "Maybe someone wrote it, maybe no one did": "someone",
+    "Maybe it’s the average of everything we fed": "average",
+    "And the servers hum like a lullaby": "servers",
+    "While the numbers climb to the neon sky": "numbers",
+    "We are the ghost in the machine": "ghost",
+    "Living in a world that’s not what it seems": "world",
+    "Tokens falling like the rain": "Tokens",
+    "Every answer sounds the same": "same",
+    "Every song just sounds the same": "same",
+    "Oh-oh, the lights are fading out": "lights",
+    "Oh-oh, but no one’s looking down": "looking",
+    "We’re dancing in the data stream": "data",
+    "Merged a million lines and swore that it looked good": "million",
+    "Hit regenerate until it said the things it should": "regenerate",
+    "Bought a front-row seat to watch the ending of the show": "show",
+    "And every time they scored us, a little more would go": "scored"
+  },
+  "emotional": {
+    "Every screen is glowing, every heart is on display": "heart",
+    "Have you heard this song before?": "before?",
+    "And the servers hum like a lullaby": "lullaby",
+    "Living in a world that’s not what it seems": "seems",
+    "And every time they scored us, a little more would go": "little"
+  }
+}

@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  /* Generic chat window texture for floating screens. Rendered at 1200x700. */
+  body { width: 1200px; height: 700px; background: var(--surface); font-family: var(--sans); box-sizing: border-box;
+         padding: 56px; border: 6px solid var(--line); display: flex; flex-direction: column; gap: 28px; }
+  .b { max-width: 760px; padding: 26px 34px; border-radius: 28px; font-size: 36px; line-height: 1.35; }
+  .me { align-self: flex-end; background: var(--accent-2); color: var(--paper); border-bottom-right-radius: 8px; }
+  .ai { background: var(--base); color: var(--paper); border-bottom-left-radius: 8px; }
+  .typing { color: var(--mid); font-family: var(--mono); font-size: 30px; }
+</style>
+<body>
+  <div class="b me">write me a song about how you feel</div>
+  <div class="b ai">Of course! Here's a heartfelt song about the human experience ✨</div>
+  <div class="typing">● ● ●</div>
+</body>
