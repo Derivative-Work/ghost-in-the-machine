@@ -66,3 +66,10 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **Why:** C3 findings. The track's dropouts differ from the brief.
 - **Rule:** R1 (choosing between plans). The creative change itself was made by the agent. The lyric confirmation changes nothing.
 - **Open:** It is unclear whether `audio/track/Ghost in the Machine.wav` is that cleaned master or the raw Suno file, and which model cleaned it. The agent has asked.
+
+## 2026-10-17T11:59:12-04:00 — C3 closed; master timing confirmed identical
+
+- **What:** The human said "the timing is locked, the model just emphasizes consonants and cymbals". The agent reads this as two things: the AI-cleaned master is timing-identical to `audio/track/Ghost in the Machine.wav`, so the timing map stands; and C3 is approved. The human made no sync corrections.
+- **Why:** Checkpoint C3.
+- **Rule:** R1 (approve a plan) and R2 (A/V sync; no corrections requested).
+- **Open:** Before the final mux, the human needs to supply the cleaned master file and the cleaning tool's name and settings. These go in `log/prompts/` as an AI processing step.
