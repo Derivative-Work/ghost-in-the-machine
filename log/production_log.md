@@ -553,3 +553,16 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **S56:** after the lid closes, the cube tips toward the camera (0.5 s) onto its underside, now an unlit black material, while the camera pushes into that face (0.6 s) until it fills the frame. That black carries into the end card. S56 grows 2.6 → 3.0 s; chrome clears at 2.3 s. The first probe was too fast and was slowed.
 - **Brief (doc rev 84 → 87):** S02, S53 and S56 rows updated and mirrored into `docs/brief.md`.
 - **Why:** The human's v7 notes.
+
+## 2026-10-17T19:36:28-04:00 — C4: animatic v8
+
+- **What:** Rendered and assembled animatic v8 (see the v8 build entry above). Review of the first assembly found two bugs, fixed before delivery:
+  1. **S53 missing its videos on its first frame.** The frame clock rounds S53's start below `start_s`, so `t - start_s` was slightly negative and the panels and page stayed hidden. Fixed with half a frame of tolerance.
+  2. **S02 screens stacking in a column above the robot instead of spreading out.** This was also the real cause of the human's v5 "stuck vertically" note, and it affected the S56 repack too. The unpack/pack read each object's target from its current location, which the previous frame's spring had already pulled toward the box, so targets collapsed toward the centre. Fixed by recording every object's home position once before any animation and aiming for that (keeping only the per-frame bob in z).
+- **Re-render:** only the affected jobs (S01, S02, S53, S56 and the main river render; job indices 0, 1, 65, 66, 69) into the existing v8 plates, then `--composite-only`. S54/S55 were not re-rendered: their river frames start after the only changed frame.
+- **Commands:**
+  - `scripts/render_plates.sh animatic_v8 640 360 8 2`
+  - `blender … plates.py -- job <i> renders/animatic_v8/plates 640 360 8 2` for i in 0 1 65 66 69
+  - `.venv/bin/python scripts/assemble.py animatic_v8 640 360 2 6 --hud --name animatic_v8 [--composite-only]`
+- **Outputs:** `renders/animatic_v8/animatic_v8.mp4` (6023 frames verified, video 200.767 s / audio 200.760 s); review sheet of S02, the S52/S53 cut and the S56 ending. v7 cut moved to `archive/renders/`.
+- **Status:** Stopped at C4 for review of v8.

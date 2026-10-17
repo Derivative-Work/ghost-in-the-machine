@@ -743,11 +743,16 @@ def plate_default_cube_boot(job, seed):
     spread_cam = ((-2.5, -13.0, 5.2), (1.0, 1.5, 1.6))
     mouth = (0.0, 0.0, 1.6)  # where things spring out of / get sucked into
 
+    # Home positions, recorded once before any animation: the unpack/pack must aim for these, not for wherever the
+    # previous frame left an object (that collapsed every target toward the box and stacked things in a column).
+    home = {o.name: o.location.copy() for o in screens + [root]}
+
     def spring(objs, k_of):
         """Unpack (k: 0 -> 1) or pack (1 -> 0) each object along an arc: up out of the box's open top, around, and
         over to where the robot set put it, so nothing passes through the box's walls."""
         for o, k in objs:
-            target = o.location.copy()
+            target = home[o.name].copy()
+            target.z = o.location.z  # keep the per-frame bob the robot set just applied
             r0, th0 = math.hypot(target.x, target.y), math.atan2(target.y, target.x)
             r = r0 * G.ease(min(1.0, max(0.0, (k - 0.25) / 0.75)))         # leaves the box only once above its rim
             th = th0 + 1.6 * (1 - k)                                          # swings round the box as it goes
@@ -985,11 +990,11 @@ def plate_stream(job, seed):
             rig["root"].location.z = rig["rest"]["root"].z + 0.07 * swing
             rig["root"].rotation_euler.z = face + 0.2 * (1 if (n // 2) % 2 else -1)
         if page is not None:
-            ts = t - SHOT["S53"]["start_s"]
+            ts = t - SHOT["S53"]["start_s"] + 0.5 / FPS  # half a frame of tolerance: S53's first frame must show them
             page[0].hide_render = ts < 0 or ts > 1.2
             page[1].inputs[0].default_value = 1.0 - G.ease((ts - 0.35) / 0.6)
         for ob, node, tj, (px, py0), u0, delay, dark in tiles:
-            ts = t - SHOT["S53"]["start_s"]
+            ts = t - SHOT["S53"]["start_s"] + 0.5 / FPS
             ob.hide_render = ts < 0
             if ts < 0:
                 continue
