@@ -401,3 +401,32 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - Mirrored into `docs/brief.md`.
 - **Agent's deviation from its own pitch:** The S34 reward panel uses the agent's own rows (helpful / agreeable / on-brand / self ▼), not Run It Again's "honesty: not scored". The pitch had quoted that line, which would have copied the reference's joke.
 - **Why:** The human approved all the v4 ideas.
+
+## 2026-10-17T15:08:58-04:00 — C4: animatic v4 (lyric-literal moments and allusions)
+
+- **What:** Built and rendered animatic v4. 59 shots, average 3.37 s.
+  - **New Blender sets** (`scenes/blender/plates.py`):
+    - **stream:** a 110×110 terrain whose height falls toward the camera, with a valley carved along a winding path; contour-line shader every 0.33 m; 170 emissive tokens flowing down the path; a glowing torus minimum; the robot dancing on a rock. Cameras: wide and low (from the far bank, robot turned to face it).
+    - **ship:** hull, bridge with lit windows, 10 containers whose letters spell LOOKS GOOD; bobs on the grid sea; side tracking camera.
+  - **New effects:**
+    - chorus: sheet_ghost (cone and sphere sheet with eye holes, whipped off by 0.75 s), neon_lights (6 Inter letters going out one per beat), cloud (noise-alpha planes plus 3 spot rays in thicker haze)
+    - seats: arena (a seat-and-robot collection instanced 10 rows × 21 seats with a back light; our robot seated front-centre)
+    - tear: a pullback camera, and score_fade hiding the arms, legs, pelvis and torso one per beat after 1 s
+  - **Overlay:** boot log, split-flap board, ticket with SOLD OUT stamp, context meter (S44 reaches FULL), reward panel, the banner's terms box racing to the bottom with "I have read every line", version badge (v2147 → v10000 · PRODUCTION), bridge title phrases in each reference's accent, the five-color average merge, and feed tiles from the stream renders (dirs looked up from the render jobs).
+  - **Shots:** S15 is now the flap board (2D); S30b inserted (ship, with the stamp on "good"); S26/S27 and the feed tiles moved to the stream set.
+- **Iterations:**
+  - **Probes:**
+    - S24: the static wide camera sat outside the screen ring, so a screen blocked the robot. Moved inside; the LIGHTS sign enlarged and brought closer.
+    - S25: the clouds looked blocky. Noise scale and ramp softened; rays narrowed.
+    - S27: the camera missed the stream. Moved to the far bank, robot turned to face it, aimed down at the water.
+    - S33: the reveal started and ended inside crowd heads. Start moved behind our robot (added to the front row); 10 rows; end raised; back light added.
+    - Crowd eye sets were all visible at once (no performance applied); now plain eyes only.
+  - **Overlay tests:** the ticket overlapped the caption and was moved up.
+- **Commands:**
+  - probes via `blender … plates.py -- probe …`
+  - `scripts/render_plates.sh animatic_v4 640 360 8 2` (74 jobs)
+  - `.venv/bin/python scripts/export_overlay_data.py`
+  - `.venv/bin/python scripts/assemble.py animatic_v4 640 360 2 6 --hud --name animatic_v4` (3 m 05 s)
+- **Outputs:** `renders/animatic_v4/animatic_v4.mp4` (5969 frames verified, video 198.967 s / audio 198.960 s); `renders/animatic_v4/{plates,overlay,probe*,review}/`; sheets. v3 cut moved to `archive/renders/`.
+- **Why:** The human approved all v4 ideas.
+- **Status:** Stopped at C4 for review of v4.
