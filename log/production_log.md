@@ -307,3 +307,37 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Outputs:** Brief doc rev 65; `docs/brief.md`
 - **Note for the human:** The vertical cut (bridge through ending) is about 79 s. The original brief estimated 45–60 s for the same range, which was already off in v1.
 - **Why:** The human approved v2 (see `human_interventions.md`).
+
+## 2026-10-17T13:27:23-04:00 — C4: animatic v2 (57 shots)
+
+- **What:** Rebuilt the pipeline for the v2 shot list and rendered animatic v2.
+  - **Shot list:** `shots/build_shots.py` encodes the 57 shots with a camera and effects per plate, the JS layers, Chorus 2's degrade levels and whip/glitch transitions. Cuts now snap to a downbeat only within a quarter bar (otherwise 0.1 s before the line, never mid-word). New anchors: bars, the Chorus 1 full stop, the Pre-Chorus 2 drum return, the Chorus 2 cutoff, the end of the beat. Result: 57 shots, average 3.49 s (v1: 8.7 s); the longest are the intentionally static freeze shots S37 (6.45 s) and S38 (9.43 s).
+  - **Seeds:** added `split_extra` 44–50 to `config/seeds.json` for the 4-up and 9-up splits.
+  - **Blender:** `scenes/blender/plates.py` rewritten as 6 sets with named cameras and effects:
+    - robot: wide, medium, low, face, screens, screen_close; screens_power_on, eyes_wake, eyes_dim, shrug
+    - chorus: orbit, orbit2, low_up, wide_static, topdown, dance_wide, dance_low; missing_texture (magenta checker), head_up, dance, lights_fade, clip
+    - racks: aisle, chart
+    - seats: front, reverse_end (new THE END screen, `overlays/panels/the_end.html`)
+    - tear
+    - default_cube_boot
+    - New `probe` mode renders a job's middle frame for smoke tests.
+  - **Overlay:** `overlays/video.html` and `overlays/video.js` rewritten. New layers: terminal_boot, hearts, chat_autocomplete (the reply types each word 0.24 s before it is sung), big_accept, avg_merge, giant_counter (S40 continues S18's count ×10), loading_textures, nine_replies (CSS-degraded in S45), code_stream, black_stop, loading_verse2 (the ETA counts up), per-tile seed labels for the splits, and the feed (zoom, tiles going dark per beat, constant scroll, accelerating scroll with streaks, a decelerating stop that lands on this video again, then hold).
+  - **Assembly:** `scripts/assemble.py` rewritten. Each worker builds its frame's plate (rendered / held / 2-up halves / 4- and 9-up grids), degrades the plate only (resolution, JPEG blocks, magenta drift; captions stay crisp), composites the overlay, applies whip or glitch transitions, and pipes raw RGB to ffmpeg.
+- **Iterations:**
+  - **Plate probes** of all 44 jobs: S33's seat backs hid THE END; camera raised.
+  - **Overlay test frames:** the giant button fell back to a serif font (`.btn` had no font-family); split seed labels wrapped; S23/S45's 3×3 reply grid collided with big captions, so those two shots use normal captions.
+  - **First composite** failed with FileNotFoundError on `chorus-orbit__bridge_second_run/04751.png`. The step-2 grid of a lagged split render starts at the shot's frame, but the clamp used the job's first frame. Fixed: clamp to the first and last frames on the grid.
+  - **Review:** S40's counter restarted lower than S18 ended; it now continues.
+- **Commands:**
+  - `blender … plates.py -- probe <i> renders/animatic_v2/probe 480 270 8 0.6` for each job
+  - `scripts/render_plates.sh animatic_v2 640 360 8 2` (44 jobs + 23 tiles, about 7 min)
+  - `.venv/bin/python shots/build_shots.py`
+  - `.venv/bin/python scripts/export_overlay_data.py`
+  - `.venv/bin/python scripts/assemble.py animatic_v2 640 360 2 6 --hud --name animatic_v2` (overlay 2 m; composite 21 s)
+  - S40 overlay frames re-rendered with `render_frames.mjs`, then `--composite-only`
+- **Outputs:**
+  - `renders/animatic_v2/animatic_v2.mp4` (640×360, 30 fps, 198.97 s, 5969 frames verified, audio 198.96 s, review HUD)
+  - `renders/animatic_v2/{plates,overlay,probe,review}/` and sheets
+  - Animatic v1 moved to `archive/renders/animatic_v1_rejected_too_static.mp4`
+- **Why:** The human approved v2 after C4 feedback.
+- **Status:** Stopped at C4 for review of v2.

@@ -11,14 +11,15 @@
     "time",
     0.0
    ],
-   "pipeline": "Blender + JS",
    "start_s": 0.0,
-   "end_s": 12.028,
+   "end_s": 4.435,
    "start_frame": 0,
-   "end_frame": 361,
+   "end_frame": 133,
    "plate": {
     "mode": "render",
-    "plate": "default_cube_boot"
+    "plate": "default_cube_boot",
+    "cam": "default",
+    "fx": []
    },
    "layers": [],
    "seed": "main",
@@ -27,23 +28,137 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Default scene holds until the first downbeat (4.4 s), then the neon world boots. Overlays fade in."
+   "degrade": 0.0,
+   "transition": null
   },
   {
    "id": "S02",
+   "section": "Intro",
+   "anchor": [
+    "bar",
+    1
+   ],
+   "start_s": 4.435,
+   "end_s": 6.385,
+   "start_frame": 133,
+   "end_frame": 192,
+   "plate": {
+    "mode": "render",
+    "plate": "default_cube_boot",
+    "cam": "default",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S03",
+   "section": "Intro",
+   "anchor": [
+    "bar",
+    2
+   ],
+   "start_s": 6.385,
+   "end_s": 8.313,
+   "start_frame": 192,
+   "end_frame": 249,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "terminal_boot"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S04",
+   "section": "Intro",
+   "anchor": [
+    "bar",
+    3
+   ],
+   "start_s": 8.313,
+   "end_s": 10.17,
+   "start_frame": 249,
+   "end_frame": 305,
+   "plate": {
+    "mode": "render",
+    "plate": "robot",
+    "cam": "screens",
+    "fx": [
+     "screens_power_on"
+    ]
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S05",
+   "section": "Intro",
+   "anchor": [
+    "bar",
+    4
+   ],
+   "start_s": 10.17,
+   "end_s": 12.028,
+   "start_frame": 305,
+   "end_frame": 361,
+   "plate": {
+    "mode": "render",
+    "plate": "robot",
+    "cam": "face",
+    "fx": [
+     "eyes_wake"
+    ]
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S06",
    "section": "Verse 1",
    "anchor": [
     "section",
     "Verse 1"
    ],
-   "pipeline": "Blender",
    "start_s": 12.028,
-   "end_s": 19.9,
+   "end_s": 14.002,
    "start_frame": 361,
-   "end_frame": 597,
+   "end_frame": 420,
    "plate": {
     "mode": "render",
-    "plate": "robot_screens"
+    "plate": "robot",
+    "cam": "wide",
+    "fx": []
    },
    "layers": [],
    "seed": "main",
@@ -52,24 +167,83 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Robot on the grid among floating screens. Lines 1-2."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S03",
+   "id": "S07",
+   "section": "Verse 1",
+   "anchor": [
+    "bar",
+    6
+   ],
+   "start_s": 14.002,
+   "end_s": 15.356,
+   "start_frame": 420,
+   "end_frame": 461,
+   "plate": {
+    "mode": "render",
+    "plate": "robot",
+    "cam": "screen_close",
+    "fx": []
+   },
+   "layers": [
+    "hearts"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S08",
+   "section": "Verse 1",
+   "anchor": [
+    "line",
+    "Verse 1",
+    1
+   ],
+   "start_s": 15.356,
+   "end_s": 19.9,
+   "start_frame": 461,
+   "end_frame": 597,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "chat_autocomplete"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S09",
    "section": "Verse 1",
    "anchor": [
     "line",
     "Verse 1",
     2
    ],
-   "pipeline": "JS over held plate",
    "start_s": 19.9,
    "end_s": 23.824,
    "start_frame": 597,
    "end_frame": 715,
    "plate": {
-    "mode": "hold",
-    "src": "S02"
+    "mode": "render",
+    "plate": "robot",
+    "cam": "medium",
+    "fx": []
    },
    "layers": [
     "accept_banner"
@@ -80,24 +254,28 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Accept-all banner over the held S02 frame; cursor clicks on \"agreed\" without pausing."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S04",
+   "id": "S10",
    "section": "Verse 1",
    "anchor": [
     "line",
     "Verse 1",
     3
    ],
-   "pipeline": "Blender + JS",
    "start_s": 23.824,
    "end_s": 27.771,
    "start_frame": 715,
    "end_frame": 833,
    "plate": {
     "mode": "render",
-    "plate": "robot_shrug"
+    "plate": "robot",
+    "cam": "medium",
+    "fx": [
+     "shrug"
+    ]
    },
    "layers": [
     "todo_caption"
@@ -108,23 +286,25 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Shrug; caption flashes // TODO: make this part sad."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S05",
+   "id": "S11",
    "section": "Bridge 1",
    "anchor": [
     "section",
     "Bridge 1"
    ],
-   "pipeline": "Blender + JS",
    "start_s": 27.771,
-   "end_s": 31.695,
+   "end_s": 31.073,
    "start_frame": 833,
-   "end_frame": 951,
+   "end_frame": 932,
    "plate": {
     "mode": "render",
-    "plate": "robot_screens",
+    "plate": "robot",
+    "cam": "low",
+    "fx": [],
     "freeze_first": true
    },
    "layers": [
@@ -136,21 +316,21 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "One-frame freeze on \"Have\" and a devtools flicker, then the video carries on as if nothing happened."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S06",
+   "id": "S12",
    "section": "Bridge 1",
    "anchor": [
     "line",
     "Bridge 1",
     1
    ],
-   "pipeline": "JS (2D)",
-   "start_s": 31.695,
-   "end_s": 39.544,
-   "start_frame": 951,
-   "end_frame": 1186,
+   "start_s": 31.073,
+   "end_s": 34.977,
+   "start_frame": 932,
+   "end_frame": 1049,
    "plate": {
     "mode": "js"
    },
@@ -164,20 +344,48 @@
     "chrome"
    ],
    "big_captions": true,
-   "notes": "Five generic icons whip past like a trailer."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S07",
+   "id": "S13",
+   "section": "Bridge 1",
+   "anchor": [
+    "line",
+    "Bridge 1",
+    2
+   ],
+   "start_s": 34.977,
+   "end_s": 39.544,
+   "start_frame": 1049,
+   "end_frame": 1186,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "big_accept"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": true,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S14",
    "section": "Bridge 1",
    "anchor": [
     "event",
     "bridge1_beat_gap"
    ],
-   "pipeline": "JS (2D)",
    "start_s": 39.544,
-   "end_s": 49.389,
+   "end_s": 42.325,
    "start_frame": 1186,
-   "end_frame": 1482,
+   "end_frame": 1270,
    "plate": {
     "mode": "js"
    },
@@ -191,23 +399,28 @@
     "chrome"
    ],
    "big_captions": true,
-   "notes": "Progress bar Generating... 1 of 2, dismissed. Drums drop out 43.8-51.1 s."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S08",
-   "section": "Pre-Chorus 1",
+   "id": "S15",
+   "section": "Bridge 1",
    "anchor": [
-    "section",
-    "Pre-Chorus 1"
+    "line",
+    "Bridge 1",
+    4
    ],
-   "pipeline": "Blender",
-   "start_s": 49.389,
-   "end_s": 59.188,
-   "start_frame": 1482,
-   "end_frame": 1776,
+   "start_s": 42.325,
+   "end_s": 46.289,
+   "start_frame": 1270,
+   "end_frame": 1389,
    "plate": {
     "mode": "render",
-    "plate": "server_racks"
+    "plate": "robot",
+    "cam": "face",
+    "fx": [
+     "eyes_dim"
+    ]
    },
    "layers": [],
    "seed": "main",
@@ -216,26 +429,137 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Racks pulse on the beat; a line chart climbs into the sky."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S09",
+   "id": "S16",
+   "section": "Bridge 1",
+   "anchor": [
+    "line",
+    "Bridge 1",
+    5
+   ],
+   "start_s": 46.289,
+   "end_s": 49.389,
+   "start_frame": 1389,
+   "end_frame": 1482,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "avg_merge"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": true,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S17",
+   "section": "Pre-Chorus 1",
+   "anchor": [
+    "section",
+    "Pre-Chorus 1"
+   ],
+   "start_s": 49.389,
+   "end_s": 53.29,
+   "start_frame": 1482,
+   "end_frame": 1599,
+   "plate": {
+    "mode": "render",
+    "plate": "racks",
+    "cam": "aisle",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S18",
+   "section": "Pre-Chorus 1",
+   "anchor": [
+    "line",
+    "Pre-Chorus 1",
+    1
+   ],
+   "start_s": 53.29,
+   "end_s": 57.214,
+   "start_frame": 1599,
+   "end_frame": 1716,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "giant_counter"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": true,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S19",
+   "section": "Pre-Chorus 1",
+   "anchor": [
+    "bar",
+    28
+   ],
+   "start_s": 57.214,
+   "end_s": 59.188,
+   "start_frame": 1716,
+   "end_frame": 1776,
+   "plate": {
+    "mode": "render",
+    "plate": "racks",
+    "cam": "chart",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S20",
    "section": "Chorus 1",
    "anchor": [
     "section",
     "Chorus 1"
    ],
-   "pipeline": "Blender + JS",
    "start_s": 59.188,
-   "end_s": 96.27,
+   "end_s": 63.112,
    "start_frame": 1776,
-   "end_frame": 2888,
+   "end_frame": 1893,
    "plate": {
     "mode": "render",
-    "plate": "chorus_orbit"
+    "plate": "chorus",
+    "cam": "orbit",
+    "fx": []
    },
    "layers": [
-    "the_rain",
     "regen_button"
    ],
    "seed": "main",
@@ -244,16 +568,282 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Slow orbit, uniform easing; the-rain from \"Tokens falling\"; regenerate button pulses. Full stop 90.5-92.2 s."
+   "degrade": 0.0,
+   "transition": "whip"
   },
   {
-   "id": "S10",
+   "id": "S21",
+   "section": "Chorus 1",
+   "anchor": [
+    "line",
+    "Chorus 1",
+    1
+   ],
+   "start_s": 63.112,
+   "end_s": 67.013,
+   "start_frame": 1893,
+   "end_frame": 2010,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "orbit2",
+    "fx": [
+     "missing_texture"
+    ]
+   },
+   "layers": [
+    "loading_textures"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S22",
+   "section": "Chorus 1",
+   "anchor": [
+    "line",
+    "Chorus 1",
+    2
+   ],
+   "start_s": 67.013,
+   "end_s": 70.937,
+   "start_frame": 2010,
+   "end_frame": 2128,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "low_up",
+    "fx": [
+     "head_up"
+    ]
+   },
+   "layers": [
+    "the_rain"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S23",
+   "section": "Chorus 1",
+   "anchor": [
+    "line",
+    "Chorus 1",
+    3
+   ],
+   "start_s": 70.937,
+   "end_s": 74.838,
+   "start_frame": 2128,
+   "end_frame": 2245,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "nine_replies"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S24",
+   "section": "Chorus 1",
+   "anchor": [
+    "line",
+    "Chorus 1",
+    4
+   ],
+   "start_s": 74.838,
+   "end_s": 78.739,
+   "start_frame": 2245,
+   "end_frame": 2362,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "wide_static",
+    "fx": [
+     "lights_fade"
+    ]
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S25",
+   "section": "Chorus 1",
+   "anchor": [
+    "line",
+    "Chorus 1",
+    5
+   ],
+   "start_s": 78.739,
+   "end_s": 82.006,
+   "start_frame": 2362,
+   "end_frame": 2460,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "topdown",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S26",
+   "section": "Chorus 1",
+   "anchor": [
+    "line",
+    "Chorus 1",
+    6
+   ],
+   "start_s": 82.006,
+   "end_s": 86.541,
+   "start_frame": 2460,
+   "end_frame": 2596,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "dance_wide",
+    "fx": [
+     "dance"
+    ]
+   },
+   "layers": [
+    "code_stream"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S27",
+   "section": "Chorus 1",
+   "anchor": [
+    "bar",
+    43
+   ],
+   "start_s": 86.541,
+   "end_s": 90.511,
+   "start_frame": 2596,
+   "end_frame": 2715,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "dance_low",
+    "fx": [
+     "dance"
+    ]
+   },
+   "layers": [
+    "code_stream"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S28",
+   "section": "Chorus 1",
+   "anchor": [
+    "event",
+    "stop1"
+   ],
+   "start_s": 90.511,
+   "end_s": 92.183,
+   "start_frame": 2715,
+   "end_frame": 2765,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "black_stop"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S29",
+   "section": "Chorus 1",
+   "anchor": [
+    "event",
+    "stop1_end"
+   ],
+   "start_s": 92.183,
+   "end_s": 96.27,
+   "start_frame": 2765,
+   "end_frame": 2888,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "loading_verse2"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": "glitch"
+  },
+  {
+   "id": "S30",
    "section": "Verse 2",
    "anchor": [
     "section",
     "Verse 2"
    ],
-   "pipeline": "JS (2D)",
    "start_s": 96.27,
    "end_s": 100.171,
    "start_frame": 2888,
@@ -271,21 +861,21 @@
     "chrome"
    ],
    "big_captions": true,
-   "notes": "Half-second green check stamp on \"good\"; version ticks to v1.1."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S11",
+   "id": "S31",
    "section": "Verse 2",
    "anchor": [
     "line",
     "Verse 2",
     1
    ],
-   "pipeline": "JS (2D)",
    "start_s": 100.171,
-   "end_s": 104.072,
+   "end_s": 103.429,
    "start_frame": 3005,
-   "end_frame": 3122,
+   "end_frame": 3103,
    "plate": {
     "mode": "js"
    },
@@ -299,24 +889,26 @@
     "chrome"
    ],
    "big_captions": true,
-   "notes": "Spinning regenerate arrow."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S12",
+   "id": "S32",
    "section": "Verse 2",
    "anchor": [
     "line",
     "Verse 2",
     2
    ],
-   "pipeline": "Blender",
-   "start_s": 104.072,
-   "end_s": 107.95,
-   "start_frame": 3122,
-   "end_frame": 3238,
+   "start_s": 103.429,
+   "end_s": 105.999,
+   "start_frame": 3103,
+   "end_frame": 3180,
    "plate": {
     "mode": "render",
-    "plate": "theater_seats"
+    "plate": "seats",
+    "cam": "front",
+    "fx": []
    },
    "layers": [],
    "seed": "main",
@@ -325,24 +917,53 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Row of empty theater seats facing the grid."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S13",
+   "id": "S33",
+   "section": "Verse 2",
+   "anchor": [
+    "bar",
+    53
+   ],
+   "start_s": 105.999,
+   "end_s": 107.95,
+   "start_frame": 3180,
+   "end_frame": 3238,
+   "plate": {
+    "mode": "render",
+    "plate": "seats",
+    "cam": "reverse_end",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S34",
    "section": "Verse 2",
    "anchor": [
     "line",
     "Verse 2",
     3
    ],
-   "pipeline": "Blender + JS",
    "start_s": 107.95,
    "end_s": 111.851,
    "start_frame": 3238,
    "end_frame": 3356,
    "plate": {
     "mode": "render",
-    "plate": "robot_tear"
+    "plate": "tear",
+    "cam": "face",
+    "fx": []
    },
    "layers": [
     "score_counter"
@@ -353,23 +974,23 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Close-up; the single tear is a loading spinner on the screen face; a score counter ticks."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S14",
+   "id": "S35",
    "section": "Bridge 2",
    "anchor": [
     "section",
     "Bridge 2"
    ],
-   "pipeline": "JS over held plate",
    "start_s": 111.851,
-   "end_s": 115.728,
+   "end_s": 115.121,
    "start_frame": 3356,
-   "end_frame": 3472,
+   "end_frame": 3454,
    "plate": {
     "mode": "hold",
-    "src": "S13"
+    "src": "S34"
    },
    "layers": [
     "devtools"
@@ -380,24 +1001,24 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Hard freeze on \"Have\" while the music keeps playing; devtools slides in and stays."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S15",
+   "id": "S36",
    "section": "Bridge 2",
    "anchor": [
     "line",
     "Bridge 2",
     1
    ],
-   "pipeline": "JS over held plate",
-   "start_s": 115.728,
-   "end_s": 119.629,
-   "start_frame": 3472,
-   "end_frame": 3589,
+   "start_s": 115.121,
+   "end_s": 119.005,
+   "start_frame": 3454,
+   "end_frame": 3570,
    "plate": {
     "mode": "hold",
-    "src": "S13"
+    "src": "S34"
    },
    "layers": [
     "devtools",
@@ -409,24 +1030,24 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "The S06 icons return one at a time, slow enough to read."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S16",
+   "id": "S37",
    "section": "Bridge 2",
    "anchor": [
     "line",
     "Bridge 2",
     2
    ],
-   "pipeline": "JS over held plate",
-   "start_s": 119.629,
+   "start_s": 119.005,
    "end_s": 125.457,
-   "start_frame": 3589,
+   "start_frame": 3570,
    "end_frame": 3764,
    "plate": {
     "mode": "hold",
-    "src": "S13"
+    "src": "S34"
    },
    "layers": [
     "devtools",
@@ -438,25 +1059,23 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Generating... 2 of 2 over the frozen frame."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S17",
+   "id": "S38",
    "section": "Pre-Chorus 2",
    "anchor": [
     "section",
     "Pre-Chorus 2"
    ],
-   "pipeline": "JS over held plate, then Blender",
    "start_s": 125.457,
-   "end_s": 141.015,
+   "end_s": 134.885,
    "start_frame": 3764,
-   "end_frame": 4230,
+   "end_frame": 4047,
    "plate": {
-    "mode": "hold_then",
-    "src": "S13",
-    "until": 134.885,
-    "plate": "server_racks"
+    "mode": "hold",
+    "src": "S34"
    },
    "layers": [
     "devtools_full"
@@ -467,26 +1086,225 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Dropout: devtools expands to fill the frozen frame; at the drums' return (134.9 s) it snaps shut and the S08 racks are back; one frame of caption reads Lyric goes here."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S18",
+   "id": "S39",
+   "section": "Pre-Chorus 2",
+   "anchor": [
+    "event",
+    "drop2_end"
+   ],
+   "start_s": 134.885,
+   "end_s": 137.114,
+   "start_frame": 4047,
+   "end_frame": 4113,
+   "plate": {
+    "mode": "render",
+    "plate": "racks",
+    "cam": "aisle",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": "glitch"
+  },
+  {
+   "id": "S40",
+   "section": "Pre-Chorus 2",
+   "anchor": [
+    "bar",
+    69
+   ],
+   "start_s": 137.114,
+   "end_s": 139.064,
+   "start_frame": 4113,
+   "end_frame": 4172,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "giant_counter"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": true,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S41",
+   "section": "Pre-Chorus 2",
+   "anchor": [
+    "bar",
+    70
+   ],
+   "start_s": 139.064,
+   "end_s": 141.015,
+   "start_frame": 4172,
+   "end_frame": 4230,
+   "plate": {
+    "mode": "render",
+    "plate": "racks",
+    "cam": "chart",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S42",
    "section": "Chorus 2",
    "anchor": [
     "section",
     "Chorus 2"
    ],
-   "pipeline": "Blender + JS",
    "start_s": 141.015,
-   "end_s": 158.453,
+   "end_s": 144.893,
    "start_frame": 4230,
-   "end_frame": 4754,
+   "end_frame": 4347,
    "plate": {
     "mode": "render",
-    "plate": "chorus_orbit"
+    "plate": "chorus",
+    "cam": "orbit",
+    "fx": []
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.35,
+   "transition": "whip"
+  },
+  {
+   "id": "S43",
+   "section": "Chorus 2",
+   "anchor": [
+    "line",
+    "Chorus 2",
+    1
+   ],
+   "start_s": 144.893,
+   "end_s": 148.77,
+   "start_frame": 4347,
+   "end_frame": 4463,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "orbit2",
+    "fx": [
+     "missing_texture"
+    ]
    },
    "layers": [
-    "the_rain_heavy",
+    "loading_textures"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.5,
+   "transition": null
+  },
+  {
+   "id": "S44",
+   "section": "Chorus 2",
+   "anchor": [
+    "line",
+    "Chorus 2",
+    2
+   ],
+   "start_s": 148.77,
+   "end_s": 152.648,
+   "start_frame": 4463,
+   "end_frame": 4579,
+   "plate": {
+    "mode": "render",
+    "plate": "chorus",
+    "cam": "low_up",
+    "fx": [
+     "head_up"
+    ]
+   },
+   "layers": [
+    "the_rain_heavy"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.6,
+   "transition": null
+  },
+  {
+   "id": "S45",
+   "section": "Chorus 2",
+   "anchor": [
+    "line",
+    "Chorus 2",
+    3
+   ],
+   "start_s": 152.648,
+   "end_s": 154.553,
+   "start_frame": 4579,
+   "end_frame": 4637,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "nine_replies"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.7,
+   "transition": null
+  },
+  {
+   "id": "S46",
+   "section": "Chorus 2",
+   "anchor": [
+    "event",
+    "trunc"
+   ],
+   "start_s": 154.553,
+   "end_s": 158.453,
+   "start_frame": 4637,
+   "end_frame": 4754,
+   "plate": {
+    "mode": "hold",
+    "src": "S44"
+   },
+   "layers": [
     "output_truncated"
    ],
    "seed": "main",
@@ -495,23 +1313,24 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Heavier rain; the caption strikes \"answer\" for \"song\"; [output truncated] when the chorus cuts off, held until the slam; version ticks to v1.2.7."
+   "degrade": 0.75,
+   "transition": null
   },
   {
-   "id": "S19",
+   "id": "S47",
    "section": "Final Chorus",
    "anchor": [
     "event",
     "bass_return"
    ],
-   "pipeline": "Blender x2 + split",
    "start_s": 158.453,
-   "end_s": 168.112,
+   "end_s": 160.38,
    "start_frame": 4754,
-   "end_frame": 5043,
+   "end_frame": 4811,
    "plate": {
     "mode": "split",
-    "plate": "chorus_orbit",
+    "plate": "chorus",
+    "cam": "orbit",
     "seeds": [
      "main",
      "bridge_second_run"
@@ -519,38 +1338,120 @@
     "lag_s": 0.1
    },
    "layers": [],
-   "seed": "main+bridge_second_run",
+   "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Split screen seed 41 | 42, slightly out of sync; camera clips through the head; FPS counter ~12."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S20",
+   "id": "S48",
+   "section": "Final Chorus",
+   "anchor": [
+    "line",
+    "Final Chorus",
+    1
+   ],
+   "start_s": 160.38,
+   "end_s": 164.235,
+   "start_frame": 4811,
+   "end_frame": 4927,
+   "plate": {
+    "mode": "split",
+    "plate": "chorus",
+    "cam": "orbit",
+    "seeds": [
+     "main",
+     "bridge_second_run",
+     "split_extra.0",
+     "split_extra.1"
+    ],
+    "lag_s": 0.1,
+    "fx": [
+     "clip"
+    ]
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S49",
+   "section": "Final Chorus",
+   "anchor": [
+    "line",
+    "Final Chorus",
+    2
+   ],
+   "start_s": 164.235,
+   "end_s": 168.112,
+   "start_frame": 4927,
+   "end_frame": 5043,
+   "plate": {
+    "mode": "split",
+    "plate": "chorus",
+    "cam": "orbit",
+    "seeds": [
+     "main",
+     "bridge_second_run",
+     "split_extra.0",
+     "split_extra.1",
+     "split_extra.2",
+     "split_extra.3",
+     "split_extra.4",
+     "split_extra.5",
+     "split_extra.6"
+    ],
+    "lag_s": 0.1
+   },
+   "layers": [],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S50",
    "section": "Final Chorus",
    "anchor": [
     "line",
     "Final Chorus",
     3
    ],
-   "pipeline": "Blender (tiles) + JS grid",
    "start_s": 168.112,
-   "end_s": 187.538,
+   "end_s": 171.99,
    "start_frame": 5043,
-   "end_frame": 5626,
+   "end_frame": 5160,
    "plate": {
     "mode": "js",
     "renders": [
      {
-      "plate": "chorus_orbit",
-      "seed": "main"
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [],
+      "seed": "main",
+      "span": [
+       "S50",
+       "S54"
+      ]
      }
     ]
    },
    "layers": [
-    "thumbnail_grid"
+    "grid_zoom"
    ],
    "seed": "main",
    "global_layers": [
@@ -558,17 +1459,124 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Zoom out: the video is one tile in a grid of near-identical thumbnails (this scene at other seeds, invented titles)."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S21",
+   "id": "S51",
+   "section": "Final Chorus",
+   "anchor": [
+    "line",
+    "Final Chorus",
+    4
+   ],
+   "start_s": 171.99,
+   "end_s": 175.044,
+   "start_frame": 5160,
+   "end_frame": 5251,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "grid_dark"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S52",
+   "section": "Final Chorus",
+   "anchor": [
+    "line",
+    "Final Chorus",
+    5
+   ],
+   "start_s": 175.044,
+   "end_s": 178.868,
+   "start_frame": 5251,
+   "end_frame": 5366,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "grid_scroll"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S53",
+   "section": "Final Chorus",
+   "anchor": [
+    "line",
+    "Final Chorus",
+    6
+   ],
+   "start_s": 178.868,
+   "end_s": 183.576,
+   "start_frame": 5366,
+   "end_frame": 5507,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "grid_scroll_fast"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S54",
+   "section": "Final Chorus",
+   "anchor": [
+    "event",
+    "beat_end"
+   ],
+   "start_s": 183.576,
+   "end_s": 187.538,
+   "start_frame": 5507,
+   "end_frame": 5626,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "grid_decel"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null
+  },
+  {
+   "id": "S55",
    "section": "Final Chorus",
    "anchor": [
     "line",
     "Final Chorus",
     7
    ],
-   "pipeline": "JS",
    "start_s": 187.538,
    "end_s": 189.76,
    "start_frame": 5626,
@@ -577,7 +1585,7 @@
     "mode": "js"
    },
    "layers": [
-    "thumbnail_grid",
+    "grid_hold",
     "cursor_regen_click"
    ],
    "seed": "main",
@@ -586,16 +1594,16 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Over the held grid, the cursor hovers a generic regenerate button and clicks on \"machine\"."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S22",
+   "id": "S56",
    "section": "Ending",
    "anchor": [
     "time",
     189.76
    ],
-   "pipeline": "Blender + JS",
    "start_s": 189.76,
    "end_s": 190.96,
    "start_frame": 5693,
@@ -603,6 +1611,8 @@
    "plate": {
     "mode": "render",
     "plate": "default_cube_boot",
+    "cam": "default",
+    "fx": [],
     "clock": "local",
     "black_after": 1.0
    },
@@ -615,16 +1625,16 @@
     "chrome"
    ],
    "big_captions": false,
-   "notes": "Page reloads; S01 restarts at seed 43; hard cut to black ~1 s in. Runs past the audio."
+   "degrade": 0.0,
+   "transition": null
   },
   {
-   "id": "S23",
+   "id": "S57",
    "section": "End card",
    "anchor": [
     "time",
     190.95999999999998
    ],
-   "pipeline": "JS",
    "start_s": 190.96,
    "end_s": 198.96,
    "start_frame": 5729,
@@ -638,121 +1648,568 @@
    "seed": "main",
    "global_layers": [],
    "big_captions": false,
-   "notes": "Credits on black, one line at a time. No captions or chrome."
+   "degrade": 0.0,
+   "transition": null
   }
  ],
  "render_jobs": [
   {
    "shot": "S01",
    "plate": "default_cube_boot",
+   "cam": "default",
+   "fx": [],
    "seed": "main",
    "start": 0,
-   "end": 361,
-   "clock_offset_s": 0.0
+   "end": 133,
+   "dir": "default_cube_boot-default__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S02",
-   "plate": "robot_screens",
+   "plate": "default_cube_boot",
+   "cam": "default",
+   "fx": [],
    "seed": "main",
-   "start": 361,
-   "end": 597,
-   "clock_offset_s": 0.0
+   "start": 133,
+   "end": 192,
+   "dir": "default_cube_boot-default__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S04",
-   "plate": "robot_shrug",
+   "plate": "robot",
+   "cam": "screens",
+   "fx": [
+    "screens_power_on"
+   ],
    "seed": "main",
-   "start": 715,
-   "end": 833,
-   "clock_offset_s": 0.0
+   "start": 249,
+   "end": 305,
+   "dir": "robot-screens-screens_power_on__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S05",
-   "plate": "robot_screens",
+   "plate": "robot",
+   "cam": "face",
+   "fx": [
+    "eyes_wake"
+   ],
    "seed": "main",
-   "start": 833,
-   "end": 951,
-   "clock_offset_s": 0.0
+   "start": 305,
+   "end": 361,
+   "dir": "robot-face-eyes_wake__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
-   "shot": "S08",
-   "plate": "server_racks",
+   "shot": "S06",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [],
    "seed": "main",
-   "start": 1482,
-   "end": 1776,
-   "clock_offset_s": 0.0
+   "start": 361,
+   "end": 420,
+   "dir": "robot-wide__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S07",
+   "plate": "robot",
+   "cam": "screen_close",
+   "fx": [],
+   "seed": "main",
+   "start": 420,
+   "end": 461,
+   "dir": "robot-screen_close__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S09",
-   "plate": "chorus_orbit",
+   "plate": "robot",
+   "cam": "medium",
+   "fx": [],
    "seed": "main",
-   "start": 1776,
-   "end": 2888,
-   "clock_offset_s": 0.0
+   "start": 597,
+   "end": 715,
+   "dir": "robot-medium__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
-   "shot": "S12",
-   "plate": "theater_seats",
+   "shot": "S10",
+   "plate": "robot",
+   "cam": "medium",
+   "fx": [
+    "shrug"
+   ],
    "seed": "main",
-   "start": 3122,
-   "end": 3238,
-   "clock_offset_s": 0.0
+   "start": 715,
+   "end": 833,
+   "dir": "robot-medium-shrug__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
-   "shot": "S13",
-   "plate": "robot_tear",
+   "shot": "S11",
+   "plate": "robot",
+   "cam": "low",
+   "fx": [],
    "seed": "main",
-   "start": 3238,
-   "end": 3356,
-   "clock_offset_s": 0.0
+   "start": 833,
+   "end": 932,
+   "dir": "robot-low__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S15",
+   "plate": "robot",
+   "cam": "face",
+   "fx": [
+    "eyes_dim"
+   ],
+   "seed": "main",
+   "start": 1270,
+   "end": 1389,
+   "dir": "robot-face-eyes_dim__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S17",
-   "plate": "server_racks",
+   "plate": "racks",
+   "cam": "aisle",
+   "fx": [],
    "seed": "main",
-   "start": 4047,
-   "end": 4230,
-   "clock_offset_s": 0.0
-  },
-  {
-   "shot": "S18",
-   "plate": "chorus_orbit",
-   "seed": "main",
-   "start": 4230,
-   "end": 4754,
-   "clock_offset_s": 0.0
+   "start": 1482,
+   "end": 1599,
+   "dir": "racks-aisle__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S19",
-   "plate": "chorus_orbit",
+   "plate": "racks",
+   "cam": "chart",
+   "fx": [],
    "seed": "main",
-   "start": 4754,
-   "end": 5043,
-   "clock_offset_s": 0.0
-  },
-  {
-   "shot": "S19",
-   "plate": "chorus_orbit",
-   "seed": "bridge_second_run",
-   "start": 4751,
-   "end": 5040,
-   "clock_offset_s": 0.0
+   "start": 1716,
+   "end": 1776,
+   "dir": "racks-chart__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S20",
-   "plate": "chorus_orbit",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
    "seed": "main",
-   "start": 5043,
-   "end": 5626,
-   "clock_offset_s": 0.0
+   "start": 1776,
+   "end": 1893,
+   "dir": "chorus-orbit__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S21",
+   "plate": "chorus",
+   "cam": "orbit2",
+   "fx": [
+    "missing_texture"
+   ],
+   "seed": "main",
+   "start": 1893,
+   "end": 2010,
+   "dir": "chorus-orbit2-missing_texture__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
   },
   {
    "shot": "S22",
+   "plate": "chorus",
+   "cam": "low_up",
+   "fx": [
+    "head_up"
+   ],
+   "seed": "main",
+   "start": 2010,
+   "end": 2128,
+   "dir": "chorus-low_up-head_up__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S24",
+   "plate": "chorus",
+   "cam": "wide_static",
+   "fx": [
+    "lights_fade"
+   ],
+   "seed": "main",
+   "start": 2245,
+   "end": 2362,
+   "dir": "chorus-wide_static-lights_fade__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S25",
+   "plate": "chorus",
+   "cam": "topdown",
+   "fx": [],
+   "seed": "main",
+   "start": 2362,
+   "end": 2460,
+   "dir": "chorus-topdown__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S26",
+   "plate": "chorus",
+   "cam": "dance_wide",
+   "fx": [
+    "dance"
+   ],
+   "seed": "main",
+   "start": 2460,
+   "end": 2596,
+   "dir": "chorus-dance_wide-dance__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S27",
+   "plate": "chorus",
+   "cam": "dance_low",
+   "fx": [
+    "dance"
+   ],
+   "seed": "main",
+   "start": 2596,
+   "end": 2715,
+   "dir": "chorus-dance_low-dance__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S32",
+   "plate": "seats",
+   "cam": "front",
+   "fx": [],
+   "seed": "main",
+   "start": 3103,
+   "end": 3180,
+   "dir": "seats-front__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S33",
+   "plate": "seats",
+   "cam": "reverse_end",
+   "fx": [],
+   "seed": "main",
+   "start": 3180,
+   "end": 3238,
+   "dir": "seats-reverse_end__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S34",
+   "plate": "tear",
+   "cam": "face",
+   "fx": [],
+   "seed": "main",
+   "start": 3238,
+   "end": 3356,
+   "dir": "tear-face__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S39",
+   "plate": "racks",
+   "cam": "aisle",
+   "fx": [],
+   "seed": "main",
+   "start": 4047,
+   "end": 4113,
+   "dir": "racks-aisle__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S41",
+   "plate": "racks",
+   "cam": "chart",
+   "fx": [],
+   "seed": "main",
+   "start": 4172,
+   "end": 4230,
+   "dir": "racks-chart__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S42",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "main",
+   "start": 4230,
+   "end": 4347,
+   "dir": "chorus-orbit__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S43",
+   "plate": "chorus",
+   "cam": "orbit2",
+   "fx": [
+    "missing_texture"
+   ],
+   "seed": "main",
+   "start": 4347,
+   "end": 4463,
+   "dir": "chorus-orbit2-missing_texture__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S44",
+   "plate": "chorus",
+   "cam": "low_up",
+   "fx": [
+    "head_up"
+   ],
+   "seed": "main",
+   "start": 4463,
+   "end": 4579,
+   "dir": "chorus-low_up-head_up__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S47",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "main",
+   "start": 4754,
+   "end": 4811,
+   "dir": "chorus-orbit__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S47",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "bridge_second_run",
+   "start": 4751,
+   "end": 4808,
+   "dir": "chorus-orbit__bridge_second_run",
+   "clock_offset_s": 0.0,
+   "lag_frames": 3
+  },
+  {
+   "shot": "S48",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "clip"
+   ],
+   "seed": "main",
+   "start": 4811,
+   "end": 4927,
+   "dir": "chorus-orbit-clip__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S48",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "clip"
+   ],
+   "seed": "bridge_second_run",
+   "start": 4808,
+   "end": 4924,
+   "dir": "chorus-orbit-clip__bridge_second_run",
+   "clock_offset_s": 0.0,
+   "lag_frames": 3
+  },
+  {
+   "shot": "S48",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "clip"
+   ],
+   "seed": "split_extra.0",
+   "start": 4805,
+   "end": 4921,
+   "dir": "chorus-orbit-clip__split_extra.0",
+   "clock_offset_s": 0.0,
+   "lag_frames": 6
+  },
+  {
+   "shot": "S48",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "clip"
+   ],
+   "seed": "split_extra.1",
+   "start": 4802,
+   "end": 4918,
+   "dir": "chorus-orbit-clip__split_extra.1",
+   "clock_offset_s": 0.0,
+   "lag_frames": 9
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "main",
+   "start": 4927,
+   "end": 5043,
+   "dir": "chorus-orbit__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "bridge_second_run",
+   "start": 4924,
+   "end": 5040,
+   "dir": "chorus-orbit__bridge_second_run",
+   "clock_offset_s": 0.0,
+   "lag_frames": 3
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.0",
+   "start": 4921,
+   "end": 5037,
+   "dir": "chorus-orbit__split_extra.0",
+   "clock_offset_s": 0.0,
+   "lag_frames": 6
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.1",
+   "start": 4918,
+   "end": 5034,
+   "dir": "chorus-orbit__split_extra.1",
+   "clock_offset_s": 0.0,
+   "lag_frames": 9
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.2",
+   "start": 4915,
+   "end": 5031,
+   "dir": "chorus-orbit__split_extra.2",
+   "clock_offset_s": 0.0,
+   "lag_frames": 12
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.3",
+   "start": 4912,
+   "end": 5028,
+   "dir": "chorus-orbit__split_extra.3",
+   "clock_offset_s": 0.0,
+   "lag_frames": 15
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.4",
+   "start": 4909,
+   "end": 5025,
+   "dir": "chorus-orbit__split_extra.4",
+   "clock_offset_s": 0.0,
+   "lag_frames": 18
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.5",
+   "start": 4906,
+   "end": 5022,
+   "dir": "chorus-orbit__split_extra.5",
+   "clock_offset_s": 0.0,
+   "lag_frames": 21
+  },
+  {
+   "shot": "S49",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "split_extra.6",
+   "start": 4903,
+   "end": 5019,
+   "dir": "chorus-orbit__split_extra.6",
+   "clock_offset_s": 0.0,
+   "lag_frames": 24
+  },
+  {
+   "shot": "S50",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [],
+   "seed": "main",
+   "start": 5043,
+   "end": 5626,
+   "dir": "chorus-orbit__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S56",
    "plate": "default_cube_boot",
+   "cam": "default",
+   "fx": [],
    "seed": "restart",
    "start": 5693,
    "end": 5723,
-   "clock_offset_s": 189.76
+   "dir": "default_cube_boot-default__restart",
+   "clock_offset_s": 189.76,
+   "lag_frames": 0
   }
  ]
 }

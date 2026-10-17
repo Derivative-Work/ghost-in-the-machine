@@ -28,5 +28,15 @@
     1022,
     1023
   ],
-  "_doc_thumbnail_tiles": "S20 grid: chorus_orbit rendered at these seeds for the near-identical neighbouring tiles."
+  "_doc_thumbnail_tiles": "S20 grid: chorus_orbit rendered at these seeds for the near-identical neighbouring tiles.",
+  "split_extra": [
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+  ],
+  "_doc_split_extra": "S48/S49: the 4-up adds the first two, the 9-up all seven, beside main (41) and bridge_second_run (42)."
 }

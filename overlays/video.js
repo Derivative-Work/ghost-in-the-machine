@@ -12,16 +12,20 @@ stage.style.transform = `scale(${width / 1920}, ${height / 1080})`;
 
 // ---------- timing helpers ----------
 const ease = (x) => { x = Math.min(1, Math.max(0, x)); return x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2; };
+const easeOut = (x) => 1 - (1 - Math.min(1, Math.max(0, x))) ** 2;
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const SHOTS = D.shots.shots;
 const SHOT = Object.fromEntries(SHOTS.map((s) => [s.id, s]));
 const shotAt = (t) => SHOTS.find((s) => t >= s.start_s && t < s.end_s) ?? SHOTS[SHOTS.length - 1];
-const DOWNBEATS = D.timing.downbeats;
+const dur = (s) => s.end_s - s.start_s;
+const BEATS = D.timing.beats, DOWNBEATS = D.timing.downbeats;
 const pulse = (t, beats, decay = 0.18) => {
   let last = -1e9;
   for (const b of beats) { if (b <= t) last = b; else break; }
   return Math.exp(-(t - last) / decay);
 };
+const beatsSince = (t, t0) => BEATS.filter((b) => b >= t0 && b <= t).length;
+const sectionStart = (name) => D.timing.sections.find((s) => s.name === name).start;
 
 const LINES = [];
 for (const w of D.timing.words) {
@@ -39,27 +43,32 @@ for (const [i, l] of LINES.entries()) {
   l.showFrom = l.start - 0.25;
   l.showTo = next ? Math.min(next.start - 0.25, l.end + 1.0) : l.end + 1.0;
 }
+const norm = (s) => s.replace(/[^\w’']/g, '');
 const wordAt = (section, line, text) =>
-  D.timing.words.find((w) => w.section === section && w.line === line && w.text.replace(/[^\w’']/g, '') === text);
+  D.timing.words.find((w) => w.section === section && w.line === line && norm(w.text) === text);
 
 const BOOT = DOWNBEATS[0];
 const EV = D.timing.events;
 const DROP2 = EV.dropouts.find((d) => d.sections.includes('Pre-Chorus 2'));
-const STOP1 = EV.dropouts.find((d) => d.full && d.sections.includes('Chorus 1'));
 const T_AGREED = wordAt('Verse 1', 2, 'agreed').start;
+const T_ACCEPT = wordAt('Bridge 1', 2, 'accept').start;
 const T_GOOD = wordAt('Verse 2', 0, 'good').start;
-const T_TOKENS = LINES.find((l) => l.section === 'Chorus 1' && l.line === 2).start;
-const C2_LAST = LINES.filter((l) => l.section === 'Chorus 2').pop();
-const T_TRUNC = C2_LAST.end + 0.15;
+const C2_WORDS = D.timing.words.filter((w) => w.section === 'Chorus 2');
+const T_TRUNC = SHOT.S46.start_s;
 const T_SONG = wordAt('Chorus 2', 3, 'song').start;
 const T_MACHINE = D.timing.words[D.timing.words.length - 1].start;
 const LYRIC_GOES_HERE_FRAME = Math.round(DROP2.end * fps);
+const SPLIT_SEEDS = (s) => s.plate.seeds.map((n) => {
+  const [name, i] = n.split('.');
+  return i === undefined ? D.seeds[name] : D.seeds[name][Number(i)];
+});
 
 const VERSIONS = [
-  [0, 'v1.0'], [SHOT.S02.start_s, 'v1.0.1'], [SHOT.S05.start_s, 'v1.0.2'], [SHOT.S08.start_s, 'v1.0.3'],
-  [SHOT.S09.start_s, 'v1.0.4'], [T_GOOD, 'v1.1'], [SHOT.S14.start_s, 'v1.1.1'], [SHOT.S17.start_s, 'v1.2'],
-  [T_TRUNC, 'v1.2.7'], [SHOT.S19.start_s, 'v1.2.7.1-rc1'], [SHOT.S20.start_s, 'v1.2.7.10.3-rc4'],
-  [SHOT.S21.start_s, 'v1.2.7.10.3-final-FINAL'], [SHOT.S22.start_s, 'v1.0'],
+  [0, 'v1.0'], [sectionStart('Verse 1'), 'v1.0.1'], [sectionStart('Bridge 1'), 'v1.0.2'],
+  [sectionStart('Pre-Chorus 1'), 'v1.0.3'], [sectionStart('Chorus 1'), 'v1.0.4'], [T_GOOD, 'v1.1'],
+  [sectionStart('Bridge 2'), 'v1.1.1'], [sectionStart('Pre-Chorus 2'), 'v1.2'], [T_TRUNC, 'v1.2.7'],
+  [SHOT.S47.start_s, 'v1.2.7.1-rc1'], [SHOT.S50.start_s, 'v1.2.7.10.3-rc4'],
+  [SHOT.S55.start_s, 'v1.2.7.10.3-final-FINAL'], [SHOT.S56.start_s, 'v1.0'],
 ];
 const version = (t) => VERSIONS.filter(([at]) => t >= at).pop()[1];
 
@@ -72,40 +81,51 @@ const ICON = {
   shrug: `<svg viewBox="0 0 100 100"><text x="50" y="62" text-anchor="middle" font-family="Inter" font-weight="700" font-size="22" fill="#e6e4dc">¯\\_(ツ)_/¯</text></svg>`,
 };
 const ICON_ORDER = ['check', 'regen', 'seats', 'scroll', 'shrug'];
-$('icons').innerHTML = ICON_ORDER.map((k) => (typeof ICON[k] === 'function' ? ICON[k]() : ICON[k])).join('');
+const iconHTML = ICON_ORDER.map((k) => (typeof ICON[k] === 'function' ? ICON[k]() : ICON[k])).join('');
+$('icons').innerHTML = iconHTML;
 $('regenSpin').innerHTML = ICON.regen('#d9502f');
 $('regenBtn').querySelector('.b').innerHTML = ICON.regen() + 'Regenerate';
 $('bigRegen').querySelector('.b').innerHTML = ICON.regen() + 'Regenerate';
-const ARROW = `<svg viewBox="0 0 24 24"><path d="M3 2l16 10-7 1.5L8.5 21z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg>`;
-$('cursor').innerHTML = ARROW + '<div class="ripple"></div>';
+$('cursor').innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 2l16 10-7 1.5L8.5 21z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg><div class="ripple"></div>`;
+$('replies').querySelector('.g').innerHTML = Array.from({ length: 9 }, () => '<div class="r"><div class="av"></div>Great question!</div>').join('');
 
-// ---------- layers ----------
 const show = (id) => $(id).classList.add('on');
 
+// ---------- global layers ----------
 function chrome(t, shot) {
-  if (shot.id === 'S23') return;
-  if (shot.id === 'S22' && t - shot.start_s >= 1.0) return;
+  if (shot.id === 'S57') return;
+  if (shot.id === 'S56' && t - shot.start_s >= 1.0) return;
   show('chrome');
   const el = $('chrome');
-  el.style.opacity = shot.id === 'S01' ? ease((t - BOOT) / 0.5) : 1;
+  el.style.opacity = shot.id === 'S01' || shot.id === 'S02' ? ease((t - BOOT) / 0.5) : 1;
   el.querySelector('.tl').textContent = `Ghost in the Machine – Claude Opus 5.5 music video ${version(t)}`;
-  const s = shot.seed === 'restart' ? D.seeds.restart : D.seeds.main;
-  el.querySelector('.bl').textContent = `seed: ${s}`;
-  el.querySelector('.bl2').textContent = shot.id === 'S19' ? `seed: ${D.seeds.bridge_second_run}` : '';
+  const tiles = el.querySelector('.tiles');
+  tiles.innerHTML = '';
+  let label = `seed: ${shot.seed === 'restart' ? D.seeds.restart : D.seeds.main}`;
+  if (shot.plate.mode === 'split') {
+    const seeds = SPLIT_SEEDS(shot);
+    const n = Math.round(Math.sqrt(seeds.length)) || 1;
+    const cols = seeds.length === 2 ? 2 : n, rows = seeds.length === 2 ? 1 : n;
+    tiles.innerHTML = seeds.map((s, i) => {
+      const x = (i % cols) * (1920 / cols) + 20, y = (Math.floor(i / cols) + 1) * (1080 / rows) - 46;
+      return `<div class="tile" style="left:${x}px;top:${y}px">seed: ${s}</div>`;
+    }).join('');
+    label = '';
+  }
+  el.querySelector('.bl').textContent = label;
   let n = 60;
-  if (shot.id === 'S19') n = 11 + Math.floor(rng(seed + Math.floor(t * fps / 6))() * 3);
-  if (shot.id === 'S20') n = Math.round(12 + 48 * ease((t - shot.start_s) / 1.5));
+  if (shot.plate.mode === 'split') n = 11 + Math.floor(rng(seed + Math.floor(t * fps / 6))() * 3);
+  if (shot.id === 'S50') n = Math.round(12 + 48 * ease((t - shot.start_s) / 1.5));
   el.querySelector('.br').textContent = `${n} FPS`;
 }
 
 function captions(t, shot) {
-  if (['S01', 'S22', 'S23'].includes(shot.id)) return;
+  if (['S01', 'S02', 'S03', 'S56', 'S57'].includes(shot.id)) return;
   const l = LINES.filter((x) => t >= x.showFrom && t < x.showTo).pop();
   if (!l) return;
   show('captions');
-  const style = D.captionStyle;
-  const acc = style.accent[l.text];
-  const emo = style.emotional[l.text];
+  const acc = D.captionStyle.accent[l.text];
+  const emo = D.captionStyle.emotional[l.text];
   let html;
   if (Math.round(t * fps) === LYRIC_GOES_HERE_FRAME) {
     html = 'Lyric goes here';
@@ -114,15 +134,59 @@ function captions(t, shot) {
       const cls = [t >= w.start ? '' : 'todo', w.text === acc ? 'acc' : '', w.text === emo ? 'emo' : ''].join(' ').trim();
       let out = `<span class="${cls}">${w.text}</span>`;
       if (l.section === 'Chorus 2' && l.line === 3 && w.text === 'song') {
-        // S18: the caption still expects the first chorus's "answer", strikes it and swaps in "song".
+        // The caption still expects the first chorus's "answer", strikes it and swaps in "song".
         const k = ease((t - T_SONG) / 0.25);
-        const ans = t < T_SONG ? `<span class="todo">answer</span>` : `<span class="struck" style="--strike:${(k * 104).toFixed(1)}%">answer</span>`;
-        out = t < T_SONG ? ans : `${ans} ${out}`;
+        out = t < T_SONG ? `<span class="todo">answer</span>`
+          : `<span class="struck" style="--strike:${(k * 104).toFixed(1)}%">answer</span> ${out}`;
       }
       return out;
     }).join(' ');
   }
   $('captions').innerHTML = `<div class="line${shot.big_captions ? ' big' : ''}">${html}</div>`;
+}
+
+// ---------- shot layers ----------
+function terminalBoot(t, shot) {
+  const tl = t - shot.start_s;
+  const cmd = 'render(song, { seed: 41 })';
+  const typed = cmd.slice(0, Math.floor(clamp01(tl / 0.9) * cmd.length));
+  const caret = Math.floor(t * 3) % 2 ? '▌' : '';
+  show('terminal');
+  $('terminal').querySelector('.card').innerHTML = `<div><span class="p">$</span> ${typed}${tl < 1.1 ? caret : ''}</div>` +
+    (tl > 1.15 ? '<div class="ok">✓ 1 robot · 4 screens · 1 grid</div>' : '');
+}
+
+function hearts(t, shot) {
+  show('hearts');
+  const el = $('hearts');
+  const pops = BEATS.filter((b) => b >= shot.start_s && b <= t && t - b < 0.7);
+  el.querySelectorAll('.h').forEach((h) => h.remove());
+  for (const b of pops) {
+    const r = rng(seed + Math.round(b * 100));
+    const k = (t - b) / 0.7;
+    const h = document.createElement('div');
+    h.className = 'h';
+    h.textContent = '♥ +1';
+    Object.assign(h.style, { left: `${700 + r() * 900}px`, top: `${620 - r() * 300 - k * 160}px`, opacity: 1 - k,
+      transform: `scale(${0.8 + 0.4 * easeOut(k * 3)})` });
+    el.appendChild(h);
+  }
+  el.querySelector('.count').textContent = `♥ ${(1402880 + beatsSince(t, shot.start_s) * 137).toLocaleString('en-US')}`;
+}
+
+function chatAutocomplete(t, shot) {
+  show('chat');
+  const tl = t - shot.start_s;
+  const me = $('chat').querySelector('.me');
+  const widths = [90, 160, 120, 210, 70, 140];
+  me.innerHTML = widths.map((w) => `<span class="redact" style="width:${w}px"></span>`).join('');
+  me.style.opacity = clamp01(tl / 0.2);
+  // The machine "tells us what to say": the reply types each word half a beat before it is sung.
+  const words = D.timing.words.filter((w) => w.section === 'Verse 1' && w.line === 1);
+  const from = words.findIndex((w) => w.text === 'now');
+  const lead = 0.24;
+  const shown = words.slice(from).filter((w) => t >= w.start - lead).map((w) => w.text);
+  $('chat').querySelector('.ai').innerHTML = shown.length ? shown.join(' ') : '<span class="dots">● ● ●</span>';
 }
 
 function acceptBanner(t, shot) {
@@ -132,19 +196,29 @@ function acceptBanner(t, shot) {
   const outK = ease((tl - tc - 0.25) / 0.3);
   show('banner');
   $('banner').querySelector('.card').style.transform = `translateY(${-(1 - inK) * 420 - outK * 420}px)`;
-  const cur = $('cursor');
   if (tl > tc + 0.6) return;
-  show('cursor');
-  const k = ease((tl - (tc - 0.6)) / 0.55);
-  const [x0, y0, x1, y1] = [1700, 700, 520, 290];
-  const svg = cur.querySelector('svg');
-  svg.style.left = `${x0 + (x1 - x0) * k}px`;
-  svg.style.top = `${y0 + (y1 - y0) * k - outK * 420}px`;
-  ripple(cur, x1, y1, tl - tc);
+  cursorTo(tl, tc, [1700, 700], [520, 290], -outK * 420);
 }
 
-function ripple(cur, x, y, since) {
-  const r = cur.querySelector('.ripple');
+function bigAccept(t, shot) {
+  const tl = t - shot.start_s, tc = T_ACCEPT - shot.start_s;
+  show('bigAccept');
+  const pressed = tl >= tc && tl < tc + 0.15;
+  $('bigAccept').querySelector('.btn').style.transform = `scale(${pressed ? 0.94 : 1 + 0.03 * pulse(t, BEATS)})`;
+  cursorTo(tl, tc, [1800, 1060], [1400, 860], 0);
+}
+
+function cursorTo(tl, tc, [x0, y0], [x1, y1], dy) {
+  show('cursor');
+  const k = ease((tl - (tc - 0.6)) / 0.55);
+  const svg = $('cursor').querySelector('svg');
+  svg.style.left = `${x0 + (x1 - x0) * k}px`;
+  svg.style.top = `${y0 + (y1 - y0) * k + dy}px`;
+  ripple(x1, y1 + dy, tl - tc);
+}
+
+function ripple(x, y, since) {
+  const r = $('cursor').querySelector('.ripple');
   if (since < 0 || since > 0.3) { r.style.display = 'none'; return; }
   const size = 20 + since * 260;
   Object.assign(r.style, { display: 'block', left: `${x - size / 2}px`, top: `${y - size / 2}px`,
@@ -152,16 +226,15 @@ function ripple(cur, x, y, since) {
 }
 
 function todoCaption(t, shot) {
-  const tl = t - shot.start_s, d = shot.end_s - shot.start_s;
-  const on = tl >= d * 0.5 && tl < d * 0.5 + 0.6 && Math.floor(tl * fps) % 4 !== 3;
-  if (on) show('todo');
+  const tl = t - shot.start_s;
+  if (tl >= dur(shot) * 0.5 && tl < dur(shot) * 0.5 + 0.6 && Math.floor(tl * fps) % 4 !== 3) show('todo');
 }
 
 const LOG = [
-  [() => SHOT.S14.start_s + 0.5, 'warn', '⚠ Warning: duplicate section "Bridge"'],
-  [() => SHOT.S14.start_s + 2.0, 'warn', '⚠ Warning: emotion is undefined'],
-  [() => SHOT.S15.start_s + 0.3, 'cmd', '> bridge.render({ again: true })'],
-  [() => SHOT.S16.start_s + 0.2, '', '  Generating… 2 of 2'],
+  [() => SHOT.S35.start_s + 0.5, 'warn', '⚠ Warning: duplicate section "Bridge"'],
+  [() => SHOT.S35.start_s + 2.0, 'warn', '⚠ Warning: emotion is undefined'],
+  [() => SHOT.S36.start_s + 0.3, 'cmd', '> bridge.render({ again: true })'],
+  [() => SHOT.S37.start_s + 0.2, '', '  Generating… 2 of 2'],
   [() => DROP2.start + 0.3, 'cmd', '> song.compare(allSongs)'],
   [() => DROP2.start + 1.6, 'err', '✖ Error: 98.7% match with 1,402 existing songs'],
   [() => DROP2.start + 3.0, 'cmd', '> song.emotion'],
@@ -178,10 +251,9 @@ function devtools(t, shot, mode) {
     x = Math.floor(rng(seed + Math.floor(tl * fps))() * 60) - 30;
     filter = 'drop-shadow(6px 0 0 rgba(255,0,0,.7)) drop-shadow(-6px 0 0 rgba(0,200,255,.7))';
   } else if (mode === 'full') {
-    if (t >= DROP2.end) return;  // snaps shut when the drums return
     w = 640 + 1280 * ease((t - shot.start_s) / (DROP2.start - shot.start_s));
   } else {
-    x = 640 * (1 - ease((t - SHOT.S14.start_s) / 0.35));
+    x = 640 * (1 - ease((t - SHOT.S35.start_s) / 0.35));
   }
   show('devtools');
   Object.assign(panel.style, { width: `${w}px`, transform: `translateX(${x}px)`, filter });
@@ -208,14 +280,34 @@ function iconStrip(t, shot, slow) {
   show('icons');
 }
 
+function avgMerge(t, shot) {
+  const tl = t - shot.start_s;
+  const k = ease((tl - 0.3) / 1.4);
+  const icons = [...$('icons').children];
+  icons.forEach((el, i) => {
+    const x0 = 170 + i * 330, x1 = 850;
+    Object.assign(el.style, { left: `${x0 + (x1 - x0) * k}px`, top: '40px', transform: `scale(${1 - 0.6 * k})`,
+      opacity: 1 - clamp01((tl - 1.5) / 0.3) });
+  });
+  show('icons');
+  const g = ease((tl - 1.6) / 0.4);
+  if (g > 0) {
+    show('avg');
+    const d = 140 * g;
+    Object.assign($('avg').querySelector('.dot').style, { left: `${960 - d / 2}px`, top: `${150 - d / 2}px`, width: `${d}px`, height: `${d}px` });
+    Object.assign($('avg').querySelector('.lbl').style, { left: '1060px', top: '120px', opacity: g });
+  }
+}
+
 function progress(t, shot, which) {
-  const tl = t - shot.start_s, d = shot.end_s - shot.start_s;
+  const tl = t - shot.start_s, d = dur(shot);
   const card = $('progress').querySelector('.card');
   let fill, k = 1;
   if (which === 1) {
-    if (tl > 3.3) return;
-    fill = 50 * ease((tl - 0.3) / 2.0);
-    k = 1 - ease((tl - 3.0) / 0.3);
+    const out = Math.min(3.0, d - 0.35);
+    if (tl > out + 0.3) return;
+    fill = 50 * ease((tl - 0.3) / Math.min(2.0, out - 0.4));
+    k = 1 - ease((tl - out) / 0.3);
     card.style.left = '560px';
   } else {
     if (tl < 0.2) return;
@@ -226,6 +318,63 @@ function progress(t, shot, which) {
   card.querySelector('.label').textContent = `Generating… ${which} of 2`;
   card.querySelector('.fill').style.width = `${fill}%`;
   Object.assign(card.style, { opacity: k, transform: `scale(${0.9 + 0.1 * k})` });
+}
+
+function giantCounter(t, shot) {
+  show('counter');
+  const tl = t - shot.start_s;
+  // S40 picks up ten times higher than S18 left off: the numbers only climb.
+  const start = shot.id === 'S40' ? 9.4e10 * Math.pow(3.2, dur(SHOT.S18)) : 9.4e9;
+  const v = Math.floor(start * Math.pow(3.2, tl));
+  $('counter').querySelector('.n').textContent = v.toLocaleString('en-US');
+  $('counter').querySelector('.l').style.top = '250px';
+}
+
+function loadingTextures(t) {
+  show('loadingTex');
+  $('loadingTex').querySelector('div').textContent = `Loading textures… ${Math.floor(t * 4) % 2 ? '99' : '99'}%${Math.floor(t * 3) % 2 ? ' ▌' : ''}`;
+}
+
+function nineReplies(t, shot) {
+  show('replies');
+  const el = $('replies');
+  const tl = t - shot.start_s;
+  [...el.querySelector('.g').children].forEach((r, i) => { r.style.opacity = clamp01((tl - i * 0.08) / 0.15); });
+  el.style.filter = shot.degrade ? `blur(${1.5 * shot.degrade}px) saturate(1.6) hue-rotate(-14deg) contrast(1.25)` : 'none';
+}
+
+const codeCtx = $('code').getContext('2d');
+const CODE_TOKENS = ['0x3f', '{}', '=>', 'the', 'null', '[]', 'fn', '0', '1', '&&', 'avg', '//', 'await', 'ok', '::'];
+const CODE_COLS = (() => {
+  const r = rng(seed + 7);
+  return Array.from({ length: 34 }, (_, i) => ({ x: 30 + i * 56 + r() * 20, speed: 160 + r() * 380, phase: r() * 1400,
+    toks: Array.from({ length: 24 }, () => CODE_TOKENS[Math.floor(r() * CODE_TOKENS.length)]) }));
+})();
+function codeStream(t) {
+  show('code');
+  const g = codeCtx;
+  g.clearRect(0, 0, 1920, 1080);
+  g.font = '500 24px "JetBrains Mono"';
+  for (const c of CODE_COLS) {
+    const head = (c.phase + c.speed * t) % 1600;
+    c.toks.forEach((tok, j) => {
+      const y = head - j * 34;
+      if (y < -40 || y > 1120) return;
+      g.globalAlpha = j === 0 ? 0.9 : Math.max(0, 0.5 - j * 0.03);
+      g.fillStyle = j === 0 ? '#e6e4dc' : '#396ad3';
+      g.fillText(tok, c.x, y);
+    });
+  }
+  g.globalAlpha = 1;
+}
+
+function loadingVerse2(t, shot) {
+  show('loadV2');
+  const tl = t - shot.start_s;
+  $('loadV2').querySelector('.fill').style.width = `${Math.min(92, 20 + tl * 18)}%`;
+  // The ETA counts the wrong way.
+  const eta = 3 + Math.floor(tl * 2.5);
+  $('loadV2').querySelector('.eta').textContent = `ETA 0:${String(eta).padStart(2, '0')}`;
 }
 
 function checkStamp(t) {
@@ -255,21 +404,19 @@ const css = getComputedStyle(document.documentElement);
 const PAPER = css.getPropertyValue('--paper').trim(), ACCENT = css.getPropertyValue('--accent').trim();
 function makeDrops(density) {
   const r = rng(seed + Math.round(density * 100));
-  const drops = Array.from({ length: Math.round(220 * density) }, () => {
+  return Array.from({ length: Math.round(220 * density) }, () => {
     const depth = r();
     return { x: r() * 1920, phase: r() * 1280, speed: 120 + depth * 520, size: 14 + depth * 46,
              alpha: (0.12 + depth * 0.6) / Math.sqrt(density), accent: r() < 0.04 };
-  });
-  return drops.sort((a, b) => a.size - b.size);
+  }).sort((a, b) => a.size - b.size);
 }
 const DROPS = { 1: makeDrops(1), 2.5: makeDrops(2.5) };
-function rain(t, t0, t1, density) {
-  if (t < t0 || t >= t1) return;
+function rain(t, t0, density) {
   show('rain');
   rainCtx.clearRect(0, 0, 1920, 1080);
-  const fadeIn = clamp01((t - t0) / 0.4);
+  const fadeIn = clamp01((t - t0) / 0.3);
   for (const d of DROPS[density]) {
-    const y = ((d.phase + d.speed * (t - t0)) % 1280) - 100;
+    const y = ((d.phase + d.speed * (t - t0 + 2)) % 1280) - 100;
     rainCtx.globalAlpha = d.alpha * fadeIn;
     rainCtx.fillStyle = d.accent ? ACCENT : PAPER;
     rainCtx.font = `800 ${d.size}px Inter`;
@@ -277,7 +424,7 @@ function rain(t, t0, t1, density) {
   }
 }
 
-// S20/S21 grid of near-identical thumbnails. The live tile is this video's chorus_orbit plate.
+// ---------- S50-S55: the feed of near-identical thumbnails ----------
 const TITLES = ['Ghost in the Machine (Official AI Video)', 'The Machine Ghost – AI music video', 'Ghosts in a Machine | Claude music video',
   'We Are The Ghost – AI Song', 'GHOST.EXE (music video)', 'In The Machine – an AI music video', 'Ghost Protocol – AI Pop',
   'Machine Heart – Claude Opus 5.5 music video', 'The Ghost Is Us (AI Original)', 'Data Stream – AI music video',
@@ -290,43 +437,94 @@ const load = (src) => {
   return imgCache.get(src);
 };
 const gridCtx = $('grid').getContext('2d');
-const TILE_W = 280, TILE_H = 157.5, GAP = 30, COLS = 6, LIVE = 9, X0 = 45, Y0 = 70, ROW_H = 230;
-async function thumbnailGrid(t, shot) {
+const TILE_W = 280, TILE_H = 157.5, GAP = 30, COLS = 6, X0 = 45, Y0 = 70, ROW_H = 230, LIVE_EVERY = 7;
+const isLive = (row, col) => col === 3 && ((row % LIVE_EVERY) + LIVE_EVERY) % LIVE_EVERY === 1;
+const DARK_ORDER = (() => {
+  const r = rng(seed + 51);
+  const idx = Array.from({ length: 24 }, (_, i) => i).filter((i) => i !== 9);
+  for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx;
+})();
+// Scroll offset (px): constant in S52, accelerating in S53, eased to a stop on a live tile in S54.
+const V0 = 250, V1 = 2600;
+const [t52, t53, t54, t55] = ['S52', 'S53', 'S54', 'S55'].map((id) => SHOT[id].start_s);
+const O53 = V0 * (t53 - t52);
+const O54 = O53 + V0 * (t54 - t53) + (V1 - V0) * (t54 - t53) / 2;
+const O_FINAL = (() => {
+  const want = O54 + V1 * (t55 - t54) / 2;
+  let k = Math.round((want - Y0 - ROW_H - TILE_H / 2 + 540) / (ROW_H * LIVE_EVERY));
+  return Y0 + (1 + LIVE_EVERY * k) * ROW_H + TILE_H / 2 - 540;
+})();
+function scrollOffset(t) {
+  if (t < t52) return 0;
+  if (t < t53) return V0 * (t - t52);
+  if (t < t54) { const u = t - t53; return O53 + V0 * u + (V1 - V0) * u * u / (2 * (t54 - t53)); }
+  if (t < t55) return O54 + (O_FINAL - O54) * easeOut((t - t54) / (t55 - t54));
+  return O_FINAL;
+}
+const scrollSpeed = (t) => (t >= t53 && t < t54 ? V0 + (V1 - V0) * (t - t53) / (t54 - t53) : t >= t54 && t < t55 ? V1 * (1 - (t - t54) / (t55 - t54)) : V0);
+
+async function feed(t, shot, mode) {
   show('grid');
-  const s20 = SHOT.S20;
-  const z = shot.id === 'S21' ? 1 : ease((t - s20.start_s) / ((s20.end_s - s20.start_s) * 0.45));
-  const liveX = X0 + (LIVE % COLS) * (TILE_W + GAP), liveY = Y0 + Math.floor(LIVE / COLS) * ROW_H;
-  const S0 = 1920 / TILE_W;
-  const S = S0 + (1 - S0) * z;
-  const tx = -liveX * S0 * (1 - z), ty = -liveY * S0 * (1 - z);
+  const s50 = SHOT.S50;
   const g = gridCtx;
   g.setTransform(1, 0, 0, 1, 0, 0);
   g.fillStyle = '#09080b';
   g.fillRect(0, 0, 1920, 1080);
+  const liveFrame = Math.min(Math.round(t * fps), SHOT.S54.end_frame - 1);
+  const pad = (n) => String(n).padStart(5, '0');
+  const live = (await load(`${PLATES}/chorus-orbit__main/${pad(liveFrame)}.png`))
+    ?? (await load(`${PLATES}/chorus-orbit__main/${pad(liveFrame - 1)}.png`));
+  let S = 1, tx = 0, ty = 0;
+  if (mode === 'zoom') {
+    const z = ease((t - s50.start_s) / (dur(s50) * 0.45));
+    const S0 = 1920 / TILE_W;
+    S = S0 + (1 - S0) * z;
+    const liveX = X0 + 3 * (TILE_W + GAP), liveY = Y0 + ROW_H;
+    tx = -liveX * S0 * (1 - z); ty = -liveY * S0 * (1 - z);
+  }
   g.setTransform(S, 0, 0, S, tx, ty);
-  const frame = Math.min(Math.round(t * fps), s20.end_frame - 1);
-  const liveImg = (await load(`${PLATES}/chorus_orbit__main/${String(frame).padStart(5, '0')}.png`))
-    ?? (await load(`${PLATES}/chorus_orbit__main/${String(frame - 1).padStart(5, '0')}.png`));
-  for (let i = 0; i < 24; i++) {
-    const x = X0 + (i % COLS) * (TILE_W + GAP), y = Y0 + Math.floor(i / COLS) * ROW_H;
-    const tileSeed = D.seeds.thumbnail_tiles[i < LIVE ? i : i - 1];
-    const img = i === LIVE ? liveImg : await load(`${PLATES}/tiles/tile_${tileSeed}.png`);
-    if (img) g.drawImage(img, x, y, TILE_W, TILE_H); else { g.fillStyle = '#1d1d24'; g.fillRect(x, y, TILE_W, TILE_H); }
-    g.fillStyle = '#e6e4dc';
-    g.font = '600 15px Inter';
-    const title = i === LIVE ? `Ghost in the Machine – Claude Opus 5.5 music video ${version(t)}` : TITLES[(i < LIVE ? i : i - 1) % TITLES.length];
-    g.fillText(title.length > 40 ? title.slice(0, 39) + '…' : title, x, y + TILE_H + 24);
-    g.fillStyle = '#847d77';
-    g.font = '400 12px JetBrains Mono';
-    g.fillText(`AI Music · ${(1 + ((i * 37) % 90) / 10).toFixed(1)}M views`, x, y + TILE_H + 44);
+  const off = ['scroll', 'decel', 'hold'].includes(mode) ? scrollOffset(t) : 0;
+  const speed = ['scroll', 'decel'].includes(mode) ? scrollSpeed(t) : 0;
+  const nDark = mode === 'dark' ? beatsSince(t, shot.start_s) * 4 : 0;
+  const r0 = Math.floor((off - Y0) / ROW_H) - 1;
+  for (let row = r0; row < r0 + 7; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const x = X0 + col * (TILE_W + GAP), y = Y0 + row * ROW_H - off;
+      if (y > 1100 || y < -ROW_H) continue;
+      const idx = ((row * COLS + col) % 23 + 23) % 23;
+      const liveHere = isLive(row, col);
+      const img = liveHere ? live : await load(`${PLATES}/tiles/tile_${D.seeds.thumbnail_tiles[idx]}.png`);
+      const dark = mode === 'dark' && row >= 0 && row < 4 && DARK_ORDER.indexOf(row * COLS + col) > -1
+        && DARK_ORDER.indexOf(row * COLS + col) < nDark;
+      const copies = speed > 1200 ? 4 : 1;
+      for (let c = 0; c < copies; c++) {
+        g.globalAlpha = copies > 1 ? 0.35 : 1;
+        const dy = c * speed / fps / copies;
+        if (dark) { g.fillStyle = '#000'; g.fillRect(x, y, TILE_W, TILE_H); }
+        else if (img) g.drawImage(img, x, y + dy, TILE_W, TILE_H);
+        else { g.fillStyle = '#1d1d24'; g.fillRect(x, y + dy, TILE_W, TILE_H); }
+      }
+      g.globalAlpha = 1;
+      if (dark) {
+        g.fillStyle = '#847d77'; g.font = '400 14px JetBrains Mono';
+        g.fillText('Video unavailable', x + 70, y + TILE_H / 2 + 5);
+      }
+      g.fillStyle = '#e6e4dc';
+      g.font = '600 15px Inter';
+      const title = liveHere ? `Ghost in the Machine – Claude Opus 5.5 music video ${version(t)}` : TITLES[idx % TITLES.length];
+      g.fillText(title.length > 40 ? title.slice(0, 39) + '…' : title, x, y + TILE_H + 24);
+      g.fillStyle = '#847d77';
+      g.font = '400 12px JetBrains Mono';
+      g.fillText(`AI Music · ${(1 + (((idx + 30) * 37) % 90) / 10).toFixed(1)}M views`, x, y + TILE_H + 44);
+    }
   }
   g.setTransform(1, 0, 0, 1, 0, 0);
-  if (shot.id === 'S21') { g.fillStyle = 'rgba(9,8,11,.55)'; g.fillRect(0, 0, 1920, 1080); }
+  if (mode === 'hold') { g.fillStyle = 'rgba(9,8,11,.55)'; g.fillRect(0, 0, 1920, 1080); }
 }
 
 function cursorRegenClick(t, shot) {
-  const tl = t - shot.start_s;
-  const tc = T_MACHINE - shot.start_s;
+  const tl = t - shot.start_s, tc = T_MACHINE - shot.start_s;
   show('bigRegen');
   const pressed = tl >= tc && tl < tc + 0.15;
   const b = $('bigRegen').querySelector('.b');
@@ -334,11 +532,10 @@ function cursorRegenClick(t, shot) {
   b.style.background = pressed ? 'var(--accent)' : tl > tc - 0.8 ? '#2a2a34' : 'var(--surface)';
   show('cursor');
   const k = ease(tl / Math.max(0.3, tc - 0.1));
-  const [x0, y0, x1, y1] = [1500, 1060, 940, 560];
   const svg = $('cursor').querySelector('svg');
-  svg.style.left = `${x0 + (x1 - x0) * k}px`;
-  svg.style.top = `${y0 + (y1 - y0) * k}px`;
-  ripple($('cursor'), x1, y1, tl - tc);
+  svg.style.left = `${1500 + (940 - 1500) * k}px`;
+  svg.style.top = `${1060 + (560 - 1060) * k}px`;
+  ripple(940, 560, tl - tc);
 }
 
 function reload(t, shot) {
@@ -356,7 +553,7 @@ function endCard(t, shot) {
     ['mono', `take ${D.meta.takeId}`],
     ['', 'Lyrics: Claude, merged by a human, revised by Suno'],
     ['', 'Animation and edit: Claude Code with Opus 5.5'],
-    ['', `Seeds: ${D.seeds.main}, ${D.seeds.bridge_second_run}, ${D.seeds.restart}`],
+    ['', 'Seeds: 41–50'],
     ['', `Human interventions: ${D.meta.humanInterventions}`],
     ['mono', 'Full production log: [repo link and torrent magnet, added at publish]'],
   ];
@@ -369,29 +566,45 @@ window.renderFrame = async (t) => {
   for (const el of stage.children) el.classList.remove('on');
   const shot = shotAt(t);
   const L = new Set(shot.layers);
-  if (L.has('bg2d')) show('bg2d');
-  if (L.has('thumbnail_grid')) await thumbnailGrid(t, shot);
-  if (shot.id === 'S09') rain(t, T_TOKENS, STOP1.start, 1);
-  if (L.has('the_rain_heavy')) rain(t, shot.start_s, T_TRUNC, 2.5);
-  if (L.has('icon_strip_fast')) iconStrip(t, shot, false);
-  if (L.has('icon_strip_slow')) iconStrip(t, shot, true);
-  if (L.has('progress_1of2')) progress(t, shot, 1);
-  if (L.has('progress_2of2')) progress(t, shot, 2);
-  if (L.has('check_stamp')) checkStamp(t);
-  if (L.has('regen_spin')) regenSpin(t, shot);
-  if (L.has('regen_button')) regenButton(t);
-  if (L.has('score_counter')) scoreCounter(t, shot);
-  if (L.has('accept_banner')) acceptBanner(t, shot);
-  if (L.has('todo_caption')) todoCaption(t, shot);
-  if (L.has('glitch_flicker')) devtools(t, shot, 'flicker');
-  if (L.has('devtools')) devtools(t, shot, 'side');
-  if (L.has('devtools_full')) devtools(t, shot, 'full');
-  if (L.has('output_truncated') && t >= T_TRUNC) show('truncated');
-  if (L.has('cursor_regen_click')) cursorRegenClick(t, shot);
+  const on = (name, fn) => { if (L.has(name)) return fn(); };
+  on('bg2d', () => show('bg2d'));
+  for (const m of ['zoom', 'dark', 'scroll', 'decel', 'hold']) {
+    const name = { zoom: 'grid_zoom', dark: 'grid_dark', scroll: 'grid_scroll', decel: 'grid_decel', hold: 'grid_hold' }[m];
+    if (L.has(name)) await feed(t, shot, m);
+  }
+  if (L.has('grid_scroll_fast')) await feed(t, shot, 'scroll');
+  on('code_stream', () => codeStream(t));
+  on('the_rain', () => rain(t, shot.start_s, 1));
+  on('the_rain_heavy', () => rain(t, shot.start_s, 2.5));
+  on('black_stop', () => show('blackStop'));
+  on('terminal_boot', () => terminalBoot(t, shot));
+  on('hearts', () => hearts(t, shot));
+  on('chat_autocomplete', () => chatAutocomplete(t, shot));
+  on('nine_replies', () => nineReplies(t, shot));
+  on('icon_strip_fast', () => iconStrip(t, shot, false));
+  on('icon_strip_slow', () => iconStrip(t, shot, true));
+  on('avg_merge', () => avgMerge(t, shot));
+  on('progress_1of2', () => progress(t, shot, 1));
+  on('progress_2of2', () => progress(t, shot, 2));
+  on('giant_counter', () => giantCounter(t, shot));
+  on('loading_verse2', () => loadingVerse2(t, shot));
+  on('check_stamp', () => checkStamp(t));
+  on('regen_spin', () => regenSpin(t, shot));
+  on('regen_button', () => regenButton(t));
+  on('score_counter', () => scoreCounter(t, shot));
+  on('accept_banner', () => acceptBanner(t, shot));
+  on('big_accept', () => bigAccept(t, shot));
+  on('todo_caption', () => todoCaption(t, shot));
+  on('loading_textures', () => loadingTextures(t));
+  on('glitch_flicker', () => devtools(t, shot, 'flicker'));
+  on('devtools', () => devtools(t, shot, 'side'));
+  on('devtools_full', () => devtools(t, shot, 'full'));
+  on('output_truncated', () => show('truncated'));
+  on('cursor_regen_click', () => cursorRegenClick(t, shot));
   if (shot.global_layers.includes('captions')) captions(t, shot);
   if (shot.global_layers.includes('chrome')) chrome(t, shot);
-  if (L.has('reload')) reload(t, shot);
-  if (L.has('end_card')) endCard(t, shot);
+  on('reload', () => reload(t, shot));
+  on('end_card', () => endCard(t, shot));
   if (q.get('hud')) {  // review aid for the animatic only: shot ID and timecode
     show('hud');
     $('hud').textContent = `${shot.id}  ${t.toFixed(2)}s  f${Math.round(t * fps)}`;

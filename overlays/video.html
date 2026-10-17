@@ -2,7 +2,8 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="tokens.css">
 <!-- Every JS layer of the video, for any frame: window.renderFrame(t). Driven by overlays/data/data.js.
-     Authored on a 1920x1080 stage, scaled to the render size. Query: ?seed=&fps=&w=&h=&plates=<dir rel. to this file> -->
+     Authored on a 1920x1080 stage, scaled to the render size.
+     Query: ?seed=&fps=&w=&h=&plates=<dir rel. to this file>&hud=1 -->
 <style>
   body { overflow: hidden; }
   #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; }
@@ -14,15 +15,39 @@
           background-image: linear-gradient(rgba(74, 69, 80, .22) 1px, transparent 1px),
                             linear-gradient(90deg, rgba(74, 69, 80, .22) 1px, transparent 1px);
           background-size: 80px 80px; }
+  #blackStop, #black, #reload, #endcard { background: #000; }
 
   .card { position: absolute; background: var(--surface); border: 3px solid var(--line); border-radius: 18px;
           font-family: var(--sans); color: var(--paper); box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+  .mono { font-family: var(--mono); }
+
+  #terminal .card { left: 360px; top: 300px; width: 1200px; padding: 50px 60px; background: var(--base);
+                    font-family: var(--mono); font-size: 46px; line-height: 1.7; color: var(--mid); }
+  #terminal .p { color: var(--accent); } #terminal .ok { color: var(--paper); }
+
+  #hearts .h { position: absolute; font-family: var(--sans); font-weight: 800; font-size: 64px; color: var(--accent); }
+  #hearts .count { position: absolute; right: 70px; top: 100px; font-family: var(--sans); font-weight: 900; font-size: 84px;
+                   color: var(--paper); text-shadow: 0 0 20px rgba(9,8,11,.9); }
+
+  #chat .win { position: absolute; left: 300px; top: 90px; width: 1320px; height: 620px; background: var(--surface);
+               border: 3px solid var(--line); border-radius: 22px; padding: 40px 50px; box-sizing: border-box; }
+  #chat .b { position: absolute; max-width: 820px; padding: 26px 36px; border-radius: 30px; font-family: var(--sans);
+             font-size: 44px; line-height: 1.35; }
+  #chat .me { right: 50px; top: 50px; background: var(--accent-2); color: var(--paper); border-bottom-right-radius: 8px; }
+  #chat .redact { display: inline-block; height: 0.8em; background: var(--base); border-radius: 4px; margin-right: 12px;
+                  vertical-align: -0.05em; }
+  #chat .ai { left: 50px; top: 230px; background: var(--base); color: var(--paper); border-bottom-left-radius: 8px; min-width: 120px; }
+  #chat .ai .dots { color: var(--mid); font-family: var(--mono); }
+
   #banner .card { left: 360px; width: 1200px; top: 90px; padding: 44px 56px; }
   #banner h2 { margin: 0 0 14px; font-size: 40px; font-weight: 700; letter-spacing: -0.01em; }
   #banner p { margin: 0 0 30px; font-size: 26px; color: var(--mid); }
-  .btn { display: inline-block; font-weight: 700; font-size: 28px; padding: 18px 40px; border-radius: 12px; margin-right: 18px; }
+  .btn { display: inline-block; font-family: var(--sans); font-weight: 700; font-size: 28px; padding: 18px 40px; border-radius: 12px; margin-right: 18px; }
   .btn.primary { background: var(--accent-2); color: var(--paper); }
   .btn.ghost { border: 3px solid var(--line); color: var(--mid); }
+
+  #bigAccept .btn { position: absolute; left: 1080px; top: 760px; font-size: 92px; padding: 40px 90px; border-radius: 32px;
+                    box-shadow: 0 30px 80px rgba(0,0,0,.6); }
 
   #cursor svg { position: absolute; width: 46px; height: 46px; filter: drop-shadow(0 4px 6px rgba(0,0,0,.6)); }
   #cursor .ripple { position: absolute; border: 4px solid var(--paper); border-radius: 50%; }
@@ -39,11 +64,32 @@
   #devtools .cmd { color: var(--paper); }
 
   #icons svg { position: absolute; width: 220px; height: 220px; }
+  #avg .dot { position: absolute; border-radius: 50%; background: var(--mid); }
+  #avg .lbl { position: absolute; font-family: var(--mono); font-size: 44px; color: var(--paper); }
 
-  #progress .card { left: 560px; top: 300px; width: 800px; padding: 40px 48px; }
+  #progress .card { top: 300px; width: 800px; padding: 40px 48px; }
   #progress .label { font-family: var(--mono); font-size: 32px; color: var(--paper); margin-bottom: 26px; }
-  #progress .track { height: 18px; background: var(--base); border-radius: 9px; overflow: hidden; }
-  #progress .fill { height: 100%; background: var(--accent); }
+  .track { height: 18px; background: var(--base); border-radius: 9px; overflow: hidden; }
+  .fill { height: 100%; background: var(--accent); }
+
+  #counter .n { position: absolute; right: 90px; top: 70px; font-family: var(--sans); font-weight: 900; font-size: 170px;
+                letter-spacing: -0.04em; color: var(--paper); text-align: right; }
+  #counter .l { position: absolute; right: 96px; top: 60px; font-family: var(--mono); font-size: 28px; color: var(--mid);
+                letter-spacing: .12em; }
+
+  #loadingTex div { position: absolute; right: 48px; top: 90px; font-family: var(--mono); font-size: 26px; color: #ff4dff;
+                    background: rgba(0,0,0,.6); padding: 6px 14px; }
+
+  #replies { filter: none; }
+  #replies .g { position: absolute; left: 120px; top: 110px; width: 1680px; display: grid;
+                grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  #replies .r { background: var(--surface); border: 3px solid var(--line); border-radius: 22px; padding: 26px 30px;
+                display: flex; gap: 20px; align-items: center; font-family: var(--sans); font-size: 40px; color: var(--paper); }
+  #replies .av { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); flex: none; }
+
+  #loadV2 .card { left: 460px; top: 330px; width: 1000px; padding: 50px 60px; }
+  #loadV2 .t { font-family: var(--sans); font-weight: 800; font-size: 56px; margin-bottom: 30px; }
+  #loadV2 .eta { font-family: var(--mono); font-size: 34px; color: var(--mid); margin-top: 26px; }
 
   #stamp .s { position: absolute; left: 1480px; top: 150px; width: 420px; text-align: center; color: #3fbf6f;
               font-family: var(--sans); font-weight: 900; }
@@ -78,25 +124,34 @@
                              width: var(--strike, 0%); }
 
   #chrome div { position: absolute; font-family: var(--mono); font-size: 22px; color: var(--mid); letter-spacing: 0.02em; }
-  #chrome .tl { top: 40px; left: 48px; } #chrome .bl { bottom: 40px; left: 48px; }
-  #chrome .bl2 { bottom: 40px; left: 1008px; } #chrome .br { bottom: 40px; right: 48px; }
+  #chrome .tl { top: 40px; left: 48px; } #chrome .bl { bottom: 40px; left: 48px; } #chrome .br { bottom: 40px; right: 48px; }
+  #chrome .tile { white-space: nowrap; font-size: 18px; color: var(--paper); background: rgba(0,0,0,.55); padding: 2px 8px; }
 
-  #reload, #black, #endcard { background: #000; }
   #reload .flash { position: absolute; inset: 0; background: var(--paper); }
   #endcard .lines { position: absolute; left: 240px; top: 260px; font-family: var(--sans); font-weight: 600; font-size: 46px;
                     line-height: 1.75; color: #fff; }
   #endcard .lines div { opacity: 0; }
-  #hud { display: none; left: auto; right: 48px; top: 80px; bottom: auto; inset: 80px 48px auto auto; font-family: var(--mono);
+  #endcard .lines .mono { font-weight: 400; font-size: 34px; color: var(--mid); }
+
+  #hud { left: auto; top: 80px; right: 48px; bottom: auto; inset: 80px 48px auto auto; font-family: var(--mono);
          font-size: 26px; color: #ffe14d; background: rgba(0,0,0,.6); padding: 6px 14px; height: fit-content; width: fit-content; }
-  #endcard .lines .mono { font-family: var(--mono); font-weight: 400; font-size: 34px; color: var(--mid); }
 </style>
 <body>
 <div id="stage">
   <div id="bg2d" class="layer"></div>
   <canvas id="grid" class="layer" width="1920" height="1080"></canvas>
+  <canvas id="code" class="layer" width="1920" height="1080"></canvas>
   <canvas id="rain" class="layer" width="1920" height="1080"></canvas>
+  <div id="blackStop" class="layer"></div>
+  <div id="terminal" class="layer"><div class="card"></div></div>
+  <div id="hearts" class="layer"><div class="count"></div></div>
+  <div id="chat" class="layer"><div class="win"><div class="b me"></div><div class="b ai"></div></div></div>
+  <div id="replies" class="layer"><div class="g"></div></div>
   <div id="icons" class="layer"></div>
+  <div id="avg" class="layer"><div class="dot"></div><div class="lbl">avg()</div></div>
   <div id="progress" class="layer"><div class="card"><div class="label"></div><div class="track"><div class="fill"></div></div></div></div>
+  <div id="counter" class="layer"><div class="l">TOKENS GENERATED</div><div class="n"></div></div>
+  <div id="loadV2" class="layer"><div class="card"><div class="t">Generating verse 2…</div><div class="track"><div class="fill"></div></div><div class="eta"></div></div></div>
   <div id="stamp" class="layer"><div class="s"><div class="box">✓</div><div class="word">APPROVED</div></div></div>
   <div id="regenSpin" class="layer"></div>
   <div id="regenBtn" class="layer"><div class="b"></div></div>
@@ -104,13 +159,15 @@
   <div id="banner" class="layer"><div class="card"><h2>This site uses cookies</h2>
     <p>We and our 1,402 partners use your data to make this experience feel personal.</p>
     <span class="btn primary">Accept all</span><span class="btn ghost">Manage</span></div></div>
+  <div id="bigAccept" class="layer"><span class="btn primary">Accept all</span></div>
   <div id="todo" class="layer"><div>// TODO: make this part sad</div></div>
+  <div id="loadingTex" class="layer"><div></div></div>
   <div id="devtools" class="layer"><div class="panel"><div class="tabs"><span>Elements</span><span class="sel">Console</span>
     <span>Sources</span><span>Network</span></div><div class="log"></div></div></div>
   <div id="truncated" class="layer"><div><span>[output truncated]</span></div></div>
   <div id="bigRegen" class="layer"><div class="b"></div></div>
   <div id="captions" class="layer"></div>
-  <div id="chrome" class="layer"><div class="tl"></div><div class="bl"></div><div class="bl2"></div><div class="br"></div></div>
+  <div id="chrome" class="layer"><div class="tl"></div><div class="bl"></div><div class="br"></div><div class="tiles"></div></div>
   <div id="cursor" class="layer"></div>
   <div id="reload" class="layer"><div class="flash"></div></div>
   <div id="black" class="layer"></div>
