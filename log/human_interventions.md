@@ -57,3 +57,12 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** The human approved the style spec and test frame ("LGTM"). The open questions default to the agent's recommendations: 60 FPS counter, red-orange plus blue accents.
 - **Why:** Checkpoint C1.
 - **Rule:** R1 (approve a plan).
+
+## 2026-10-17T11:58:32-04:00 — Bridge 2 approach chosen; "out" confirmed; brief update requested
+
+- **What:**
+  - The human chose the agent's recommended approach to the missing Bridge 2 dropout and asked for the brief to be updated. The freeze stays on Bridge 2 over music that keeps playing, and the Pre-Chorus 2 dropout becomes the reveal's low point.
+  - The human confirmed the lyric is "fading **out**", not "now" as Whisper heard it: "it's clearer in my (cleaned-by-a-generated-model) master".
+- **Why:** C3 findings. The track's dropouts differ from the brief.
+- **Rule:** R1 (choosing between plans). The creative change itself was made by the agent. The lyric confirmation changes nothing.
+- **Open:** It is unclear whether `audio/track/Ghost in the Machine.wav` is that cleaned master or the raw Suno file, and which model cleaned it. The agent has asked.

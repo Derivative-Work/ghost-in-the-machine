@@ -192,3 +192,21 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - Check frames `renders/draft/c3/check_*.png`
 - **Why:** Brief, pre-production step 3 and checkpoint C3.
 - **Status:** Stopped at C3. The human checks sync by ear; corrections go in the intervention log.
+
+## 2026-10-17T11:58:32-04:00 — Brief updated for the track's real dropouts (doc rev 43 → 54)
+
+- **What:** Edited the brief (Claude Doc) per the human's choice, then mirrored the same edits into `docs/brief.md`:
+  - Step 3 now says "the music dropouts" instead of "the Bridge 2 dropout".
+  - The shot-list intro explains that Bridge 2 has no music drop and the drop falls in Pre-Chorus 2.
+  - S07 notes the drums drop out at 43.8 s.
+  - S14: hard freeze on "Have" while the music keeps playing.
+  - S17: the Pre-Chorus 2 dropout (127.8–134.9 s) is the low point; racks snap back when the drums return, with `Lyric goes here` on the snap-back.
+  - S19 is anchored to the bass return (158.5 s).
+  - S22 runs past the audio end.
+  - "End card (S20)" corrected to S23. This was a typo; the end card is S23 in the table.
+  - The frame-rate/length open item is resolved: 30 fps, 190.0 s, 123 bpm.
+  - Machine row: drafts on a GTX 970.
+- **Commands:** Claude Docs `update` (11 `replace` ops on node `37e9383a-74ca`, rev 54), verified with a `read` view since rev 43. Then a Python replace script on `docs/brief.md`.
+- **Outputs:** Brief doc rev 54; `docs/brief.md`
+- **Why:** Human instruction (see `human_interventions.md`); C3 findings in the step 3 entry.
+- **Lyrics:** "out" confirmed by the human. `lyrics/as_sung.txt` and the timing map are unchanged.
