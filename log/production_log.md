@@ -115,3 +115,11 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - 30 fps
   - Faceless primitive humanoid with a screen face, on a dark void with a faint grid
 - **Why:** Brief, pre-production step 1.
+
+## 2026-10-17T11:37:11-04:00 — Step 2: Suno take ID recorded
+
+- **What:** The human supplied the Suno share link. The agent followed its HTTP 307 redirect to the song page and recorded the take ID in the generation record. The page title "Ghost in the Machine" matches.
+- **Command:** `curl -sS -o /dev/null -w '%{redirect_url}' https://suno.com/s/JgJfkiYbm5CbkSZm` → `https://suno.com/song/560f899d-2701-4829-ad85-e4b57b702506?sh=JgJfkiYbm5CbkSZm`
+- **Outputs:** `log/prompts/suno/generation.md` (Chosen take ID row)
+- **Why:** Brief, pre-production step 2, and the end card's "Music: Suno v6 (take ID from the log)".
+- **Step 2 status:** The rejected take's ID and the advanced options are still unrecorded. They are nice to have, not blocking. C2 can be closed at the human's discretion.

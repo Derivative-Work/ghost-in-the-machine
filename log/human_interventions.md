@@ -45,3 +45,9 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** A human directed that draft renders run on this machine (GTX 970), with the full run moving to a separate RTX 5090 machine once it is ready.
 - **Why:** The 5090 box is not ready yet.
 - **Rule:** R1 (approving a plan). Not a creative change.
+
+## 2026-10-17T11:37:11-04:00 — Suno share link supplied
+
+- **What:** A human shared the Suno link for the chosen take.
+- **Why:** So the take ID can be logged retroactively.
+- **Rule:** Supplying information, not a touch on the work.

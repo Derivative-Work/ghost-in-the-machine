@@ -10,7 +10,7 @@ Suno exposes no seed, so this take **cannot be reproduced**, only documented. Th
 | Lyrics | `lyrics_submitted.txt` (this folder) | Planning chat, message 31; brief |
 | Title | Ghost in the Machine | Output file name |
 | Chosen take | First of the two takes from the generation | Human, 2026-10-17: "I took the first take" |
-| Chosen take ID | **Unknown — pending** (end of the suno.com/song/<id> URL) | — |
+| Chosen take ID | `560f899d-2701-4829-ad85-e4b57b702506` (https://suno.com/song/560f899d-2701-4829-ad85-e4b57b702506; share link https://suno.com/s/JgJfkiYbm5CbkSZm) | Human supplied share link 2026-10-17; agent resolved its redirect |
 | Rejected take | Second take; ID and audio **not supplied** | — |
 | Advanced options (weirdness, style influence, exclusions, persona) | **Not recorded**; presumed defaults, unconfirmed | — |
 | Extend / Replace Section | None reported | — |
