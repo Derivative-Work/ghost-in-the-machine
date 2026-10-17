@@ -38,3 +38,15 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Outputs:** `docs/brief.md`, `lyrics/as_sung.txt`, `log/prompts/suno/lyrics_submitted.txt`
 - **Why:** Brief, "Inputs": the brief arrives as a markdown export. "Lyrics": the as-sung version is the source of truth, and the submitted version is a Suno prompt that belongs in `log/prompts/`.
 - **Still missing (blocks the rest of step 2):** Suno take ID, style prompt, settings, rejected takes. The planning chat export is also missing.
+
+## 2026-10-17T11:23:00-04:00 — Pre-production step 2 (partial): log the track retroactively
+
+- **What:** Logged in `human_interventions.md` the human actions that produced the track: the two lyric exceptions, the Suno run (R4/R1), and supplying the input files. Recorded below the changes Suno made during generation. These are **AI changes**, found with `diff log/prompts/suno/lyrics_submitted.txt lyrics/as_sung.txt` and confirmed by the human listening (per the brief).
+- **Suno's changes (AI, not human):**
+  1. Filled the empty third `[Chorus]` with four lines ending "Every song just sounds the same".
+  2. Dropped the third bridge ("music drops out, close and quiet"), including "The hook, the lights, the open door".
+  3. Dropped the key change from the final chorus.
+  The generator removed the song's most self-aware moment and its one structural surprise. This is evidence for the video's thesis.
+- **Outputs:** `log/human_interventions.md`, this entry.
+- **Why:** Brief, pre-production step 2.
+- **Still open:** Suno take ID, style prompt, settings and rejected takes go in `log/prompts/suno/` once the human supplies them. Step 2 and checkpoint C2 stay incomplete until then.
