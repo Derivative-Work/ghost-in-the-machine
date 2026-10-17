@@ -1,4 +1,5 @@
-"""Write overlays/data/data.js (an ES module) from the timing map, the shot list, caption styling and the logs,
+"""Write overlays/data/data.js (an ES module) from the timing map, the shot list, caption styling, the stem
+envelopes and the logs,
 so overlays/video.html can import them over file://. Regenerate whenever any source changes.
 
 Usage: .venv/bin/python scripts/export_overlay_data.py
@@ -13,12 +14,14 @@ style = json.loads(Path("overlays/captions_style.json").read_text())
 seeds = json.loads(Path("config/seeds.json").read_text())
 take = re.search(r"Chosen take ID \| `([0-9a-f-]{36})`", Path("log/prompts/suno/generation.md").read_text()).group(1)
 interventions = len(re.findall(r"^## ", Path("log/human_interventions.md").read_text(), re.M))
+stems = json.loads(Path("timing/stems.json").read_text())
 data = {
     "timing": {k: tm[k] for k in ("tempo_bpm", "beats", "downbeats", "sections", "events", "words")},
     "shots": shots,
     "captionStyle": style,
     "seeds": {k: v for k, v in seeds.items() if not k.startswith("_")},
     "meta": {"takeId": take, "humanInterventions": interventions},
+    "stems": {k: stems[k] for k in ("kick", "vocal")},
 }
 out = Path("overlays/data")
 out.mkdir(exist_ok=True)

@@ -16,6 +16,29 @@
                             linear-gradient(90deg, rgba(74, 69, 80, .22) 1px, transparent 1px);
           background-size: 80px 80px; }
   #blackStop, #black, #reload, #endcard { background: #000; }
+  #bg2d .win { position: absolute; border: 2px solid rgba(74, 69, 80, .45); border-radius: 14px; background: rgba(29, 29, 36, .35); }
+  #bg2d .win::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 26px; border-bottom: 2px solid rgba(74, 69, 80, .45); }
+
+  #songMatch .card { left: 460px; top: 150px; width: 1000px; padding: 46px 56px; }
+  #songMatch .eq { display: flex; gap: 10px; align-items: flex-end; height: 90px; margin-bottom: 26px; }
+  #songMatch .eq div { width: 22px; background: var(--accent-2); border-radius: 4px; }
+  #songMatch .t { font-family: var(--sans); font-weight: 800; font-size: 60px; }
+  #songMatch .res { font-family: var(--mono); font-size: 28px; color: var(--mid); line-height: 1.7; margin-top: 18px; }
+
+  #diff .panel { position: absolute; left: 980px; top: 90px; width: 860px; height: 620px; background: #0f1013;
+                 border: 3px solid var(--line); border-radius: 18px; overflow: hidden; font-family: var(--mono); font-size: 22px; }
+  #diff .hd { position: relative; z-index: 1; padding: 16px 22px; border-bottom: 2px solid var(--line); color: var(--paper); font-size: 24px; background: #15161b; }
+  #diff .hd b { color: #3fbf6f; font-weight: 600; } #diff .hd i { color: var(--accent); font-style: normal; }
+  #diff .body { position: absolute; left: 0; right: 0; top: 64px; line-height: 30px; }
+  #diff .body div { padding-left: 22px; color: #3fbf6f; background: rgba(63, 191, 111, .08); white-space: pre; }
+
+  #regenBadge div { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); display: flex; gap: 14px; align-items: center;
+                    background: rgba(9, 8, 11, .75); border: 2px solid var(--line); border-radius: 999px; padding: 10px 26px 10px 14px;
+                    font-family: var(--mono); font-size: 28px; color: var(--paper); }
+  #regenBadge svg { width: 40px; height: 40px; }
+
+  #sameStamps .st { position: absolute; font-family: var(--sans); font-weight: 900; font-size: 64px; color: var(--accent);
+                    border: 6px solid var(--accent); border-radius: 12px; padding: 0 16px; transform: rotate(-8deg); }
 
   .card { position: absolute; background: var(--surface); border: 3px solid var(--line); border-radius: 18px;
           font-family: var(--sans); color: var(--paper); box-shadow: 0 30px 80px rgba(0,0,0,.5); }
@@ -116,6 +139,14 @@
                     font-size: 76px; line-height: 1.08; letter-spacing: -0.02em; color: var(--paper);
                     text-shadow: 0 0 24px rgba(9, 8, 11, .95), 0 0 6px rgba(9, 8, 11, .9); }
   #captions .line.big { bottom: auto; top: 50%; transform: translateY(-50%); font-size: 150px; width: 1500px; line-height: 1.02; }
+  #captions .line span { display: inline-block; margin-right: 0.03em; transform-origin: 50% 80%; }
+  #captions .huge { position: absolute; left: 120px; top: 50%; transform: translateY(-62%); font-family: var(--sans); font-weight: 900;
+                    font-size: 300px; line-height: 1; letter-spacing: -0.04em; color: var(--paper); white-space: nowrap;
+                    text-shadow: 0 0 30px rgba(9, 8, 11, .9); }
+  #captions .huge.acc { color: var(--accent); }
+  #captions .huge.emo { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0; }
+  #captions .sub { position: absolute; left: 124px; top: 50%; transform: translateY(150px); font-family: var(--sans); font-weight: 800;
+                   font-size: 54px; color: var(--paper); width: 1600px; text-shadow: 0 0 20px rgba(9, 8, 11, .9); }
   #captions .todo { opacity: .3; }
   #captions .acc { color: var(--accent); }
   #captions .emo { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: 0; }
@@ -143,10 +174,13 @@
   <canvas id="code" class="layer" width="1920" height="1080"></canvas>
   <canvas id="rain" class="layer" width="1920" height="1080"></canvas>
   <div id="blackStop" class="layer"></div>
+  <div id="songMatch" class="layer"><div class="card"><div class="eq"></div><div class="t"></div><div class="res"></div></div></div>
+  <div id="diff" class="layer"><div class="panel"><div class="hd"></div><div class="body"></div></div></div>
   <div id="terminal" class="layer"><div class="card"></div></div>
   <div id="hearts" class="layer"><div class="count"></div></div>
   <div id="chat" class="layer"><div class="win"><div class="b me"></div><div class="b ai"></div></div></div>
   <div id="replies" class="layer"><div class="g"></div></div>
+  <div id="sameStamps" class="layer"></div>
   <div id="icons" class="layer"></div>
   <div id="avg" class="layer"><div class="dot"></div><div class="lbl">avg()</div></div>
   <div id="progress" class="layer"><div class="card"><div class="label"></div><div class="track"><div class="fill"></div></div></div></div>
@@ -155,6 +189,7 @@
   <div id="stamp" class="layer"><div class="s"><div class="box">✓</div><div class="word">APPROVED</div></div></div>
   <div id="regenSpin" class="layer"></div>
   <div id="regenBtn" class="layer"><div class="b"></div></div>
+  <div id="regenBadge" class="layer"><div></div></div>
   <div id="score" class="layer"><div class="p">SCORE<div class="n"></div></div></div>
   <div id="banner" class="layer"><div class="card"><h2>This site uses cookies</h2>
     <p>We and our 1,402 partners use your data to make this experience feel personal.</p>

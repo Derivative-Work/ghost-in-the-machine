@@ -34,7 +34,10 @@ R = lambda plate, cam, fx=(), **kw: dict(mode="render", plate=plate, cam=cam, fx
 JS = dict(mode="js")
 HOLD = lambda src, **kw: dict(mode="hold", src=src, **kw)
 SPLIT = lambda seeds, **kw: dict(mode="split", plate="chorus", cam="orbit", seeds=seeds, lag_s=0.1, **kw)
-GRID_RENDER = dict(mode="js", renders=[dict(plate="chorus", cam="orbit", fx=[], seed="main", span=("S50", "S54"))])
+GRID_RENDER = dict(mode="js", renders=[dict(plate="chorus", cam="orbit", fx=[], seed="main", span=("S50", "S51"))])
+# The feed (S52-S55): every tile, this video's included, is the robot dancing in sync at its own seed.
+FEED_RENDER = dict(mode="js", renders=[dict(plate="chorus", cam="orbit", fx=["dance"], seed=sd, span=("S52", "S55"))
+                                       for sd in ["main"] + [f"thumbnail_tiles.{i}" for i in range(23)]])
 
 SHOTS = [
     # Intro
@@ -45,29 +48,31 @@ SHOTS = [
     dict(section="Intro", anchor=("bar", 4), plate=R("robot", "face", ["eyes_wake"]), layers=[]),
     # Verse 1
     dict(section="Verse 1", anchor=("section", "Verse 1"), plate=R("robot", "wide"), layers=[]),
-    dict(section="Verse 1", anchor=("bar", 6), plate=R("robot", "screen_close"), layers=["hearts"]),
+    dict(section="Verse 1", anchor=("bar", 6), plate=R("robot", "face"), layers=["hearts"], zoom_out=(0.5, 0.45)),
     dict(section="Verse 1", anchor=("line", "Verse 1", 1), plate=JS, layers=["bg2d", "chat_autocomplete"]),
     dict(section="Verse 1", anchor=("line", "Verse 1", 2), plate=R("robot", "medium"), layers=["accept_banner"]),
     dict(section="Verse 1", anchor=("line", "Verse 1", 3), plate=R("robot", "medium", ["shrug"]), layers=["todo_caption"]),
     # Bridge 1
     dict(section="Bridge 1", anchor=("section", "Bridge 1"), plate=R("robot", "low", freeze_first=True),
          layers=["glitch_flicker"]),
+    dict(id="S11b", section="Bridge 1", anchor=("bar", 14), plate=JS, layers=["bg2d", "song_match"]),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 1), plate=JS, layers=["bg2d", "icon_strip_fast"], big=True),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 2), plate=JS, layers=["bg2d", "big_accept"], big=True),
     dict(section="Bridge 1", anchor=("event", "bridge1_beat_gap"), plate=JS, layers=["bg2d", "progress_1of2"], big=True),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 4), plate=R("robot", "face", ["eyes_dim"]), layers=[]),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 5), plate=JS, layers=["bg2d", "avg_merge"], big=True),
     # Pre-Chorus 1
-    dict(section="Pre-Chorus 1", anchor=("section", "Pre-Chorus 1"), plate=R("racks", "aisle"), layers=[]),
+    dict(section="Pre-Chorus 1", anchor=("section", "Pre-Chorus 1"), plate=R("robot", "lullaby", ["mobile"]), layers=[]),
     dict(section="Pre-Chorus 1", anchor=("line", "Pre-Chorus 1", 1), plate=JS, layers=["bg2d", "giant_counter"], big=True),
     dict(section="Pre-Chorus 1", anchor=("bar", 28), plate=R("racks", "chart"), layers=[]),
     # Chorus 1
-    dict(section="Chorus 1", anchor=("section", "Chorus 1"), plate=R("chorus", "orbit"), layers=["regen_button"],
-         transition="whip"),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 1), plate=R("chorus", "orbit2", ["missing_texture"]),
+    dict(section="Chorus 1", anchor=("section", "Chorus 1"), plate=R("chorus", "orbit", ["fast_entry"]),
+         layers=["regen_button"], transition="whip"),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 1), plate=R("chorus", "dolly_zoom", ["missing_texture"]),
          layers=["loading_textures"]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 2), plate=R("chorus", "low_up", ["head_up"]), layers=["the_rain"]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 3), plate=JS, layers=["bg2d", "nine_replies"]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
+         layers=["the_rain"], zoom_out=(0.5, 0.3)),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 4), plate=R("chorus", "wide_static", ["lights_fade"]), layers=[]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 5), plate=R("chorus", "topdown"), layers=[]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 6), plate=R("chorus", "dance_wide", ["dance"]),
@@ -77,9 +82,11 @@ SHOTS = [
     dict(section="Chorus 1", anchor=("event", "stop1_end"), plate=JS, layers=["bg2d", "loading_verse2"],
          transition="glitch"),
     # Verse 2
-    dict(section="Verse 2", anchor=("section", "Verse 2"), plate=JS, layers=["bg2d", "check_stamp"], big=True),
-    dict(section="Verse 2", anchor=("line", "Verse 2", 1), plate=JS, layers=["bg2d", "regen_spin"], big=True),
-    dict(section="Verse 2", anchor=("line", "Verse 2", 2), plate=R("seats", "front"), layers=[]),
+    dict(section="Verse 2", anchor=("section", "Verse 2"), plate=JS, layers=["bg2d", "diff_scroll", "check_stamp"]),
+    dict(section="Verse 2", anchor=("line", "Verse 2", 1),
+         plate=dict(mode="montage", plate="robot", cam="wide", fx=["reroll"], seeds=[f"regen_montage.{i}" for i in range(6)]),
+         layers=["regen_badge"]),
+    dict(section="Verse 2", anchor=("line", "Verse 2", 2), plate=R("seats", "front", ["robot_seated"]), layers=[]),
     dict(section="Verse 2", anchor=("bar", 53), plate=R("seats", "reverse_end"), layers=[]),
     dict(section="Verse 2", anchor=("line", "Verse 2", 3), plate=R("tear", "face"), layers=["score_counter"]),
     # Bridge 2: the freeze (static on purpose)
@@ -88,17 +95,18 @@ SHOTS = [
     dict(section="Bridge 2", anchor=("line", "Bridge 2", 2), plate=HOLD("S34"), layers=["devtools", "progress_2of2"]),
     # Pre-Chorus 2
     dict(section="Pre-Chorus 2", anchor=("section", "Pre-Chorus 2"), plate=HOLD("S34"), layers=["devtools_full"]),
-    dict(section="Pre-Chorus 2", anchor=("event", "drop2_end"), plate=R("racks", "aisle"), layers=[], transition="glitch"),
+    dict(section="Pre-Chorus 2", anchor=("event", "drop2_end"), plate=R("racks", "crane"), layers=[], transition="glitch"),
     dict(section="Pre-Chorus 2", anchor=("bar", 69), plate=JS, layers=["bg2d", "giant_counter"], big=True),
     dict(section="Pre-Chorus 2", anchor=("bar", 70), plate=R("racks", "chart"), layers=[]),
     # Chorus 2: Chorus 1 again, degrading
-    dict(section="Chorus 2", anchor=("section", "Chorus 2"), plate=R("chorus", "orbit"), layers=[], degrade=0.35,
-         transition="whip"),
-    dict(section="Chorus 2", anchor=("line", "Chorus 2", 1), plate=R("chorus", "orbit2", ["missing_texture"]),
+    dict(section="Chorus 2", anchor=("section", "Chorus 2"), plate=R("chorus", "orbit", ["fast_entry"]), layers=[],
+         degrade=0.35, transition="whip"),
+    dict(section="Chorus 2", anchor=("line", "Chorus 2", 1), plate=R("chorus", "dolly_zoom", ["missing_texture"]),
          layers=["loading_textures"], degrade=0.5),
-    dict(section="Chorus 2", anchor=("line", "Chorus 2", 2), plate=R("chorus", "low_up", ["head_up"]),
+    dict(section="Chorus 2", anchor=("line", "Chorus 2", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
          layers=["the_rain_heavy"], degrade=0.6),
-    dict(section="Chorus 2", anchor=("line", "Chorus 2", 3), plate=JS, layers=["bg2d", "nine_replies"], degrade=0.7),
+    dict(section="Chorus 2", anchor=("line", "Chorus 2", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"],
+         degrade=0.7),
     dict(section="Chorus 2", anchor=("event", "trunc"), plate=HOLD("S44"), layers=["output_truncated"], degrade=0.75),
     # Final chorus: the split multiplies, then the feed
     dict(section="Final Chorus", anchor=("event", "bass_return"), plate=SPLIT(["main", "bridge_second_run"]), layers=[]),
@@ -108,7 +116,7 @@ SHOTS = [
          plate=SPLIT(["main", "bridge_second_run"] + [f"split_extra.{i}" for i in range(7)]), layers=[]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 3), plate=GRID_RENDER, layers=["grid_zoom"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 4), plate=JS, layers=["grid_dark"]),
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 5), plate=JS, layers=["grid_scroll"]),
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 5), plate=FEED_RENDER, layers=["grid_scroll"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=JS, layers=["grid_scroll_fast"]),
     dict(section="Final Chorus", anchor=("event", "beat_end"), plate=JS, layers=["grid_decel"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 7), plate=JS, layers=["grid_hold", "cursor_regen_click"]),
@@ -117,9 +125,13 @@ SHOTS = [
                                                                      black_after=1.0), layers=["reload"], seed="restart"),
     dict(section="End card", anchor=("time", LAST_WORD_END + S22_LEN), plate=JS, layers=["end_card"], no_globals=True),
 ]
-for i, s in enumerate(SHOTS):
-    s["id"] = f"S{i + 1:02d}"
-assert len(SHOTS) == 57, len(SHOTS)
+# IDs: inserted shots carry a letter suffix (S11b) so the brief's existing IDs never change.
+_n = 0
+for s in SHOTS:
+    if "id" not in s:
+        _n += 1
+        s["id"] = f"S{_n:02d}"
+assert _n == 57, _n
 
 STOP1 = next(d for d in TM["events"]["dropouts"] if d["full"] and "Chorus 1" in d["sections"])
 C2_LAST_END = [w for w in TM["words"] if w["section"] == "Chorus 2"][-1]["end"]
@@ -168,6 +180,36 @@ def resolve(anchor):
     raise ValueError(anchor)
 
 
+def performance(shots):
+    """The robot's eye expressions and gestures over time (v3). Plates read this by global time."""
+    by_id = {s["id"]: s for s in shots}
+    words = TM["words"]
+    lines = {}
+    for w in words:
+        lines.setdefault((w["section"], w["line"]), []).append(w)
+    sec = {x["name"]: x for x in TM["sections"]}
+    ev = []
+    for name in ("Chorus 1", "Chorus 2", "Final Chorus"):
+        ev.append(dict(kind="expr", value="happy", t0=sec[name]["start"], t1=sec[name]["end"]))
+    v1l3 = lines[("Verse 1", 3)]
+    ev.append(dict(kind="expr", value="squint", t0=v1l3[0]["start"], t1=v1l3[-1]["end"] + 0.3))
+    heart = next(w for w in lines[("Verse 1", 0)] if w["text"] == "heart")
+    ev.append(dict(kind="expr", value="heart", t0=heart["start"] - 0.1, t1=heart["start"] + 1.6))
+    ev.append(dict(kind="expr", value="sleepy", t0=by_id["S17"]["start_s"], t1=by_id["S17"]["end_s"]))
+    s24 = by_id["S24"]
+    beats = [b for b in TM["beats"] if s24["start_s"] <= b < s24["end_s"]]
+    if len(beats) >= 7:
+        ev.append(dict(kind="expr", value="xx", t0=beats[6], t1=s24["end_s"]))
+    for (section, li), ws in lines.items():
+        text = " ".join(w["text"] for w in ws)
+        if text == "We are the ghost in the machine":
+            ev.append(dict(kind="gesture", value="point", t0=ws[0]["start"] - 0.1, t1=ws[0]["start"] + 1.8))
+        if text == "Tokens falling like the rain":
+            ev.append(dict(kind="gesture", value="reach_up", t0=ws[0]["start"] - 0.1, t1=ws[-1]["end"] + 0.3))
+    # Later entries win where they overlap (a squint inside a chorus would beat "happy").
+    return [dict(e, t0=round(e["t0"], 3), t1=round(e["t1"], 3)) for e in ev]
+
+
 def job_dir(plate, cam, fx, seed):
     return f"{plate}-{cam}{'-' + '+'.join(fx) if fx else ''}__{seed}"
 
@@ -189,6 +231,9 @@ def render_jobs(shots):
             end = f0 + round(p.get("black_after", 1e9) * FPS)
             add(s["id"], p["plate"], p["cam"], p["fx"], s["seed"], f0, min(f1, end),
                 clock_offset_s=s["start_s"] if p.get("clock") == "local" else 0.0)
+        elif p["mode"] == "montage":
+            for seed, (a, b) in zip(p["seeds"], p["segments"]):
+                add(s["id"], p["plate"], p["cam"], p["fx"], seed, a, b)
         elif p["mode"] == "split":
             lag = round(p["lag_s"] * FPS)
             for i, seed in enumerate(p["seeds"]):
@@ -215,10 +260,17 @@ def main():
             "plate": spec["plate"], "layers": spec["layers"], "seed": spec.get("seed", "main"),
             "global_layers": [] if spec.get("no_globals") else ["captions", "chrome"],
             "big_captions": spec.get("big", False), "degrade": spec.get("degrade", 0.0),
-            "transition": spec.get("transition"),
+            "transition": spec.get("transition"), "zoom_out": spec.get("zoom_out"),
         })
+    for sh in shots:
+        p = sh["plate"]
+        if p["mode"] == "montage":  # one re-roll per half bar
+            n = len(p["seeds"])
+            cuts = [sh["start_frame"] + round(i * BAR / 2 * FPS) for i in range(n)] + [sh["end_frame"]]
+            p["segments"] = [(cuts[i], cuts[i + 1]) for i in range(n)]
     out = {"fps": FPS, "total_s": round(total, 3), "total_frames": round(total * FPS),
-           "audio_end_s": END_OF_AUDIO, "shots": shots, "render_jobs": render_jobs(shots)}
+           "audio_end_s": END_OF_AUDIO, "shots": shots, "render_jobs": render_jobs(shots),
+           "performance": performance(shots)}
     Path("shots/shots.json").write_text(json.dumps(out, indent=1) + "\n")
 
     def plate_desc(p):
@@ -228,10 +280,12 @@ def main():
             return f"hold {p['src']}"
         if p["mode"] == "split":
             return f"{len(p['seeds'])}-up split of {p['plate']}" + (f" ({', '.join(p['fx'])})" if p.get("fx") else "")
+        if p["mode"] == "montage":
+            return f"{p['plate']} / {p['cam']} re-rolled at {len(p['seeds'])} seeds"
         return "JS (full frame)" if p.get("renders") is None else "JS grid over chorus / orbit"
 
-    md = ["# Pipeline per shot (v2)", "",
-          "Generated by `shots/build_shots.py` from the brief's v2 shot list (doc rev 65) and `timing/timing_map.json`. "
+    md = ["# Pipeline per shot (v3)", "",
+          "Generated by `shots/build_shots.py` from the brief's v3 shot list and `timing/timing_map.json`. "
           "Do not edit by hand; edit the script.", "",
           "**Pipelines.** Blender 5.2 (Python, Eevee) renders 3D plates (`scenes/blender/plates.py`): each plate is a "
           "scene with named cameras and effects. One HTML page (`overlays/video.html`) renders every JS layer for any "
@@ -246,6 +300,7 @@ def main():
     for s in shots:
         notes = ", ".join(x for x in [f"degrade {s['degrade']}" if s["degrade"] else "",
                                        f"{s['transition']} in" if s["transition"] else "",
+                                       "zoom-through out" if s["zoom_out"] else "",
                                        "big captions" if s["big_captions"] else "",
                                        f"seed {s['seed']}" if s["seed"] != "main" else ""] if x)
         md.append(f"| {s['id']} | {s['section']} | {s['start_s']:.2f} | {s['end_s'] - s['start_s']:.2f} | "

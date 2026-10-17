@@ -29,7 +29,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S02",
@@ -56,7 +57,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S03",
@@ -83,7 +85,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S04",
@@ -112,7 +115,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S05",
@@ -141,7 +145,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S06",
@@ -168,7 +173,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S07",
@@ -184,7 +190,7 @@
    "plate": {
     "mode": "render",
     "plate": "robot",
-    "cam": "screen_close",
+    "cam": "face",
     "fx": []
    },
    "layers": [
@@ -197,7 +203,11 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": [
+    0.5,
+    0.45
+   ]
   },
   {
    "id": "S08",
@@ -225,7 +235,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S09",
@@ -255,7 +266,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S10",
@@ -287,7 +299,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S11",
@@ -297,9 +310,9 @@
     "Bridge 1"
    ],
    "start_s": 27.771,
-   "end_s": 31.073,
+   "end_s": 29.722,
    "start_frame": 833,
-   "end_frame": 932,
+   "end_frame": 892,
    "plate": {
     "mode": "render",
     "plate": "robot",
@@ -317,7 +330,36 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
+  },
+  {
+   "id": "S11b",
+   "section": "Bridge 1",
+   "anchor": [
+    "bar",
+    14
+   ],
+   "start_s": 29.722,
+   "end_s": 31.073,
+   "start_frame": 892,
+   "end_frame": 932,
+   "plate": {
+    "mode": "js"
+   },
+   "layers": [
+    "bg2d",
+    "song_match"
+   ],
+   "seed": "main",
+   "global_layers": [
+    "captions",
+    "chrome"
+   ],
+   "big_captions": false,
+   "degrade": 0.0,
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S12",
@@ -345,7 +387,8 @@
    ],
    "big_captions": true,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S13",
@@ -373,7 +416,8 @@
    ],
    "big_captions": true,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S14",
@@ -400,7 +444,8 @@
    ],
    "big_captions": true,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S15",
@@ -430,7 +475,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S16",
@@ -458,7 +504,8 @@
    ],
    "big_captions": true,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S17",
@@ -473,9 +520,11 @@
    "end_frame": 1599,
    "plate": {
     "mode": "render",
-    "plate": "racks",
-    "cam": "aisle",
-    "fx": []
+    "plate": "robot",
+    "cam": "lullaby",
+    "fx": [
+     "mobile"
+    ]
    },
    "layers": [],
    "seed": "main",
@@ -485,7 +534,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S18",
@@ -513,7 +563,8 @@
    ],
    "big_captions": true,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S19",
@@ -540,7 +591,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S20",
@@ -557,7 +609,9 @@
     "mode": "render",
     "plate": "chorus",
     "cam": "orbit",
-    "fx": []
+    "fx": [
+     "fast_entry"
+    ]
    },
    "layers": [
     "regen_button"
@@ -569,7 +623,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": "whip"
+   "transition": "whip",
+   "zoom_out": null
   },
   {
    "id": "S21",
@@ -586,7 +641,7 @@
    "plate": {
     "mode": "render",
     "plate": "chorus",
-    "cam": "orbit2",
+    "cam": "dolly_zoom",
     "fx": [
      "missing_texture"
     ]
@@ -601,7 +656,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S22",
@@ -620,7 +676,8 @@
     "plate": "chorus",
     "cam": "low_up",
     "fx": [
-     "head_up"
+     "head_up",
+     "tokens_3d"
     ]
    },
    "layers": [
@@ -633,7 +690,11 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": [
+    0.5,
+    0.3
+   ]
   },
   {
    "id": "S23",
@@ -652,7 +713,8 @@
    },
    "layers": [
     "bg2d",
-    "nine_replies"
+    "nine_replies",
+    "same_stamps"
    ],
    "seed": "main",
    "global_layers": [
@@ -661,7 +723,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S24",
@@ -691,7 +754,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S25",
@@ -719,7 +783,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S26",
@@ -751,7 +816,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S27",
@@ -782,7 +848,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S28",
@@ -808,7 +875,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S29",
@@ -835,7 +903,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": "glitch"
+   "transition": "glitch",
+   "zoom_out": null
   },
   {
    "id": "S30",
@@ -853,6 +922,7 @@
    },
    "layers": [
     "bg2d",
+    "diff_scroll",
     "check_stamp"
    ],
    "seed": "main",
@@ -860,9 +930,10 @@
     "captions",
     "chrome"
    ],
-   "big_captions": true,
+   "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S31",
@@ -877,20 +948,59 @@
    "start_frame": 3005,
    "end_frame": 3103,
    "plate": {
-    "mode": "js"
+    "mode": "montage",
+    "plate": "robot",
+    "cam": "wide",
+    "fx": [
+     "reroll"
+    ],
+    "seeds": [
+     "regen_montage.0",
+     "regen_montage.1",
+     "regen_montage.2",
+     "regen_montage.3",
+     "regen_montage.4",
+     "regen_montage.5"
+    ],
+    "segments": [
+     [
+      3005,
+      3034
+     ],
+     [
+      3034,
+      3064
+     ],
+     [
+      3064,
+      3093
+     ],
+     [
+      3093,
+      3122
+     ],
+     [
+      3122,
+      3151
+     ],
+     [
+      3151,
+      3103
+     ]
+    ]
    },
    "layers": [
-    "bg2d",
-    "regen_spin"
+    "regen_badge"
    ],
    "seed": "main",
    "global_layers": [
     "captions",
     "chrome"
    ],
-   "big_captions": true,
+   "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S32",
@@ -908,7 +1018,9 @@
     "mode": "render",
     "plate": "seats",
     "cam": "front",
-    "fx": []
+    "fx": [
+     "robot_seated"
+    ]
    },
    "layers": [],
    "seed": "main",
@@ -918,7 +1030,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S33",
@@ -945,7 +1058,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S34",
@@ -975,7 +1089,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S35",
@@ -1002,7 +1117,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S36",
@@ -1031,7 +1147,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S37",
@@ -1060,7 +1177,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S38",
@@ -1087,7 +1205,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S39",
@@ -1103,7 +1222,7 @@
    "plate": {
     "mode": "render",
     "plate": "racks",
-    "cam": "aisle",
+    "cam": "crane",
     "fx": []
    },
    "layers": [],
@@ -1114,7 +1233,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": "glitch"
+   "transition": "glitch",
+   "zoom_out": null
   },
   {
    "id": "S40",
@@ -1141,7 +1261,8 @@
    ],
    "big_captions": true,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S41",
@@ -1168,7 +1289,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S42",
@@ -1185,7 +1307,9 @@
     "mode": "render",
     "plate": "chorus",
     "cam": "orbit",
-    "fx": []
+    "fx": [
+     "fast_entry"
+    ]
    },
    "layers": [],
    "seed": "main",
@@ -1195,7 +1319,8 @@
    ],
    "big_captions": false,
    "degrade": 0.35,
-   "transition": "whip"
+   "transition": "whip",
+   "zoom_out": null
   },
   {
    "id": "S43",
@@ -1212,7 +1337,7 @@
    "plate": {
     "mode": "render",
     "plate": "chorus",
-    "cam": "orbit2",
+    "cam": "dolly_zoom",
     "fx": [
      "missing_texture"
     ]
@@ -1227,7 +1352,8 @@
    ],
    "big_captions": false,
    "degrade": 0.5,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S44",
@@ -1246,7 +1372,8 @@
     "plate": "chorus",
     "cam": "low_up",
     "fx": [
-     "head_up"
+     "head_up",
+     "tokens_3d"
     ]
    },
    "layers": [
@@ -1259,7 +1386,8 @@
    ],
    "big_captions": false,
    "degrade": 0.6,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S45",
@@ -1278,7 +1406,8 @@
    },
    "layers": [
     "bg2d",
-    "nine_replies"
+    "nine_replies",
+    "same_stamps"
    ],
    "seed": "main",
    "global_layers": [
@@ -1287,7 +1416,8 @@
    ],
    "big_captions": false,
    "degrade": 0.7,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S46",
@@ -1314,7 +1444,8 @@
    ],
    "big_captions": false,
    "degrade": 0.75,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S47",
@@ -1345,7 +1476,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S48",
@@ -1382,7 +1514,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S49",
@@ -1421,7 +1554,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S50",
@@ -1445,7 +1579,7 @@
       "seed": "main",
       "span": [
        "S50",
-       "S54"
+       "S51"
       ]
      }
     ]
@@ -1460,7 +1594,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S51",
@@ -1487,7 +1622,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S52",
@@ -1502,7 +1638,297 @@
    "start_frame": 5251,
    "end_frame": 5366,
    "plate": {
-    "mode": "js"
+    "mode": "js",
+    "renders": [
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "main",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.0",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.1",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.2",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.3",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.4",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.5",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.6",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.7",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.8",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.9",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.10",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.11",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.12",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.13",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.14",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.15",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.16",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.17",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.18",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.19",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.20",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.21",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     },
+     {
+      "plate": "chorus",
+      "cam": "orbit",
+      "fx": [
+       "dance"
+      ],
+      "seed": "thumbnail_tiles.22",
+      "span": [
+       "S52",
+       "S55"
+      ]
+     }
+    ]
    },
    "layers": [
     "grid_scroll"
@@ -1514,7 +1940,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S53",
@@ -1541,7 +1968,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S54",
@@ -1567,7 +1995,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S55",
@@ -1595,7 +2024,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S56",
@@ -1626,7 +2056,8 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   },
   {
    "id": "S57",
@@ -1649,7 +2080,8 @@
    "global_layers": [],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null
+   "transition": null,
+   "zoom_out": null
   }
  ],
  "render_jobs": [
@@ -1720,12 +2152,12 @@
   {
    "shot": "S07",
    "plate": "robot",
-   "cam": "screen_close",
+   "cam": "face",
    "fx": [],
    "seed": "main",
    "start": 420,
    "end": 461,
-   "dir": "robot-screen_close__main",
+   "dir": "robot-face__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1762,7 +2194,7 @@
    "fx": [],
    "seed": "main",
    "start": 833,
-   "end": 932,
+   "end": 892,
    "dir": "robot-low__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
@@ -1783,13 +2215,15 @@
   },
   {
    "shot": "S17",
-   "plate": "racks",
-   "cam": "aisle",
-   "fx": [],
+   "plate": "robot",
+   "cam": "lullaby",
+   "fx": [
+    "mobile"
+   ],
    "seed": "main",
    "start": 1482,
    "end": 1599,
-   "dir": "racks-aisle__main",
+   "dir": "robot-lullaby-mobile__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1809,25 +2243,27 @@
    "shot": "S20",
    "plate": "chorus",
    "cam": "orbit",
-   "fx": [],
+   "fx": [
+    "fast_entry"
+   ],
    "seed": "main",
    "start": 1776,
    "end": 1893,
-   "dir": "chorus-orbit__main",
+   "dir": "chorus-orbit-fast_entry__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
    "shot": "S21",
    "plate": "chorus",
-   "cam": "orbit2",
+   "cam": "dolly_zoom",
    "fx": [
     "missing_texture"
    ],
    "seed": "main",
    "start": 1893,
    "end": 2010,
-   "dir": "chorus-orbit2-missing_texture__main",
+   "dir": "chorus-dolly_zoom-missing_texture__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1836,12 +2272,13 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up"
+    "head_up",
+    "tokens_3d"
    ],
    "seed": "main",
    "start": 2010,
    "end": 2128,
-   "dir": "chorus-low_up-head_up__main",
+   "dir": "chorus-low_up-head_up+tokens_3d__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1900,14 +2337,100 @@
    "lag_frames": 0
   },
   {
+   "shot": "S31",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [
+    "reroll"
+   ],
+   "seed": "regen_montage.0",
+   "start": 3005,
+   "end": 3034,
+   "dir": "robot-wide-reroll__regen_montage.0",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S31",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [
+    "reroll"
+   ],
+   "seed": "regen_montage.1",
+   "start": 3034,
+   "end": 3064,
+   "dir": "robot-wide-reroll__regen_montage.1",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S31",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [
+    "reroll"
+   ],
+   "seed": "regen_montage.2",
+   "start": 3064,
+   "end": 3093,
+   "dir": "robot-wide-reroll__regen_montage.2",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S31",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [
+    "reroll"
+   ],
+   "seed": "regen_montage.3",
+   "start": 3093,
+   "end": 3122,
+   "dir": "robot-wide-reroll__regen_montage.3",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S31",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [
+    "reroll"
+   ],
+   "seed": "regen_montage.4",
+   "start": 3122,
+   "end": 3151,
+   "dir": "robot-wide-reroll__regen_montage.4",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S31",
+   "plate": "robot",
+   "cam": "wide",
+   "fx": [
+    "reroll"
+   ],
+   "seed": "regen_montage.5",
+   "start": 3151,
+   "end": 3103,
+   "dir": "robot-wide-reroll__regen_montage.5",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
    "shot": "S32",
    "plate": "seats",
    "cam": "front",
-   "fx": [],
+   "fx": [
+    "robot_seated"
+   ],
    "seed": "main",
    "start": 3103,
    "end": 3180,
-   "dir": "seats-front__main",
+   "dir": "seats-front-robot_seated__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1938,12 +2461,12 @@
   {
    "shot": "S39",
    "plate": "racks",
-   "cam": "aisle",
+   "cam": "crane",
    "fx": [],
    "seed": "main",
    "start": 4047,
    "end": 4113,
-   "dir": "racks-aisle__main",
+   "dir": "racks-crane__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1963,25 +2486,27 @@
    "shot": "S42",
    "plate": "chorus",
    "cam": "orbit",
-   "fx": [],
+   "fx": [
+    "fast_entry"
+   ],
    "seed": "main",
    "start": 4230,
    "end": 4347,
-   "dir": "chorus-orbit__main",
+   "dir": "chorus-orbit-fast_entry__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
   {
    "shot": "S43",
    "plate": "chorus",
-   "cam": "orbit2",
+   "cam": "dolly_zoom",
    "fx": [
     "missing_texture"
    ],
    "seed": "main",
    "start": 4347,
    "end": 4463,
-   "dir": "chorus-orbit2-missing_texture__main",
+   "dir": "chorus-dolly_zoom-missing_texture__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -1990,12 +2515,13 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up"
+    "head_up",
+    "tokens_3d"
    ],
    "seed": "main",
    "start": 4463,
    "end": 4579,
-   "dir": "chorus-low_up-head_up__main",
+   "dir": "chorus-low_up-head_up+tokens_3d__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2194,8 +2720,344 @@
    "fx": [],
    "seed": "main",
    "start": 5043,
-   "end": 5626,
+   "end": 5251,
    "dir": "chorus-orbit__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "main",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.0",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.0",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.1",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.1",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.2",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.2",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.3",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.3",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.4",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.4",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.5",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.5",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.6",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.6",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.7",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.7",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.8",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.8",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.9",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.9",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.10",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.10",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.11",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.11",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.12",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.12",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.13",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.13",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.14",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.14",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.15",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.15",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.16",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.16",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.17",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.17",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.18",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.18",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.19",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.19",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.20",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.20",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.21",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.21",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S52",
+   "plate": "chorus",
+   "cam": "orbit",
+   "fx": [
+    "dance"
+   ],
+   "seed": "thumbnail_tiles.22",
+   "start": 5251,
+   "end": 5693,
+   "dir": "chorus-orbit-dance__thumbnail_tiles.22",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2210,6 +3072,98 @@
    "dir": "default_cube_boot-default__restart",
    "clock_offset_s": 189.76,
    "lag_frames": 0
+  }
+ ],
+ "performance": [
+  {
+   "kind": "expr",
+   "value": "happy",
+   "t0": 59.188,
+   "t1": 96.27
+  },
+  {
+   "kind": "expr",
+   "value": "happy",
+   "t0": 141.015,
+   "t1": 156.502
+  },
+  {
+   "kind": "expr",
+   "value": "happy",
+   "t0": 156.502,
+   "t1": 189.76
+  },
+  {
+   "kind": "expr",
+   "value": "squint",
+   "t0": 23.765,
+   "t1": 28.029
+  },
+  {
+   "kind": "expr",
+   "value": "heart",
+   "t0": 13.855,
+   "t1": 15.555
+  },
+  {
+   "kind": "expr",
+   "value": "sleepy",
+   "t0": 49.389,
+   "t1": 53.29
+  },
+  {
+   "kind": "expr",
+   "value": "xx",
+   "t0": 77.764,
+   "t1": 78.739
+  },
+  {
+   "kind": "gesture",
+   "value": "point",
+   "t0": 59.303,
+   "t1": 61.203
+  },
+  {
+   "kind": "gesture",
+   "value": "reach_up",
+   "t0": 66.61,
+   "t1": 70.594
+  },
+  {
+   "kind": "gesture",
+   "value": "point",
+   "t0": 90.535,
+   "t1": 92.435
+  },
+  {
+   "kind": "gesture",
+   "value": "point",
+   "t0": 141.109,
+   "t1": 143.009
+  },
+  {
+   "kind": "gesture",
+   "value": "reach_up",
+   "t0": 148.356,
+   "t1": 152.68
+  },
+  {
+   "kind": "gesture",
+   "value": "point",
+   "t0": 156.625,
+   "t1": 158.525
+  },
+  {
+   "kind": "gesture",
+   "value": "reach_up",
+   "t0": 163.833,
+   "t1": 168.137
+  },
+  {
+   "kind": "gesture",
+   "value": "point",
+   "t0": 187.538,
+   "t1": 189.438
   }
  ]
 }

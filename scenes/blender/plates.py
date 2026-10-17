@@ -59,6 +59,42 @@ def idle(rig, t):
     rig["head"].rotation_euler.y = 0.04 * math.sin(2 * math.pi * t / (G.BAR * 2))
 
 
+def react(t, lights=(), screens=(), floor=None):
+    """v3 music reactions: lights punch on the kick, screens follow the synth, the floor ripples on bass notes."""
+    k = G.env("kick", t)
+    for ob, base_energy in lights:
+        ob.data.energy = base_energy * (1 + 0.6 * k)
+    sy = G.env("synth", t)
+    for node, base_strength in screens:
+        node.inputs["Strength"].default_value = base_strength * (0.75 + 0.6 * sy)
+    if floor is not None:
+        nodes = floor.active_material.node_tree.nodes
+        b = G.last_onset(G.STEMS["bass_on"], t)
+        age = t - b if b is not None else 99
+        nodes["ripple_r"].outputs[0].default_value = age * 9.0
+        nodes["ripple_amp"].outputs[0].default_value = 0.7 * math.exp(-age / 0.6)
+
+
+def lights_of(names):
+    return [(ob, ob.data.energy) for ob in bpy.data.objects if ob.type == "LIGHT" and ob.name.startswith(names)]
+
+
+def screens_of(objs):
+    out = []
+    for ob in objs:
+        mat = ob.active_material
+        node = next((n for n in mat.node_tree.nodes if n.type == "EMISSION"), None) if mat else None
+        if node:
+            out.append((node, node.inputs["Strength"].default_value))
+    return out
+
+
+def dof(cam, distance, fstop=2.0):
+    cam.data.dof.use_dof = True
+    cam.data.dof.aperture_fstop = fstop
+    cam.data.dof.focus_distance = distance
+
+
 def checker_material():
     """Blender's missing-texture look: a magenta/black checker."""
     m = bpy.data.materials.new("missing_texture")
@@ -92,11 +128,16 @@ def apply_missing_texture(keep=("eye",)):
 def plate_robot(job, seed):
     r = random.Random(seed)
     scene = bpy.context.scene
+    fx = set(job["fx"])
     G.void_world(scene)
-    G.grid_floor()
-    cx = 1.4
-    rig = G.build_character((cx, 0, 0), height_scale=1.0 + (r.random() - 0.5) * 0.04)
+    floor = G.grid_floor()
+    reroll = "reroll" in fx  # S31: each regeneration visibly re-rolls the layout
+    cx = 1.4 + ((r.random() - 0.5) * 1.6 if reroll else 0)
+    rig = G.build_character((cx, 0, 0), height_scale=1.0 + (r.random() - 0.5) * (0.25 if reroll else 0.04))
     slots = [(-1.6, 3.2, 2.6, 14), (5.2, 4.6, 2.4, -24), (-4.2, 6.5, 1.6, 26), (2.4, 8.0, 3.6, -8)]
+    if reroll:
+        r.shuffle(slots)
+        slots = [(x + (r.random() - 0.5) * 3, y, z + (r.random() - 0.5) * 1.5, rz + r.randint(-30, 30)) for x, y, z, rz in slots]
     screens = []
     for i, (x, y, z, rz) in enumerate(slots):
         x += (r.random() - 0.5) * 0.6
@@ -109,21 +150,46 @@ def plate_robot(job, seed):
     G.bloom(scene)
     s = SHOT[job["shot"]]
     t0, t1 = s["start_s"], s["end_s"]
-    fx = set(job["fx"])
     eye_nodes = [G.emission_node(e.active_material) for e in rig["eyes"]]
     screen_nodes = [next(n for n in m.node_tree.nodes if n.type == "EMISSION") for *_, m in screens]
     head_z = 1.80
+    lights = lights_of(("key", "rim"))
+    scr = screens_of([o for o, *_ in screens])
+    mobile = None
+    if "mobile" in fx:  # S17: a crib mobile of tiny server racks turning above the robot
+        mobile = G.empty("mobile", (cx, 0, 2.75))
+        rack = G.mat_principled("mini_rack", G.PAL["surface"], 0.4)
+        led = G.mat_emission("mini_led", G.PAL["accent"], 6)
+        G.capsule("mobile_hook", 0.01, 0.5, (cx, 0, 3.0), G.mat_principled("string", G.PAL["line"]), parent=mobile)
+        for i in range(6):
+            a = i / 6 * 2 * math.pi
+            x, y = cx + 0.55 * math.cos(a), 0.55 * math.sin(a)
+            G.capsule(f"string_{i}", 0.004, 0.35, (x, y, 2.6), G.mat_principled(f"str_{i}", G.PAL["line"]), parent=mobile)
+            G.rounded_box(f"mini_rack_{i}", (0.12, 0.09, 0.2), (x, y, 2.33), rack, 0.01, parent=mobile)
+            G.rounded_box(f"mini_led_{i}", (0.004, 0.07, 0.01), (x - 0.062, y, 2.36), led, 0.002, parent=mobile)
+        G.capsule("mobile_arm_a", 0.008, 1.1, (cx, 0, 2.75), G.mat_principled("arm_a", G.PAL["line"]), rot=(0, 1.5708, 0), parent=mobile)
+        G.capsule("mobile_arm_b", 0.008, 1.1, (cx, 0, 2.75), G.mat_principled("arm_b", G.PAL["line"]), rot=(1.5708, 0, 0), parent=mobile)
 
     def update(t):
         tl = t - t0
         idle(rig, t)
+        G.perform(rig, t)
         float_objs([(o, z, ph) for o, z, ph, _ in screens], t)
+        react(t, lights, scr, floor)
         hz = head_z + rig["root"].location.z
         cam.data.lens = 35
+        cam.data.dof.use_dof = False
         if job["cam"] == "wide":
             cam_path(cam, t, t0, t1, (-0.6, -6.6, 0.8), (-0.35, -5.6, 0.9), (0.9, 0.5, 1.45), (1.1, 0.4, 1.4))
+            dof(cam, 9.0 + (6.4 - 9.0) * G.ease(tl / 0.8))  # focus pulls from the screens to the robot
         elif job["cam"] == "medium":
             cam_path(cam, t, t0, t1, (0.2, -4.6, 1.2), (0.35, -4.1, 1.25), (cx, 0, 1.3), (cx, 0, 1.35))
+            dof(cam, 4.4, 1.8)
+        elif job["cam"] == "lullaby":
+            cam.data.lens = 28
+            cam_path(cam, t, t0, t1, (cx - 1.4, -2.6, 1.1), (cx - 0.6, -2.9, 1.0), (cx, 0, 2.2), (cx, 0, 2.3))
+            mobile.rotation_euler.z = t * 0.6
+            rig["root"].rotation_euler.y = 0.06 * math.sin(2 * math.pi * t / (G.BAR * 2))  # slow sway
         elif job["cam"] == "low":
             cam.data.lens = 24
             cam_path(cam, t, t0, t1, (0.3, -3.0, 0.3), (0.9, -3.1, 0.35), (cx, 0, 1.7), (cx, 0, 1.7))
@@ -142,7 +208,7 @@ def plate_robot(job, seed):
         if "screens_power_on" in fx:
             n = beats_since(t, t0)
             for i, node in enumerate(screen_nodes):
-                node.inputs["Strength"].default_value = 1.5 if i < n else 0.0
+                node.inputs["Strength"].default_value = node.inputs["Strength"].default_value if i < n else 0.0
         if "eyes_wake" in fx:
             on = 1.0 if beats_since(t, t0) >= 2 else 0.0
         if "eyes_dim" in fx:
@@ -196,6 +262,20 @@ def plate_chorus(job, seed):
     energies = [l.data.energy for l in lights]
     clip_t = t0 + 1.5
     beat_len = 60 / G.TIMING["tempo_bpm"]
+    lights_e = list(zip(lights, energies))
+    scr = screens_of([o for o, *_ in ring])
+    letters = []
+    if "tokens_3d" in fx:  # "TOKENS" falls as solid letters around the robot
+        font = bpy.data.fonts.load(str(ROOT / "assets" / "fonts" / "Inter[opsz,wght].ttf"), check_existing=True)
+        lm = G.mat_emission("letters", G.PAL["paper"], 2.5)
+        for i, ch in enumerate("TOKENS"):
+            cu = bpy.data.curves.new(f"tok3d_{i}", "FONT")
+            cu.body, cu.font, cu.extrude, cu.size, cu.align_x = ch, font, 0.06, 0.6, "CENTER"
+            ob = bpy.data.objects.new(f"tok3d_{i}", cu)
+            scene.collection.objects.link(ob)
+            ob.data.materials.append(lm)
+            a = (i - 2.5) * 0.5
+            letters.append((ob, (1.6 * math.sin(a), -0.2 + 0.9 * math.cos(a), r.random() * 0.8, r.random())))
 
     def orbit(t, speed_deg, rad, h, offset=0.0, target=(0, 0, 1.35)):
         a = -math.pi / 2 + (t / G.BAR) * math.radians(speed_deg) + offset
@@ -209,12 +289,16 @@ def plate_chorus(job, seed):
         rig["root"].rotation_euler.z = 0.0
         rig["head"].rotation_euler.x = 0.0
         idle(rig, t)
+        G.perform(rig, t)
         float_objs(ring, t)
         float_objs(tokens, t)
+        react(t, lights_e, scr, floor)
         cam.data.lens = 30
         c = job["cam"]
         if c == "orbit":
-            a = orbit(t, 15, 3.4, 1.5)
+            # Chorus entries sweep a fast 180 degrees into the orbit.
+            sweep = -math.pi * (1 - G.ease(tl / 1.2)) if "fast_entry" in fx else 0.0
+            a = orbit(t, 15, 3.4, 1.5, offset=sweep)
             if "clip" in fx and 0 <= (t - clip_t) <= 2.0:
                 # Dolly in through the head and out the back, eased.
                 k = (t - clip_t) / 2.0
@@ -226,6 +310,12 @@ def plate_chorus(job, seed):
             orbit(t, 15, 2.4, 2.1, offset=math.pi / 2, target=(0, 0, 1.5))
         elif c == "dance_wide":
             orbit(t, 40, 4.2, 1.3)
+        elif c == "dolly_zoom":
+            # Vertigo: dolly in while widening the lens so the robot stays the same size and the world stretches.
+            d = 5.0 - 3.1 * G.ease(tl / max(1e-6, t1 - t0))
+            cam.data.lens = 47.0 * d / 5.0
+            cam.location = (0, -d, 1.55)
+            G.look_at(cam, (0, 0, 1.55))
         elif c == "low_up":
             cam.data.lens = 24
             cam.location = (0.5, -1.7, 0.35)
@@ -243,6 +333,12 @@ def plate_chorus(job, seed):
             G.look_at(cam, (0, 0, 1.4))
         if "head_up" in fx:
             rig["head"].rotation_euler.x = 0.35 * G.ease(tl / 0.6)
+        for i, (ob, (x, y, z0, ph)) in enumerate(letters):
+            # Each letter drops in on its own half beat and settles, spinning.
+            k = G.ease((tl - 0.15 * i) / 0.9)
+            ob.location = (x, y, 4.2 - (4.2 - (0.9 + z0)) * k)
+            ob.rotation_euler = (math.pi / 2, 0, (1 - k) * 4 * math.pi + ph)
+            ob.hide_render = tl < 0.15 * i
         if "dance" in fx:
             prior = [b for b in G.BEATS if b <= t]
             n = len(prior)
@@ -298,13 +394,19 @@ def plate_racks(job, seed):
     G.bloom(scene)
     s = SHOT[job["shot"]]
     t0, t1 = s["start_s"], s["end_s"]
+    floor = bpy.data.objects["floor"]
+    lights = lights_of(("aisle",))
 
     def update(t):
+        react(t, lights, (), floor)
         for i, m in enumerate(leds):
             G.emission_node(m).inputs["Strength"].default_value = 1.0 + 9.0 * G.beat_pulse(t + i * 0.03)
         if job["cam"] == "aisle":
             curve.bevel_factor_end = 0.4 * G.ease((t - t0) / max(1e-6, t1 - t0))
             cam_path(cam, t, t0, t1, (0, -1.5, 1.4), (0, 3.5, 1.7), (0, 12, 2.2), (0, 14, 3.0))
+        elif job["cam"] == "crane":  # rises out of the aisle as the drums come back
+            curve.bevel_factor_end = 0.5 * G.ease((t - t0) / max(1e-6, t1 - t0))
+            cam_path(cam, t, t0, t1, (0, -1.0, 0.7), (0, 4.0, 4.6), (0, 14, 2.0), (0, 16, 1.2))
         else:  # chart: tilt up from the aisle to the chart as it climbs
             curve.bevel_factor_end = 0.3 + 0.7 * G.ease((t - t0) / max(1e-6, t1 - t0))
             cam_path(cam, t, t0, t1, (0, 5, 1.4), (0, 6.5, 1.2), (0, 14, 2.0), (0, 20, 5.2))
@@ -325,6 +427,15 @@ def plate_seats(job, seed):
             G.rounded_box(f"seat_{row}_{i}", (0.8, 0.7, 0.18), (x, y, z0 + 0.45), seat, 0.06)
             G.rounded_box(f"back_{row}_{i}", (0.8, 0.14, 0.9), (x, y - 0.35, z0 + 0.95), seat, 0.06)
             G.rounded_box(f"arm_{row}_{i}", (0.08, 0.6, 0.5), (x + 0.5, y - 0.05, z0 + 0.5), arm, 0.02)
+    rig = None
+    if "robot_seated" in job["fx"]:  # S32: the robot alone in the front row, facing the stage
+        rig = G.build_character((0, 0, 0))
+        rig["root"].location = (0, 0, -0.16)
+        rig["root"].rotation_euler.z = math.pi
+        for side in (-1, 1):
+            leg = bpy.data.objects[f"leg_{side}"]
+            leg.rotation_euler.x = math.pi / 2
+            leg.location = (side * 0.15, -0.33, 0.66)
     end = G.mat_image_screen("the_end", PANELS / "panel_the_end.png", 1.6)
     G.plane("the_end", (7.2, 4.05), (0, 9, 2.6), (math.radians(90), 0, 0), end)
     G.area_light("stage", G.PAL["accent"], 220, 8, (0, 7, 4), (0, 0, 0.5))
@@ -334,7 +445,13 @@ def plate_seats(job, seed):
     s = SHOT[job["shot"]]
     t0, t1 = s["start_s"], s["end_s"]
 
+    floor = bpy.data.objects["floor"]
+
     def update(t):
+        react(t, (), (), floor)
+        if rig:
+            rig["root"].rotation_euler.z = math.pi
+            G.perform(rig, t)
         if job["cam"] == "front":  # the seats face the camera
             cam_path(cam, t, t0, t1, (0.8, 5.0, 1.3), (0.4, 4.2, 1.2), (0, 0, 0.6), (0, 0, 0.7))
         else:  # reverse: from behind the empty seats toward THE END

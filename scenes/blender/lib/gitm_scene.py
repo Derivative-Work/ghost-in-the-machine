@@ -15,6 +15,35 @@ TIMING = json.loads((ROOT / "timing" / "timing_map.json").read_text())
 BEATS = TIMING["beats"]
 DOWNBEATS = TIMING["downbeats"]
 BAR = 4 * 60 / TIMING["tempo_bpm"]
+# v3: per-frame music envelopes (scripts/stem_envelopes.py) and the robot's performance (shots/build_shots.py).
+STEMS = json.loads((ROOT / "timing" / "stems.json").read_text())
+PERF = json.loads((ROOT / "shots" / "shots.json").read_text()).get("performance", [])
+
+
+def env(name, t):
+    """A stem envelope (kick, synth, vocal) at time t, 0..1."""
+    a = STEMS[name]
+    f = int(round(t * STEMS["fps"]))
+    return a[f] if 0 <= f < len(a) else 0.0
+
+
+def mouth_levels(t):
+    f = int(round(t * STEMS["fps"]))
+    return [b[f] if 0 <= f < len(b) else 0.0 for b in STEMS["mouth"]]
+
+
+def last_onset(times, t):
+    prior = [x for x in times if x <= t]
+    return prior[-1] if prior else None
+
+
+def perf_at(kind, t):
+    """The performance value (expression or gesture) active at t, the latest-listed winning, with its window."""
+    hit = None
+    for e in PERF:
+        if e["kind"] == kind and e["t0"] <= t < e["t1"]:
+            hit = e
+    return hit
 
 PAL = {  # style/style_spec.md palette, sRGB hex
     "base": "#09080b", "surface": "#1d1d24", "line": "#4a4550", "mid": "#847d77",
@@ -123,6 +152,17 @@ def mat_grid_floor():
     amt2 = N("ShaderNodeMath"); amt2.operation = "MULTIPLY"; amt2.inputs[1].default_value = 0.4
     amt2.name = "grid_amount"
     L(amt.outputs[0], amt2.inputs[0])
+    # Bass ripple: a ring of light travelling out from the origin (radius and amplitude set per frame).
+    rr = N("ShaderNodeValue"); rr.name = "ripple_r"; rr.outputs[0].default_value = -10.0
+    ra = N("ShaderNodeValue"); ra.name = "ripple_amp"; ra.outputs[0].default_value = 0.0
+    d = N("ShaderNodeMath"); d.operation = "SUBTRACT"; L(vlen.outputs["Value"], d.inputs[0]); L(rr.outputs[0], d.inputs[1])
+    dd = N("ShaderNodeMath"); dd.operation = "DIVIDE"; dd.inputs[1].default_value = 0.35; L(d.outputs[0], dd.inputs[0])
+    sq = N("ShaderNodeMath"); sq.operation = "MULTIPLY"; L(dd.outputs[0], sq.inputs[0]); L(dd.outputs[0], sq.inputs[1])
+    ng = N("ShaderNodeMath"); ng.operation = "MULTIPLY"; ng.inputs[1].default_value = -1.0; L(sq.outputs[0], ng.inputs[0])
+    ex = N("ShaderNodeMath"); ex.operation = "EXPONENT"; L(ng.outputs[0], ex.inputs[0])
+    ring = N("ShaderNodeMath"); ring.operation = "MULTIPLY"; L(ex.outputs[0], ring.inputs[0]); L(ra.outputs[0], ring.inputs[1])
+    lines_and_ring = N("ShaderNodeMath"); lines_and_ring.operation = "MAXIMUM"
+    L(amt2.outputs[0], lines_and_ring.inputs[0]); L(ring.outputs[0], lines_and_ring.inputs[1])
     floor_bsdf = N("ShaderNodeBsdfPrincipled")
     floor_bsdf.inputs["Base Color"].default_value = lin(PAL["base"])
     floor_bsdf.inputs["Roughness"].default_value = 0.35
@@ -130,7 +170,7 @@ def mat_grid_floor():
     line_em.inputs["Color"].default_value = lin(PAL["line"])
     line_em.inputs["Strength"].default_value = 2.5
     mix = N("ShaderNodeMixShader")
-    L(amt2.outputs[0], mix.inputs[0]); L(floor_bsdf.outputs[0], mix.inputs[1]); L(line_em.outputs[0], mix.inputs[2])
+    L(lines_and_ring.outputs[0], mix.inputs[0]); L(floor_bsdf.outputs[0], mix.inputs[1]); L(line_em.outputs[0], mix.inputs[2])
     o = N("ShaderNodeOutputMaterial")
     L(mix.outputs[0], o.inputs[0])
     return m
@@ -152,7 +192,8 @@ def rounded_box(name, size, loc, mat, bevel=0.06, rot=(0, 0, 0), parent=None):
     bpy.ops.mesh.primitive_cube_add(size=1, location=loc, rotation=rot)
     ob = bpy.context.object
     ob.scale = size
-    bpy.ops.object.transform_apply(scale=True)
+    # Apply the scale only: the defaults also bake location/rotation, leaving every origin at the world origin.
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
     mod = ob.modifiers.new("bevel", "BEVEL")
     mod.width, mod.segments = bevel, 4
     bpy.ops.object.shade_smooth()
@@ -217,8 +258,46 @@ def build_character(origin=(0, 0, 0), height_scale=1.0):
     face = rounded_box("face", (0.46, 0.02, 0.30), (ox, oy - 0.225, oz + 1.80), screen, 0.008, parent=head)
     eyes = [rounded_box(f"eye_{side}", (0.07, 0.01, 0.11), (ox + side * 0.1, oy - 0.238, oz + 1.82), eye, 0.03,
                         parent=head) for side in (-1, 1)]
-    return {"root": root, "head": head, "shoulders": shoulders, "eyes": eyes, "face": face,
-            "rest": {"root": Vector(root.location), "head_rot": head.rotation_euler.copy()}}
+    # Eye expressions (v3), drawn as glyphs on the screen face; one set is visible at a time.
+    fy, ez = oy - 0.24, oz + 1.82
+    bar = lambda name, x, z, w, h, rot: rounded_box(name, (w, 0.008, h), (x, fy, z), eye, 0.004, rot=(0, rot, 0), parent=head)
+    sets = {"normal": eyes, "happy": [], "squint": [], "sleepy": [], "xx": [], "heart": []}
+    for side in (-1, 1):
+        x = ox + side * 0.1
+        sets["happy"] += [bar(f"eyeh_{side}_a", x - 0.018, ez, 0.05, 0.014, 0.75), bar(f"eyeh_{side}_b", x + 0.018, ez, 0.05, 0.014, -0.75)]
+        tip = 0.75 if side < 0 else -0.75  # ">" on the left eye, "<" on the right
+        sets["squint"] += [bar(f"eyes_{side}_a", x, ez + 0.017, 0.06, 0.014, tip), bar(f"eyes_{side}_b", x, ez - 0.017, 0.06, 0.014, -tip)]
+        sets["sleepy"] += [bar(f"eyez_{side}", x, ez - 0.02, 0.08, 0.014, 0.0)]
+        sets["xx"] += [bar(f"eyex_{side}_a", x, ez, 0.08, 0.014, 0.785), bar(f"eyex_{side}_b", x, ez, 0.08, 0.014, -0.785)]
+        sets["heart"] += [bar(f"eyeheart_{side}_a", x - 0.014, ez + 0.006, 0.045, 0.03, 0.785),
+                          bar(f"eyeheart_{side}_b", x + 0.014, ez + 0.006, 0.045, 0.03, -0.785)]
+    # Equalizer mouth: five bars driven by the lead vocal (v3).
+    mouth = [rounded_box(f"mouth_{i}", (0.022, 0.008, 0.012), (ox + (i - 2) * 0.04, fy, oz + 1.715), eye, 0.003,
+                         parent=head) for i in range(5)]
+    return {"root": root, "head": head, "shoulders": shoulders, "eyes": eyes, "face": face, "eye_sets": sets,
+            "mouth": mouth, "rest": {"root": Vector(root.location), "head_rot": head.rotation_euler.copy()}}
+
+
+def perform(rig, t, default_expr="normal", sing=True):
+    """Apply the performance at time t: expression glyphs, the singing mouth, and gestures (eased in and out)."""
+    for sh in rig["shoulders"].values():
+        sh.rotation_euler = (0.0, 0.0, 0.0)
+    e = perf_at("expr", t)
+    expr = e["value"] if e else default_expr
+    for name, objs in rig["eye_sets"].items():
+        for o in objs:
+            o.hide_render = name != expr
+    levels = mouth_levels(t) if sing else [0.0] * 5
+    for bar_ob, lv in zip(rig["mouth"], levels):
+        bar_ob.scale.z = 0.4 + 5.0 * lv
+    g = perf_at("gesture", t)
+    if g:
+        k = ease((t - g["t0"]) / 0.25) * (1 - ease((t - (g["t1"] - 0.25)) / 0.25))
+        for side, sh in rig["shoulders"].items():
+            if g["value"] == "point" and side > 0:
+                sh.rotation_euler.x = -1.45 * k   # arm straight out toward the camera
+            if g["value"] == "reach_up":
+                sh.rotation_euler.y = -side * 2.6 * k
 
 
 # ---------- world, lights, camera, compositor ----------

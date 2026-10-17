@@ -30,6 +30,8 @@ ROOT = Path("renders") / tier
 PLATES = ROOT / "plates"
 OVL = ROOT / "overlay"
 BASE = (9, 8, 11)
+DOWNBEATS = json.loads(Path("timing/timing_map.json").read_text())["downbeats"]
+ZOOM_FRAMES = 8
 
 
 def shot_at(f):
@@ -92,7 +94,34 @@ def plate(f, s=None):
         return plate(src["end_frame"] - 1, src)
     if p["mode"] == "split":
         return split(s, f)
+    if p["mode"] == "montage":
+        i = next(i for i, (a, b) in enumerate(p["segments"]) if a <= f < b)
+        return load(rendered(job_for(s["id"], p["seeds"][i]), f))
     return base()
+
+
+def punch(img, f):
+    """v3: the camera punches in ~4% on every downbeat and eases back."""
+    t = f / FPS
+    prior = [d for d in DOWNBEATS if d <= t]
+    if not prior:
+        return img
+    k = 0.04 * np.exp(-(t - prior[-1]) / 0.22)
+    if k < 0.002:
+        return img
+    w, h = img.size
+    cw, ch = int(w / (1 + k)), int(h / (1 + k))
+    x0, y0 = (w - cw) // 2, (h - ch) // 2
+    return img.crop((x0, y0, x0 + cw, y0 + ch)).resize((w, h), Image.BILINEAR)
+
+
+def zoom_about(img, scale, px, py):
+    """Scale an image about a point given as fractions of its size, keeping the frame size."""
+    w, h = img.size
+    cw, ch = w / scale, h / scale
+    x0 = min(max(px * w - cw * px, 0), w - cw)
+    y0 = min(max(py * h - ch * py, 0), h - ch)
+    return img.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((w, h), Image.BILINEAR)
 
 
 def degrade(img, k, f):
@@ -127,9 +156,11 @@ def transition(img, s, f):
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
-def frame(f):
+def composite_image(f):
     s = shot_at(f)
     img = plate(f, s)
+    if s["plate"]["mode"] in ("render", "split", "montage"):
+        img = punch(img, f)
     if s["degrade"]:
         img = degrade(img, s["degrade"], f)
     ovl = Image.open(OVL / f"{f:05d}.png").convert("RGBA")
@@ -138,6 +169,32 @@ def frame(f):
     out = Image.alpha_composite(img.convert("RGBA"), ovl).convert("RGB")
     if s["transition"]:
         out = transition(out, s, f)
+    if s["plate"]["mode"] == "montage":  # each re-roll lands with a short glitch
+        for a, _ in s["plate"]["segments"][1:]:
+            if 0 <= f - a < 3:
+                out = transition(out, dict(s, transition="glitch", start_frame=a - 1), f)
+    return out
+
+
+def frame(f):
+    s = shot_at(f)
+    out = composite_image(f)
+    # Zoom-through: the outgoing shot dives into a point (a screen); the next shot grows out of it.
+    if s.get("zoom_out") and f >= s["end_frame"] - ZOOM_FRAMES:
+        k = (f - (s["end_frame"] - ZOOM_FRAMES)) / ZOOM_FRAMES
+        out = zoom_about(out, 1 + 2.5 * k * k, *s["zoom_out"])
+    idx = SHOTS.index(s)
+    prev = SHOTS[idx - 1] if idx else None
+    if prev and prev.get("zoom_out") and f < s["start_frame"] + ZOOM_FRAMES:
+        k = (f - s["start_frame"] + 1) / ZOOM_FRAMES
+        bg = zoom_about(composite_image(prev["end_frame"] - 1), 3.5, *prev["zoom_out"])
+        sc = 0.25 + 0.75 * (1 - (1 - k) ** 2)
+        fg = out.resize((max(2, int(W * sc)), max(2, int(H * sc))), Image.BILINEAR)
+        px, py = prev["zoom_out"]
+        x = int(px * W - fg.width * px)
+        y = int(py * H - fg.height * py)
+        bg.paste(fg, (x, y))
+        out = bg
     return out.tobytes()
 
 

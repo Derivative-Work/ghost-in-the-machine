@@ -25,6 +25,13 @@ const pulse = (t, beats, decay = 0.18) => {
   return Math.exp(-(t - last) / decay);
 };
 const beatsSince = (t, t0) => BEATS.filter((b) => b >= t0 && b <= t).length;
+const stemAt = (name, t) => { const a = D.stems[name]; const f = Math.round(t * fps); return f >= 0 && f < a.length ? a[f] : 0; };
+// Kinetic word pop (v3): scale overshoot and a small rise over 0.18 s from the moment the word is sung.
+const pop = (since, big = 1) => {
+  if (since < 0) return { s: 1, y: 0 };
+  const k = Math.min(1, since / 0.18);
+  return { s: (0.7 + 0.3 * easeOut(k) + 0.14 * Math.sin(Math.PI * k)) * big, y: (1 - easeOut(k)) * 22 };
+};
 const sectionStart = (name) => D.timing.sections.find((s) => s.name === name).start;
 
 const LINES = [];
@@ -126,26 +133,123 @@ function captions(t, shot) {
   show('captions');
   const acc = D.captionStyle.accent[l.text];
   const emo = D.captionStyle.emotional[l.text];
-  let html;
+  const exit = ease((t - (l.showTo - 0.2)) / 0.2);  // lines lift away instead of vanishing
+  const wrap = (html, cls) => `<div class="${cls}" style="opacity:${1 - exit};margin-top:${-30 * exit}px">${html}</div>`;
   if (Math.round(t * fps) === LYRIC_GOES_HERE_FRAME) {
-    html = 'Lyric goes here';
-  } else {
-    html = l.words.map((w) => {
-      const cls = [t >= w.start ? '' : 'todo', w.text === acc ? 'acc' : '', w.text === emo ? 'emo' : ''].join(' ').trim();
-      let out = `<span class="${cls}">${w.text}</span>`;
-      if (l.section === 'Chorus 2' && l.line === 3 && w.text === 'song') {
-        // The caption still expects the first chorus's "answer", strikes it and swaps in "song".
-        const k = ease((t - T_SONG) / 0.25);
-        out = t < T_SONG ? `<span class="todo">answer</span>`
-          : `<span class="struck" style="--strike:${(k * 104).toFixed(1)}%">answer</span> ${out}`;
-      }
-      return out;
-    }).join(' ');
+    $('captions').innerHTML = `<div class="line${shot.big_captions ? ' big' : ''}">Lyric goes here</div>`;
+    return;
   }
-  $('captions').innerHTML = `<div class="line${shot.big_captions ? ' big' : ''}">${html}</div>`;
+  const word = (w, extra = '') => {
+    const sung = t >= w.start;
+    const p = pop(t - w.start);
+    const cls = [sung ? '' : 'todo', w.text === acc ? 'acc' : '', w.text === emo ? 'emo' : '', extra].join(' ').trim();
+    return `<span class="${cls}" style="transform:translateY(${p.y.toFixed(1)}px) scale(${p.s.toFixed(3)})">${w.text}</span>`;
+  };
+  if (shot.big_captions) {
+    // 2D shots: the word being sung fills the frame; the whole line runs small beneath it.
+    const cur = l.words.filter((w) => t >= w.start).pop() ?? l.words[0];
+    const p = pop(t - cur.start);
+    const size = Math.min(300, 1700 / (0.56 * Math.max(3, cur.text.length)));
+    const cls = ['huge', cur.text === acc ? 'acc' : '', cur.text === emo ? 'emo' : ''].join(' ');
+    $('captions').innerHTML = wrap(`<div class="${cls}" style="font-size:${size.toFixed(0)}px;transform:translateY(-62%) ` +
+      `translateY(${p.y * 2}px) scale(${p.s.toFixed(3)});transform-origin:left center">${cur.text}</div>` +
+      `<div class="sub">${l.words.map((w) => `<span class="${t >= w.start ? '' : 'todo'}">${w.text}</span>`).join(' ')}</div>`, '');
+    return;
+  }
+  const html = l.words.map((w) => {
+    if (l.section === 'Chorus 2' && l.line === 3 && w.text === 'song') {
+      // The caption still expects the first chorus's "answer", strikes it and swaps in "song".
+      const k = ease((t - T_SONG) / 0.25);
+      return t < T_SONG ? `<span class="todo">answer</span>`
+        : `<span class="struck" style="--strike:${(k * 104).toFixed(1)}%">answer</span> ${word(w)}`;
+    }
+    return word(w);
+  }).join(' ');
+  $('captions').innerHTML = wrap(html, 'line');
 }
 
 // ---------- shot layers ----------
+const WINS = (() => {
+  const r = rng(seed + 23);
+  return Array.from({ length: 5 }, () => ({ x: r() * 1700, y: r() * 900, w: 260 + r() * 340, h: 170 + r() * 220,
+    vx: (r() - 0.5) * 30, vy: -8 - r() * 18 }));
+})();
+const CONTENT_2D = ['terminal', 'chat', 'replies', 'progress', 'counter', 'loadV2', 'regenSpin', 'bigAccept', 'songMatch', 'diff', 'avg'];
+function bg2d(t, shot) {
+  show('bg2d');
+  const el = $('bg2d');
+  el.style.backgroundPosition = `${(t * 24).toFixed(1)}px ${(t * 12).toFixed(1)}px`;
+  el.style.filter = `brightness(${(1 + 0.6 * stemAt('kick', t)).toFixed(3)})`;
+  if (el.children.length !== WINS.length) el.innerHTML = WINS.map(() => '<div class="win"></div>').join('');
+  [...el.children].forEach((d, i) => {
+    const w = WINS[i];
+    const x = ((w.x + w.vx * t) % 2200 + 2200) % 2200 - 200, y = ((w.y + w.vy * t) % 1300 + 1300) % 1300 - 200;
+    Object.assign(d.style, { left: `${x}px`, top: `${y}px`, width: `${w.w}px`, height: `${w.h}px` });
+  });
+  // The whole 2D canvas keeps pushing in, and the cursor is never quite still.
+  const push = 1 + 0.045 * ease((t - shot.start_s) / dur(shot));
+  for (const id of CONTENT_2D) { $(id).style.scale = push; $(id).style.transformOrigin = '50% 45%'; }
+  const usesCursor = ['big_accept', 'accept_banner', 'cursor_regen_click'].some((n) => shot.layers.includes(n));
+  if (!usesCursor) {
+    show('cursor');
+    const svg = $('cursor').querySelector('svg');
+    svg.style.left = `${1500 + 160 * Math.sin(t * 0.9) + 60 * Math.sin(t * 2.3)}px`;
+    svg.style.top = `${820 + 90 * Math.sin(t * 0.7 + 1) + 40 * Math.sin(t * 1.9)}px`;
+    $('cursor').querySelector('.ripple').style.display = 'none';
+  }
+}
+
+function songMatch(t, shot) {
+  show('songMatch');
+  const tl = t - shot.start_s;
+  const card = $('songMatch');
+  const eq = card.querySelector('.eq');
+  if (!eq.children.length) eq.innerHTML = Array.from({ length: 16 }, () => '<div></div>').join('');
+  const v = stemAt('vocal', t), k = stemAt('kick', t);
+  [...eq.children].forEach((b, i) => { b.style.height = `${10 + 80 * Math.abs(Math.sin(t * 9 + i * 1.7)) * (0.3 + 0.7 * Math.max(v, k))}px`; });
+  const found = tl > 0.45;
+  card.querySelector('.t').textContent = found ? 'Matches found: 1,402' : 'Listening…';
+  card.querySelector('.res').innerHTML = found ? ['Ghost in the Machine – 98.7%', 'The Machine Ghost – 98.1%', 'Ghosts in a Machine – 97.9%']
+    .map((x, i) => `<div style="opacity:${clamp01((tl - 0.55 - i * 0.12) / 0.15)}">${x}</div>`).join('') : '';
+}
+
+function diffScroll(t, shot) {
+  show('diff');
+  const tl = t - shot.start_s;
+  const n = Math.floor(1048576 * clamp01(tl / (dur(shot) * 0.8)));
+  $('diff').querySelector('.hd').innerHTML = `refactor: everything <b>+${n.toLocaleString('en-US')}</b> <i>−0</i>`;
+  const body = $('diff').querySelector('.body');
+  const r = rng(seed + 30);
+  const lines = Array.from({ length: 60 }, () => '+ ' + ['const', 'let', 'await', 'return', 'if', '//'][Math.floor(r() * 6)] + ' '
+    + 'x'.repeat(4 + Math.floor(r() * 30)).replace(/x/g, () => 'abcdefgh_(){}=.'[Math.floor(r() * 15)]));
+  if (!body.children.length) body.innerHTML = lines.map((x) => `<div>${x}</div>`).join('');
+  body.style.transform = `translateY(${-((tl * 2400) % 1200)}px)`;
+}
+
+function regenBadge(t, shot) {
+  show('regenBadge');
+  const f = Math.round(t * fps);
+  const segs = shot.plate.segments;
+  const i = segs.findIndex(([a, b]) => f >= a && f < b);
+  $('regenBadge').querySelector('div').innerHTML = `${ICON.regen('#d9502f')}Regenerating… ${i + 1}/${segs.length}`;
+  $('regenBadge').querySelector('svg').style.transform = `rotate(${t * 600}deg)`;
+}
+
+function sameStamps(t, shot) {
+  const line = LINES.find((x) => x.start >= shot.start_s - 0.5 && x.start < shot.end_s);
+  const same = line && line.words.find((w) => norm(w.text) === 'same');
+  if (!same || t < same.start) return;
+  show('sameStamps');
+  const el = $('sameStamps');
+  const cells = [...$('replies').querySelectorAll('.r')];
+  el.innerHTML = cells.map((c, i) => {
+    const since = t - same.start - i * 0.06;
+    if (since < 0) return '';
+    const x = 120 + (i % 3) * 570 + 300, y = 110 + Math.floor(i / 3) * 140 + 10;
+    return `<div class="st" style="left:${x}px;top:${y}px;transform:rotate(-8deg) scale(${(1.6 - 0.6 * ease(since / 0.08)).toFixed(3)})">SAME</div>`;
+  }).join('');
+}
+
 function terminalBoot(t, shot) {
   const tl = t - shot.start_s;
   const cmd = 'render(song, { seed: 41 })';
@@ -471,10 +575,11 @@ async function feed(t, shot, mode) {
   g.setTransform(1, 0, 0, 1, 0, 0);
   g.fillStyle = '#09080b';
   g.fillRect(0, 0, 1920, 1080);
-  const liveFrame = Math.min(Math.round(t * fps), SHOT.S54.end_frame - 1);
+  const liveFrame = Math.min(Math.round(t * fps), SHOT.S55.end_frame - 1);
   const pad = (n) => String(n).padStart(5, '0');
-  const live = (await load(`${PLATES}/chorus-orbit__main/${pad(liveFrame)}.png`))
-    ?? (await load(`${PLATES}/chorus-orbit__main/${pad(liveFrame - 1)}.png`));
+  const dancing = t >= SHOT.S52.start_s;  // from S52 every tile, this video's included, is the robot dancing in sync
+  const frameOf = async (dir) => (await load(`${PLATES}/${dir}/${pad(liveFrame)}.png`)) ?? (await load(`${PLATES}/${dir}/${pad(liveFrame - 1)}.png`));
+  const live = await frameOf(dancing ? 'chorus-orbit-dance__main' : 'chorus-orbit__main');
   let S = 1, tx = 0, ty = 0;
   if (mode === 'zoom') {
     const z = ease((t - s50.start_s) / (dur(s50) * 0.45));
@@ -494,7 +599,8 @@ async function feed(t, shot, mode) {
       if (y > 1100 || y < -ROW_H) continue;
       const idx = ((row * COLS + col) % 23 + 23) % 23;
       const liveHere = isLive(row, col);
-      const img = liveHere ? live : await load(`${PLATES}/tiles/tile_${D.seeds.thumbnail_tiles[idx]}.png`);
+      const img = liveHere ? live : dancing ? await frameOf(`chorus-orbit-dance__thumbnail_tiles.${idx}`)
+        : await load(`${PLATES}/tiles/tile_${D.seeds.thumbnail_tiles[idx]}.png`);
       const dark = mode === 'dark' && row >= 0 && row < 4 && DARK_ORDER.indexOf(row * COLS + col) > -1
         && DARK_ORDER.indexOf(row * COLS + col) < nDark;
       const copies = speed > 1200 ? 4 : 1;
@@ -553,7 +659,7 @@ function endCard(t, shot) {
     ['mono', `take ${D.meta.takeId}`],
     ['', 'Lyrics: Claude, merged by a human, revised by Suno'],
     ['', 'Animation and edit: Claude Code with Opus 5.5'],
-    ['', 'Seeds: 41–50'],
+    ['', 'Seeds: 41–56'],
     ['', `Human interventions: ${D.meta.humanInterventions}`],
     ['mono', 'Full production log: [repo link and torrent magnet, added at publish]'],
   ];
@@ -564,10 +670,11 @@ function endCard(t, shot) {
 // ---------- frame ----------
 window.renderFrame = async (t) => {
   for (const el of stage.children) el.classList.remove('on');
+  for (const id of CONTENT_2D) $(id).style.scale = 1;
   const shot = shotAt(t);
   const L = new Set(shot.layers);
   const on = (name, fn) => { if (L.has(name)) return fn(); };
-  on('bg2d', () => show('bg2d'));
+  on('bg2d', () => bg2d(t, shot));
   for (const m of ['zoom', 'dark', 'scroll', 'decel', 'hold']) {
     const name = { zoom: 'grid_zoom', dark: 'grid_dark', scroll: 'grid_scroll', decel: 'grid_decel', hold: 'grid_hold' }[m];
     if (L.has(name)) await feed(t, shot, m);
@@ -578,6 +685,10 @@ window.renderFrame = async (t) => {
   on('the_rain_heavy', () => rain(t, shot.start_s, 2.5));
   on('black_stop', () => show('blackStop'));
   on('terminal_boot', () => terminalBoot(t, shot));
+  on('song_match', () => songMatch(t, shot));
+  on('diff_scroll', () => diffScroll(t, shot));
+  on('regen_badge', () => regenBadge(t, shot));
+  on('same_stamps', () => sameStamps(t, shot));
   on('hearts', () => hearts(t, shot));
   on('chat_autocomplete', () => chatAutocomplete(t, shot));
   on('nine_replies', () => nineReplies(t, shot));

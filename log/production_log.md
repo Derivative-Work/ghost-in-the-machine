@@ -341,3 +341,14 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - Animatic v1 moved to `archive/renders/animatic_v1_rejected_too_static.mp4`
 - **Why:** The human approved v2 after C4 feedback.
 - **Status:** Stopped at C4 for review of v2.
+
+## 2026-10-17T13:48:51-04:00 — Brief: v3 motion rules and shot changes (doc rev 65 → 69)
+
+- **What:**
+  - Added a "Motion rules (v3)" section to the shot list: music-driven motion, robot performance, kinetic captions, moving 2D shots, camera moves, transitions.
+  - Replaced the shot table (guarded replace, `ifHash 6d199733` / `ifRev 62`) with the v3 rows:
+    - Changed: S07, S17, S20, S21, S22, S23, S30, S31, S32, S39, S42–S45, S52–S54.
+    - Inserted S11b (song recognition). Inserted shots take a letter suffix, so no existing ID changes.
+  - Intro now says 58 shots. Step 4 adds seeds 51–56 for the S31 montage; the end card reads "Seeds: 41–56".
+  - Mirrored into `docs/brief.md` (the table generated from the v2 table file with per-row edits).
+- **Why:** The human approved items 1–7.
