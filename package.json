@@ -1,0 +1,9 @@
+{
+  "name": "ghost-in-the-machine",
+  "private": true,
+  "type": "module",
+  "description": "Code-animated music video; JS overlays rendered with Puppeteer.",
+  "dependencies": {
+    "puppeteer": "24.43.1"
+  }
+}

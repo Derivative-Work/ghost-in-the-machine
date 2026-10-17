@@ -50,3 +50,21 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Outputs:** `log/human_interventions.md`, this entry.
 - **Why:** Brief, pre-production step 2.
 - **Still open:** Suno take ID, style prompt, settings and rejected takes go in `log/prompts/suno/` once the human supplies them. Step 2 and checkpoint C2 stay incomplete until then.
+
+## 2026-10-17T11:28:42-04:00 — Inputs: planning chat export and Suno generation record
+
+- **What:** Fetched the shared planning chat. Plain HTTP fetches returned a JavaScript shell page or were blocked by Cloudflare, so the agent rendered the page with headless Chrome via Puppeteer and captured the `chat_snapshots` API response. A first run from the scratchpad and a second run from the repo returned identical messages (32 in total). Converted the snapshot to markdown. Wrote the Suno generation record from the chat and from the human's answers.
+- **Commands:**
+  - `npm i` (`package.json`: puppeteer 24.43.1)
+  - `npx puppeteer browsers install chrome-headless-shell` (installs chrome-headless-shell 148.0.7778.97)
+  - `node scripts/fetch_share.mjs https://claude.ai/share/a6ed7466-9b29-4a36-8713-28484e011115 <scratch>/repo_run`
+  - `python3 -I scripts/chat_snapshot_to_md.py docs/planning_chat/planning_chat.json <url> > docs/planning_chat/planning_chat.md`
+- **Outputs:**
+  - `docs/planning_chat/planning_chat.json` (raw snapshot)
+  - `docs/planning_chat/planning_chat.md`
+  - `log/prompts/suno/generation.md`
+  - `package.json`, `package-lock.json`
+  - `scripts/fetch_share.mjs`, `scripts/chat_snapshot_to_md.py`
+- **Why:** The brief lists the planning chat as an input. Pre-production step 2 needs the style prompt and the take.
+- **Environment note:** Chrome needs `--no-sandbox` because Ubuntu's AppArmor restricts unprivileged user namespaces. This is acceptable for loading claude.ai and local render pages. The render pipeline will need the same flag.
+- **Step 2 status:** Still missing: the take ID, the rejected take, and the advanced options. C2 stays open but does not block step 1.

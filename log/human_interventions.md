@@ -27,3 +27,21 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** A human placed the track, stems and inspiration videos in `~/Downloads/ghost-in-the-machine/` and pointed the agent at the brief.
 - **Why:** Inputs listed in the brief.
 - **Rule:** Not a touch on the work (supplying inputs). Logged for completeness.
+
+## 2026-10-17T11:28:42-04:00 — Suno details supplied; planning chat shared
+
+- **What:** A human confirmed that the style prompt was the one in the planning chat and that the first take was chosen, and shared the planning chat link. This adds detail to the earlier "Track generated in Suno v6" entry, which stays unchanged because this log is append-only.
+- **Why:** So the track can be logged retroactively (brief, pre-production step 2).
+- **Rule:** R1 (the take choice, made before the agent started). Supplying information is not a touch on the work.
+
+## Before 2026-10-17T11:28:42-04:00 — Node installed
+
+- **What:** A human installed Node (v24.22.0 via nvm, npm 11.19.1).
+- **Why:** The Puppeteer overlay pipeline needs it, and the agent found it missing during setup.
+- **Rule:** R3 (fix technical failures the agent cannot: broken install).
+
+## 2026-10-17T11:28:42-04:00 — Hardware plan: draft here, final on the RTX 5090
+
+- **What:** A human directed that draft renders run on this machine (GTX 970), with the full run moving to a separate RTX 5090 machine once it is ready.
+- **Why:** The 5090 box is not ready yet.
+- **Rule:** R1 (approving a plan). Not a creative change.
