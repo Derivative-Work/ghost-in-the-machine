@@ -430,3 +430,9 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Outputs:** `renders/animatic_v4/animatic_v4.mp4` (5969 frames verified, video 198.967 s / audio 198.960 s); `renders/animatic_v4/{plates,overlay,probe*,review}/`; sheets. v3 cut moved to `archive/renders/`.
 - **Why:** The human approved all v4 ideas.
 - **Status:** Stopped at C4 for review of v4.
+
+## 2026-10-17T15:11:43-04:00 — Manifest: frame sequences excluded
+
+- **What:** `scripts/manifest.sh` had been hashing every animatic frame-sequence PNG: the plates, overlay frames and v1's plate_seq symlinks. That brought the manifest to 44,942 entries, against the brief's rule that frame sequences are never archived (they regenerate from the logged commands). It now skips `*/plates/*`, `*/overlay/*` and `*/plate_seq/*`. Cuts, probes, review stills, sheets, audio, stills and the archive stay in.
+- **Command:** `scripts/manifest.sh`
+- **Why:** Brief, production rules.
