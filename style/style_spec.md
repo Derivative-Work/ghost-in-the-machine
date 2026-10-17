@@ -83,10 +83,12 @@ Floating screens and phone mockups; chat bubbles; consent banners ("Accept all")
 - One composition per lyric line, about 2–4 s, which is one to two bars at the style prompt's 120 bpm (to be confirmed by beat tracking in step 3). Cuts land on downbeats.
 - Measured average shot length across all five is 3.1–18 s. This is reliable only for the videos that cut hard; the continuous-camera ones (Accept All, LGTM) undercount. Visually, all five change composition about every 5 s or faster.
 
-## Open questions for C1
+## C1 decisions (approved 2026-10-17)
 
-1. **FPS counter gag.** The brief has the overlay reading 60. At 30 fps, should it read 30 (honest), or 60 (a lie, which fits the theme)? The agent recommends **60**, dropping to ~12 in S19 as written.
-2. **Accent pair.** Red-orange plus blue is the measured average. Approve, or choose a single accent only?
+The human replied "LGTM" to the spec and test frame. The two open questions were not answered separately, so the agent's recommendations stand:
+
+1. **FPS counter:** the overlay reads 60, although the video is 30 fps. The lie fits the theme. It drops to ~12 in S19.
+2. **Accent pair:** red-orange `#d9502f` primary, blue `#396ad3` secondary.
 
 ## Not copied
 

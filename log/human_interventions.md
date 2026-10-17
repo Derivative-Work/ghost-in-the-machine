@@ -51,3 +51,9 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **What:** A human shared the Suno link for the chosen take.
 - **Why:** So the take ID can be logged retroactively.
 - **Rule:** Supplying information, not a touch on the work.
+
+## 2026-10-17T11:44:06-04:00 — C1 approved
+
+- **What:** The human approved the style spec and test frame ("LGTM"). The open questions default to the agent's recommendations: 60 FPS counter, red-orange plus blue accents.
+- **Why:** Checkpoint C1.
+- **Rule:** R1 (approve a plan).

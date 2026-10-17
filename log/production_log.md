@@ -145,3 +145,9 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Why:** Brief, checkpoint C1: `style_spec.md` plus a contact sheet of reference stills beside a test frame in the averaged style.
 - **Agent's own critique for C1:** The test frame is 3D-led. In the references, most compositions are type-led 2D UI with much larger lyric type. The 2D shots (S03, S05–S07, S10–S11, S14–S16) should push the caption to 12–18% of frame height.
 - **Status:** Stopped at C1, waiting for human approval.
+
+## 2026-10-17T11:44:06-04:00 — C1 approved; style spec finalized
+
+- **What:** Replaced the spec's "Open questions for C1" section with the recorded decisions. Moving on to pre-production step 3 (timing map).
+- **Outputs:** `style/style_spec.md`
+- **Why:** Checkpoint C1 approved (see `human_interventions.md`).
