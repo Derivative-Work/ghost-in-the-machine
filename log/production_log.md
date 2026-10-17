@@ -528,3 +528,14 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Brief (doc rev 81 → 84):** S53, S54 and S56 rows updated and mirrored into `docs/brief.md`.
 - **Probes:** S53 at 4 points, the main river render at 2, S56 at 4.
 - **Why:** The human's v6 notes (S53 → S54; S56 repack).
+
+## 2026-10-17T18:32:43-04:00 — C4: animatic v7
+
+- **What:** Rendered and assembled animatic v7 with the S53 → S54 and S56 changes in the v7 build entry above. 55 shots; 200.367 s (S56 +0.8 s).
+- **Commands:**
+  - `scripts/render_plates.sh animatic_v7 640 360 8 2` (70 jobs)
+  - `.venv/bin/python scripts/export_overlay_data.py`
+  - `.venv/bin/python scripts/assemble.py animatic_v7 640 360 2 6 --hud --name animatic_v7` (2 m 09 s)
+- **Review:** 14 frames across S52–S56 confirm the S52 grid → 3D video grid → videos diving into and flowing in the river → S53's last frame matching S54's first → river screen → Regenerate → repack (robot, then screens, then the lid).
+- **Outputs:** `renders/animatic_v7/animatic_v7.mp4` (6011 frames verified, video 200.367 s / audio 200.360 s). v6 cut moved to `archive/renders/`.
+- **Status:** Stopped at C4 for review of v7.
