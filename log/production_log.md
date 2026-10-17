@@ -123,3 +123,25 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Outputs:** `log/prompts/suno/generation.md` (Chosen take ID row)
 - **Why:** Brief, pre-production step 2, and the end card's "Music: Suno v6 (take ID from the log)".
 - **Step 2 status:** The rejected take's ID and the advanced options are still unrecorded. They are nice to have, not blocking. C2 can be closed at the human's discretion.
+
+## 2026-10-17T11:39:56-04:00 — Step 1 / C1: averaged-style test frame and review sheet
+
+- **What:** Built one S02-style still with the full planned pipeline:
+  - Puppeteer renders the generic UI textures and the transparent caption/chrome overlay from HTML. All HTML shares `overlays/tokens.css`.
+  - Blender 5.2.2 Eevee renders the 3D plate: dark void, 1 m grid floor, faceless primitive humanoid with a screen face, two floating screens, cool key and accent rim lights, light haze, compositor bloom, Standard view transform.
+  - ffmpeg composites the overlay onto the plate.
+  - A review sheet places 10 reference stills (two per video) above the test frame.
+- **Iterations:**
+  1. A half-res preview showed four problems: the grid mask used object coordinates on a scaled plane and drew wedges; the character was underlit (key 120 W); the red haze was too strong (density 0.012, rim 350 W); the counter screen sat behind the head.
+  2. Fixes: world-space Position for the grid; key 600 W; rim 160 W; density 0.004; counter moved to (5.2, 4.6, 2.4). The second preview passed review.
+- **Commands:**
+  - `node scripts/render_html.mjs overlays/panels/{consent,counter}.html renders/draft/c1/panel_{consent,counter}.png 1200 700`
+  - `node scripts/render_html.mjs overlays/test_frame.html renders/draft/c1/overlay.png 1920 1080`
+  - `blender -b --factory-startup --python scenes/blender/c1_test_frame.py -- renders/draft/c1 renders/draft/c1/plate_preview.png 50` (twice)
+  - The same command at 100% → `plate.png` (21 s for the first, uncached render, then ~4 s at full res on the GTX 970)
+  - `ffmpeg -i plate.png -i overlay.png -filter_complex overlay -frames:v 1 test_frame.png`
+  - `.venv/bin/python scripts/c1_sheet.py renders/draft/c1/test_frame.png renders/draft/c1/c1_review_sheet.jpg`. The first run failed because three still numbers were mis-mapped from the contact-sheet grid; they were corrected to lgtm 0034, not-my-fault 0032, run-it-again 0029.
+- **Outputs:** `renders/draft/c1/{panel_consent,panel_counter,overlay,plate_preview,plate,test_frame}.png`, `renders/draft/c1/c1_review_sheet.jpg` (git-ignored, in the manifest). Code: `overlays/`, `scenes/blender/c1_test_frame.py`, `scripts/render_html.mjs`, `scripts/c1_sheet.py`.
+- **Why:** Brief, checkpoint C1: `style_spec.md` plus a contact sheet of reference stills beside a test frame in the averaged style.
+- **Agent's own critique for C1:** The test frame is 3D-led. In the references, most compositions are type-led 2D UI with much larger lyric type. The 2D shots (S03, S05–S07, S10–S11, S14–S16) should push the caption to 12–18% of frame height.
+- **Status:** Stopped at C1, waiting for human approval.

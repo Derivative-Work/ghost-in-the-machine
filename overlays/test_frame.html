@@ -1,0 +1,20 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* C1 test frame overlay (S02 mid-line): lyric caption + persistent chrome. 1920x1080, transparent. */
+  body { width: 1920px; height: 1080px; position: relative; overflow: hidden; }
+  .chrome { position: absolute; font-family: var(--mono); font-size: 22px; color: var(--mid); letter-spacing: 0.02em; }
+  .tl { top: 40px; left: 48px; } .bl { bottom: 40px; left: 48px; } .br { bottom: 40px; right: 48px; }
+  .caption { position: absolute; left: 120px; bottom: 150px; width: 1300px; font-family: var(--sans); font-weight: 800;
+             font-size: 76px; line-height: 1.08; letter-spacing: -0.02em; color: var(--paper); }
+  .caption .acc { color: var(--accent); }
+  .caption .todo { opacity: 0.3; }
+  .caption .emo { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.1em; letter-spacing: 0; }
+</style>
+<body>
+  <div class="chrome tl">Ghost in the Machine – Claude Opus 5.5 music video v1.0</div>
+  <div class="chrome bl">seed: 41</div>
+  <div class="chrome br">60 FPS</div>
+  <div class="caption">Every <span class="acc">screen</span> is glowing,<br>every <span class="emo">heart</span> <span class="todo">is on display</span></div>
+</body>

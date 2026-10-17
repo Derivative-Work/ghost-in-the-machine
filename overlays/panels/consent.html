@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  /* Generic consent banner texture for floating screens. Rendered at 1200x700. */
+  body { width: 1200px; height: 700px; background: var(--surface); font-family: var(--sans); color: var(--paper);
+         box-sizing: border-box; padding: 70px; border: 6px solid var(--line); }
+  .icon { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-2); display: inline-block; vertical-align: middle; }
+  h1 { display: inline-block; margin: 0 0 0 28px; font-weight: 700; font-size: 58px; vertical-align: middle; letter-spacing: -0.02em; }
+  p { font-size: 34px; line-height: 1.45; color: var(--mid); margin: 48px 0 70px; }
+  .row { display: flex; gap: 30px; }
+  .btn { font-size: 36px; font-weight: 700; padding: 26px 56px; border-radius: 16px; }
+  .yes { background: var(--accent-2); }
+  .no { border: 3px solid var(--line); color: var(--mid); }
+</style>
+<body><span class="icon"></span><h1>We value your privacy</h1>
+<p>We and our 1,402 partners use your data to make this experience feel personal.</p>
+<div class="row"><span class="btn yes">Accept all</span><span class="btn no">Reject</span></div></body>

@@ -1,0 +1,18 @@
+/* Design tokens from style/style_spec.md. Every HTML overlay and texture imports this. */
+@font-face { font-family: "Inter"; src: url("../assets/fonts/Inter[opsz,wght].ttf"); font-weight: 100 900; }
+@font-face { font-family: "Instrument Serif"; src: url("../assets/fonts/InstrumentSerif-Italic.ttf"); font-style: italic; }
+@font-face { font-family: "JetBrains Mono"; src: url("../assets/fonts/JetBrainsMono[wght].ttf"); font-weight: 100 800; }
+:root {
+  --base: #09080b;
+  --surface: #1d1d24;
+  --line: #4a4550;
+  --mid: #847d77;
+  --paper: #e6e4dc;
+  --accent: #d9502f;
+  --accent-2: #396ad3;
+  --ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --sans: "Inter", sans-serif;
+  --serif: "Instrument Serif", serif;
+  --mono: "JetBrains Mono", monospace;
+}
+html, body { margin: 0; background: transparent; }
