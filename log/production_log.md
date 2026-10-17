@@ -480,3 +480,30 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - `.venv/bin/python scripts/assemble.py animatic_v5 640 360 2 6 --hud --name animatic_v5` (3 m 09 s)
 - **Outputs:** `renders/animatic_v5/animatic_v5.mp4` (5987 frames verified, video 199.567 s / audio 199.560 s); review sheet. v4 cut moved to `archive/renders/`.
 - **Status:** Stopped at C4 for review of v5.
+
+## 2026-10-17T17:09:09-04:00 — v6 build (in progress) and brief rev 81
+
+- **Brief (doc rev 79 → 81):** Shot table replaced (guarded) with the v6 rows. S46 removed and its ID retired; the intro now says 55 shots. Mirrored into `docs/brief.md`.
+- **Shot list:**
+  - S11 gets a `tear` transition.
+  - TOKENS letters removed from S22, S44 and S49.
+  - S26/S27 carry the props and the Generate button (S27 also `gen_press`).
+  - S46 dropped; S47 anchored at the bass return again.
+  - S53 is the `grid_stream` over the river plate.
+  - S54/S55 are robot-set shots (`screen_pullback` / `wide_hold` with `river_screen`).
+- **Blender:**
+  - **Unpack/pack:** objects now arc up out of the box's open top and swing round to their places (S02), and rise up and around and drop in through the top (S56), instead of straight lines through the walls. The stagger is slower.
+  - **S24:** camera moved to radius 2.9, inside the screen ring.
+  - **Generate button:** an extruded pill with Inter "Generate" text orbits the robot; in S27 it swings in front, the robot's arm reaches, and the button depresses and flashes.
+  - **`river_screen`:** screen_0 enlarged to 16:9 and textured per frame with the feed's main river render (nearest step-2 frame from the current run's plates).
+  - **Camera:** a `screen_pullback` move from the screen filling the frame to the wide shot. The first probe started on the wrong screen because the river screen had been removed from the list the camera indexed; fixed with an explicit reference.
+- **Overlay:**
+  - S09: 24 deadpan clauses, with the scroll distance taken from the text's real height so the box is never empty.
+  - S11: devtools flicker held 0.3 s.
+  - S18/S39: fixed-width counter (tabular digits, 15 places, dim leading zeros).
+  - S23/S45: 15 replies in 5 rows above the lyrics, plus stamps.
+  - S30: the diff shows `scenes/blender/plates.py`'s real source (exported by `scripts/export_overlay_data.py` as `code`).
+  - Version v1.2.7 is now timed to the Chorus 2 cutoff.
+  - S53: the feed zooms out, then 18 videos leave the grid and flow down an S-shaped stream that dissolves into the river. The first tries were too dense (84 tiles); now 18 evenly spaced.
+- **Assembly:** a `tear` transition (9 frames of RGB split and band shifts, seeded per frame).
+- **Why:** The human's v5 notes and S11 answer.

@@ -30,7 +30,7 @@
   #diff .hd { position: relative; z-index: 1; padding: 16px 22px; border-bottom: 2px solid var(--line); color: var(--paper); font-size: 24px; background: #15161b; }
   #diff .hd b { color: #3fbf6f; font-weight: 600; } #diff .hd i { color: var(--accent); font-style: normal; }
   #diff .body { position: absolute; left: 0; right: 0; top: 64px; line-height: 30px; }
-  #diff .body div { padding-left: 22px; color: #3fbf6f; background: rgba(63, 191, 111, .08); white-space: pre; }
+  #diff .body div { padding-left: 22px; color: #3fbf6f; background: rgba(63, 191, 111, .08); white-space: pre; font-size: 18px; line-height: 26px; }
 
   #regenFail .b { position: absolute; left: 740px; top: 430px; display: flex; align-items: center; gap: 16px; background: var(--surface);
                   border: 3px solid var(--line); border-radius: 999px; padding: 22px 50px 22px 30px; font-family: var(--sans);
@@ -143,8 +143,9 @@
   .track { height: 18px; background: var(--base); border-radius: 9px; overflow: hidden; }
   .fill { height: 100%; background: var(--accent); }
 
-  #counter .n { position: absolute; right: 90px; top: 70px; font-family: var(--sans); font-weight: 900; font-size: 170px;
-                letter-spacing: -0.04em; color: var(--paper); text-align: right; }
+  #counter .n { position: absolute; right: 90px; top: 70px; font-family: var(--sans); font-weight: 900; font-size: 128px;
+                letter-spacing: -0.02em; color: var(--paper); text-align: right; font-variant-numeric: tabular-nums; }
+  #counter .n .lead { color: rgba(230, 228, 220, .18); }
   #counter .l { position: absolute; right: 96px; top: 60px; font-family: var(--mono); font-size: 28px; color: var(--mid);
                 letter-spacing: .12em; }
 
@@ -152,10 +153,10 @@
                     background: rgba(0,0,0,.6); padding: 6px 14px; }
 
   #replies { filter: none; }
-  #replies .g { position: absolute; left: 120px; top: 110px; width: 1680px; display: grid;
-                grid-template-columns: repeat(3, 1fr); gap: 30px; }
-  #replies .r { background: var(--surface); border: 3px solid var(--line); border-radius: 22px; padding: 26px 30px;
-                display: flex; gap: 20px; align-items: center; font-family: var(--sans); font-size: 40px; color: var(--paper); }
+  #replies .g { position: absolute; left: 120px; top: 90px; width: 1680px; display: grid;
+                grid-template-columns: repeat(3, 1fr); gap: 18px 30px; }
+  #replies .r { background: var(--surface); border: 3px solid var(--line); border-radius: 22px; padding: 20px 26px; height: 64px;
+                display: flex; gap: 18px; align-items: center; font-family: var(--sans); font-size: 34px; color: var(--paper); }
   #replies .av { width: 56px; height: 56px; border-radius: 50%; background: var(--accent); flex: none; }
 
   #loadV2 .card { left: 460px; top: 330px; width: 1000px; padding: 50px 60px; }

@@ -151,6 +151,16 @@ def transition(img, s, f):
         for j in range(n):
             acc += np.roll(a, int(shift * j / n) - shift // 2, axis=1)
         a = acc / n
+    elif s["transition"] == "tear" and i < 9:
+        # S11: a hard glitch the video "covers up": RGB channels torn apart and horizontal bands jumping sideways.
+        rgen = np.random.default_rng(1000 + f)  # deterministic per frame
+        d = max(3, W // 60)
+        a[..., 0] = np.roll(a[..., 0], d, axis=1)
+        a[..., 2] = np.roll(a[..., 2], -d, axis=1)
+        for _ in range(6):
+            y0 = int(rgen.integers(0, H - 8))
+            hgt = int(rgen.integers(4, max(6, H // 12)))
+            a[y0:y0 + hgt] = np.roll(a[y0:y0 + hgt], int(rgen.integers(-W // 6, W // 6)), axis=1)
     elif s["transition"] == "glitch" and i < 4:
         d = max(2, W // 100) * (4 - i)
         a[..., 0] = np.roll(a[..., 0], d, axis=1)

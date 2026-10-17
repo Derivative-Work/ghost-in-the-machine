@@ -53,7 +53,7 @@ SHOTS = [
     dict(section="Verse 1", anchor=("line", "Verse 1", 3), plate=R("robot", "medium", ["shrug"]), layers=["todo_caption", "boot_log"]),
     # Bridge 1
     dict(section="Bridge 1", anchor=("section", "Bridge 1"), plate=R("robot", "low", freeze_first=True),
-         layers=["glitch_flicker"]),
+         layers=["glitch_flicker"], transition="tear"),
     dict(id="S11b", section="Bridge 1", anchor=("section_plus", "Bridge 1", 0.6), plate=JS, layers=["bg2d", "song_match"]),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 1), plate=JS, layers=["bg2d", "icon_strip_fast"], big=True),
     dict(section="Bridge 1", anchor=("line", "Bridge 1", 2), plate=JS, layers=["bg2d", "big_accept"], big=True),
@@ -70,13 +70,15 @@ SHOTS = [
          layers=["regen_button"], transition="whip"),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 1), plate=R("chorus", "dolly_zoom", ["missing_texture"]),
          layers=["loading_textures"]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 2), plate=R("chorus", "low_up", ["head_up"]),
          layers=["the_rain", "context_meter"], zoom_out=(0.5, 0.3)),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 4), plate=R("chorus", "wide_static", ["lights_fade"]), layers=[]),
     dict(section="Chorus 1", anchor=("line", "Chorus 1", 5), plate=R("chorus", "rise", ["cloud"]), layers=[]),
-    dict(section="Chorus 1", anchor=("line", "Chorus 1", 6), plate=R("stream", "wide", ["dance"]), layers=[]),
-    dict(section="Chorus 1", anchor=("bar", 43), plate=R("stream", "low", ["dance", "refs"]), layers=[]),
+    # The props and the Generate button are in both stream shots (continuity); the robot presses Generate as S27 ends,
+    # and the music stops (S28).
+    dict(section="Chorus 1", anchor=("line", "Chorus 1", 6), plate=R("stream", "wide", ["dance", "refs", "gen_button"]), layers=[]),
+    dict(section="Chorus 1", anchor=("bar", 43), plate=R("stream", "low", ["dance", "refs", "gen_button", "gen_press"]), layers=[]),
     dict(section="Chorus 1", anchor=("event", "stop1"), plate=JS, layers=["black_stop"]),
     dict(section="Chorus 1", anchor=("event", "stop1_end"), plate=JS, layers=["bg2d", "loading_verse2"],
          transition="glitch"),
@@ -103,29 +105,30 @@ SHOTS = [
          degrade=0.35, transition="whip"),
     dict(section="Chorus 2", anchor=("line", "Chorus 2", 1), plate=R("chorus", "dolly_zoom", ["missing_texture"]),
          layers=["loading_textures"], degrade=0.5),
-    dict(section="Chorus 2", anchor=("line", "Chorus 2", 2), plate=R("chorus", "low_up", ["head_up", "tokens_3d"]),
+    dict(section="Chorus 2", anchor=("line", "Chorus 2", 2), plate=R("chorus", "low_up", ["head_up"]),
          layers=["the_rain_heavy", "context_meter"], degrade=0.6),
     dict(section="Chorus 2", anchor=("line", "Chorus 2", 3), plate=JS, layers=["bg2d", "nine_replies", "same_stamps"],
          degrade=0.7),
-    dict(section="Chorus 2", anchor=("event", "trunc"), plate=HOLD("S44"), layers=["output_truncated"], degrade=0.75),
+    dict(section="Chorus 2", anchor=("event", "trunc"), plate=HOLD("S44"), layers=["output_truncated"], degrade=0.75,
+         drop=True),  # v6: removed so S45 runs to the bass return
     # Final chorus: the split multiplies, then the feed
-    # The error is not on the beat: [output truncated] holds 0.8 s, then the split screen cuts in.
-    dict(section="Final Chorus", anchor=("event", "trunc_end"), plate=SPLIT(["main", "bridge_second_run"]), layers=[]),
+    dict(section="Final Chorus", anchor=("event", "bass_return"), plate=SPLIT(["main", "bridge_second_run"]), layers=[]),
     # The splits zoom out further on each line, repeating that line's earlier scene at more seeds.
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 1),
          plate=SPLIT(["main", "bridge_second_run", "split_extra.0", "split_extra.1"], cam="dolly_zoom", fx=["missing_texture"]),
          layers=[]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 2),
          plate=SPLIT(["main", "bridge_second_run"] + [f"split_extra.{i}" for i in range(7)], cam="low_up",
-                     fx=["head_up", "tokens_3d"]), layers=["the_rain"]),
+                     fx=["head_up"]), layers=["the_rain"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 3), plate=FEED_RENDER, layers=["grid_zoom"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 4), plate=JS, layers=["grid_dark"]),
     dict(section="Final Chorus", anchor=("line", "Final Chorus", 5), plate=JS, layers=["grid_scroll"]),
-    # The scroll speeds up until the streaks become the river itself, robot included...
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=dict(mode="feedlive"), layers=["grid_scroll_fast"]),
-    # ...then the river pulls back into a tile and the feed lands on this video again.
-    dict(section="Final Chorus", anchor=("event", "beat_end"), plate=JS, layers=["grid_land"]),
-    dict(section="Final Chorus", anchor=("line", "Final Chorus", 7), plate=JS, layers=["grid_hold", "cursor_regen_click"]),
+    # The feed zooms out and the videos themselves flow into a data stream, which becomes the river, robot included...
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 6), plate=dict(mode="feedlive"), layers=["grid_stream"]),
+    # ...then the river pulls back to be one of the screens around the robot; Regenerate is clicked over that scene.
+    dict(section="Final Chorus", anchor=("event", "beat_end"), plate=R("robot", "screen_pullback", ["river_screen"]), layers=[]),
+    dict(section="Final Chorus", anchor=("line", "Final Chorus", 7), plate=R("robot", "wide_hold", ["river_screen"]),
+         layers=["cursor_regen_click"]),
     # Ending
     dict(section="Ending", anchor=("time", LAST_WORD_END), plate=R("default_cube_boot", "default", ["vacuum"], clock="local",
                                                                      black_after=1.6), layers=["reload"], seed="restart"),

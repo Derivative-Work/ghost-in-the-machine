@@ -15,6 +15,10 @@ seeds = json.loads(Path("config/seeds.json").read_text())
 take = re.search(r"Chosen take ID \| `([0-9a-f-]{36})`", Path("log/prompts/suno/generation.md").read_text()).group(1)
 interventions = len(re.findall(r"^## ", Path("log/human_interventions.md").read_text(), re.M))
 stems = json.loads(Path("timing/stems.json").read_text())
+# S30's diff shows real code from this repository: the data-stream scene's own source, as it stands at export time.
+src = Path("scenes/blender/plates.py").read_text().splitlines()
+start = next(i for i, l in enumerate(src) if l.startswith("def plate_stream"))
+code_lines = [l.rstrip()[:70] for l in src[start:] if l.strip()][:160]
 data = {
     "timing": {k: tm[k] for k in ("tempo_bpm", "beats", "downbeats", "sections", "events", "words")},
     "shots": shots,
@@ -22,6 +26,7 @@ data = {
     "seeds": {k: v for k, v in seeds.items() if not k.startswith("_")},
     "meta": {"takeId": take, "humanInterventions": interventions},
     "stems": {k: stems[k] for k in ("kick", "vocal")},
+    "code": code_lines,
 }
 out = Path("overlays/data")
 out.mkdir(exist_ok=True)

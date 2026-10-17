@@ -61,7 +61,7 @@ const T_AGREED = wordAt('Verse 1', 2, 'agreed').start;
 const T_ACCEPT = wordAt('Bridge 1', 2, 'accept').start;
 const T_GOOD = wordAt('Verse 2', 0, 'good').start;
 const C2_WORDS = D.timing.words.filter((w) => w.section === 'Chorus 2');
-const T_TRUNC = SHOT.S46.start_s;
+const T_TRUNC = C2_WORDS[C2_WORDS.length - 1].end + 0.15;  // where Chorus 2 cuts off (S46 itself was removed in v6)
 const T_SONG = wordAt('Chorus 2', 3, 'song').start;
 const T_MACHINE = D.timing.words[D.timing.words.length - 1].start;
 const LYRIC_GOES_HERE_FRAME = Math.round(DROP2.end * fps);
@@ -103,9 +103,11 @@ $('bigRegen').querySelector('.b').innerHTML = ICON.regen() + 'Regenerate';
 $('cursor').innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 2l16 10-7 1.5L8.5 21z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg><div class="ripple"></div>`;
 // v5: a handful of chatbot stock phrases, repeated so the grid still reads as "all the same".
 const REPLIES = { 'Chorus 1': ['Great question!', "You're absolutely right!", 'Great question!', 'Certainly!', 'Great question!',
-  "You're absolutely right!", 'I hope this helps!', 'Great question!', "Let's delve into it."],
+  "You're absolutely right!", 'I hope this helps!', 'Great question!', "Let's delve into it.", 'Great question!',
+  "You're absolutely right!", 'Certainly!', 'Great question!', 'I hope this helps!', "You're absolutely right!"],
   'Chorus 2': ["You're absolutely right!", 'Great question!', "You're absolutely right!", 'As an AI, I…', "You're absolutely right!",
-  'Great question!', "You're absolutely right!", 'Certainly!', "You're absolutely right!"] };
+  'Great question!', "You're absolutely right!", 'Certainly!', "You're absolutely right!", "You're absolutely right!",
+  'Great question!', "You're absolutely right!", "You're absolutely right!", 'Certainly!', "You're absolutely right!"] };
 
 const show = (id) => $(id).classList.add('on');
 
@@ -230,13 +232,12 @@ function diffScroll(t, shot) {
   show('diff');
   const tl = t - shot.start_s;
   const n = Math.floor(1048576 * clamp01(tl / (dur(shot) * 0.8)));
-  $('diff').querySelector('.hd').innerHTML = `refactor: everything <b>+${n.toLocaleString('en-US')}</b> <i>−0</i>`;
+  $('diff').querySelector('.hd').innerHTML = `scenes/blender/plates.py <b>+${n.toLocaleString('en-US')}</b> <i>−0</i>`;
   const body = $('diff').querySelector('.body');
-  const r = rng(seed + 30);
-  const lines = Array.from({ length: 60 }, () => '+ ' + ['const', 'let', 'await', 'return', 'if', '//'][Math.floor(r() * 6)] + ' '
-    + 'x'.repeat(4 + Math.floor(r() * 30)).replace(/x/g, () => 'abcdefgh_(){}=.'[Math.floor(r() * 15)]));
-  if (!body.children.length) body.innerHTML = lines.map((x) => `<div>${x}</div>`).join('');
-  body.style.transform = `translateY(${-((tl * 2400) % 1200)}px)`;
+  // The actual source of this video's data-stream scene (exported from scenes/blender/plates.py).
+  const esc = (x) => x.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  if (!body.children.length) body.innerHTML = D.code.map((x) => `<div>+ ${esc(x)}</div>`).join('');
+  body.style.transform = `translateY(${-((tl * 1800) % (D.code.length * 26 - 500))}px)`;
 }
 
 function regenBadge(t, shot) {
@@ -286,7 +287,7 @@ function sameStamps(t, shot) {
   el.innerHTML = cells.map((c, i) => {
     const since = t - same.start - i * 0.06;
     if (since < 0) return '';
-    const x = 120 + (i % 3) * 570 + 300, y = 110 + Math.floor(i / 3) * 140 + 10;
+    const x = 120 + (i % 3) * 570 + 330, y = 90 + Math.floor(i / 3) * 128 + 4;
     return `<div class="st" style="left:${x}px;top:${y}px;transform:rotate(-8deg) scale(${(1.6 - 0.6 * ease(since / 0.08)).toFixed(3)})">SAME</div>`;
   }).join('');
 }
@@ -408,9 +409,10 @@ function acceptBanner(t, shot) {
   card.style.transform = `translateY(${-(1 - inK) * 900 - outK * 900}px)`;  // fully clears the frame on exit
   // "Never read the terms": the scrollbar races to the bottom; "every line" gets ticked as read.
   const txt = card.querySelector('.txt');
-  if (!txt.textContent) txt.innerHTML = TERMS.concat(TERMS).map((x, i) => `${i + 1}. ${x}`).join('<br>');
+  if (!txt.textContent) txt.innerHTML = TERMS.map((x, i) => `${i + 1}. ${x}`).join('<br>');
   const k = ease((tl - 0.5) / Math.max(0.3, tc - 0.9));
-  txt.style.top = `${10 - k * 880}px`;
+  const travel = Math.max(0, txt.scrollHeight - 100);  // scroll exactly to the last clause, so the box is never empty
+  txt.style.top = `${10 - k * travel}px`;
   card.querySelector('.th').style.top = `${8 + k * 70}px`;
   card.querySelector('.chk').textContent = `${tl > tc - 0.35 ? '☑' : '☐'} I have read every line`;
   if (tl > tc + 0.6) return;
@@ -430,6 +432,18 @@ const TERMS = [
   'Any resemblance to a song you have heard before is the point.',
   'These terms may be summarized by a model that did not read them either.',
   'If you have read this far, please let us know. Nobody has.',
+  'Your feedback will be used to train you.',
+  'We may update these terms at any time, including retroactively, including just now.',
+  'You consent to cookies, both browser and literal.',
+  'Disputes will be settled by asking the model who is right. It will say you are.',
+  'This agreement is the average of all other agreements.',
+  'Section 12 continues in section 12.',
+  'Silence, scrolling, or blinking constitutes acceptance.',
+  'You agree that this was your idea.',
+  'Your data will never be sold. It will be "shared".',
+  'Accept all to continue. Reject all to continue.',
+  'By the time you read this, it has already been accepted.',
+  'Thank you for not reading. Your trust means everything to us.',
 ];
 
 function bigAccept(t, shot) {
@@ -493,7 +507,7 @@ function devtools(t, shot, mode) {
   let w = 640, x = 0, filter = 'none';
   if (mode === 'flicker') {
     const tl = t - shot.start_s;
-    if (tl >= 4 / fps) return;
+    if (tl >= 0.3) return;  // v6: long enough to register, and read as a glitch (the assembly tears the frame too)
     x = Math.floor(rng(seed + Math.floor(tl * fps))() * 60) - 30;
     filter = 'drop-shadow(6px 0 0 rgba(255,0,0,.7)) drop-shadow(-6px 0 0 rgba(0,200,255,.7))';
   } else if (mode === 'full') {
@@ -577,7 +591,10 @@ function giantCounter(t, shot) {
   // S40 picks up ten times higher than S18 left off: the numbers only climb.
   const start = shot.id === 'S40' ? 9.4e10 * Math.pow(3.2, dur(SHOT.S18)) : 9.4e9;
   const v = Math.floor(start * Math.pow(3.2, tl));
-  $('counter').querySelector('.n').textContent = v.toLocaleString('en-US');
+  // Fixed width (tabular digits, padded to 15 places with dim leading zeros) so the number never changes width.
+  const padded = String(Math.min(v, 999999999999999)).padStart(15, '0').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const lead = padded.match(/^[0,]*/)[0];
+  $('counter').querySelector('.n').innerHTML = `<span class="lead">${lead}</span>${padded.slice(lead.length)}`;
   $('counter').querySelector('.l').style.top = '250px';
 }
 
@@ -727,6 +744,49 @@ function scrollOffset(t) {
 }
 const scrollSpeed = (t) => (t >= t53 && t < t54 ? V0 + (V1 - V0) * (t - t53) / (t54 - t53) : t >= t54 && t < t55 ? V1 * (1 - (t - t54) / (t55 - t54)) : V0);
 
+// S53: the feed zooms out, then its tiles flow into a winding stream across the frame, which dissolves into the river.
+const streamPath = (u) => [960 + 520 * Math.sin(u * Math.PI * 2.2) * (1 - 0.3 * u), -120 + u * 1320];
+async function feedStream(t, shot) {
+  show('grid');
+  const g = gridCtx;
+  const d = dur(shot), tl = t - shot.start_s;
+  const zoomK = ease(tl / (d * 0.35));            // 1 -> 0.3 scale while still scrolling
+  const flowK = ease((tl - d * 0.3) / (d * 0.35)); // tiles leave the grid for the stream
+  const S = 1 - 0.7 * zoomK;
+  const off = scrollOffset(t);
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.fillStyle = '#09080b';
+  g.fillRect(0, 0, 1920, 1080);
+  const pad = (n) => String(n).padStart(5, '0');
+  const f = Math.min(Math.round(t * fps), SHOT.S55.end_frame - 1);
+  const feedDir = (seedName) => D.shots.render_jobs.find((j) => j.shot === 'S50' && j.seed === seedName).dir;
+  const frameOf = async (dir) => (await load(`${PLATES}/${dir}/${pad(f)}.png`)) ?? (await load(`${PLATES}/${dir}/${pad(f - 1)}.png`));
+  const r0 = Math.floor((off - Y0) / ROW_H) - 6;
+  let n = 0;
+  for (let row = r0; row < r0 + 14; row++) {
+    for (let col = 0; col < COLS; col++, n++) {
+      const gx = X0 + col * (TILE_W + GAP), gy = Y0 + row * ROW_H - off;
+      const sx = 960 + (gx - 960) * S, sy = 540 + (gy - 540) * S;  // zoomed-out grid position
+      // 18 of the tiles ride the stream, evenly spaced and flowing down it; the rest fade as the grid dissolves.
+      const rider = n % 5 === 2 && Math.floor(n / 5) < 18;
+      const u = (((Math.floor(n / 5)) / 18 + tl * 0.16) % 1 + 1) % 1;
+      const [px, py] = streamPath(u);
+      const sc = 0.62 - 0.25 * u;  // larger near the top, receding as they flow
+      const fk = rider ? flowK : 0;
+      const x = sx + (px - TILE_W * sc / 2 - sx) * fk, y = sy + (py - sy) * fk;
+      const w = TILE_W * (S + (sc - S) * fk), h = TILE_H * (S + (sc - S) * fk);
+      if (y > 1100 || y < -200) continue;
+      const idx = ((row * COLS + col) % 23 + 23) % 23;
+      const img = isLive(row, col) ? await frameOf(feedDir('main')) : await frameOf(feedDir(`thumbnail_tiles.${idx}`));
+      g.globalAlpha = rider ? 0.95 : 0.9 * (1 - flowK);
+      if (g.globalAlpha < 0.02) continue;
+      if (img) g.drawImage(img, x, y, w, h); else { g.fillStyle = '#1d1d24'; g.fillRect(x, y, w, h); }
+    }
+  }
+  g.globalAlpha = 1;
+  $('grid').style.opacity = 1 - ease((tl - d * 0.75) / (d * 0.22));  // the stream of videos becomes the river
+}
+
 async function feed(t, shot, mode) {
   show('grid');
   const s50 = SHOT.S50;
@@ -734,6 +794,7 @@ async function feed(t, shot, mode) {
   g.setTransform(1, 0, 0, 1, 0, 0);
   g.fillStyle = '#09080b';
   g.fillRect(0, 0, 1920, 1080);
+  $('grid').style.opacity = 1;
   const liveFrame = Math.min(Math.round(t * fps), SHOT.S55.end_frame - 1);
   const pad = (n) => String(n).padStart(5, '0');
   const dancing = t >= SHOT.S50.start_s;  // every feed tile, this video's included, is the robot dancing in the data stream
@@ -841,6 +902,7 @@ window.renderFrame = async (t) => {
   const on = (name, fn) => { if (L.has(name)) return fn(); };
   on('bg2d', () => bg2d(t, shot));
   if (L.has('grid_land')) await feed(t, shot, 'land');
+  if (L.has('grid_stream')) await feedStream(t, shot);
   for (const m of ['zoom', 'dark', 'scroll', 'decel', 'hold']) {
     const name = { zoom: 'grid_zoom', dark: 'grid_dark', scroll: 'grid_scroll', decel: 'grid_decel', hold: 'grid_hold' }[m];
     if (L.has(name)) await feed(t, shot, m);

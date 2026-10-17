@@ -333,7 +333,7 @@
    ],
    "big_captions": false,
    "degrade": 0.0,
-   "transition": null,
+   "transition": "tear",
    "zoom_out": null
   },
   {
@@ -654,8 +654,7 @@
     "plate": "chorus",
     "cam": "low_up",
     "fx": [
-     "head_up",
-     "tokens_3d"
+     "head_up"
     ]
    },
    "layers": [
@@ -784,7 +783,9 @@
     "plate": "stream",
     "cam": "wide",
     "fx": [
-     "dance"
+     "dance",
+     "refs",
+     "gen_button"
     ]
    },
    "layers": [],
@@ -815,7 +816,9 @@
     "cam": "low",
     "fx": [
      "dance",
-     "refs"
+     "refs",
+     "gen_button",
+     "gen_press"
     ]
    },
    "layers": [],
@@ -1296,8 +1299,7 @@
     "plate": "chorus",
     "cam": "low_up",
     "fx": [
-     "head_up",
-     "tokens_3d"
+     "head_up"
     ]
    },
    "layers": [
@@ -1323,9 +1325,9 @@
     3
    ],
    "start_s": 152.648,
-   "end_s": 154.553,
+   "end_s": 158.453,
    "start_frame": 4579,
-   "end_frame": 4637,
+   "end_frame": 4754,
    "plate": {
     "mode": "js"
    },
@@ -1345,43 +1347,15 @@
    "zoom_out": null
   },
   {
-   "id": "S46",
-   "section": "Chorus 2",
-   "anchor": [
-    "event",
-    "trunc"
-   ],
-   "start_s": 154.553,
-   "end_s": 155.353,
-   "start_frame": 4637,
-   "end_frame": 4661,
-   "plate": {
-    "mode": "hold",
-    "src": "S44"
-   },
-   "layers": [
-    "output_truncated"
-   ],
-   "seed": "main",
-   "global_layers": [
-    "captions",
-    "chrome"
-   ],
-   "big_captions": false,
-   "degrade": 0.75,
-   "transition": null,
-   "zoom_out": null
-  },
-  {
    "id": "S47",
    "section": "Final Chorus",
    "anchor": [
     "event",
-    "trunc_end"
+    "bass_return"
    ],
-   "start_s": 155.353,
+   "start_s": 158.453,
    "end_s": 160.38,
-   "start_frame": 4661,
+   "start_frame": 4754,
    "end_frame": 4811,
    "plate": {
     "mode": "split",
@@ -1471,8 +1445,7 @@
     ],
     "lag_s": 0.1,
     "fx": [
-     "head_up",
-     "tokens_3d"
+     "head_up"
     ]
    },
    "layers": [
@@ -1878,7 +1851,7 @@
     "mode": "feedlive"
    },
    "layers": [
-    "grid_scroll_fast"
+    "grid_stream"
    ],
    "seed": "main",
    "global_layers": [
@@ -1902,11 +1875,14 @@
    "start_frame": 5507,
    "end_frame": 5626,
    "plate": {
-    "mode": "js"
+    "mode": "render",
+    "plate": "robot",
+    "cam": "screen_pullback",
+    "fx": [
+     "river_screen"
+    ]
    },
-   "layers": [
-    "grid_land"
-   ],
+   "layers": [],
    "seed": "main",
    "global_layers": [
     "captions",
@@ -1930,10 +1906,14 @@
    "start_frame": 5626,
    "end_frame": 5693,
    "plate": {
-    "mode": "js"
+    "mode": "render",
+    "plate": "robot",
+    "cam": "wide_hold",
+    "fx": [
+     "river_screen"
+    ]
    },
    "layers": [
-    "grid_hold",
     "cursor_regen_click"
    ],
    "seed": "main",
@@ -2182,13 +2162,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "main",
    "start": 2010,
    "end": 2128,
-   "dir": "chorus-low_up-head_up+tokens_3d__main",
+   "dir": "chorus-low_up-head_up__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2225,12 +2204,14 @@
    "plate": "stream",
    "cam": "wide",
    "fx": [
-    "dance"
+    "dance",
+    "refs",
+    "gen_button"
    ],
    "seed": "main",
    "start": 2460,
    "end": 2596,
-   "dir": "stream-wide-dance__main",
+   "dir": "stream-wide-dance+refs+gen_button__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2240,12 +2221,14 @@
    "cam": "low",
    "fx": [
     "dance",
-    "refs"
+    "refs",
+    "gen_button",
+    "gen_press"
    ],
    "seed": "main",
    "start": 2596,
    "end": 2715,
-   "dir": "stream-low-dance+refs__main",
+   "dir": "stream-low-dance+refs+gen_button+gen_press__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2361,13 +2344,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "main",
    "start": 4463,
    "end": 4579,
-   "dir": "chorus-low_up-head_up+tokens_3d__main",
+   "dir": "chorus-low_up-head_up__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2377,7 +2359,7 @@
    "cam": "orbit",
    "fx": [],
    "seed": "main",
-   "start": 4661,
+   "start": 4754,
    "end": 4811,
    "dir": "chorus-orbit__main",
    "clock_offset_s": 0.0,
@@ -2389,7 +2371,7 @@
    "cam": "orbit",
    "fx": [],
    "seed": "bridge_second_run",
-   "start": 4658,
+   "start": 4751,
    "end": 4808,
    "dir": "chorus-orbit__bridge_second_run",
    "clock_offset_s": 0.0,
@@ -2456,13 +2438,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "main",
    "start": 4927,
    "end": 5043,
-   "dir": "chorus-low_up-head_up+tokens_3d__main",
+   "dir": "chorus-low_up-head_up__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },
@@ -2471,13 +2452,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "bridge_second_run",
    "start": 4924,
    "end": 5040,
-   "dir": "chorus-low_up-head_up+tokens_3d__bridge_second_run",
+   "dir": "chorus-low_up-head_up__bridge_second_run",
    "clock_offset_s": 0.0,
    "lag_frames": 3
   },
@@ -2486,13 +2466,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.0",
    "start": 4921,
    "end": 5037,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.0",
+   "dir": "chorus-low_up-head_up__split_extra.0",
    "clock_offset_s": 0.0,
    "lag_frames": 6
   },
@@ -2501,13 +2480,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.1",
    "start": 4918,
    "end": 5034,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.1",
+   "dir": "chorus-low_up-head_up__split_extra.1",
    "clock_offset_s": 0.0,
    "lag_frames": 9
   },
@@ -2516,13 +2494,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.2",
    "start": 4915,
    "end": 5031,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.2",
+   "dir": "chorus-low_up-head_up__split_extra.2",
    "clock_offset_s": 0.0,
    "lag_frames": 12
   },
@@ -2531,13 +2508,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.3",
    "start": 4912,
    "end": 5028,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.3",
+   "dir": "chorus-low_up-head_up__split_extra.3",
    "clock_offset_s": 0.0,
    "lag_frames": 15
   },
@@ -2546,13 +2522,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.4",
    "start": 4909,
    "end": 5025,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.4",
+   "dir": "chorus-low_up-head_up__split_extra.4",
    "clock_offset_s": 0.0,
    "lag_frames": 18
   },
@@ -2561,13 +2536,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.5",
    "start": 4906,
    "end": 5022,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.5",
+   "dir": "chorus-low_up-head_up__split_extra.5",
    "clock_offset_s": 0.0,
    "lag_frames": 21
   },
@@ -2576,13 +2550,12 @@
    "plate": "chorus",
    "cam": "low_up",
    "fx": [
-    "head_up",
-    "tokens_3d"
+    "head_up"
    ],
    "seed": "split_extra.6",
    "start": 4903,
    "end": 5019,
-   "dir": "chorus-low_up-head_up+tokens_3d__split_extra.6",
+   "dir": "chorus-low_up-head_up__split_extra.6",
    "clock_offset_s": 0.0,
    "lag_frames": 24
   },
@@ -2919,6 +2892,34 @@
    "start": 5043,
    "end": 5693,
    "dir": "stream-wide-dance__thumbnail_tiles.22",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S54",
+   "plate": "robot",
+   "cam": "screen_pullback",
+   "fx": [
+    "river_screen"
+   ],
+   "seed": "main",
+   "start": 5507,
+   "end": 5626,
+   "dir": "robot-screen_pullback-river_screen__main",
+   "clock_offset_s": 0.0,
+   "lag_frames": 0
+  },
+  {
+   "shot": "S55",
+   "plate": "robot",
+   "cam": "wide_hold",
+   "fx": [
+    "river_screen"
+   ],
+   "seed": "main",
+   "start": 5626,
+   "end": 5693,
+   "dir": "robot-wide_hold-river_screen__main",
    "clock_offset_s": 0.0,
    "lag_frames": 0
   },

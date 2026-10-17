@@ -22,12 +22,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
 import gitm_scene as G  # noqa: E402
 from gitm_render import strip_metadata  # noqa: E402
 from gitm_seeds import SEEDS  # noqa: E402
+from mathutils import Vector  # noqa: E402
 
 ROOT = G.ROOT
 SHOTS = json.loads((ROOT / "shots" / "shots.json").read_text())
 FPS = SHOTS["fps"]
 PANELS = ROOT / "renders" / "animatic" / "panels"
 SHOT = {s["id"]: s for s in SHOTS["shots"]}
+OUT_ROOT = None  # renders/<tier>/plates of the current run (set by render_job/probe): the river screen reads frames here
 SCREEN_NAMES = ["consent", "counter", "chat", "terminal", "playlist", "rating"]
 
 
@@ -157,6 +159,13 @@ def plate_robot(job, seed):
     screen_nodes = [next(n for n in m.node_tree.nodes if n.type == "EMISSION") for *_, m in screens]
     head_z = 1.80
     lights = lights_of(("key", "rim"))
+    river, river_ob = None, screens[0][0]
+    if "river_screen" in fx:  # screen_0 plays the river (this video's feed render), 16:9 and a little larger
+        so, *_rest, rm = screens[0]
+        so.scale = (2.5, 1.406, 1)
+        river = next(n for n in rm.node_tree.nodes if n.type == "TEX_IMAGE")
+        river_job = next(j for j in SHOTS["render_jobs"] if j["shot"] == "S50" and j["seed"] == "main")
+        screens = screens[1:]  # the river screen does not bob or follow the synth
     scr = screens_of([o for o, *_ in screens])
     mobile = None
     if "mobile" in fx:  # S17: a crib mobile of tiny server racks turning above the robot
@@ -177,6 +186,13 @@ def plate_robot(job, seed):
         tl = t - t0
         idle(rig, t)
         G.perform(rig, t)
+        if river is not None:
+            f = round(t * FPS)
+            for back in range(4):  # the animatic renders every 2nd frame: use the nearest earlier one
+                path = OUT_ROOT / river_job["dir"] / f"{f - back:05d}.png"
+                if path.exists():
+                    river.image = bpy.data.images.load(str(path), check_existing=True)
+                    break
         float_objs([(o, z, ph) for o, z, ph, _ in screens], t)
         react(t, lights, scr, floor)
         hz = head_z + rig["root"].location.z
@@ -203,6 +219,19 @@ def plate_robot(job, seed):
         elif job["cam"] == "screens":
             cam.data.lens = 24
             cam_path(cam, t, t0, t1, (0.4, -2.2, 1.7), (0.6, -1.6, 1.9), (0.8, 5, 2.5), (1.4, 5, 2.6))
+        elif job["cam"] in ("screen_pullback", "wide_hold"):
+            # S54: start filling the frame with the river playing on screen_0, pull back to the robot among its
+            # screens; S55 holds that wide shot under the Regenerate click.
+            so = river_ob
+            bpy.context.view_layer.update()
+            front = so.matrix_world.to_3x3().normalized() @ Vector((0, 0, 1))
+            start = so.location + front * 2.25
+            wide_pos, wide_tgt = (-0.9, -7.2, 1.3), (0.6, 0.6, 1.6)
+            if job["cam"] == "screen_pullback":
+                cam_path(cam, t, t0 + 0.2, t1, tuple(start), wide_pos, tuple(so.location), wide_tgt)
+            else:
+                cam.location = (wide_pos[0] + 0.15 * tl, wide_pos[1], wide_pos[2])
+                G.look_at(cam, wide_tgt)
         elif job["cam"] == "screen_close":
             sx, sy, sz = screens[1][0].location
             cam_path(cam, t, t0, t1, (sx - 1.6, sy - 3.0, sz - 0.1), (sx - 1.3, sy - 2.5, sz), (sx, sy, sz), (sx, sy, sz))
@@ -390,9 +419,9 @@ def plate_chorus(job, seed):
             cam.location = (0.5, -1.7, 0.35)
             G.look_at(cam, (0, 0, 2.2))
         elif c == "wide_static":  # inside the screen ring, so nothing blocks the robot or the sign
-            cam.data.lens = 22
-            cam.location = (0, -4.8, 1.9)
-            G.look_at(cam, (0, 0, 1.6))
+            cam.data.lens = 20
+            cam.location = (0, -2.9, 1.7)  # well inside the screen ring (radius >= 4.15), so nothing blocks the view
+            G.look_at(cam, (0, 0, 1.5))
         elif c == "topdown":
             cam.location = (0, -0.001, 11 - 1.5 * G.ease(tl / max(1e-6, t1 - t0)))
             G.look_at(cam, (0, 0, 0))
@@ -679,18 +708,23 @@ def plate_default_cube_boot(job, seed):
     mouth = (0.0, 0.0, 1.6)  # where things spring out of / get sucked into
 
     def spring(objs, k_of):
-        """Move each object from the box's mouth to where the robot set put it, scaled by k (0 = in the box)."""
+        """Unpack (k: 0 -> 1) or pack (1 -> 0) each object along an arc: up out of the box's open top, around, and
+        over to where the robot set put it, so nothing passes through the box's walls."""
         for o, k in objs:
             target = o.location.copy()
-            o.location = [mouth[i] + (target[i] - mouth[i]) * k for i in range(3)]
-            o.scale = (max(k, 0.001),) * 3 if o.name != "char_root" else (max(k, 0.001),) * 3
+            r0, th0 = math.hypot(target.x, target.y), math.atan2(target.y, target.x)
+            r = r0 * G.ease(min(1.0, max(0.0, (k - 0.25) / 0.75)))         # leaves the box only once above its rim
+            th = th0 + 1.6 * (1 - k)                                          # swings round the box as it goes
+            z = (0.9 + (target.z - 0.9) * k) + 2.4 * math.sin(math.pi * min(1.0, k * 1.15))  # rises over the rim first
+            o.location = (r * math.cos(th), r * math.sin(th), z)
+            o.scale = (max(min(1.0, k * 2.5), 0.001),) * 3
 
     def update(t):
         if "vacuum" in fx:
             tl = t  # local clock (clock_offset applied by the job)
             update_robot(boot + 4.0 + tl)  # the restarted world, fully booted
-            v = G.ease((tl - 0.15) / 0.95)
-            stagger = lambda i, n: G.ease(min(1.0, max(0.0, (v * (n + 3) - i) / 3)))
+            v = min(1.0, max(0.0, (tl - 0.15) / 0.95))
+            stagger = lambda i, n: min(1.0, max(0.0, (v * (n + 3) - i) / 3))
             items = screens + [root]
             spring([(o, 1 - stagger(i, len(items))) for i, o in enumerate(items)], None)
             floor.active_material.node_tree.nodes["grid_amount"].inputs[1].default_value = 0.4 * (1 - v)
@@ -709,7 +743,7 @@ def plate_default_cube_boot(job, seed):
         opening = G.ease((t - boot) / 0.3)
         for h, side in hinges:
             h.rotation_euler.y = side * 2.3 * opening   # the lid flaps fly open on the downbeat
-        out = lambda i: G.ease(min(1.0, max(0.0, (t - boot - 0.2 - 0.07 * i) / 0.5)))
+        out = lambda i: min(1.0, max(0.0, (t - boot - 0.15 - 0.09 * i) / 0.75))
         if "box_open" in fx or booted:
             spring([(o, out(i)) for i, o in enumerate(screens)] + [(root, out(len(screens)))], None)
         else:
@@ -801,6 +835,20 @@ def plate_stream(job, seed):
     beat_len = 60 / G.TIMING["tempo_bpm"]
 
     face = -math.pi / 2 if job["cam"] == "low" else 0.0  # the low shot looks across the stream at the robot's front
+    gen = None
+    if "gen_button" in job["fx"]:  # v6: a Generate button orbits the robot; in S27 the robot presses it (the music stops)
+        gen = G.empty("gen_button", (rx, ry, rz + 1.5))
+        G.rounded_box("gen_pill", (0.75, 0.12, 0.26), (rx, ry, rz + 1.5), G.mat_principled("gen_body", G.PAL["surface"], 0.4), 0.12, parent=gen)
+        font = bpy.data.fonts.load(str(ROOT / "assets" / "fonts" / "Inter[opsz,wght].ttf"), check_existing=True)
+        cu = bpy.data.curves.new("gen_text", "FONT")
+        cu.body, cu.font, cu.size, cu.align_x, cu.align_y = "Generate", font, 0.13, "CENTER", "CENTER"
+        gt = bpy.data.objects.new("gen_text", cu)
+        scene.collection.objects.link(gt)
+        gen_glow = G.mat_emission("gen_glow", G.PAL["paper"], 3)
+        gt.data.materials.append(gen_glow)
+        gt.location, gt.rotation_euler = (rx, ry - 0.065, rz + 1.5), (math.pi / 2, 0, 0)
+        gt.parent = gen
+        gt.matrix_parent_inverse = gen.matrix_world.inverted()
     props = []
     if "refs" in job["fx"]:  # v5: props from the other videos float down the stream and fly around the robot
         names = ["check", "ticket", "cookie", "version", "flap"]
@@ -829,6 +877,20 @@ def plate_stream(job, seed):
                 sh.rotation_euler.y = -side * (0.3 + 0.9 * swing * (1 if (n + (side > 0)) % 2 else 0.2))
             rig["root"].location.z = rig["rest"]["root"].z + 0.07 * swing
             rig["root"].rotation_euler.z = face + 0.2 * (1 if (n // 2) % 2 else -1)
+        if gen is not None:
+            press_t = t1 - 0.35
+            k = G.ease((t - (t1 - 1.1)) / 0.6) if "gen_press" in job["fx"] else 0.0
+            a = t * 1.3
+            orbit_pos = (rx + 1.3 * math.cos(a), ry + 1.3 * math.sin(a), rz + 1.5 + 0.25 * math.sin(t * 2.1))
+            front_pos = (rx - 0.62, ry, rz + 1.45)  # in front of the robot (it faces -X in the low shot)
+            gen.location = [orbit_pos[i] + (front_pos[i] - orbit_pos[i]) * k for i in range(3)]
+            gen.rotation_euler = (0, 0, (a + math.pi / 2) * (1 - k) + (-math.pi / 2) * k)
+            pressed = "gen_press" in job["fx"] and t >= press_t
+            gen.scale = (1, 0.6 if pressed and t < press_t + 0.15 else 1, 1)
+            G.emission_node(gen_glow).inputs["Strength"].default_value = 14 if pressed else 3
+            if "gen_press" in job["fx"]:
+                reach = G.ease((t - (press_t - 0.45)) / 0.35)
+                rig["shoulders"][1].rotation_euler.x = -1.45 * reach  # the robot pushes the button
         for ob, i, ph in props:
             if i % 2 == 0:  # riding the stream
                 u = (ph + 0.05 * t) % 1.0
@@ -910,6 +972,8 @@ PLATES = {
 
 
 def render_job(index, out_root, width, height, samples, step):
+    global OUT_ROOT
+    OUT_ROOT = Path(out_root)
     job = SHOTS["render_jobs"][index]
     seed = seed_value(job["seed"])
     scene = G.reset(width, height, samples)
@@ -941,7 +1005,9 @@ def render_tiles(out_dir, width, height, samples, t):
 
 
 def render_probe(index, out_dir, width, height, samples, frac):
-    """One frame at a fraction of a job's range, for smoke tests."""
+    """One frame at a fraction of a job's range, for smoke tests (reads the river frames from the animatic_v5 plates)."""
+    global OUT_ROOT
+    OUT_ROOT = ROOT / "renders" / "animatic_v5" / "plates"
     job = SHOTS["render_jobs"][index]
     scene = G.reset(width, height, samples)
     strip_metadata(scene)
