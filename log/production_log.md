@@ -292,3 +292,18 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - All plates render at 2 fps-steps.
 - **Why:** Brief, checkpoint C4: every shot as a rough low-res render at final timing; human approves the cut.
 - **Status:** Stopped at C4.
+
+## 2026-10-17T13:07:07-04:00 — Brief: v2 shot list (doc rev 54 → 65)
+
+- **What:**
+  - Replaced the 23-shot table with the approved 57-shot v2: cuts on every lyric line, about 2 bars; 3D coverage from several cameras; alternating 2D type-led shots; the new scenes.
+  - Rewrote the shot-list intro to explain v2.
+  - Updated every shot-ID reference: dropout S17 → S38, end card S23 → S57, vertical cut S14–S22 → S35–S56 (about 79 s), thumbnail S19 → S47, open item S22/S23 → S56/S57.
+  - Seeds: added 44–50 for the 4-up and 9-up splits and 1001–1023 for the grid tiles (step 4 text and end card "Seeds: 41–50").
+- **Agent errors:**
+  1. Two find/replace ops quoted the second half of a text-run-split ID and produced "S135" and "S147". Corrected in the next call (rev 64).
+  2. One stale reference (S22/S23 in Open items) was found in the export and fixed (rev 65).
+- **Commands:** Claude Docs `update` (guarded table replace, `ifHash 9b5702e0` / `ifRev 54`, plus 7 find replaces; then 2 + 1 fixes), verified by `read` views and a markdown `export`. `docs/brief.md` was mirrored with a Python replace script.
+- **Outputs:** Brief doc rev 65; `docs/brief.md`
+- **Note for the human:** The vertical cut (bridge through ending) is about 79 s. The original brief estimated 45–60 s for the same range, which was already off in v1.
+- **Why:** The human approved v2 (see `human_interventions.md`).
