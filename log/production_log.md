@@ -470,3 +470,13 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - Box open/vacuum probed at 7 points.
 - **Process note:** The first v5 plate render was stopped with `pkill -f` to apply those fixes. The pkill pattern also matched the agent's own shell command, killing it before the edits ran; the edits were re-run. The stopped run's partial frames (`renders/animatic_v5/plates`, a regenerable frame sequence, never archived per the brief) were deleted and the render restarted.
 - **Why:** The human's v4 notes and cube-transition choice (see `human_interventions.md`).
+
+## 2026-10-17T16:30:57-04:00 — C4: animatic v5 (v4 notes addressed)
+
+- **What:** Rendered and assembled animatic v5 with the changes logged in the v5 build entry above. 56 shots; total 199.567 s (S56 grew 1.2 → 1.8 s for the vacuum).
+- **Commands:**
+  - `scripts/render_plates.sh animatic_v5 640 360 8 2` (67 jobs, including 24 feed tiles spanning S50–S55)
+  - `.venv/bin/python scripts/export_overlay_data.py`
+  - `.venv/bin/python scripts/assemble.py animatic_v5 640 360 2 6 --hud --name animatic_v5` (3 m 09 s)
+- **Outputs:** `renders/animatic_v5/animatic_v5.mp4` (5987 frames verified, video 199.567 s / audio 199.560 s); review sheet. v4 cut moved to `archive/renders/`.
+- **Status:** Stopped at C4 for review of v5.
