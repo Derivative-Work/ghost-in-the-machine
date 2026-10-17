@@ -129,3 +129,34 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   - bridge title phrases in each reference's accent color (S12–S13)
   - five-color average merge (S16)
 - **Rule:** R1 (approving a plan). All allusions are generic redraws; no reference frames, text or jokes are copied.
+
+## 2026-10-17T15:42:39-04:00 — C4 feedback on animatic v4 (nitpicks) and cube-transition choice
+
+- **What:** The human reviewed animatic v4 with these notes (verbatim):
+  - "let's have more than 4 screens, and perhaps bring them closer to the camera"
+  - "transitions into and out of the default cube are jarring -- suggest some options for this, but mine are: a generic right click context menu (not necessarily Blender's), the box opening and revealing or vacuuming the things before/after it"
+  - "at S07, the "heart" counter directly overlaps the graph label, making them both hard to read"
+  - "at S09, make the text inside the box more tongue-in-cheek. also, it doesn't clear the frame once it's done creating a continuity error"
+  - "at S10, there's probably a self-referential joke here about how my responses in this chat have been "LGTM" or "give me more" or some variation of it, and then complaining that it's not working (like I am literally doing right now)"
+  - "at S11, the song detector should appear much sooner"
+  - "at S13 into S14, the "Accept" button should stay visible but grayed out afterwards while "generating" is up"
+  - "at S16, the large text is not doing too many favors -- just get rid of it here and bring the color circles down"
+  - "S18 and 19 can probably be combined -- the graph very much correlates with the count"
+  - "the transition into missing textures at S21 is a little jarring -- maybe have them go out one at a time"
+  - "S22 can use more tokens than just `the`"
+  - "same for S23 -- find some other common Claude and ChatGPTisms to put in here (but not so many that they're all unique)"
+  - "S24's "LIGHTS" is a little too on the nose -- with more screens, it won't be necessary"
+  - "S25 is too static, and also the wrong direction: start looking up from the bottom (so it's explicitly not "looking down"), then pan and rotate up centered on the robot"
+  - "S27 could use some more motion -- perhaps some other references put in the stream itself and flying around"
+  - "S29's ETA countdown should be decreasing"
+  - "S31 could use an actual "regenerate" button being clicked rather than the fast cuts, but make it appear to fail"
+  - "for S36: animate the lines beginning with `>` so it looks like someone is actually typing them. the contrast between the icons and the backdrop is not great."
+  - "S38 could use some more messages relevant to the lyrics at that moment"
+  - "the end of S38 into S41 can be combined so that the bits with the numbers, the servers, and the graph are all on the same scene (correlating with the line)"
+  - "S43: same as S21" / "S44: same as S22, add more distinct ones at this point" / "S45: same as S23"
+  - "S46 is up for way too long, and shouldn't be timed to the beat (it's an error)"
+  - "S48 and S49 should reference different versions of same scenes as the lyrics from above as it zooms out further"
+  - "continuity between S51 and S52"
+  - "S53: the scroll becomes the river from before including the robot"
+- **Choice:** Asked to pick a default-cube transition from four options (box opens/vacuums, context menu, unfold into the floor, cube becomes the head), the human chose "Box opens / vacuums".
+- **Rule:** R1 (creative direction in words and a choice between plans; the agent makes every change).
