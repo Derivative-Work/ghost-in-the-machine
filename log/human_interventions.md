@@ -181,3 +181,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   - "S55: regenerate button on top of S54 as revised"
   - "S56: contents need to go up and around the box rather than clipping into it"
 - **Rule:** R1 (creative direction in words; the agent makes the changes).
+
+## 2026-10-17T17:03:09-04:00 — S11 flicker clarified
+
+- **What:** Asked whether S11's devtools flicker should be removed, turned into a clearer glitch, or held longer, the human answered: "make it both read as a glitch, and also longer".
+- **Rule:** R1 (choosing between plans).
