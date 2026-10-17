@@ -68,3 +68,50 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Why:** The brief lists the planning chat as an input. Pre-production step 2 needs the style prompt and the take.
 - **Environment note:** Chrome needs `--no-sandbox` because Ubuntu's AppArmor restricts unprivileged user namespaces. This is acceptable for loading claude.ai and local render pages. The render pipeline will need the same flag.
 - **Step 2 status:** Still missing: the take ID, the rejected take, and the advanced options. C2 stays open but does not block step 1.
+
+## 2026-10-17T11:36:04-04:00 — Environment: Python via uv
+
+- **What:** The system Python 3.14 can't create venvs (`python3.14-venv` is not installed, and installing it needs sudo). Python 3.14 is also a poor target for librosa and WhisperX. The agent installed uv as a user-local binary from its GitHub release, with the checksum verified, then created a Python 3.12 environment.
+- **Commands:**
+  - Downloaded `uv-x86_64-unknown-linux-gnu.tar.gz` for uv 0.13.1 with `curl` and checked it with `sha256sum -c`
+  - `install -m755 uv uvx ~/.local/bin/`
+  - `uv python install 3.12` (cpython 3.12.15)
+  - `uv sync`
+- **Outputs:** `pyproject.toml`, `uv.lock`, `.venv/` (git-ignored; regenerate with `uv sync`). Packages: numpy 2.5.4, Pillow 13.0.0, scikit-learn 1.9.1.
+- **Why:** Analysis now and the timing map in step 3 need numpy, librosa and WhisperX.
+
+## 2026-10-17T11:36:04-04:00 — Step 1: extract reference stills
+
+- **What:** For each inspiration video, extracted one still per scene change (ffmpeg scene score > 0.3) and one every 5 s, all scaled to 1280 px wide.
+- **Command:** `scripts/extract_stills.sh <video> <slug>`, run for the five videos in parallel (4 m 40 s wall time)
+- **Outputs:** `reference/stills/<slug>/{scene,every5s}/*.jpg`, `scene_times.txt`, `scene.log`
+  - accept-all: 10 scene, 40 interval
+  - end-of-the-show: 27 scene, 72 interval
+  - lgtm: 4 scene, 61 interval
+  - not-my-fault: 52 scene, 33 interval
+  - run-it-again: 66 scene, 58 interval
+  - Total 28 MB. Git-ignored and listed in the manifest.
+- **Why:** Brief, pre-production step 1.
+- **Note:** The scene threshold undercounts cuts in videos that use continuous camera moves (LGTM, Accept All). The style spec says so.
+
+## 2026-10-17T11:36:04-04:00 — Step 1: measure stills, fetch fonts, write style spec
+
+- **What:**
+  - Ran k-means palettes (overall and saturated-accent), brightness/saturation stats and pacing per video, plus a pooled average with equal weight per video. Built contact sheets.
+  - The agent reviewed all five every-5-s contact sheets by eye.
+  - Downloaded the closest OFL fonts from the google/fonts repository.
+  - Wrote the style spec and the averaged look.
+- **Commands:**
+  - `.venv/bin/python scripts/analyze_stills.py`
+  - `curl -sSfL https://raw.githubusercontent.com/google/fonts/main/ofl/{inter,instrumentserif,jetbrainsmono}/...`
+- **Outputs:**
+  - `style/measurements.json`
+  - `reference/stills/<slug>/contact_{every5s,scene}.jpg`
+  - `assets/fonts/` (Inter, Instrument Serif, JetBrains Mono, OFL texts, SHA256SUMS)
+  - `style/style_spec.md`
+- **Key decisions (for C1):**
+  - Base `#09080b`, paper `#e6e4dc`, primary accent `#d9502f`, secondary `#396ad3`
+  - Inter / Instrument Serif Italic / JetBrains Mono
+  - 30 fps
+  - Faceless primitive humanoid with a screen face, on a dark void with a faint grid
+- **Why:** Brief, pre-production step 1.

@@ -1,0 +1,13 @@
+[project]
+name = "ghost-in-the-machine"
+version = "0.1.0"
+description = "Analysis and render scripts for the Ghost in the Machine music video"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy",
+    "pillow",
+    "scikit-learn",
+]
+
+[tool.uv]
+package = false
