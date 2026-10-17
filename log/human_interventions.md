@@ -73,3 +73,9 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 - **Why:** Checkpoint C3.
 - **Rule:** R1 (approve a plan) and R2 (A/V sync; no corrections requested).
 - **Open:** Before the final mux, the human needs to supply the cleaned master file and the cleaning tool's name and settings. These go in `log/prompts/` as an AI processing step.
+
+## 2026-10-17T13:00:23-04:00 — C4 feedback: sync approved; more scenes and cuts requested
+
+- **What:** The human reviewed animatic v1: "the lyrics synchronization is spot on but clearly I did not review the spec closely enough -- it needs more scenes and cuts as it feels pretty static right now. Suggest some more". The agent is proposing additions. Nothing has been changed yet.
+- **Why:** The cut feels static. 23 shots average 8.7 s; S09 alone is 37 s.
+- **Rule:** R1 (rejecting a plan; creative direction given in words, the agent makes the change).
