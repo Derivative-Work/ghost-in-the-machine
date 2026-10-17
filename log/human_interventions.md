@@ -186,3 +186,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** Asked whether S11's devtools flicker should be removed, turned into a clearer glitch, or held longer, the human answered: "make it both read as a glitch, and also longer".
 - **Rule:** R1 (choosing between plans).
+
+## 2026-10-17T17:50:42-04:00 — C4 feedback on animatic v6
+
+- **What:** "so close: for S53 into S54, I want the videos to become an actual part of the stream rather than doing a fadeout"
+- **Rule:** R1 (creative direction in words; the agent makes the change).
