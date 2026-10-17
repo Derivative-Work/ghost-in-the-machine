@@ -226,3 +226,23 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - **Commands:** `scripts/check_seeds.sh` (3 runs; outputs in `renders/draft/seed_check/<timestamp>/`)
 - **Caveat:** Reproducibility is per machine. GPU and driver differences can change pixels for the same seed between the GTX 970 and the RTX 5090. The seed-42 split screen and all finals will be rendered on the 5090, and `check_seeds.sh` must be rerun there.
 - **Why:** Brief, pre-production step 4.
+
+## 2026-10-17T12:02:54-04:00 — Step 5: pipeline per shot
+
+- **What:** `shots/build_shots.py` encodes the brief's 23 shots (doc rev 54). For each shot it records the lyric or event anchor, the pipeline, the Blender plate name, the JS layers and the seed name. It resolves anchors against the timing map, with cuts snapped to the nearest downbeat within half a bar, otherwise 0.1 s early. It writes the machine-readable edit list and a generated table.
+- **Command:** `.venv/bin/python shots/build_shots.py`. The first run failed because S21 used line index 8; the final chorus's last line is index 7.
+- **Outputs:** `shots/shots.json`, `shots/pipeline.md`
+- **Result:**
+  - Total 198.96 s (5969 frames at 30 fps). The audio ends at 190.00; S22 (1.2 s) and S23 (8 s) run past it.
+  - Longest shots: S09 37.1 s (the whole Chorus 1, as briefed), S20 19.4 s, S18 17.4 s, S17 15.6 s.
+  - S19 cuts at 158.45, the downbeat at the bass return.
+  - S18 holds `[output truncated]` from the chorus cutoff to the slam.
+- **Pipelines:**
+  - 9 JS-only shots
+  - 6 Blender + JS
+  - 3 Blender-only
+  - 2 Blender + ffmpeg (S19 split, S20 grid)
+  - 1 JS + ffmpeg (S22)
+  - 1 ffmpeg (S23)
+  - Global caption and chrome layers run over S01–S22.
+- **Why:** Brief, pre-production step 5. `shots.json` drives the C4 animatic and the final renders.
