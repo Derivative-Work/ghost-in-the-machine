@@ -109,3 +109,23 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human reviewed animatic v3: "It needs some more still, try to find some that use the words or allude to the source videos (such as a literal \"data stream\" alluding to \"Run It Again\" 's backdrop evoking gradient descent during RLHF)". The agent is researching the references and proposing additions. Nothing has been changed yet.
 - **Rule:** R1 (creative direction given in words; the agent makes the change).
+
+## 2026-10-17T14:29:36-04:00 — v4 additions approved (all)
+
+- **What:** The human said "Do them all" to the agent's list of lyric-literal and reference-alluding ideas:
+  - data stream down a loss landscape (S26–27, feed tiles)
+  - reward panel with robot pieces fading (S34)
+  - v2147 → v10000 PRODUCTION badge (S31)
+  - LOOKS GOOD container ship (S30)
+  - top-down from inside a cloud (S25)
+  - SOLD OUT front-row ticket (S32)
+  - arena of identical robots (S33)
+  - terms box scrolled to "I have read every line" (S09)
+  - "mind reader … not found" boot log (S10)
+  - split-flap AUTHOR — NOT FOUND board (S15)
+  - context-window meter (S22)
+  - neon LIGHTS sign going out (S24)
+  - bedsheet ghost (S20)
+  - bridge title phrases in each reference's accent color (S12–S13)
+  - five-color average merge (S16)
+- **Rule:** R1 (approving a plan). All allusions are generic redraws; no reference frames, text or jokes are copied.
