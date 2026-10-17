@@ -566,3 +566,29 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - `.venv/bin/python scripts/assemble.py animatic_v8 640 360 2 6 --hud --name animatic_v8 [--composite-only]`
 - **Outputs:** `renders/animatic_v8/animatic_v8.mp4` (6023 frames verified, video 200.767 s / audio 200.760 s); review sheet of S02, the S52/S53 cut and the S56 ending. v7 cut moved to `archive/renders/`.
 - **Status:** Stopped at C4 for review of v8.
+
+## 2026-10-17T19:45:30-04:00 — C5 render-time benchmark (GTX 970)
+
+- **What:** Added a `bench` mode to `scenes/blender/plates.py` that times n consecutive frames mid-job, scene build excluded. Benchmarked full-quality settings for the human's question "estimate how long that will actually take on this machine".
+- **Plates** (2304×1080, 64 samples; 2nd/3rd frame, after shader compile):
+
+  | Shot | Scene | s/frame |
+  | --- | --- | --- |
+  | S06 | robot set | 1.82 |
+  | S20 | chorus orbit + ghost | 2.15 |
+  | S21 | dolly zoom | 1.77 |
+  | S25 | cloud + volumetric rays | 3.48 |
+  | S26 | data stream | 2.3 |
+  | S33 | arena of 210 instanced robots | 1.93 |
+  | S34 | tear | 1.59 |
+  | S48 | split tile | 1.76 |
+  | feed tile | 640×360, 32 samples | 0.30 |
+
+  First frame per job +0.4–0.5 s.
+- **Overlay** (1920×1080, one Puppeteer process): 0.23 s/frame for busy 2D/rain shots; 0.38 s/frame for the feed (canvas with many images).
+- **Compositing:** alpha composite 0.013 s/frame per core (decode and encode extra).
+- **Estimate:**
+  - About 3.7 h of plates with resolution matched to use (feed tiles 640×360; split tiles at their displayed size; everything else 2304×1080 at 64 samples)
+  - About 12.5 h if every job renders at 2304×1080
+  - Plus ~15 min overlay, composite and encode for the main video
+- **Commands:** `blender -b --factory-startup --python scenes/blender/plates.py -- bench <job> renders/bench 2304 1080 64 3` for 8 jobs (and one feed tile at 640×360 s32); `node scripts/render_frames.mjs … 1920 1080` for 60 + 30 frames.

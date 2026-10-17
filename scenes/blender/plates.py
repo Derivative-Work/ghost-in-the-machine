@@ -6,6 +6,7 @@ Usage:
   blender -b --factory-startup --python scenes/blender/plates.py -- job <job_index> <out_root> <width> <height> <samples> <step>
   blender -b --factory-startup --python scenes/blender/plates.py -- tiles <out_dir> <width> <height> <samples> <t>
   blender -b --factory-startup --python scenes/blender/plates.py -- probe <job_index> <out_dir> <width> <height> <samples> <fraction>
+  blender -b --factory-startup --python scenes/blender/plates.py -- bench <job_index> <out_dir> <width> <height> <samples> <n_frames>
 
 Frames are written as <out_root>/<job dir>/<frame:05d>.png with global frame numbers; with step > 1 only every
 step-th frame of a job is rendered (animatic).
@@ -1166,9 +1167,31 @@ def render_probe(index, out_dir, width, height, samples, frac):
     bpy.ops.render.render(write_still=True)
 
 
+def render_bench(index, out_dir, width, height, samples, n):
+    """Time n consecutive frames from the middle of a job (scene build excluded), for render-time estimates."""
+    import time
+    global OUT_ROOT
+    OUT_ROOT = ROOT / "renders" / "animatic_v8" / "plates"
+    job = SHOTS["render_jobs"][index]
+    scene = G.reset(width, height, samples)
+    strip_metadata(scene)
+    update = PLATES[job["plate"]](job, seed_value(job["seed"]))
+    f0 = (job["start"] + job["end"]) // 2
+    times = []
+    for f in range(f0, f0 + n):
+        update(f / FPS - job["clock_offset_s"])
+        scene.render.filepath = str(Path(out_dir) / f"{job['shot']}_{f:05d}.png")
+        t0 = time.time()
+        bpy.ops.render.render(write_still=True)
+        times.append(time.time() - t0)
+    print(f"BENCH {job['shot']} {job['dir']} {width}x{height} s{samples}: " + " ".join(f"{x:.2f}" for x in times))
+
+
 def main():
     args = sys.argv[sys.argv.index("--") + 1:]
-    if args[0] == "probe":
+    if args[0] == "bench":
+        render_bench(int(args[1]), args[2], int(args[3]), int(args[4]), int(args[5]), int(args[6]))
+    elif args[0] == "probe":
         render_probe(int(args[1]), args[2], int(args[3]), int(args[4]), int(args[5]), float(args[6]))
     elif args[0] == "job":
         render_job(int(args[1]), args[2], int(args[3]), int(args[4]), int(args[5]), int(args[6]))
