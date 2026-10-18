@@ -665,3 +665,9 @@ Found by the agent's flash check on `c5_7_final_chorus.mp4`. Both were already i
 2. **S53, f5390–5398: large pale shapes under the top-down camera.** Cause: the loss landscape clamps the hills at z = 0, and z = 0 is a contour level, so whole plains were drawn in the line colour. At the low S26/S27 angles they read as pale flats; from S53's 24 m camera they looked like blobs. Fix (`plates.py` contour material): no line where |z| < 0.004. Checked on f5395: the plains are dark with a thin contour at their edge. The fix has to apply to every stream plate, because S53 cuts to S54's river screen, which is textured from the S50 live tile.
    - Moved the 29 stream/river job dirs (S26, S27, S50 ×24, S53, S54, S55) to `renders/c5/plates_superseded_flat_contours/` and started `scripts/render_plates.sh c5 c5 1 S26 S27 S50 S53 S54 S55` (log `renders/c5/logs/plates2.log`; ~2.3 h estimated).
 - Every section is being re-cut for fix 1, and sections 3 and 7 for fix 2 as well (`renders/c5/logs/sections2.log`). The previous cuts are archived in `archive/renders/c5/` (`*_superseded_first_frame_overlay`, `c5_3_chorus1_superseded_flat_contours`, `c5_7_final_chorus_rejected_s53_blobs_s50_first_frame`).
+
+## 2026-10-18T00:13:01-04:00 — Re-cuts of sections 1, 2, 4, 5, 6, 8 checked; section 8 sent
+
+- New `scripts/cut_diff.py` (frame-by-frame difference between a re-cut and the cut it replaces). Against the archived cuts, the only changed frames are shot first frames: S04 | S11, S11b, S12, S13, S14 | S30, S34 | S37 | S42, S45 | none in section 8. Section 1 also changed at S04, whose start time is 0.013 s late.
+- Section 8 (S56–S57): matches v8; flash check shows only the S56 repack and the tip onto the dark face. Sent all six to the human.
+- To do before C6: the end card's "Human interventions: 23" comes from the last overlay-data export; re-export so it counts the C5 rejections.
