@@ -1,0 +1,10 @@
+{
+  "_doc": "The audio muxed into every cut from 2026-10-18 on (scripts/assemble.py). The beats and timing map stay on the Suno take (timing/timing_map.json); the master is the same take run through the music-deslop post-filter, sample-aligned and the same length. Provenance: log/production_log.md, 2026-10-18 'Audio master'.",
+  "master": {
+    "file": "audio/master/Ghost in the Machine (master).flac",
+    "sha256": "93f8e63fd069f6f3d82b48bc4173cc1665aa2289029364945bdc2c7aab931a55",
+    "duration_s": 190.0,
+    "sample_rate": 48000,
+    "source_sha256": "78a7464cd1d077a6f9e6e416f080e290e3adaecbfad8b898ba36cfe39c79e53b"
+  }
+}

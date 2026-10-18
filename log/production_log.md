@@ -838,3 +838,24 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   4. **Brief:** update the Claude Doc and re-export `docs/brief.md`.
   5. **4K:** main video 3840×2160 from 4608×2160 plates; vertical 2160×3840 from the same plates. Overlays at 4K need a sharpness check first. Then re-cut the C5 sections at 4K for review.
 - **Correction:** the parity entry above is headed 2026-10-18T16:02:00, a time the agent typed by hand. It was written and committed at 15:47:53 (commit b981f5d). From here on, entry times come from `date`.
+
+## 2026-10-18T16:01:14-04:00 — Audio master from music-deslop
+
+- **File:** `audio/master/Ghost in the Machine (master).flac` (24-bit, 48 kHz stereo, 190.0 s; sha256 `93f8e63f…`). Copied unchanged from `~/Code/music-deslop-data/e2e_eval/sweeps/m6f_step0010000_t0_lp18_dp_cut1.5_sm0.333x5_fb/ghost-in-the-machine-suno/s1.00.flac`.
+- **Which one, and why:** music-deslop's README names `m6f_step0010000_t0_lp18_dp_cut1.5_sm0.333x5` as the release chain and `infer`'s defaults. Its licensing-audit note records the human choosing it as the release candidate. The `_fb` sweep adds the fallback, which is on by default in `infer`. `s1.00` is full strength, the default.
+  - For this track the fallback faded nothing: the `_fb` and plain outputs are byte-identical.
+- **Tool and settings:**
+  - music-deslop post-filter, FlowDiT M6f step 10k (EMA weights): 16-step deterministic sampling (temperature 0), energy re-match `up`, 8 s chunks with Hann cross-fades;
+  - 18 kHz input lowpass;
+  - de-pump with a 1.5 dB cut cap;
+  - gain smoothing over 1/3 octave × 5 frames;
+  - fallback at 0.25–0.4.
+
+  Made by `postfilter.eval.e2e` (music-deslop repo, 2026-10-18 12:39, after commit b6730c0); the repo's HEAD is now 24699076. The model and repo stay private. Its training data is credited in `README.md`.
+- **Same take, same timing:** the sweep's input and `e2e_eval/source/ghost-in-the-machine-suno.wav` are byte-identical to `audio/track/Ghost in the Machine.wav`. The master has the same 9,120,000 samples, 0 lag by cross-correlation and differs from the take by −35.3 dB RMS.
+  - The beats and timing map stay on the Suno take; nothing in `timing/` changes.
+- **Pipeline:** new `config/audio.json` names the master. `scripts/assemble.py` now muxes it instead of the timing map's file, after checking it's the timing map's take (`source_sha256`) at the same length.
+  - Test cut `renders/bench5090/mux_test.mp4` (f420–450): 48 kHz AAC, 1.000 s.
+  - Earlier cuts keep the Suno audio.
+- Under R3/R4: the human supplied the file and named the tool (see `log/human_interventions.md`, 15:59:33).
+- Manifest re-run.

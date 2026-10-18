@@ -2,6 +2,7 @@
 freezes, an N-up split, or nothing for full-frame JS shots), degrade it where the shot says so, composite the overlay
 (overlays/video.html via Puppeteer, rendered in parallel), apply whip/glitch transitions at shot starts, and pipe raw
 RGB to ffmpeg with the audio padded to the video's length.
+The audio is the mastered take in config/audio.json; the timing map's file is the Suno take it was cleaned from.
 
 Usage: .venv/bin/python scripts/assemble.py <tier> <width> <height> <plate_step> <jobs> [--hud] [--name NAME]
                                             [--composite-only] [--frames A:B] [--crf N]
@@ -309,9 +310,12 @@ def composite():
     opaque) differ in format, and fed to ffmpeg directly each change reinits its filter graph and drops frames."""
     out = ROOT / f"{NAME}.mp4"
     tm = json.loads(Path("timing/timing_map.json").read_text())
+    master = json.loads(Path("config/audio.json").read_text())["master"]
+    if master["duration_s"] != tm["audio"]["duration_s"] or master["source_sha256"] != tm["audio"]["sha256"]:
+        raise RuntimeError("config/audio.json master isn't the timing map's take at its length")
     ff = subprocess.Popen(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
                            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                           "-i", tm["audio"]["file"],
+                           "-i", master["file"],
                            # Pad the audio with silence to the video's exact length (the ending runs past the track),
                            # then take the stretch under frames A..B-1.
                            "-filter_complex", f"[1]apad=pad_dur={D['total_s'] - tm['audio']['duration_s']:.3f},"
