@@ -4,9 +4,11 @@ freezes, an N-up split, or nothing for full-frame JS shots), degrade it where th
 RGB to ffmpeg with the audio padded to the video's length.
 
 Usage: .venv/bin/python scripts/assemble.py <tier> <width> <height> <plate_step> <jobs> [--hud] [--name NAME]
-                                            [--composite-only]
+                                            [--composite-only] [--frames A:B] [--crf N]
   e.g. .venv/bin/python scripts/assemble.py animatic_v2 640 360 2 6 --hud --name animatic_v2
 Reads renders/<tier>/plates (scripts/render_plates.sh); writes renders/<tier>/overlay/ and renders/<tier>/<name>.mp4.
+Plates wider than the output (C5 renders 20% wider for the vertical cut) are cropped to their centre.
+--frames A:B cuts only global frames A..B-1 (a section for C5 review), with the matching stretch of audio.
 """
 import io
 import json
@@ -22,7 +24,10 @@ from PIL import Image
 tier, W, H, STEP, JOBS = sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5])
 HUD = "--hud" in sys.argv
 NAME = sys.argv[sys.argv.index("--name") + 1] if "--name" in sys.argv else tier
+CRF = sys.argv[sys.argv.index("--crf") + 1] if "--crf" in sys.argv else "23"
 D = json.loads(Path("shots/shots.json").read_text())
+A, B = (map(int, sys.argv[sys.argv.index("--frames") + 1].split(":")) if "--frames" in sys.argv
+        else (0, D["total_frames"]))
 FPS = D["fps"]
 SHOTS = D["shots"]
 SHOT = {s["id"]: s for s in SHOTS}
@@ -52,8 +57,14 @@ def rendered(job, f):
 
 
 @lru_cache(maxsize=64)
-def load(path):
-    return Image.open(path).convert("RGB").resize((W, H))
+def load(path, size=None):
+    """A plate at `size` (default the output size), cropped to the centre of that aspect ratio first."""
+    w, h = size or (W, H)
+    img = Image.open(path).convert("RGB")
+    cw = min(img.width, round(img.height * w / h))
+    ch = min(img.height, round(img.width * h / w))
+    x0, y0 = (img.width - cw) // 2, (img.height - ch) // 2
+    return img.crop((x0, y0, x0 + cw, y0 + ch)).resize((w, h), Image.LANCZOS)
 
 
 def base():
@@ -64,20 +75,22 @@ def split(s, f):
     p = s["plate"]
     seeds = p["seeds"]
     lag = round(p["lag_s"] * FPS)
+    n = round(len(seeds) ** 0.5)
+    tw, th = W // n, H // n
     frames = []
     for i, seed in enumerate(seeds):
         j = job_for(s["id"], seed)
-        frames.append(load(rendered(j, max(j["start"], min(j["end"] - 1, f - lag * i)))))
+        # 4-up and 9-up tiles are rendered near their display size; load them straight to it
+        frames.append(load(rendered(j, max(j["start"], min(j["end"] - 1, f - lag * i))),
+                           None if len(seeds) == 2 else (tw - 2, th - 2)))
     img = base()
     if len(seeds) == 2:  # side by side, each the centre half of its frame
         for i, fr in enumerate(frames):
             img.paste(fr.crop((W // 4, 0, W // 4 + W // 2, H)), (i * W // 2, 0))
         img.paste(Image.new("RGB", (max(2, W // 320), H), BASE), (W // 2 - max(1, W // 640), 0))
     else:
-        n = round(len(seeds) ** 0.5)
-        tw, th = W // n, H // n
         for i, fr in enumerate(frames):
-            img.paste(fr.resize((tw - 2, th - 2)), ((i % n) * tw + 1, (i // n) * th + 1))
+            img.paste(fr, ((i % n) * tw + 1, (i // n) * th + 1))
     return img
 
 
@@ -216,13 +229,13 @@ def frame(f):
 
 def render_overlay():
     OVL.mkdir(parents=True, exist_ok=True)
-    n = D["total_frames"]
-    chunk = (n + JOBS - 1) // JOBS
+    a0 = max(0, A - 1)  # a zoom-through into frame A also needs the frame before it
+    chunk = (B - a0 + JOBS - 1) // JOBS
     extra = f"plates=../renders/{tier}/plates" + ("&hud=1" if HUD else "")
     procs = [subprocess.Popen(["node", "scripts/render_frames.mjs", "overlays/video.html", str(OVL), str(a),
-                               str(min(n, a + chunk)), "main", str(W), str(H), str(FPS), extra],
+                               str(min(B, a + chunk)), "main", str(W), str(H), str(FPS), extra],
                               stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
-             for a in range(0, n, chunk)]
+             for a in range(a0, B, chunk)]
     errs = [p.communicate()[1] for p in procs]
     bad = [e for e in errs if "PAGE ERROR" in e]
     if bad or any(p.returncode for p in procs):
@@ -238,13 +251,15 @@ def composite():
     ff = subprocess.Popen(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
                            "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
                            "-i", tm["audio"]["file"],
-                           # Pad the audio with silence to the video's exact length (the ending runs past the track).
-                           "-filter_complex", f"[1]apad=pad_dur={D['total_s'] - tm['audio']['duration_s']:.3f}[a]",
-                           "-map", "0:v", "-map", "[a]", "-t", str(D["total_s"]),
-                           "-c:v", "libx264", "-preset", "medium", "-crf", "23", "-pix_fmt", "yuv420p",
+                           # Pad the audio with silence to the video's exact length (the ending runs past the track),
+                           # then take the stretch under frames A..B-1.
+                           "-filter_complex", f"[1]apad=pad_dur={D['total_s'] - tm['audio']['duration_s']:.3f},"
+                                              f"atrim={A / FPS:.6f}:{B / FPS:.6f},asetpts=PTS-STARTPTS[a]",
+                           "-map", "0:v", "-map", "[a]", "-t", f"{(B - A) / FPS:.6f}",
+                           "-c:v", "libx264", "-preset", "medium", "-crf", CRF, "-pix_fmt", "yuv420p",
                            "-c:a", "aac", "-b:a", "192k", str(out)], stdin=subprocess.PIPE)
     with Pool(JOBS) as pool:
-        for buf in pool.imap(frame, range(D["total_frames"]), chunksize=16):
+        for buf in pool.imap(frame, range(A, B), chunksize=16):
             ff.stdin.write(buf)
     ff.stdin.close()
     if ff.wait():
