@@ -625,3 +625,9 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 
 - `renders/c5/c5_3_chorus1.mp4`: S20–S29, frames 1776–2888. Contact sheet matches v8.
 - New `scripts/flash_check.py`: lists every picture state under 8 frames between two hard changes, with a frame strip for each. It catches the rejected S14 "Maybe" (f1266–1269). Run on sections 1–3: every flagged run is intended (S07→S08 and S22→S23 zoom-throughs, S11 tear, S12 icon whip, S18 kick-lit racks and counter, S20 whip pan, S24→S25 cut, S25 roll) or harmless (the S11b card appears on the shot's second frame). Every later section gets the same check before it is sent.
+
+## 2026-10-17T21:09:21-04:00 — C5 section 3 re-cut (SAME stamps)
+
+- Cause: the agent's own regression from the vertical-cut work. `sameStamps` was changed to read the reply cells' laid-out positions (so it works for the portrait grid too), but the frame dispatcher ran it before `nineReplies` showed the replies. The cells were still `display: none` and reported 0 offsets, so all fifteen stamps piled up at the top-left.
+- Fix: dispatch `same_stamps` after `nine_replies`. Checked: S23 at f2205 matches v8 stamp for stamp, and the portrait S45 stamps line up with its 2-column grid.
+- Rejected cut archived as `archive/renders/c5/c5_3_chorus1_rejected_same_stamps.mp4`. The flash check missed this because the error was a constant offset, not a flash. Lesson: after a layout change, compare a frame from every affected shot against the approved animatic.

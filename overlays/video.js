@@ -977,10 +977,10 @@ window.renderFrame = async (t) => {
   on('song_match', () => songMatch(t, shot));
   on('diff_scroll', () => diffScroll(t, shot));
   on('regen_badge', () => regenBadge(t, shot));
-  on('same_stamps', () => sameStamps(t, shot));
   on('hearts', () => hearts(t, shot));
   on('chat_autocomplete', () => chatAutocomplete(t, shot));
   on('nine_replies', () => nineReplies(t, shot));
+  on('same_stamps', () => sameStamps(t, shot));  // after the replies: the stamps read their laid-out cells
   on('icon_strip_fast', () => iconStrip(t, shot, false));
   on('icon_strip_slow', () => iconStrip(t, shot, true));
   on('avg_merge', () => avgMerge(t, shot));

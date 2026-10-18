@@ -211,3 +211,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human reported "C5 section 2 of 8 at 00:14 has a stray frame of the big 'Maybe'". The agent found the cause and re-cut the section.
 - **Rule:** R1 (reject a render).
+
+## 2026-10-17T21:09:21-04:00 — C5 section 3 rejected: SAME stamps misaligned
+
+- **What:** The human reported "the 'SAME' stamps are misaligned" (S23). The agent found the cause and re-cut the section.
+- **Rule:** R1 (reject a render).
