@@ -972,3 +972,20 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - **Fix:** `maxsize = max(16, 64·1920·1080 // (W·H))`. That's 64 at 1080p (unchanged) and 16 at 4K. Reuse is per frame (holds, nearby lag frames), so 16 is plenty.
 - **Failed file:** section 1's truncated mp4 (no moov atom, unplayable, 22.8 MB) moved to `archive/renders/c5_4k/c5_1_intro_verse1_failed_oom.mp4`. Manifest re-run.
 - Restarting `scripts/c5_sections.py --tier c5_4k --size 3840x2160 --jobs 8` (log `renders/c5_4k/logs/sections2.log`), with memory watched.
+
+## 2026-10-18T18:59:24-04:00 — C5 sections cut at 4K, checked; 1080p review copies
+
+- **Cut:** `scripts/c5_sections.py --tier c5_4k --size 3840x2160 --jobs 8`, 18:25 → ~18:41, no errors, peak ~18 GB RAM (log `renders/c5_4k/logs/sections2.log`).
+  - Masters are `renders/c5_4k/c5_<n>_<name>.mp4`: 3840×2160, crf 18, BT.709, master audio; 9–147 MB each. Contact sheets are in `renders/c5_4k/sheets/`.
+  - Per section: 109, 96, 147, 64, 112, 108, 188 and 29 s.
+- **Against the 1080p C5 cuts** (`scripts/cut_diff.py`, threshold 2.0 on 192×108 thumbnails):
+  - Sections 1–3 and 5–7: 0 changed frames. S53 f5366–5393 (current camera code) stays under the threshold.
+  - Section 4: 1 frame, f2938 (S30, 2.0, the refreshed code text).
+  - Section 8: 220 frames of S57, the new end card.
+- **Flash check, 4K against 1080p:** the same short states in every section (counts 10/10, 18/17, 23/22, 7/7, 52/53, 111/113, 43/47, 8/8).
+  - The differences are runs split or merged at the threshold, e.g. f936–939 + f940 against f936–940.
+  - The one run only at 4K (f1639–1640, S18) has the same frame-to-frame change as the 1080p cut to within 0.3 levels (7.8 vs 7.9 threshold), so it isn't a new event.
+- **Review copies at 1080p** (the human's choice): `ffmpeg … scale=1920:1080:flags=lanczos+accurate_rnd+full_chroma_int`, BT.709 in/out and tagged, `-preset slow -tune grain -crf 18`, audio copied.
+  - Sections 3 and 7 came out over 30 MiB at crf 18, so they're two-pass at 6,476 and 7,706 kb/s (29.0 and 28.4 MiB).
+  - Sizes: 14.1, 16.7, 29.0, 15.2, 9.4, 24.0, 28.4 and 2.4 MiB. In the scratchpad (`review/`), not the repo.
+- Manifest re-run (the eight 4K masters).
