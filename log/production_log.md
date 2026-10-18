@@ -620,3 +620,8 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - Cause: captions pre-show a line 0.25 s before its first word. "Maybe someone wrote it" (42.425 s) therefore started 0.15 s before the S14→S15 cut, and S14 is a big-caption shot, so its last 4 frames showed a big "Maybe".
 - Fix (`overlays/video.js`): a big-caption shot no longer pre-shows a line that starts after the cut when the next shot uses normal captions. Only S14 met that condition; S12→S13 are both big, so they're unchanged. The line now appears at the cut, 0.1 s before the word.
 - Rejected cut archived as `archive/renders/c5/c5_2_bridge1_prechorus1_rejected_stray_maybe.mp4`; new `renders/c5/c5_2_bridge1_prechorus1.mp4` (plates unchanged; overlay re-rendered). Checked frame by frame across the cut.
+
+## 2026-10-17T21:03:30-04:00 — C5 section 3 cut (Chorus 1); flash check added
+
+- `renders/c5/c5_3_chorus1.mp4`: S20–S29, frames 1776–2888. Contact sheet matches v8.
+- New `scripts/flash_check.py`: lists every picture state under 8 frames between two hard changes, with a frame strip for each. It catches the rejected S14 "Maybe" (f1266–1269). Run on sections 1–3: every flagged run is intended (S07→S08 and S22→S23 zoom-throughs, S11 tear, S12 icon whip, S18 kick-lit racks and counter, S20 whip pan, S24→S25 cut, S25 roll) or harmless (the S11b card appears on the shot's second frame). Every later section gets the same check before it is sent.
