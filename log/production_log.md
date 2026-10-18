@@ -647,3 +647,7 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 ## 2026-10-17T21:30:21-04:00 — C5 section 6 cut (Chorus 2)
 
 - `renders/c5/c5_6_chorus2.mp4`: S42–S45, frames 4230–4754. Same as v8 at 25%/75% of every shot; the S45 SAME stamps sit on their cells (the section 3 fix). Flash check: the S42 whip pan, the S44 heavy rain (every frame), and the S45 stamps landing, all intended. Sent to the human.
+
+## 2026-10-17T21:30:42-04:00 — Thumbnail draft
+
+- `.venv/bin/python scripts/assemble.py c5 1920 1080 1 1 --frames 4782:4783 --still --name thumbnail_s47_f4782` → `renders/c5/thumbnail_s47_f4782.png`, scaled to 1280×720 as `deliverables/thumbnail.jpg`. Per the brief: the S47 split frame (seed 41 | seed 42) with both seed labels visible, as the full-quality composite including captions and chrome. Sent to the human for review.
