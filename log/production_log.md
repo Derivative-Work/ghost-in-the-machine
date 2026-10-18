@@ -964,3 +964,11 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - Every frame of all 70 render jobs is on disk in `renders/c5_4k/plates` (43 GB); the 23 tile stills are in `plates/tiles`.
 - Longest jobs: S50-live 731 s (650 frames at 3840×2160 while the other streams ran), S53 178 s, S54 130 s.
 - Next: `scripts/c5_sections.py --tier c5_4k --size 3840x2160 --jobs 8` (log `renders/c5_4k/logs/sections.log`).
+
+## 2026-10-18T18:24:55-04:00 — 4K section cut: out of memory; plate cache scaled to resolution; restarted
+
+- **What happened:** the first 4K section run (started ~17:00) rendered section 1's 858 overlay frames, then ran out of memory while compositing, and the session was killed. The human added RAM (R3, see `log/human_interventions.md`).
+- **Cause:** `scripts/assemble.py` `load()` is `lru_cache(maxsize=64)` in each compositing worker. At 3840×2160 a cached RGB plate is ~25 MB, so up to 1.6 GB per worker and ~12.7 GB across 8 workers, on top of the `imap` queue and x264's 4K lookahead. At 1080p the same cache is ~400 MB per worker.
+- **Fix:** `maxsize = max(16, 64·1920·1080 // (W·H))`. That's 64 at 1080p (unchanged) and 16 at 4K. Reuse is per frame (holds, nearby lag frames), so 16 is plenty.
+- **Failed file:** section 1's truncated mp4 (no moov atom, unplayable, 22.8 MB) moved to `archive/renders/c5_4k/c5_1_intro_verse1_failed_oom.mp4`. Manifest re-run.
+- Restarting `scripts/c5_sections.py --tier c5_4k --size 3840x2160 --jobs 8` (log `renders/c5_4k/logs/sections2.log`), with memory watched.

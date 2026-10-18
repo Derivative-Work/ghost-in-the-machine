@@ -94,7 +94,9 @@ def window(iw, ih, w, h, cx=0.5):
     return x0, (ih - ch) / 2, x0 + cw, (ih - ch) / 2 + ch
 
 
-@lru_cache(maxsize=64)
+# 64 plates at 1080p (~400 MB a worker); the same memory at larger sizes (16 at 4K, where 64 per worker ran the box
+# out of RAM).
+@lru_cache(maxsize=max(16, 64 * 1920 * 1080 // (W * H)))
 def load(path, size=None, cx=0.5):
     """A plate at `size` (default the output size), cropped to that aspect ratio first (centred at cx)."""
     w, h = size or (W, H)

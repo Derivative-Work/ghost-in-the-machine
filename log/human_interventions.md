@@ -253,3 +253,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   - the video and its assets under CC BY-NC-SA, stated on the card, and the code under MIT. Asked whose name goes on the notices, the human chose "Albert Armea";
   - the brief (Claude Doc and `docs/brief.md`) updated to match.
 - **Rule:** exception. These change the brief's deliverables, its end-card text and the project's licensing; none of R1–R4 covers that. The brief's author made them as the plan's owner. The cleaned master itself falls under R3/R4 (supplied by the human, made with the human's tool). The end-card wording was given by the human ("or similar"); the agent sets the final text.
+
+## 2026-10-18T18:24:55-04:00 — More RAM after the 4K section cut ran out of memory
+
+- **What:** The agent's 4K section cut (`c5_sections.py --tier c5_4k … --jobs 8`) ran the box out of memory and the session ended. The human raised the box's RAM (34 → 38 GiB as the agent sees it) and said "keep going".
+- **Rule:** R3 (a technical failure the agent can't fix itself: the machine's memory).
