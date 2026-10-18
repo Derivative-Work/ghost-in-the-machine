@@ -631,3 +631,7 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - Cause: the agent's own regression from the vertical-cut work. `sameStamps` was changed to read the reply cells' laid-out positions (so it works for the portrait grid too), but the frame dispatcher ran it before `nineReplies` showed the replies. The cells were still `display: none` and reported 0 offsets, so all fifteen stamps piled up at the top-left.
 - Fix: dispatch `same_stamps` after `nine_replies`. Checked: S23 at f2205 matches v8 stamp for stamp, and the portrait S45 stamps line up with its 2-column grid.
 - Rejected cut archived as `archive/renders/c5/c5_3_chorus1_rejected_same_stamps.mp4`. The flash check missed this because the error was a constant offset, not a flash. Lesson: after a layout change, compare a frame from every affected shot against the approved animatic.
+
+## 2026-10-17T21:09:46-04:00 — C5 section 3 re-cut done
+
+- New `renders/c5/c5_3_chorus1.mp4` (frames 1776–2888): the S23 stamps match v8. Flash check: same 22 flagged runs as before, all intended. Sent to the human.
