@@ -8,7 +8,13 @@ const q = new URLSearchParams(location.search);
 const PLATES = q.get('plates') ?? '../renders/animatic/plates';
 const $ = (id) => document.getElementById(id);
 const stage = $('stage');
-stage.style.transform = `scale(${width / 1920}, ${height / 1080})`;
+// Vertical cut (9:16): pass=scene renders only the layers that belong to the picture (cropped with the plate);
+// pass=ui with portrait=1 renders captions, chrome and panels laid out on a 1080x1920 stage.
+const PASS = q.get('pass') ?? 'all';
+const P = q.get('portrait') === '1';
+const SCENE_LAYERS = ['bg2d', 'grid', 'titles', 'rain', 'code'];
+if (P) document.body.classList.add('portrait');
+stage.style.transform = P ? `scale(${width / 1080}, ${height / 1920})` : `scale(${width / 1920}, ${height / 1080})`;
 
 // ---------- timing helpers ----------
 const ease = (x) => { x = Math.min(1, Math.max(0, x)); return x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2; };
@@ -125,9 +131,11 @@ function chrome(t, shot) {
   if (shot.plate.mode === 'split') {
     const seeds = SPLIT_SEEDS(shot);
     const n = Math.round(Math.sqrt(seeds.length)) || 1;
-    const cols = seeds.length === 2 ? 2 : n, rows = seeds.length === 2 ? 1 : n;
+    // the vertical cut stacks the 2-up top and bottom; the 4-up and 9-up stay grids
+    const cols = seeds.length === 2 ? (P ? 1 : 2) : n, rows = seeds.length === 2 ? (P ? 2 : 1) : n;
+    const [SW, SH] = P ? [1080, 1920] : [1920, 1080];
     tiles.innerHTML = seeds.map((s, i) => {
-      const x = (i % cols) * (1920 / cols) + 20, y = (Math.floor(i / cols) + 1) * (1080 / rows) - 46;
+      const x = (i % cols) * (SW / cols) + 20, y = (Math.floor(i / cols) + 1) * (SH / rows) - 46;
       return `<div class="tile" style="left:${x}px;top:${y}px">seed: ${s}</div>`;
     }).join('');
     label = '';
@@ -208,8 +216,8 @@ function bg2d(t, shot) {
   if (!usesCursor) {
     show('cursor');
     const svg = $('cursor').querySelector('svg');
-    svg.style.left = `${1500 + 160 * Math.sin(t * 0.9) + 60 * Math.sin(t * 2.3)}px`;
-    svg.style.top = `${820 + 90 * Math.sin(t * 0.7 + 1) + 40 * Math.sin(t * 1.9)}px`;
+    svg.style.left = `${(P ? 800 : 1500) + 160 * Math.sin(t * 0.9) + 60 * Math.sin(t * 2.3)}px`;
+    svg.style.top = `${(P ? 1120 : 820) + 90 * Math.sin(t * 0.7 + 1) + 40 * Math.sin(t * 1.9)}px`;
     $('cursor').querySelector('.ripple').style.display = 'none';
   }
 }
@@ -283,11 +291,12 @@ function sameStamps(t, shot) {
   if (!same || t < same.start) return;
   show('sameStamps');
   const el = $('sameStamps');
-  const cells = [...$('replies').querySelectorAll('.r')];
+  const g = $('replies').querySelector('.g');
+  const cells = [...g.querySelectorAll('.r')];
   el.innerHTML = cells.map((c, i) => {
     const since = t - same.start - i * 0.06;
     if (since < 0) return '';
-    const x = 120 + (i % 3) * 570 + 330, y = 90 + Math.floor(i / 3) * 128 + 4;
+    const x = g.offsetLeft + c.offsetLeft + Math.round(c.offsetWidth * 0.611), y = g.offsetTop + c.offsetTop + 4;
     return `<div class="st" style="left:${x}px;top:${y}px;transform:rotate(-8deg) scale(${(1.6 - 0.6 * ease(since / 0.08)).toFixed(3)})">SAME</div>`;
   }).join('');
 }
@@ -516,7 +525,11 @@ function devtools(t, shot, mode) {
     x = 640 * (1 - ease((t - SHOT.S35.start_s) / 0.35));
   }
   show('devtools');
-  Object.assign(panel.style, { width: `${w}px`, transform: `translateX(${x}px)`, filter });
+  if (P) {  // portrait: the same panel across the top, sliding down, and growing to fill the frame in S38
+    Object.assign(panel.style, { width: '1080px', height: `${760 * w / 640}px`, transform: `translateY(${-760 * x / 640}px)`, filter });
+  } else {
+    Object.assign(panel.style, { width: `${w}px`, transform: `translateX(${x}px)`, filter });
+  }
   // Lines starting with ">" are typed out as if by hand (v5); system output appears whole.
   const lines = mode === 'flicker' ? [['warn', '⚠ Warning: ████████ section ███████']]
     : LOG.filter(([at]) => t >= at()).map(([at, c, s]) => [c, s.startsWith('>') ? s.slice(0, Math.max(1, Math.floor((t - at()) / 0.035))) : s]);
@@ -537,7 +550,8 @@ function iconStrip(t, shot, slow) {
   } else {
     icons.forEach((el, i) => {
       const k = ease((tl - 0.25 - i * 0.6) / 0.2);
-      Object.assign(el.style, { left: `${70 + i * 235}px`, top: '300px', transform: `scale(${0.6 + 0.4 * k})`, opacity: k });
+      Object.assign(el.style, { left: `${(P ? 52 : 70) + i * (P ? 198 : 235)}px`, top: P ? '830px' : '300px',
+        transform: `scale(${(0.6 + 0.4 * k) * (P ? 0.8 : 1)})`, opacity: k });
     });
   }
   show('icons');
@@ -577,7 +591,7 @@ function progress(t, shot, which) {
   } else {
     if (tl < 0.2) return;
     fill = 50 + 50 * ease(tl / d);
-    card.style.left = '240px';
+    card.style.left = P ? '140px' : '240px';
   }
   show('progress');
   card.querySelector('.label').textContent = `Generating… ${which} of 2`;
@@ -595,7 +609,7 @@ function giantCounter(t, shot) {
   const padded = String(Math.min(v, 999999999999999)).padStart(15, '0').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const lead = padded.match(/^[0,]*/)[0];
   $('counter').querySelector('.n').innerHTML = `<span class="lead">${lead}</span>${padded.slice(lead.length)}`;
-  $('counter').querySelector('.l').style.top = '250px';
+  $('counter').querySelector('.l').style.top = P ? '226px' : '250px';
 }
 
 function loadingTextures(t) {
@@ -899,9 +913,10 @@ function cursorRegenClick(t, shot) {
   show('cursor');
   const k = ease(tl / Math.max(0.3, tc - 0.1));
   const svg = $('cursor').querySelector('svg');
-  svg.style.left = `${1500 + (940 - 1500) * k}px`;
-  svg.style.top = `${1060 + (560 - 1060) * k}px`;
-  ripple(940, 560, tl - tc);
+  const [dx, dy] = P ? [-400, 402] : [0, 0];  // portrait: the button sits centred lower in the frame
+  svg.style.left = `${1500 + dx + (940 - 1500) * k}px`;
+  svg.style.top = `${1060 + dy + (560 - 1060) * k}px`;
+  ripple(940 + dx, 560 + dy, tl - tc);
 }
 
 function reload(t, shot) {
@@ -986,6 +1001,11 @@ window.renderFrame = async (t) => {
   if (shot.global_layers.includes('chrome')) chrome(t, shot);
   on('reload', () => reload(t, shot));
   on('end_card', () => endCard(t, shot));
+  if (PASS !== 'all') {
+    for (const el of stage.children) {
+      if (SCENE_LAYERS.includes(el.id) !== (PASS === 'scene')) el.classList.remove('on');
+    }
+  }
   if (q.get('hud')) {  // review aid for the animatic only: shot ID and timecode
     show('hud');
     $('hud').textContent = `${shot.id}  ${t.toFixed(2)}s  f${Math.round(t * fps)}`;

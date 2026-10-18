@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="tokens.css">
 <!-- Every JS layer of the video, for any frame: window.renderFrame(t). Driven by overlays/data/data.js.
      Authored on a 1920x1080 stage, scaled to the render size.
-     Query: ?seed=&fps=&w=&h=&plates=<dir rel. to this file>&hud=1 -->
+     Query: ?seed=&fps=&w=&h=&plates=<dir rel. to this file>&hud=1&pass=all|scene|ui&portrait=1
+     (the vertical cut: pass=scene at 16:9 is cropped with the plate; pass=ui&portrait=1 is laid out at 1080x1920) -->
 <style>
   body { overflow: hidden; }
   #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; }
@@ -215,6 +216,28 @@
 
   #hud { left: auto; top: 80px; right: 48px; bottom: auto; inset: 80px 48px auto auto; font-family: var(--mono);
          font-size: 26px; color: #ffe14d; background: rgba(0,0,0,.6); padding: 6px 14px; height: fit-content; width: fit-content; }
+
+  /* ---------- vertical cut: the UI pass on a 1080x1920 stage (only the layers used in S35-S57) ---------- */
+  body.portrait #stage { width: 1080px; height: 1920px; }
+  .portrait #captions .line { left: 70px; width: 940px; bottom: 360px; font-size: 72px; }
+  .portrait #chrome .tl { top: 56px; max-width: 984px; line-height: 1.5; }
+  .portrait #chrome .bl { bottom: 56px; } .portrait #chrome .br { bottom: 56px; }
+  .portrait #devtools .panel { top: 0; left: 0; right: auto; border-left: none; border-bottom: 3px solid var(--line); }
+  .portrait #icons svg { width: 220px; height: 220px; transform-origin: 0 0; }
+  .portrait #icons .back { left: 30px; top: 800px; width: 1020px; height: 240px; }
+  .portrait #progress .card { top: 820px; }
+  .portrait #counter .n { right: 56px; top: 120px; font-size: 82px; }
+  .portrait #counter .l { right: 60px; }
+  .portrait #loadingTex div { top: 170px; }
+  .portrait #ctx div { top: 170px; width: 720px; }
+  .portrait #replies .g { left: 40px; top: 190px; width: 1000px; grid-template-columns: repeat(2, 1fr); gap: 16px 20px; }
+  .portrait #replies .r { font-size: 26px; height: 52px; padding: 16px 18px; gap: 12px; }
+  .portrait #replies .av { width: 44px; height: 44px; }
+  .portrait #sameStamps .st { font-size: 50px; border-width: 5px; }
+  .portrait #bigRegen .b { left: 318px; top: 900px; }
+  .portrait #endcard .lines { left: 70px; top: 520px; width: 940px; font-size: 38px; line-height: 1.6; }
+  .portrait #endcard .lines div { margin-bottom: 14px; }
+  .portrait #endcard .lines .mono { font-size: 28px; }
 </style>
 <body>
 <div id="stage">
