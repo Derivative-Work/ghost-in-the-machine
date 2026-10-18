@@ -216,3 +216,13 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human reported "the 'SAME' stamps are misaligned" (S23). The agent found the cause and re-cut the section.
 - **Rule:** R1 (reject a render).
+
+## 2026-10-18T06:05:44-04:00 — C5 section 7 rejected: S53 camera jerks
+
+- **What:** The human reported "just after the transition from the scrolling videos scene to the final dancing robot at the stream, the animation itself is jerking" (S53). The agent found the cause, re-rendered the affected plates and is re-cutting the section.
+- **Rule:** R1 (reject a render).
+
+## 2026-10-18T06:16:42-04:00 — C5 sections 3 and 6 rejected: "Loading textures" text oscillates
+
+- **What:** The human reported "both 'loading textures |' bits needs to have a placeholder when the box is not shown -- the position appears to oscillate because its width is changing and it's right-aligned" (S21, S43). The agent fixed the overlay and is re-cutting both sections.
+- **Rule:** R1 (reject a render).

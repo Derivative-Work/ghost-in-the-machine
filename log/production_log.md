@@ -681,3 +681,26 @@ Found by the agent's flash check on `c5_7_final_chorus.mp4`. Both were already i
 - Re-render `scripts/render_plates.sh c5 c5 1 S26 S27 S50 S53 S54 S55`: 2026-10-18T00:05:16-04:00 to 2026-10-18T02:23:36-04:00, no errors.
 - `renders/c5/c5_7_final_chorus.mp4` (S47–S55, frames 4754–5693): the S49→S50 cut is clean (f5043 is the live tile at full frame), S53 f5390–5398 has no pale blobs, and S53's end matches S54's river screen. Flash check: the S48 zoom entrance, the S50 zoom-out, S53's peel and flow, and an ordinary caption change at the end of S52, all intended. Sent to the human.
 - C5 status: all eight sections are cut and sent; none has an explicit approval yet. Every cut is from the current code. Archived cuts: `archive/renders/c5/`.
+
+## 2026-10-18T06:05:44-04:00 — Section 7 rejected (S53 jerk): camera roll flip; S53 f5394–5506 re-rendering
+
+- **Cause:** the feed_dive camera starts straight down on the video grid and aimed with `look_at` (`to_track_quat("-Z", "Y")`). Straight down, the roll comes from the tiny horizontal part of the view direction. When the descent begins at tl 0.9 s, that part changes direction twice, so the roll jumps 180° at f5394 and another −196° at f5399. On the repeating tile grid the first jump looks like the grid lurching and the second like a sudden tilt. Already in v8. The agent's flash check flagged f5391–5398 for section 7, but the agent put them down to the tiles peeling off and did not look closer.
+- **Fix** (`plates.py`, feed_dive): set the rotation from an explicit basis whose up hint blends from the feed's +Y to world up as the camera descends (`(0, 1−k, k)`). Checked in a Blender math sim before rendering:
+  - f5366–5393 and the last frame are identical to the old orientation, so the S52 alignment and the S54 match are unchanged;
+  - in between, the roll eases 0° → −16.26° at most 0.51° per frame.
+- Moved S53 f5394–5506 (113 plates) to `renders/c5/plates_superseded_roll_flip/`; running `scripts/render_plates.sh c5 c5 1 S53`, which renders only the missing frames (log `renders/c5/logs/plates3_s53_roll.log`).
+- Lesson: when a flash check flags a run inside a camera move, measure the camera, not just the picture.
+
+## 2026-10-18T06:16:42-04:00 — S53 re-render done; plate jump scan; "Loading textures" caret fix; sections 3, 6, 7 re-cutting
+
+- S53 f5394–5506 re-rendered in 629 s, no errors. Per-frame difference over f5386–5419: the f5394 and f5399 jumps (23.2, 22.7) are gone; what's left is the beat (5391, 5406).
+- Scanned every other C5 plate sequence for isolated frame-to-frame jumps (difference > 3× local median + 4). Every hit is intended: beat light pulses (S07, S18, S22, S24, S49, S50), job ranges that serve several shots (S06, S21), the S02 lights-on, the S05 eye wake, the S20 pose hit, the S25 cloud glow, and the S56 lights-out and tip. No other camera flips.
+- **"Loading textures" (S21, S43), rejected by the human:** the blinking caret was added to and removed from a right-aligned line, so the text moved one character on every blink. Fix (`overlays/video.js`): the caret stays in the line and blinks by `visibility`. The other blinking carets (S01 terminal, devtools log) are left-aligned in fixed-width boxes and don't move.
+- Archived `c5_3_chorus1_rejected_loading_caret.mp4`, `c5_6_chorus2_rejected_loading_caret.mp4` and `c5_7_final_chorus_rejected_s53_roll_flip.mp4` to `archive/renders/c5/`; re-cutting all three (`renders/c5/logs/sections3.log`).
+
+## 2026-10-18T06:24:33-04:00 — Sections 3, 6, 7 re-cut and checked; sent
+
+- `renders/c5/c5_3_chorus1.mp4`, `c5_6_chorus2.mp4`, `c5_7_final_chorus.mp4` (`renders/c5/logs/sections3.log`).
+- "Loading textures": the text's left edge, measured in every S21 and S43 frame, now stays at one position (x=473 in the crop). The rejected cuts alternated 473/505, a 32 px shift each caret blink. Whole-frame cut_diff is below threshold for sections 3 and 6, as expected for a caret-sized change.
+- Section 7 against `c5_7_final_chorus_rejected_s53_roll_flip.mp4`: 98 changed frames, all in S53's descent (f5394 on), where the orientation differs by up to 16°; the start and the S54 match are unchanged.
+- Sent the three to the human (section 7 as a 6 Mbps review copy; the crf 18 master is 36.2 MiB).

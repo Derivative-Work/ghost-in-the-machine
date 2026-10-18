@@ -620,7 +620,8 @@ function giantCounter(t, shot) {
 
 function loadingTextures(t) {
   show('loadingTex');
-  $('loadingTex').querySelector('div').textContent = `Loading textures… ${Math.floor(t * 4) % 2 ? '99' : '99'}%${Math.floor(t * 3) % 2 ? ' ▌' : ''}`;
+  // The caret blinks by visibility, not by removal: the line is right-aligned, so removing it shifted the text.
+  $('loadingTex').querySelector('div').innerHTML = `Loading textures… 99% <span style="visibility:${Math.floor(t * 3) % 2 ? 'visible' : 'hidden'}">▌</span>`;
 }
 
 function nineReplies(t, shot) {

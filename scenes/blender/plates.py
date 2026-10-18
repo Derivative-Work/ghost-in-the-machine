@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "lib"))
 import gitm_scene as G  # noqa: E402
 from gitm_render import strip_metadata  # noqa: E402
 from gitm_seeds import SEEDS  # noqa: E402
-from mathutils import Vector  # noqa: E402
+from mathutils import Matrix, Vector  # noqa: E402
 
 ROOT = G.ROOT
 SHOTS = json.loads((ROOT / "shots" / "shots.json").read_text())
@@ -1055,7 +1055,11 @@ def plate_stream(job, seed):
             top, top_t = (rx - 0.6, ry + 2.0 - 1e-4, 24.0), (rx - 0.6, ry + 2.0, 0)  # 12 m above the grid, lens 28
             end, end_t = (rx + 3, ry - 8, rz + 5.5), (rx - 0.5, ry + 4, rz + 0.5)
             cam.location = [top[i] + (end[i] - top[i]) * k for i in range(3)]
-            G.look_at(cam, [top_t[i] + (end_t[i] - top_t[i]) * k for i in range(3)])
+            # Not look_at: straight down, to_track_quat takes the roll from the tiny horizontal part of the view and
+            # flipped it 180 degrees and back as the descent began. The up vector hands over from the feed's +Y to world up.
+            fwd = (Vector([top_t[i] + (end_t[i] - top_t[i]) * k for i in range(3)]) - cam.location).normalized()
+            right = fwd.cross(Vector((0, 1 - k, k)).normalized()).normalized()
+            cam.rotation_euler = Matrix((right, right.cross(fwd), -fwd)).transposed().to_euler()
         elif job["cam"] == "wide":  # high, looking down the descent with the robot on its rock
             cam_path(cam, t, t0, t1, (rx + 5, ry - 9, rz + 6.5), (rx + 3, ry - 8, rz + 5.5), (rx - 1, ry + 6, rz), (rx - 0.5, ry + 4, rz + 0.5))
         else:  # low, from the far bank: the stream rushes between camera and robot
