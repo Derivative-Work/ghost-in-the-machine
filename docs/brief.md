@@ -1,4 +1,4 @@
-<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 87, 2026-10-17. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
+<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 91, 2026-10-18. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
 
 # Ghost in the Machine: Shot List and Production Brief
 
@@ -12,8 +12,8 @@
 
 **Deliverables**
 
-- Main video, 16:9, 1080p (frame rate set by the style spec), with the final track
-- 9:16 vertical cut of the bridge through the ending (section 7)
+- Main video, 16:9, 4K (3840×2160; frame rate set by the style spec), with the final track as mastered (section 7)
+- 9:16 vertical cut (2160×3840) of the bridge through the ending (section 7)
 - Burned-in captions plus a separate SRT file
 - Thumbnail
 - The complete production log and every intermediate asset (section 2)
@@ -163,9 +163,11 @@ All icons, buttons and UI are generic redraws: no real product's interface, logo
 - Written by: the average of five songs
 - Music: Suno v6 (take ID from the log)
 - Lyrics: Claude, merged by a human, revised by Suno. Animation and edit: Claude Code with Opus 5.5
+- Mastered by: Claude, referencing CC audio (the take run through the music-deslop post-filter, trained only on CC BY 4.0 audio; credits in the repo README)
 - Seeds: 41–50
 - Human interventions: [count from `human_interventions.md`]
-- Full production log: [repo link and torrent magnet, added at publish]
+- Full production log: github.com/Derivative-Work/ghost-in-the-machine. The torrent and Internet Archive links go in the repo README, not on the card
+- Video and assets: CC BY-NC-SA 4.0 · Code: MIT
 
 **Vertical cut (9:16):** S35 through S56, about 79 s. The 2-up split in S47 stacks top and bottom instead of side by side; the 4-up and 9-up splits stay grids. Frame every shot from the start so both crops work; the agent should render 3D scenes wide enough to reframe rather than re-rendering.
 
@@ -185,6 +187,6 @@ The agent stops at each checkpoint and waits for approval. Approvals and rejecti
 **Open items**
 
 - The Suno take ID, prompt, settings and rejected takes, for the retroactive log.
-- The VPS web seed URL and the Internet Archive item, for the end card.
+- The VPS web seed URL and the Internet Archive item, for the repo README.
 - Frame rate is 30 fps (style spec, approved at C1). The track is 190.0 s at 123 bpm; S56 and S57 run past its end.
-- The public repo location.
+- Decided: the public repo is github.com/Derivative-Work/ghost-in-the-machine.

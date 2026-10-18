@@ -897,3 +897,11 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - S30's scrolling diff now shows `plates.py` as it is today. Of 160 lines, 6 contour-fix lines are added and 7 S53 lines changed, all from the C5 fixes. That's by design ("real code as it stands at export time").
   - Everything else in `data.js` is unchanged.
 - Takes effect in the next cuts of sections 4 (S30) and 8 (S57).
+
+## 2026-10-18T16:05:34-04:00 — Brief updated (Claude Doc rev 87 → 91) and re-mirrored
+
+- **Live doc** https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp, as the human asked. Only these parts changed:
+  - Deliverables: main video 16:9 "4K (3840×2160 …) with the final track as mastered"; vertical cut "(2160×3840)".
+  - End card list (section 7): adds "Mastered by: Claude, referencing CC audio" with a note on the post-filter; the production-log line is now the GitHub URL, with the torrent and IA moved to the README; adds "Video and assets: CC BY-NC-SA 4.0 · Code: MIT".
+  - Open items: the web seed URL and IA item are now "for the repo README"; the repo location is marked decided.
+- **`docs/brief.md`:** the same edits applied to the mirror, header now "rev 91, 2026-10-18". Checked against the doc's markdown export at rev 91.
