@@ -610,3 +610,7 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 ## 2026-10-17T20:28:13-04:00 — C5 section 1 cut (Intro + Verse 1)
 
 - `renders/c5/c5_1_intro_verse1.mp4`: S01–S10, frames 0–833, 1920×1080, crf 18; 833 video frames, audio 27.766 s. Contact sheet `renders/c5/sheets/1_intro_verse1.jpg`. Checked by the agent against animatic v8: same framing and layers, no missing plates. Sent to the human for C5 review.
+
+## 2026-10-17T20:35:30-04:00 — C5 section 2 cut (Bridge 1 + Pre-Chorus 1)
+
+- `renders/c5/c5_2_bridge1_prechorus1.mp4`: S11–S18, frames 833–1776, 1920×1080, crf 18. Contact sheet `renders/c5/sheets/2_bridge1_prechorus1.jpg`. Checked by the agent against animatic v8; sent to the human for C5 review.
