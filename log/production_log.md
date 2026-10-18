@@ -859,3 +859,18 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - Earlier cuts keep the Suno audio.
 - Under R3/R4: the human supplied the file and named the tool (see `log/human_interventions.md`, 15:59:33).
 - Manifest re-run.
+
+## 2026-10-18T16:02:48-04:00 — Licences, README and the mastering model's training-data credits
+
+- **`LICENSE`:** MIT, "Copyright (c) 2026 Albert Armea", for the code.
+- **`LICENSE-media.md`:** CC BY-NC-SA 4.0 for the video and its assets.
+  - The file lists what it covers (every cut, the music and stems, lyrics, captions, thumbnail, renders, and the agent-written production record) and what it doesn't: code (MIT), fonts (OFL 1.1, their authors), `reference/stills/` (other creators' frames) and the inspiration videos (never published).
+  - It also gives a suggested attribution line.
+- **`LICENSES/CC-BY-NC-SA-4.0.txt`:** the legal code verbatim, from https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.txt.
+- **`README.md`** (new):
+  - what the project is and where the making-of record lives;
+  - Downloads, with the torrent and Internet Archive as "added at publish", per the human;
+  - licences and credits.
+  - The music-deslop training data is credited with the same attributions as that repo's NOTICE: Slakh2100 redux, VocalSet 1.2, CSTR VCTK 0.92, all CC BY 4.0, plus the ACE-Step 1.5 VAE, DAC and FFmpeg used to make training inputs.
+  - The model is described as private, with no link to its repo.
+- The question of whether `reference/stills/` ships at all is still open (handoff §5.8). The licence only says they aren't covered.
