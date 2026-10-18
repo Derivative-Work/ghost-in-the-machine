@@ -236,3 +236,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human said "let's move it all over to the other box -- write up anything you haven't already so it can get started as soon as I copy over the directory". The human will copy the repo directory to the RTX 5090 box.
 - **Rule:** R3 (a technical step the agent can't do itself: moving the project between machines).
+
+## 2026-10-18T15:44:09-04:00 — Repository author and remote (RTX 5090 box)
+
+- **What:** The human asked to "rewrite all commits to use 'Albert Armea <github@albertarmea.com>' as the author and committer" (keeping the Co-Authored-By lines), then to "set https://github.com/Derivative-Work/ghost-in-the-machine as the remote and push". The agent did both. No production content changed.
+- **Rule:** R3 (repository administration the agent doesn't decide).

@@ -749,3 +749,8 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - the thumbnail;
   - the cleaned audio master and its tool details;
   - whether `reference/stills/` (frames from the inspiration videos) ships.
+
+## 2026-10-18T15:44:09-04:00 — Commit authorship rewritten; GitHub remote added (RTX 5090 box)
+
+- **Authorship:** all 68 commits on `main` rewritten (`git filter-branch --env-filter`) to author and committer `Albert Armea <github@albertarmea.com>`. Messages (all 68 keep their Co-Authored-By line), dates and trees unchanged: `git diff` against the old tip is empty. The old history is kept locally as branch `backup/pre-author-rewrite` (and `refs/original/`). There was no remote, tag or other branch.
+- **Remote:** `origin` = `https://github.com/Derivative-Work/ghost-in-the-machine` (was empty); `main` pushed and tracking. The backup branch is not pushed.
