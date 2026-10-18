@@ -989,3 +989,23 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - Sections 3 and 7 came out over 30 MiB at crf 18, so they're two-pass at 6,476 and 7,706 kb/s (29.0 and 28.4 MiB).
   - Sizes: 14.1, 16.7, 29.0, 15.2, 9.4, 24.0, 28.4 and 2.4 MiB. In the scratchpad (`review/`), not the repo.
 - Manifest re-run (the eight 4K masters).
+
+## 2026-10-18T19:36:51-04:00 — Chorus 2 degradation: lower resolution, tokens included; section 6 re-cut at 4K
+
+- **Human's direction** (R1, `log/human_interventions.md`): more obvious on small screens; lower resolution; the tokens go through the JPEG pass, but not the lyrics or the context window.
+- **First, the report "severe encoding artifacts":** the review copy against the 4K master (Lanczos to 1080p) is 49.0 dB PSNR median, 45.9 minimum (f4578). The master averages 32.8 Mbps. The blocks were `degrade()`, as designed (S42–S45, k = 0.35/0.5/0.6/0.7), and milder at 4K than at 1080p, because the JPEG ran at plate resolution.
+- **`scripts/assemble.py` `degrade()`:**
+  - The shrunk height is now `1080 / (1 + 8.6k)` lines, whatever the output size: S42 269, S43 204, S44 175, S45 154. It was `(1 − 0.7k)` × the frame: 1,640–1,105 lines at 4K, 820–553 at 1080p.
+  - JPEG quality and colour drift are unchanged. Each JPEG block now covers ~32–56 lines of a 1080-line frame.
+- **Tokens under the degrade:** for shots with `degrade` > 0 (16:9), the overlay is also rendered as `pass=scene` (`overlay_d_scene/`: token rain, 2D backdrop, i.e. `SCENE_LAYERS`) and `pass=ui` (`overlay_d_ui/`: captions, context meter, chrome, replies).
+  - The scene pass is composited onto the plate *before* `degrade()`; the UI pass goes on after.
+  - The vertical cut, which already has the scene/ui split, now also composites its scene pass before `degrade()` on those shots.
+  - New helper `scene_overlay()`; `render_pass()` takes an optional frame range.
+- **Stills** (`renders/c5_4k/deg_test_{4290,4400,4520,4700}.png`): S44's tokens and robot are in large JPEG blocks; the lyrics, the context meter and the credit are clean.
+  - At phone size (480 px wide), S43 and S44 obviously read as degraded; S42 (the ramp's first step) is still fairly subtle.
+  - S45's replies keep their CSS blur (UI layer, unchanged).
+- **Section 6 re-cut:** `c5_sections.py --tier c5_4k --size 3840x2160 --jobs 8 6_chorus2` (172 s). The rejected cut and its sheet are at `archive/renders/c5_4k/c5_6_chorus2_rejected_degrade_too_subtle.{mp4,jpg}`.
+  - Against it (192×108 thumbnails): S42 mean 1.7 (0 frames over 2.0), S43 4.7 (116/116), S44 5.4 (115/116), S45 1.8 (75/175, its backdrop now degraded).
+  - Flash check: 115 short states (111 before), from the coarser blocks shimmering.
+- **Review copy:** `c5_6_chorus2_v2_review1080.mp4` (scratchpad, crf 18, 24.7 MiB).
+- Manifest re-run.

@@ -45,6 +45,9 @@ ROOT = Path("renders") / tier
 PLATES = ROOT / "plates"
 OVL = ROOT / "overlay"
 OVL_SCENE, OVL_UI = ROOT / "overlay_v_scene", ROOT / "overlay_v_ui"  # the vertical cut's two overlay passes
+# Degraded shots (16:9): the overlay in two passes, so the picture layers (the token rain, the 2D backdrop) are
+# degraded with the plate while captions and UI (the context meter) stay clean.
+OVL_DSCENE, OVL_DUI = ROOT / "overlay_d_scene", ROOT / "overlay_d_ui"
 SW = round(H * 16 / 9)  # vertical: the scene pass's 16:9 width at the output height
 BASE = (9, 8, 11)
 DOWNBEATS = json.loads(Path("timing/timing_map.json").read_text())["downbeats"]
@@ -186,9 +189,12 @@ def zoom_about(img, scale, px, py):
 
 
 def degrade(img, k, f):
-    """Regeneration loss: lower resolution, compression blocks, a drift toward magenta. k in 0..1."""
+    """Regeneration loss: lower resolution, compression blocks, a drift toward magenta. k in 0..1.
+    The shrunk height is 1080 / (1 + 8.6k) lines whatever the output size (S42 269 ... S45 154), so the blocks read
+    on a phone and look the same at 1080p and 4K (C5 review: "on small screens, it needs to be more obvious")."""
     w, h = img.size
-    small = img.resize((max(16, int(w * (1 - 0.7 * k))), max(9, int(h * (1 - 0.7 * k)))), Image.BILINEAR)
+    sh = max(9, round(1080 / (1 + 8.6 * k)))
+    small = img.resize((max(16, round(sh * w / h)), sh), Image.BILINEAR)
     buf = io.BytesIO()
     small.save(buf, "JPEG", quality=max(4, int(40 - 36 * k)))
     img = Image.open(buf).convert("RGB").resize((w, h), Image.NEAREST)
@@ -227,6 +233,16 @@ def transition(img, s, f):
     return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8))
 
 
+def scene_overlay(f):
+    """The overlay's picture layers at the output size: the vertical cut's scene pass (16:9, cropped with the plate),
+    or the degraded shots' scene pass."""
+    if VERT:
+        sc = Image.open(OVL_SCENE / f"{f:05d}.png").convert("RGBA")
+        return sc.convert("RGBa").resize((W, H), Image.LANCZOS, box=window(sc.width, sc.height, W, H, cx_of(f))).convert("RGBA")
+    sc = Image.open(OVL_DSCENE / f"{f:05d}.png").convert("RGBA")
+    return sc if sc.size == (W, H) else sc.resize((W, H))
+
+
 def composite_image(f):
     s = shot_at(f)
     img = plate(f, s)
@@ -237,18 +253,17 @@ def composite_image(f):
         k = (f - s["start_frame"]) / ZOOM_FRAMES
         img = zoom_about(img, 1 + 0.35 * (1 - k) ** 2, 0.5, 0.5)
     if s["degrade"]:
+        img = Image.alpha_composite(img.convert("RGBA"), scene_overlay(f)).convert("RGB")
         img = degrade(img, s["degrade"], f)
     if s["plate"]["mode"] in ("render", "split", "montage", "feedlive", "hold"):
         g = np.random.default_rng(f).normal(0, GRAIN, (img.height, img.width, 1))
         img = Image.fromarray(np.clip(np.asarray(img, dtype=np.float32) + g, 0, 255).round().astype(np.uint8))
     if VERT:
-        sc = Image.open(OVL_SCENE / f"{f:05d}.png").convert("RGBA")
-        sc = sc.convert("RGBa").resize((W, H), Image.LANCZOS, box=window(sc.width, sc.height, W, H, cx_of(f))).convert("RGBA")
-        out = Image.alpha_composite(img.convert("RGBA"), sc)
+        out = img.convert("RGBA") if s["degrade"] else Image.alpha_composite(img.convert("RGBA"), scene_overlay(f))
         ovl = Image.open(OVL_UI / f"{f:05d}.png").convert("RGBA")
         out = Image.alpha_composite(out, ovl if ovl.size == (W, H) else ovl.resize((W, H))).convert("RGB")
     else:
-        ovl = Image.open(OVL / f"{f:05d}.png").convert("RGBA")
+        ovl = Image.open((OVL_DUI if s["degrade"] else OVL) / f"{f:05d}.png").convert("RGBA")
         if ovl.size != (W, H):
             ovl = ovl.resize((W, H))
         out = Image.alpha_composite(img.convert("RGBA"), ovl).convert("RGB")
@@ -289,11 +304,16 @@ def render_overlay():
         render_pass(OVL_UI, W, H, "&pass=ui&portrait=1")
     else:
         render_pass(OVL, W, H, "")
+        deg = [f for s in SHOTS if s["degrade"] for f in range(max(A, s["start_frame"]), min(B, s["end_frame"]))]
+        if deg:
+            render_pass(OVL_DSCENE, W, H, "&pass=scene", min(deg), max(deg) + 1)
+            render_pass(OVL_DUI, W, H, "&pass=ui", min(deg), max(deg) + 1)
 
 
-def render_pass(OVL, W, H, query):
+def render_pass(OVL, W, H, query, lo=None, hi=None):
     OVL.mkdir(parents=True, exist_ok=True)
-    a0 = max(0, A - 1)  # a zoom-through into frame A also needs the frame before it
+    B = hi if hi is not None else globals()["B"]
+    a0 = lo if lo is not None else max(0, A - 1)  # a zoom-through into frame A also needs the frame before it
     chunk = (B - a0 + JOBS - 1) // JOBS
     extra = f"plates=../renders/{tier}/plates" + ("&hud=1" if HUD else "") + query
     procs = [subprocess.Popen(["node", "scripts/render_frames.mjs", "overlays/video.html", str(OVL), str(a),

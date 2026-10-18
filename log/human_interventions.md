@@ -258,3 +258,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The agent's 4K section cut (`c5_sections.py --tier c5_4k … --jobs 8`) ran the box out of memory and the session ended. The human raised the box's RAM (34 → 38 GiB as the agent sees it) and said "keep going".
 - **Rule:** R3 (a technical failure the agent can't fix itself: the machine's memory).
+
+## 2026-10-18T19:36:51-04:00 — C5 section 6 (4K) rejected: chorus 2 degradation not obvious enough
+
+- **What:** The human first reported "section 6 appears to have pretty severe encoding artifacts". The agent showed that the review copy matches the master (49 dB PSNR) and that the blocks are the brief's intended chorus-2 degradation. The human replied: "oh, in that case, task failed successfully. on small screens, it needs to be more obvious though -- decrease the resolution even more, and also include the tokens (but not the lyrics or the "context window") in the part that's JPEG-ed". The agent made the change and re-cut the section.
+- **Rule:** R1 (reject a render, with the change said in words; the agent made it).
