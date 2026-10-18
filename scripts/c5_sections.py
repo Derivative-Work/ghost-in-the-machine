@@ -1,10 +1,11 @@
 """C5: cut each review section at full quality as soon as its plates are on disk, with a contact sheet.
 
 For each section in config/c5_sections.json (in order): wait until every plate frame the section reads exists in
-renders/c5/plates, then run scripts/assemble.py c5 1920 1080 1 <jobs> --frames A:B --crf 18 --name c5_<section>, and
-write renders/c5/sheets/<section>.jpg from each shot's middle frame. Sections already cut are skipped.
+renders/<tier>/plates, then run scripts/assemble.py <tier> <W> <H> 1 <jobs> --frames A:B --crf 18 --name c5_<section>,
+and write renders/<tier>/sheets/<section>.jpg from each shot's middle frame. Sections already cut are skipped.
 
-Usage: .venv/bin/python scripts/c5_sections.py [section_name ...]   (default: all, in order)
+Usage: .venv/bin/python scripts/c5_sections.py [--tier c5] [--size 1920x1080] [--jobs 4] [section_name ...]
+  (default: all sections, in order; the 4K masters are --tier c5_4k --size 3840x2160)
 """
 import json
 import subprocess
@@ -15,8 +16,16 @@ from pathlib import Path
 D = json.loads(Path("shots/shots.json").read_text())
 SHOT = {s["id"]: s for s in D["shots"]}
 IDS = [s["id"] for s in D["shots"]]
-PLATES = Path("renders/c5/plates")
-OUT = Path("renders/c5")
+ARGS = sys.argv[1:]
+def opt(name, default):
+    if name in ARGS:
+        i = ARGS.index(name); v = ARGS[i + 1]; del ARGS[i:i + 2]; return v
+    return default
+TIER = opt("--tier", "c5")
+W, H = opt("--size", "1920x1080").split("x")
+JOBS = opt("--jobs", "4")
+PLATES = Path("renders") / TIER / "plates"
+OUT = Path("renders") / TIER
 SECTIONS = json.loads(Path("config/c5_sections.json").read_text())["sections"]
 
 
@@ -57,7 +66,7 @@ def cut(name, a, b):
         time.sleep(120)
     A, B = shots[0]["start_frame"], shots[-1]["end_frame"]
     t0 = time.time()
-    subprocess.run([".venv/bin/python", "scripts/assemble.py", "c5", "1920", "1080", "1", "4", "--frames", f"{A}:{B}",
+    subprocess.run([".venv/bin/python", "scripts/assemble.py", TIER, W, H, "1", JOBS, "--frames", f"{A}:{B}",
                     "--crf", "18", "--name", f"c5_{name}"], check=True)
     sheets = OUT / "sheets"
     stills = sheets / name
@@ -73,7 +82,7 @@ def cut(name, a, b):
     print(f"CUT {name}: frames {A}-{B} in {time.time() - t0:.0f} s -> {mp4}", flush=True)
 
 
-want = sys.argv[1:]
+want = ARGS
 for name, a, b in SECTIONS:
     if not want or name in want:
         cut(name, a, b)

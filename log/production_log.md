@@ -941,3 +941,15 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - Box-downscaled to 2304×1080, the frames match `renders/c5/plates` to mean |diff| 0.76–0.87 and p99 5–6 levels: render noise and AA, same framing.
 - **Size of the full run:** 33 jobs × 4608×2160 (3,246 frames), 1 × 3840×2160 (650), 4 × 2304×1080 (464), 9 × 1536×720 (1,044), 23 × 640×360 (14,950). About 45 GB; 135 GB free.
 - Manifest re-run (the 2× panels).
+
+## 2026-10-18T16:14:04-04:00 — 4K plate run started; section cuts at any tier/size; 4K test cut
+
+- **Plate run** (`renders/c5_4k/plates`, profile `4k`) started 16:12:56 as three parallel `render_plates.sh` streams (benchmark: 3 processes ≈ 2.1× the throughput of 1 at this size). Logs are in `renders/c5_4k/logs/plates_{A,B,C}.log`.
+  - **A:** `S50 S53 S54 S55 tiles`. This is the dependency chain: the 23 feed tiles → S50-live, which reads them → S53/S54/S55, which read S50-live; then the thumbnail stills.
+  - **B:** `S01 S02 S04 S09 S11 S17 S22 S24 S30b S31 S32 S39 S43 S44 S49`.
+  - **C:** `S05 S06 S10 S18 S21 S25 S26 S27 S33 S34 S42 S47 S48 S56`.
+  - B and C are balanced at ~1,500 full-size frames each. S07 and S20 were already done (test).
+- **`scripts/c5_sections.py`:** `--tier`, `--size` and `--jobs` options; the defaults are the old behaviour (`c5`, 1920×1080, 4).
+- **4K test cut:** `assemble.py c5_4k 3840 2160 1 4 --frames 1776:1800 --crf 18 --name test_s20`, 17.7 s with the plate run going.
+  - H.264 High, level 5.1, 3840×2160, BT.709 tagged; the audio is the master.
+  - Frame 20 checked: captions, chrome, panels and robot sharp.
