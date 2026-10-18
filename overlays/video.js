@@ -15,6 +15,13 @@ const P = q.get('portrait') === '1';
 const SCENE_LAYERS = ['bg2d', 'grid', 'titles', 'rain', 'code'];
 if (P) document.body.classList.add('portrait');
 stage.style.transform = P ? `scale(${width / 1080}, ${height / 1920})` : `scale(${width / 1920}, ${height / 1080})`;
+// The canvases draw in 1920x1080 stage units. Their backing store is K times that (the stage's scale: 2 at 4K), with K
+// as the base transform, so they rasterise at the output resolution instead of being scaled up as bitmaps.
+const K = P ? width / 1080 : width / 1920;
+for (const c of document.querySelectorAll('canvas')) {
+  c.width = Math.round(1920 * K); c.height = Math.round(1080 * K);
+  c.getContext('2d').setTransform(K, 0, 0, K, 0, 0);
+}
 
 // ---------- timing helpers ----------
 const ease = (x) => { x = Math.min(1, Math.max(0, x)); return x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2; };
@@ -778,7 +785,7 @@ async function feedStream(t, shot) {
   const flowK = ease((tl - d * 0.3) / (d * 0.35)); // tiles leave the grid for the stream
   const S = 1 - 0.7 * zoomK;
   const off = scrollOffset(t);
-  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.setTransform(K, 0, 0, K, 0, 0);
   g.fillStyle = '#09080b';
   g.fillRect(0, 0, 1920, 1080);
   const pad = (n) => String(n).padStart(5, '0');
@@ -847,7 +854,7 @@ async function feed(t, shot, mode) {
   show('grid');
   const s50 = SHOT.S50;
   const g = gridCtx;
-  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.setTransform(K, 0, 0, K, 0, 0);
   g.fillStyle = '#09080b';
   g.fillRect(0, 0, 1920, 1080);
   $('grid').style.opacity = 1;
@@ -868,7 +875,7 @@ async function feed(t, shot, mode) {
     const liveX = X0 + 3 * (TILE_W + GAP), liveY = mode === 'zoom' ? Y0 + ROW_H : 540 - TILE_H / 2;
     tx = -liveX * S0 * (1 - z); ty = -liveY * S0 * (1 - z);
   }
-  g.setTransform(S, 0, 0, S, tx, ty);
+  g.setTransform(K * S, 0, 0, K * S, K * tx, K * ty);
   const speed = ['scroll', 'decel'].includes(mode) ? scrollSpeed(t) : 0;
   // Tiles darkened in S51 stay dark as the S52 scroll begins (continuity); fresh rows scroll in alive.
   const nDark = mode === 'dark' ? beatsSince(t, shot.start_s) * 4 : Math.round(t * fps) >= SHOT.S51.end_frame ? beatsSince(SHOT.S51.end_s, SHOT.S51.start_s) * 4 : 0;
@@ -905,7 +912,7 @@ async function feed(t, shot, mode) {
       g.fillText(`AI Music · ${(1 + (((idx + 30) * 37) % 90) / 10).toFixed(1)}M views`, x, y + TILE_H + 44);
     }
   }
-  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.setTransform(K, 0, 0, K, 0, 0);
   if (mode === 'hold') { g.fillStyle = 'rgba(9,8,11,.55)'; g.fillRect(0, 0, 1920, 1080); }
   // S53: as the scroll streaks, the feed dissolves and the streaks become the river (the plate underneath).
   $('grid').style.opacity = shot.id === 'S53' ? 1 - ease((t - (shot.start_s + dur(shot) * 0.45)) / (dur(shot) * 0.4)) : 1;

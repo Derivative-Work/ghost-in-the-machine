@@ -905,3 +905,17 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - End card list (section 7): adds "Mastered by: Claude, referencing CC audio" with a note on the post-filter; the production-log line is now the GitHub URL, with the torrent and IA moved to the README; adds "Video and assets: CC BY-NC-SA 4.0 · Code: MIT".
   - Open items: the web seed URL and IA item are now "for the repo README"; the repo location is marked decided.
 - **`docs/brief.md`:** the same edits applied to the mirror, header now "rev 91, 2026-10-18". Checked against the doc's markdown export at rev 91.
+
+## 2026-10-18T16:08:07-04:00 — 4K: overlay canvases rasterise at the output resolution
+
+- **Problem:** the overlay stage is laid out at 1920×1080 and scaled to the output with a CSS transform. DOM text and shapes re-rasterise at the scaled size, but the four canvases (`grid`, `code`, `rain`, `titles`) had fixed 1920×1080 backing stores, so at 4K they would be upscaled bitmaps. That affects the rain (S22, S44, S49), the S30 code stream, the feed (S50–S54) and the S53 titles.
+- **Fix (`overlays/video.js`):**
+  - `K` = the stage's scale (`width/1920`; `width/1080` on the portrait stage).
+  - Every canvas gets a `round(1920K)×round(1080K)` backing store with `K` as its base transform; the CSS size stays 1920×1080.
+  - The feed's three `setTransform(1,0,0,1,0,0)` resets become `setTransform(K,…)`, and its zoom is `setTransform(K·S, 0, 0, K·S, K·tx, K·ty)`.
+  - Drawing code is unchanged, in stage units.
+- **Checks** (scratchpad `k/`; 11 frames: S12 f990, S22 f2070, S44 f4520, S45 f4700, S50 f5080, S51 f5200, S52 f5300, S53 f5380 and f5440, S54 f5560, S57 f6015; plates from `renders/c5/plates`):
+  - At 1920×1080, all 11 are **bit-identical** to the previous code.
+  - At 3840×2160, high-frequency energy (Laplacian²) is 3.5–8.0× that of the 1080p frame upscaled with Lanczos. The `will-change` push layers (S12, S45) are native too (4.8×, 4.3×).
+  - S50's 3.5× is limited by its 1080p live plate in this test.
+  - S45's soft reply text is the intended `degrade` CSS blur, the same at both sizes.
