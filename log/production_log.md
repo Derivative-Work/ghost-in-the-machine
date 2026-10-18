@@ -953,3 +953,7 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - **4K test cut:** `assemble.py c5_4k 3840 2160 1 4 --frames 1776:1800 --crf 18 --name test_s20`, 17.7 s with the plate run going.
   - H.264 High, level 5.1, 3840×2160, BT.709 tagged; the audio is the master.
   - Frame 20 checked: captions, chrome, panels and robot sharp.
+
+## 2026-10-18T16:14:35-04:00 — Handoff updated for the 5090 box
+
+- `docs/handoff.md` §0 (new): the setup, benchmarks and parity results, the human's 4K/audio/end-card/licence decisions, the 4K pipeline, and what's next. It notes which parts of §1 and §5 it supersedes; the rest is unchanged.

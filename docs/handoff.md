@@ -2,6 +2,28 @@
 
 Written 2026-10-18 when the project moved boxes. The agent on the new box has none of the earlier conversation. This file, `docs/brief.md`, `log/production_log.md` and `log/human_interventions.md` carry the whole context. Read them in that order; the logs are long, so read the last ~15 entries of each closely.
 
+## 0. Update: the first session on the RTX 5090 box (2026-10-18 afternoon)
+
+Read this first. It supersedes parts of §1 and §5 below.
+
+- **Box:** set up per §3. Node comes from nvm (`~/.nvm`, loaded in `~/.bashrc`; non-interactive shells need `export PATH=$HOME/.nvm/versions/node/v24.22.0/bin:$PATH`).
+- **Benchmarks:** ~0.3 s/frame at 2304×1080 and ~1.0 s at 4608×2160. Three Blender processes in parallel give 2.1–2.3× the throughput of one; a fourth adds little.
+- **Parity:** the 5090's Eevee output is bit-identical to the 970's, so plates can be mixed.
+- **The human's decisions** (`log/human_interventions.md`, 15:59:33):
+  - **4K masters.** The main video is 3840×2160; the vertical is 2160×3840, cropped from the same plates (3D upscaled 1.78×). This replaces §5.2 and §5.3.
+  - **Audio:** the music-deslop master, `audio/master/…` via `config/audio.json`. `assemble.py` muxes it. This replaces §5.6.
+  - **End card:** mastering credit, GitHub link and licence line. The interventions count is re-exported (§5.4 done for now; re-export again if more entries land before C6).
+  - **Licences:** `LICENSE` (MIT, code) and `LICENSE-media.md` (CC BY-NC-SA 4.0). `README.md` carries the credits, and the torrent and IA links go there at publish, not on the card.
+- **4K pipeline:**
+  - Profile `4k` (was `c5v`) and tier `renders/c5_4k/`.
+  - 2× screen textures in `renders/c5_4k/panels` (`GITM_PANELS`).
+  - Overlay canvases rasterise at the output size (`K` in `overlays/video.js`).
+  - `c5_sections.py --tier c5_4k --size 3840x2160` cuts the 4K sections.
+- **Next:**
+  1. Cut the eight sections at 4K and check them (flash check, compare with the 1080p C5 cuts).
+  2. Send them to the human for C5 approval. 4K masters are far over the 30 MiB upload limit, so ask how they want to review.
+  3. Then the main video, the vertical (`--vertical`, 2160 3840), the thumbnail and C6, as in §5.
+
 ## 1. Where things stand
 
 - **Checkpoints:** C1 style, C2 track, C3 timing and C4 animatic (v8) are approved. **C5 is in review.** All eight sections are cut at full quality from the current code (`renders/c5/c5_<n>_<name>.mp4`, crf 18) and sent to the human. **None is approved yet.** C6 (final) has not started.
