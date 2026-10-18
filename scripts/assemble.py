@@ -9,6 +9,9 @@ Usage: .venv/bin/python scripts/assemble.py <tier> <width> <height> <plate_step>
 Reads renders/<tier>/plates (scripts/render_plates.sh); writes renders/<tier>/overlay/ and renders/<tier>/<name>.mp4.
 Plates wider than the output (C5 renders 20% wider for the vertical cut) are cropped to their centre.
 --frames A:B cuts only global frames A..B-1 (a section for C5 review), with the matching stretch of audio.
+--vertical cuts the 9:16 version (pass W H = 1080 1920; frames default to config/vertical.json's shot range): each
+plate is cropped to a 9:16 window centred at the shot's cx, the overlay's scene layers are rendered 16:9 at 1920
+tall and cropped the same way, and the UI layers are rendered on the portrait stage. The 2-up split stacks.
 """
 import io
 import json
@@ -26,14 +29,21 @@ HUD = "--hud" in sys.argv
 NAME = sys.argv[sys.argv.index("--name") + 1] if "--name" in sys.argv else tier
 CRF = sys.argv[sys.argv.index("--crf") + 1] if "--crf" in sys.argv else "23"
 D = json.loads(Path("shots/shots.json").read_text())
-A, B = (map(int, sys.argv[sys.argv.index("--frames") + 1].split(":")) if "--frames" in sys.argv
-        else (0, D["total_frames"]))
+VERT = "--vertical" in sys.argv
+VCFG = json.loads(Path("config/vertical.json").read_text())
+_full = (0, D["total_frames"])
+if VERT:
+    _ids = [s["id"] for s in D["shots"]]
+    _full = (D["shots"][_ids.index(VCFG["first_shot"])]["start_frame"], D["shots"][_ids.index(VCFG["last_shot"])]["end_frame"])
+A, B = (map(int, sys.argv[sys.argv.index("--frames") + 1].split(":")) if "--frames" in sys.argv else _full)
 FPS = D["fps"]
 SHOTS = D["shots"]
 SHOT = {s["id"]: s for s in SHOTS}
 ROOT = Path("renders") / tier
 PLATES = ROOT / "plates"
 OVL = ROOT / "overlay"
+OVL_SCENE, OVL_UI = ROOT / "overlay_v_scene", ROOT / "overlay_v_ui"  # the vertical cut's two overlay passes
+SW = round(H * 16 / 9)  # vertical: the scene pass's 16:9 width at the output height
 BASE = (9, 8, 11)
 DOWNBEATS = json.loads(Path("timing/timing_map.json").read_text())["downbeats"]
 ZOOM_FRAMES = 8
@@ -56,14 +66,36 @@ def rendered(job, f):
     return PLATES / job["dir"] / f"{g:05d}.png"
 
 
+def cx_of(f):
+    if not VERT:
+        return 0.5
+    s = shot_at(f)
+    cx = VCFG["cx"].get(s["id"], 0.5)
+    if isinstance(cx, list):  # pan across the shot
+        k = (f - s["start_frame"]) / max(1, s["end_frame"] - s["start_frame"] - 1)
+        k = 4 * k ** 3 if k < 0.5 else 1 - (-2 * k + 2) ** 3 / 2
+        cx = cx[0] + (cx[1] - cx[0]) * k
+    return round(cx, 4)  # rounded so the plate cache still hits
+
+
+def window(iw, ih, w, h, cx=0.5):
+    """The crop box of aspect w:h inside an iw x ih image, centred at cx of the image's centre 16:9 (plates may be
+    wider than 16:9: their margin is room to reframe)."""
+    cw = min(iw, round(ih * w / h))
+    ch = min(ih, round(iw * h / w))
+    core = min(iw, round(ih * 16 / 9))
+    x0 = (iw - core) / 2 + cx * core - cw / 2
+    x0 = int(min(max(x0, 0), iw - cw))
+    return x0, (ih - ch) // 2, x0 + cw, (ih - ch) // 2 + ch
+
+
 @lru_cache(maxsize=64)
-def load(path, size=None):
-    """A plate at `size` (default the output size), cropped to the centre of that aspect ratio first."""
+def load(path, size=None, cx=0.5):
+    """A plate at `size` (default the output size), cropped to that aspect ratio first (centred at cx)."""
     w, h = size or (W, H)
     img = Image.open(path).convert("RGB")
-    cw = min(img.width, round(img.height * w / h))
-    ch = min(img.height, round(img.width * h / w))
-    x0, y0 = (img.width - cw) // 2, (img.height - ch) // 2
+    x0, y0, x1, y1 = window(img.width, img.height, w, h, cx)
+    cw, ch = x1 - x0, y1 - y0
     return img.crop((x0, y0, x0 + cw, y0 + ch)).resize((w, h), Image.LANCZOS)
 
 
@@ -84,6 +116,14 @@ def split(s, f):
         frames.append(load(rendered(j, max(j["start"], min(j["end"] - 1, f - lag * i))),
                            None if len(seeds) == 2 else (tw - 2, th - 2)))
     img = base()
+    if VERT:
+        rows, cols = (2, 1) if len(seeds) == 2 else (n, n)
+        tw, th = W // cols, H // rows
+        for i, seed in enumerate(seeds):
+            j = job_for(s["id"], seed)
+            fr = load(rendered(j, max(j["start"], min(j["end"] - 1, f - lag * i))), (tw - 2, th - 2), cx_of(f))
+            img.paste(fr, ((i % cols) * tw + 1, (i // cols) * th + 1))
+        return img
     if len(seeds) == 2:  # side by side, each the centre half of its frame
         for i, fr in enumerate(frames):
             img.paste(fr.crop((W // 4, 0, W // 4 + W // 2, H)), (i * W // 2, 0))
@@ -101,17 +141,17 @@ def plate(f, s=None):
         if p.get("freeze_first") and f == s["start_frame"]:
             return plate(f - 1)
         j = job_for(s["id"], s["seed"])
-        return load(rendered(j, f)) if f < j["end"] else base()
+        return load(rendered(j, f), None, cx_of(f)) if f < j["end"] else base()
     if p["mode"] == "hold":
         src = SHOT[p["src"]]
         return plate(src["end_frame"] - 1, src)
     if p["mode"] == "split":
         return split(s, f)
     if p["mode"] == "feedlive":  # S53: the feed's own live tile (this video, dancing in the river) as a full frame
-        return load(rendered(job_for("S50", "main"), f))
+        return load(rendered(job_for("S50", "main"), f), None, cx_of(f))
     if p["mode"] == "montage":
         i = next(i for i, (a, b) in enumerate(p["segments"]) if a <= f < b)
-        return load(rendered(job_for(s["id"], p["seeds"][i]), f))
+        return load(rendered(job_for(s["id"], p["seeds"][i]), f), None, cx_of(f))
     return base()
 
 
@@ -192,10 +232,19 @@ def composite_image(f):
         img = zoom_about(img, 1 + 0.35 * (1 - k) ** 2, 0.5, 0.5)
     if s["degrade"]:
         img = degrade(img, s["degrade"], f)
-    ovl = Image.open(OVL / f"{f:05d}.png").convert("RGBA")
-    if ovl.size != (W, H):
-        ovl = ovl.resize((W, H))
-    out = Image.alpha_composite(img.convert("RGBA"), ovl).convert("RGB")
+    if VERT:
+        sc = Image.open(OVL_SCENE / f"{f:05d}.png").convert("RGBA")
+        sc = sc.crop(window(sc.width, sc.height, W, H, cx_of(f)))
+        if sc.size != (W, H):
+            sc = sc.resize((W, H), Image.LANCZOS)
+        out = Image.alpha_composite(img.convert("RGBA"), sc)
+        ovl = Image.open(OVL_UI / f"{f:05d}.png").convert("RGBA")
+        out = Image.alpha_composite(out, ovl if ovl.size == (W, H) else ovl.resize((W, H))).convert("RGB")
+    else:
+        ovl = Image.open(OVL / f"{f:05d}.png").convert("RGBA")
+        if ovl.size != (W, H):
+            ovl = ovl.resize((W, H))
+        out = Image.alpha_composite(img.convert("RGBA"), ovl).convert("RGB")
     if s["transition"]:
         out = transition(out, s, f)
     if s["plate"]["mode"] == "montage":  # each re-roll lands with a short glitch
@@ -228,10 +277,18 @@ def frame(f):
 
 
 def render_overlay():
+    if VERT:
+        render_pass(OVL_SCENE, SW, H, "&pass=scene")
+        render_pass(OVL_UI, W, H, "&pass=ui&portrait=1")
+    else:
+        render_pass(OVL, W, H, "")
+
+
+def render_pass(OVL, W, H, query):
     OVL.mkdir(parents=True, exist_ok=True)
     a0 = max(0, A - 1)  # a zoom-through into frame A also needs the frame before it
     chunk = (B - a0 + JOBS - 1) // JOBS
-    extra = f"plates=../renders/{tier}/plates" + ("&hud=1" if HUD else "")
+    extra = f"plates=../renders/{tier}/plates" + ("&hud=1" if HUD else "") + query
     procs = [subprocess.Popen(["node", "scripts/render_frames.mjs", "overlays/video.html", str(OVL), str(a),
                                str(min(B, a + chunk)), "main", str(W), str(H), str(FPS), extra],
                               stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)

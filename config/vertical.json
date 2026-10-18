@@ -1,0 +1,19 @@
+{
+  "_doc": "Vertical cut (9:16, brief section 7): S35 through S56. cx is the horizontal centre of each shot's 9:16 window, as a fraction of the 16:9 frame (default 0.5), or [start, end] to pan across the shot (eased); it applies to the plate and to the overlay's scene layers alike.",
+  "first_shot": "S35",
+  "last_shot": "S56",
+  "cx": {
+    "S50": 0.581,
+    "S51": 0.581,
+    "S52": 0.581,
+    "S53": [
+      0.581,
+      0.5
+    ],
+    "S54": [
+      0.5,
+      0.58
+    ],
+    "S55": 0.58
+  }
+}
