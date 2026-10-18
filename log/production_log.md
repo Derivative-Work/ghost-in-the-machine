@@ -606,3 +606,7 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - Overlay: `pass=scene` (feed, rain, titles, 2D backdrop; rendered 16:9 at 1920 tall and cropped with the plate) and `pass=ui&portrait=1` (captions, chrome, devtools, panels, cursor and end card laid out on a 1080×1920 stage). Test sheets of both were checked on the v8 animatic plates.
 - Known limit: the vertical's 3D plates are crops of 1080-tall renders, upscaled 1.78×. Planned fix on the RTX 5090 box: render the vertical's 3D shots at 2160 tall with the same cameras; the reframing carries over unchanged.
 - `scripts/c5_sections.py` started in the background: cuts each review section (`config/c5_sections.json`) as soon as its plates exist, at crf 18, with a contact sheet in `renders/c5/sheets/`.
+
+## 2026-10-17T20:28:13-04:00 — C5 section 1 cut (Intro + Verse 1)
+
+- `renders/c5/c5_1_intro_verse1.mp4`: S01–S10, frames 0–833, 1920×1080, crf 18; 833 video frames, audio 27.766 s. Contact sheet `renders/c5/sheets/1_intro_verse1.jpg`. Checked by the agent against animatic v8: same framing and layers, no missing plates. Sent to the human for C5 review.
