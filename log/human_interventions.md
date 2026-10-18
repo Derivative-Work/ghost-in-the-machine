@@ -206,3 +206,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** After the agent's render-time estimate (~4 h at use-matched resolutions on the GTX 970), the human said "yes, start it here for now". The agent reads this as approval of animatic v8 (C4) and as the go-ahead for C5 full-quality renders on this machine, to move to the RTX 5090 box when it is ready.
 - **Rule:** R1 (approve a plan / the cut).
+
+## 2026-10-17T20:50:35-04:00 — C5 section 2 rejected: stray big "Maybe"
+
+- **What:** The human reported "C5 section 2 of 8 at 00:14 has a stray frame of the big 'Maybe'". The agent found the cause and re-cut the section.
+- **Rule:** R1 (reject a render).

@@ -151,6 +151,10 @@ function captions(t, shot) {
   if (['S01', 'S02', 'S03', 'S56', 'S57'].includes(shot.id)) return;
   const l = LINES.filter((x) => t >= x.showFrom && t < x.showTo).pop();
   if (!l) return;
+  // A big-caption shot doesn't pre-show a line that belongs to a normal-caption shot after the cut (C5 fix: the
+  // last frames of S14 flashed a big "Maybe").
+  const next = SHOTS[SHOTS.indexOf(shot) + 1];
+  if (shot.big_captions && l.start >= shot.end_s && next && !next.big_captions) return;
   show('captions');
   const acc = D.captionStyle.accent[l.text];
   const emo = D.captionStyle.emotional[l.text];

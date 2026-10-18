@@ -614,3 +614,9 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 ## 2026-10-17T20:35:30-04:00 — C5 section 2 cut (Bridge 1 + Pre-Chorus 1)
 
 - `renders/c5/c5_2_bridge1_prechorus1.mp4`: S11–S18, frames 833–1776, 1920×1080, crf 18. Contact sheet `renders/c5/sheets/2_bridge1_prechorus1.jpg`. Checked by the agent against animatic v8; sent to the human for C5 review.
+
+## 2026-10-17T20:50:35-04:00 — C5 section 2 re-cut (stray big "Maybe" fixed)
+
+- Cause: captions pre-show a line 0.25 s before its first word. "Maybe someone wrote it" (42.425 s) therefore started 0.15 s before the S14→S15 cut, and S14 is a big-caption shot, so its last 4 frames showed a big "Maybe".
+- Fix (`overlays/video.js`): a big-caption shot no longer pre-shows a line that starts after the cut when the next shot uses normal captions. Only S14 met that condition; S12→S13 are both big, so they're unchanged. The line now appears at the cut, 0.1 s before the word.
+- Rejected cut archived as `archive/renders/c5/c5_2_bridge1_prechorus1_rejected_stray_maybe.mp4`; new `renders/c5/c5_2_bridge1_prechorus1.mp4` (plates unchanged; overlay re-rendered). Checked frame by frame across the cut.
