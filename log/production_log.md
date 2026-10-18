@@ -643,3 +643,7 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 ## 2026-10-17T21:20:35-04:00 — C5 section 5 cut (Bridge 2 + Pre-Chorus 2)
 
 - `renders/c5/c5_5_bridge2_prechorus2.mp4`: S35–S39, frames 3356–4230. New `scripts/compare_v8.py` (C5 next to v8 at 25%/75% of every shot): same framing and layers. Flash check: the one-frame "Lyric goes here" inside the S39 glitch (intended, brief S39) and the S39 crane-up, whose frame-to-frame change is above the threshold throughout. Sent to the human.
+
+## 2026-10-17T21:30:21-04:00 — C5 section 6 cut (Chorus 2)
+
+- `renders/c5/c5_6_chorus2.mp4`: S42–S45, frames 4230–4754. Same as v8 at 25%/75% of every shot; the S45 SAME stamps sit on their cells (the section 3 fix). Flash check: the S42 whip pan, the S44 heavy rain (every frame), and the S45 stamps landing, all intended. Sent to the human.
