@@ -231,3 +231,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human reported "some color banding on the robot and jumpiness in the slow zooms on text scenes, likely caused by the render color depth and resolution" and asked whether it could be fixed efficiently on this machine. The agent diagnosed both, fixed them in the pipeline and is re-cutting all eight sections.
 - **Rule:** R1 (reject a render).
+
+## 2026-10-18T07:56:48-04:00 — Move to the RTX 5090 box
+
+- **What:** The human said "let's move it all over to the other box -- write up anything you haven't already so it can get started as soon as I copy over the directory". The human will copy the repo directory to the RTX 5090 box.
+- **Rule:** R3 (a technical step the agent can't do itself: moving the project between machines).

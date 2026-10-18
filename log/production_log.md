@@ -735,3 +735,17 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - `renders/c5/logs/sections4.log`: all eight cut, no errors; 178 MiB in total (was ~110), every stream tagged BT.709.
 - S45 push in the final encode (section 6): the reply's left edge drifts 8.94 px over f4680–4719, against 8.97 px in the overlay, in smooth easing steps (−0.40 → −0.22 px). Phase-correlation step jitter 0.04 px, against 0.18 px in the superseded cut.
 - Sections 3 (33.7 MiB) and 7 (53.1 MiB) are over the upload limit and were sent as `-tune grain` review copies at 6 and 7 Mbps; the rest are the crf 18 masters.
+
+## 2026-10-18T07:56:48-04:00 — Handoff to the RTX 5090 box
+
+- **`docs/handoff.md`** for an agent with no conversation history: state, what to copy and what may be skipped, setup, first checks, remaining work in order, the brief's rules, and lessons from C5. **`CLAUDE.md`** (new) points to it and repeats the rules, so a new session loads them automatically.
+- **`scripts/gpu_parity.sh`** (new): renders the first frame of S07, S27 and S53 and compares it with the 970's plates. Checked here on S07: mean |diff| 0.000, 0 pixels differ.
+- **`config/render_profiles.json` → `c5v`** (new, untested): twice the c5 sizes for the vertical cut's plates (48 jobs, 18,289 frames over S34–S56). The human hasn't chosen between it and the current 1.78× upscale.
+- **Manifest fix:** `scripts/manifest.sh` excluded frame sequences only in directories named exactly `plates/` or `overlay/`, so `plates_superseded_*`, `overlay_v_*` and `bench/ovl` frames were hashed in, against the brief. It now excludes any `plates*`, `overlay*`, `ovl` or `plate_seq` directory. MANIFEST: 17,725 → 1,283 files.
+- Open questions recorded in the handoff for the human:
+  - C5 approvals;
+  - whether to re-render the 16:9 finals on the 5090 or keep the 970 plates (recommendation: keep them);
+  - the vertical's double-resolution plates;
+  - the thumbnail;
+  - the cleaned audio master and its tool details;
+  - whether `reference/stills/` (frames from the inspiration videos) ships.
