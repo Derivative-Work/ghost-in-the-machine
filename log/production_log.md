@@ -592,3 +592,9 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
   - About 12.5 h if every job renders at 2304×1080
   - Plus ~15 min overlay, composite and encode for the main video
 - **Commands:** `blender -b --factory-startup --python scenes/blender/plates.py -- bench <job> renders/bench 2304 1080 64 3` for 8 jobs (and one feed tile at 640×360 s32); `node scripts/render_frames.mjs … 1920 1080` for 60 + 30 frames.
+
+## 2026-10-17T20:06:42-04:00 — C5: per-job render sizes; full plate render started (GTX 970)
+
+- Added `config/render_profiles.json` (per-job plate size and samples, by how large each plate is seen), `scripts/job_size.py`, and a profile-aware `scripts/render_plates.sh` (shot filter, resume by skipping frames on disk).
+- `plates.py`: every camera now fits the frame height (`fit_vertical`), so the 2304×1080 C5 plates add margin at the sides only. Check: the centre crop of a 576×270 probe matches a 480×270 probe at exactly the 48 px offset (mean abs diff 3.4 at 4 samples, noise; 4.7+ at ±1 px).
+- Started `scripts/render_plates.sh c5 c5 1` (every frame, all 70 jobs plus thumbnail stills) into `renders/c5/plates`; log at `renders/c5/logs/plates.log`. Estimated ~3.7 h.

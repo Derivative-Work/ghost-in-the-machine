@@ -1,0 +1,14 @@
+{
+  "_doc": "Per-job plate resolution and Eevee samples, matched to how large each plate is ever seen (C5 estimate, log 2026-10-17). Full-frame plates render 20% wider than 16:9 for the vertical cut's reframing; cameras fit vertically, so the centre 1920x1080 matches the animatic's framing. First matching rule wins.",
+  "animatic": {"default": [640, 360, 8], "tiles": [320, 180, 8], "rules": []},
+  "c5": {
+    "default": [2304, 1080, 64],
+    "tiles": [640, 360, 32],
+    "rules": [
+      {"seed_prefix": "thumbnail_tiles", "size": [640, 360, 32], "why": "feed thumbnails, at most ~300 px wide on screen"},
+      {"shot": "S50", "seed": "main", "size": [1920, 1080, 64], "why": "the feed's live tile: full frame at the start of S50's zoom-out, a texture later; must stay 16:9"},
+      {"shot": "S48", "size": [1152, 540, 64], "why": "4-up split, 960x540 per tile"},
+      {"shot": "S49", "size": [768, 360, 64], "why": "9-up split, 640x360 per tile"}
+    ]
+  }
+}

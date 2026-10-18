@@ -1108,6 +1108,14 @@ def plate_ship(job, seed):
     return update
 
 
+def fit_vertical():
+    """Fit every camera to the frame height (36 mm x 9/16), so a frame wider than 16:9 only adds margin at the sides
+    and its centre 16:9 matches the 1920x1080 framing exactly (the C5 plates are 20% wider for the vertical cut)."""
+    for c in bpy.data.cameras:
+        c.sensor_fit = "VERTICAL"
+        c.sensor_height = 36.0 * 9 / 16
+
+
 PLATES = {
     "default_cube_boot": plate_default_cube_boot,
     "stream": plate_stream,
@@ -1128,11 +1136,12 @@ def render_job(index, out_root, width, height, samples, step):
     scene = G.reset(width, height, samples)
     strip_metadata(scene)
     update = PLATES[job["plate"]](job, seed)
+    fit_vertical()
     out = Path(out_root) / job["dir"]
     out.mkdir(parents=True, exist_ok=True)
     s0 = job["start"] + job["lag_frames"]  # split renders: keep the step grid aligned with the shot's frames
     for f in range(job["start"], job["end"]):
-        if (f - s0) % step:
+        if (f - s0) % step or (out / f"{f:05d}.png").exists():  # resume: frames on disk are kept
             continue
         update(f / FPS - job["clock_offset_s"])
         scene.render.filepath = str(out / f"{f:05d}.png")
@@ -1147,6 +1156,7 @@ def render_tiles(out_dir, width, height, samples, t):
         scene = G.reset(width, height, samples)
         strip_metadata(scene)
         update = plate_chorus({"shot": "S50", "cam": "orbit", "fx": []}, seed)
+        fit_vertical()
         update(t)
         scene.render.filepath = str(out / f"tile_{seed}.png")
         bpy.ops.render.render(write_still=True)
@@ -1161,6 +1171,7 @@ def render_probe(index, out_dir, width, height, samples, frac):
     scene = G.reset(width, height, samples)
     strip_metadata(scene)
     update = PLATES[job["plate"]](job, seed_value(job["seed"]))
+    fit_vertical()
     f = job["start"] + int((job["end"] - job["start"]) * frac)
     update(f / FPS - job["clock_offset_s"])
     scene.render.filepath = str(Path(out_dir) / f"{job['shot']}_{index:02d}_{job['dir']}.png")
@@ -1176,6 +1187,7 @@ def render_bench(index, out_dir, width, height, samples, n):
     scene = G.reset(width, height, samples)
     strip_metadata(scene)
     update = PLATES[job["plate"]](job, seed_value(job["seed"]))
+    fit_vertical()
     f0 = (job["start"] + job["end"]) // 2
     times = []
     for f in range(f0, f0 + n):
