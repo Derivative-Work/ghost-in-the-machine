@@ -957,3 +957,10 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 ## 2026-10-18T16:14:35-04:00 — Handoff updated for the 5090 box
 
 - `docs/handoff.md` §0 (new): the setup, benchmarks and parity results, the human's 4K/audio/end-card/licence decisions, the 4K pipeline, and what's next. It notes which parts of §1 and §5 it supersedes; the rest is unchanged.
+
+## 2026-10-18T17:00:32-04:00 — 4K plate run finished
+
+- 16:12:56 → 17:00:11 (47 min wall, 6,962 job-seconds across the 3 streams), 68 jobs plus the thumbnail stills, no errors.
+- Every frame of all 70 render jobs is on disk in `renders/c5_4k/plates` (43 GB); the 23 tile stills are in `plates/tiles`.
+- Longest jobs: S50-live 731 s (650 frames at 3840×2160 while the other streams ran), S53 178 s, S54 130 s.
+- Next: `scripts/c5_sections.py --tier c5_4k --size 3840x2160 --jobs 8` (log `renders/c5_4k/logs/sections.log`).
