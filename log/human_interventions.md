@@ -201,3 +201,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** "The box open still needs to have them contents spread out. There is a continuity issue between S52 and S53: make sure the videos line up between cuts. Transition to the end credits by rotating the cube onto an unlit face."
 - **Rule:** R1 (creative direction in words; the agent makes the changes).
+
+## 2026-10-17T20:02:16-04:00 — C4 closed; C5 started on this machine
+
+- **What:** After the agent's render-time estimate (~4 h at use-matched resolutions on the GTX 970), the human said "yes, start it here for now". The agent reads this as approval of animatic v8 (C4) and as the go-ahead for C5 full-quality renders on this machine, to move to the RTX 5090 box when it is ready.
+- **Rule:** R1 (approve a plan / the cut).
