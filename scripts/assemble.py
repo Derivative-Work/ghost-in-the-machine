@@ -12,6 +12,7 @@ Plates wider than the output (C5 renders 20% wider for the vertical cut) are cro
 --vertical cuts the 9:16 version (pass W H = 1080 1920; frames default to config/vertical.json's shot range): each
 plate is cropped to a 9:16 window centred at the shot's cx, the overlay's scene layers are rendered 16:9 at 1920
 tall and cropped the same way, and the UI layers are rendered on the portrait stage. The 2-up split stacks.
+--still writes frame A as renders/<tier>/<name>.png instead of a video (the thumbnail).
 """
 import io
 import json
@@ -325,6 +326,12 @@ def composite():
 
 
 if __name__ == "__main__":
+    if "--still" in sys.argv:
+        B = A + 1
     if "--composite-only" not in sys.argv:
         render_overlay()
-    composite()
+    if "--still" in sys.argv:
+        Image.frombytes("RGB", (W, H), frame(A)).save(ROOT / f"{NAME}.png")
+        print(ROOT / f"{NAME}.png")
+    else:
+        composite()

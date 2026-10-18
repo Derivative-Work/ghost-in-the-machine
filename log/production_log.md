@@ -598,3 +598,11 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 - Added `config/render_profiles.json` (per-job plate size and samples, by how large each plate is seen), `scripts/job_size.py`, and a profile-aware `scripts/render_plates.sh` (shot filter, resume by skipping frames on disk).
 - `plates.py`: every camera now fits the frame height (`fit_vertical`), so the 2304×1080 C5 plates add margin at the sides only. Check: the centre crop of a 576×270 probe matches a 480×270 probe at exactly the 48 px offset (mean abs diff 3.4 at 4 samples, noise; 4.7+ at ±1 px).
 - Started `scripts/render_plates.sh c5 c5 1` (every frame, all 70 jobs plus thumbnail stills) into `renders/c5/plates`; log at `renders/c5/logs/plates.log`. Estimated ~3.7 h.
+
+## 2026-10-17T20:14:51-04:00 — C5 tooling while plates render: SRT, vertical cut, section cuts, thumbnail
+
+- `scripts/export_srt.py` → `deliverables/ghost_in_the_machine.en.srt` (41 cues; same line windows as the burned-in captions; plain as-sung text).
+- `assemble.py`: `--frames A:B` (section cuts; audio checked sample-aligned against animatic v8), `--crf`, `--still` (thumbnail), and `--vertical`: the brief's 9:16 cut of S35–S56. Plates are cropped to a 9:16 window per shot (`config/vertical.json`: the feed centres on the live tile, S53 pans back to the river, S54/S55 follow the robot); the 2-up stacks, the 4-up/9-up stay grids.
+- Overlay: `pass=scene` (feed, rain, titles, 2D backdrop; rendered 16:9 at 1920 tall and cropped with the plate) and `pass=ui&portrait=1` (captions, chrome, devtools, panels, cursor and end card laid out on a 1080×1920 stage). Test sheets of both were checked on the v8 animatic plates.
+- Known limit: the vertical's 3D plates are crops of 1080-tall renders, upscaled 1.78×. Planned fix on the RTX 5090 box: render the vertical's 3D shots at 2160 tall with the same cameras; the reframing carries over unchanged.
+- `scripts/c5_sections.py` started in the background: cuts each review section (`config/c5_sections.json`) as soon as its plates exist, at crf 18, with a contact sheet in `renders/c5/sheets/`.
