@@ -48,6 +48,9 @@ SW = round(H * 16 / 9)  # vertical: the scene pass's 16:9 width at the output he
 BASE = (9, 8, 11)
 DOWNBEATS = json.loads(Path("timing/timing_map.json").read_text())["downbeats"]
 ZOOM_FRAMES = 8
+# Monochrome grain on the 3D plates (sigma in 8-bit levels). Blender's 1-level dither is smoothed away by the encoder,
+# which then bands the robot's glows; grain this strong survives -tune grain. Text and UI stay clean.
+GRAIN = 1.2
 
 
 def shot_at(f):
@@ -86,8 +89,8 @@ def window(iw, ih, w, h, cx=0.5):
     ch = min(ih, round(iw * h / w))
     core = min(iw, round(ih * 16 / 9))
     x0 = (iw - core) / 2 + cx * core - cw / 2
-    x0 = int(min(max(x0, 0), iw - cw))
-    return x0, (ih - ch) // 2, x0 + cw, (ih - ch) // 2 + ch
+    x0 = min(max(x0, 0), iw - cw)  # fractional: a pan moves smoothly instead of in whole-pixel steps
+    return x0, (ih - ch) / 2, x0 + cw, (ih - ch) / 2 + ch
 
 
 @lru_cache(maxsize=64)
@@ -95,9 +98,7 @@ def load(path, size=None, cx=0.5):
     """A plate at `size` (default the output size), cropped to that aspect ratio first (centred at cx)."""
     w, h = size or (W, H)
     img = Image.open(path).convert("RGB")
-    x0, y0, x1, y1 = window(img.width, img.height, w, h, cx)
-    cw, ch = x1 - x0, y1 - y0
-    return img.crop((x0, y0, x0 + cw, y0 + ch)).resize((w, h), Image.LANCZOS)
+    return img.resize((w, h), Image.LANCZOS, box=window(img.width, img.height, w, h, cx))
 
 
 def base():
@@ -166,18 +167,19 @@ def punch(img, f):
     if k < 0.002:
         return img
     w, h = img.size
-    cw, ch = int(w / (1 + k)), int(h / (1 + k))
-    x0, y0 = (w - cw) // 2, (h - ch) // 2
-    return img.crop((x0, y0, x0 + cw, y0 + ch)).resize((w, h), Image.BILINEAR)
+    cw, ch = w / (1 + k), h / (1 + k)
+    x0, y0 = (w - cw) / 2, (h - ch) / 2
+    return img.resize((w, h), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
 
 
 def zoom_about(img, scale, px, py):
-    """Scale an image about a point given as fractions of its size, keeping the frame size."""
+    """Scale an image about a point given as fractions of its size, keeping the frame size. The source box is
+    fractional: whole-pixel crops made slow zooms step."""
     w, h = img.size
     cw, ch = w / scale, h / scale
     x0 = min(max(px * w - cw * px, 0), w - cw)
     y0 = min(max(py * h - ch * py, 0), h - ch)
-    return img.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((w, h), Image.BILINEAR)
+    return img.resize((w, h), Image.BILINEAR, box=(x0, y0, x0 + cw, y0 + ch))
 
 
 def degrade(img, k, f):
@@ -233,11 +235,12 @@ def composite_image(f):
         img = zoom_about(img, 1 + 0.35 * (1 - k) ** 2, 0.5, 0.5)
     if s["degrade"]:
         img = degrade(img, s["degrade"], f)
+    if s["plate"]["mode"] in ("render", "split", "montage", "feedlive", "hold"):
+        g = np.random.default_rng(f).normal(0, GRAIN, (img.height, img.width, 1))
+        img = Image.fromarray(np.clip(np.asarray(img, dtype=np.float32) + g, 0, 255).round().astype(np.uint8))
     if VERT:
         sc = Image.open(OVL_SCENE / f"{f:05d}.png").convert("RGBA")
-        sc = sc.crop(window(sc.width, sc.height, W, H, cx_of(f)))
-        if sc.size != (W, H):
-            sc = sc.resize((W, H), Image.LANCZOS)
+        sc = sc.convert("RGBa").resize((W, H), Image.LANCZOS, box=window(sc.width, sc.height, W, H, cx_of(f))).convert("RGBA")
         out = Image.alpha_composite(img.convert("RGBA"), sc)
         ovl = Image.open(OVL_UI / f"{f:05d}.png").convert("RGBA")
         out = Image.alpha_composite(out, ovl if ovl.size == (W, H) else ovl.resize((W, H))).convert("RGB")
@@ -314,7 +317,11 @@ def composite():
                            "-filter_complex", f"[1]apad=pad_dur={D['total_s'] - tm['audio']['duration_s']:.3f},"
                                               f"atrim={A / FPS:.6f}:{B / FPS:.6f},asetpts=PTS-STARTPTS[a]",
                            "-map", "0:v", "-map", "[a]", "-t", f"{(B - A) / FPS:.6f}",
-                           "-c:v", "libx264", "-preset", "medium", "-crf", CRF, "-pix_fmt", "yuv420p",
+                           # BT.709, converted and tagged: untagged, players assume 709 for HD while ffmpeg converted
+                           # with 601, shifting the reds toward orange.
+                           "-vf", "scale=out_color_matrix=bt709:out_range=tv:flags=accurate_rnd+full_chroma_int,format=yuv420p,"
+                                  "setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=tv",
+                           "-c:v", "libx264", "-preset", "medium", "-tune", "grain", "-crf", CRF,
                            "-c:a", "aac", "-b:a", "192k", str(out)], stdin=subprocess.PIPE)
     with Pool(JOBS) as pool:
         for buf in pool.imap(frame, range(A, B), chunksize=16):

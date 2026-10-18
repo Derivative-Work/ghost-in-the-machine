@@ -226,3 +226,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human reported "both 'loading textures |' bits needs to have a placeholder when the box is not shown -- the position appears to oscillate because its width is changing and it's right-aligned" (S21, S43). The agent fixed the overlay and is re-cutting both sections.
 - **Rule:** R1 (reject a render).
+
+## 2026-10-18T06:45:40-04:00 — C5: banding on the robot and stutter in slow text zooms reported
+
+- **What:** The human reported "some color banding on the robot and jumpiness in the slow zooms on text scenes, likely caused by the render color depth and resolution" and asked whether it could be fixed efficiently on this machine. The agent diagnosed both, fixed them in the pipeline and is re-cutting all eight sections.
+- **Rule:** R1 (reject a render).

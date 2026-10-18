@@ -704,3 +704,34 @@ Found by the agent's flash check on `c5_7_final_chorus.mp4`. Both were already i
 - "Loading textures": the text's left edge, measured in every S21 and S43 frame, now stays at one position (x=473 in the crop). The rejected cuts alternated 473/505, a 32 px shift each caret blink. Whole-frame cut_diff is below threshold for sections 3 and 6, as expected for a caret-sized change.
 - Section 7 against `c5_7_final_chorus_rejected_s53_roll_flip.mp4`: 98 changed frames, all in S53's descent (f5394 on), where the orientation differs by up to 16°; the start and the S54 match are unchanged.
 - Sent the three to the human (section 7 as a 6 Mbps review copy; the crf 18 master is 36.2 MiB).
+
+## 2026-10-18T06:45:40-04:00 — Banding, colour matrix and zoom stutter: diagnosed and fixed in assembly and overlay; all sections re-cutting
+
+Not the render depth or resolution. The plates are clean: Blender dithers its 8-bit output, and 242 levels sit in the robot-face region.
+
+1. **Banding (encode).** x264 at crf 18 treats the plates' 1-level dither as noise and removes it, so the glows fall back into 8-bit steps. A 10-bit encode didn't solve it: the dither is still smoothed away and display re-quantises to 8 bits. Tests on S07 (scratchpad `enc/`; fraction of flat 8×8 blocks in the glow region, plate 0.11):
+
+   | Encode | Flat blocks |
+   | --- | --- |
+   | Old | 0.15 |
+   | 10-bit | 0.17 |
+   | 8-bit + grain 2 | 0.04 |
+   | 8-bit + grain 4 | 0.00 (5× bitrate) |
+
+   Fix (`scripts/assemble.py`):
+   - monochrome Gaussian grain, σ = 1.2 levels, seeded per frame, on 3D plates only (render, split, montage, feedlive, hold), so text and UI stay clean;
+   - `-tune grain`.
+
+   Result on S07: 0.01 flat blocks; about 1.9× the file size for that shot.
+2. **Colour matrix (found while testing).** The cuts were untagged and converted with ffmpeg's default BT.601 matrix. Players assume BT.709 for HD, so reds shifted toward orange: the S07 glow showed +4 R, +4 G against the plate. Fix: convert with BT.709 (accurate rounding) and tag primaries, transfer, matrix and range (`setparams`). New S07 bias against the plate: 0.
+3. **Stutter in the slow 2D push (overlay).** Chrome re-rasterised the text at every scale step and snapped the glyphs to the pixel grid. On an S45 reply the word sat still and then jumped 0.5–0.76 px, where the ease should move it about 0.12 px per frame (step std 0.17 px). Fix (`overlays/video.js`): `will-change: transform, scale` on the pushed 2D layers, so Chrome keeps one raster and scales the bitmap. Step std 0.06 px, max step 0.24 px, no visible softening.
+4. **Whole-pixel crops in the compositor.** `punch` (downbeat punch-in), `zoom_about` (4-up/9-up settle, zoom-throughs) and `window` (the vertical cut's pans) cropped at integer pixels before resizing. They now resize from a fractional source box. The vertical scene overlay is resized premultiplied. Checked with a vertical still (S54).
+- Canvas-drawn zooms (S50, S53, S54) were already sub-pixel.
+- Archived the eight current cuts as `archive/renders/c5/*_superseded_encode_bt601_banding.mp4`; re-cutting all sections (`renders/c5/logs/sections4.log`).
+- Review copies sent at 6 Mbps will lose some grain. Judge banding on the crf 18 masters.
+
+## 2026-10-18T07:02:31-04:00 — All eight sections re-cut with grain, BT.709 and smooth push; checked; sent
+
+- `renders/c5/logs/sections4.log`: all eight cut, no errors; 178 MiB in total (was ~110), every stream tagged BT.709.
+- S45 push in the final encode (section 6): the reply's left edge drifts 8.94 px over f4680–4719, against 8.97 px in the overlay, in smooth easing steps (−0.40 → −0.22 px). Phase-correlation step jitter 0.04 px, against 0.18 px in the superseded cut.
+- Sections 3 (33.7 MiB) and 7 (53.1 MiB) are over the upload limit and were sent as `-tune grain` review copies at 6 and 7 Mbps; the rest are the crf 18 masters.

@@ -215,9 +215,10 @@ function bg2d(t, shot) {
     const x = ((w.x + w.vx * t) % 2200 + 2200) % 2200 - 200, y = ((w.y + w.vy * t) % 1300 + 1300) % 1300 - 200;
     Object.assign(d.style, { left: `${x}px`, top: `${y}px`, width: `${w.w}px`, height: `${w.h}px` });
   });
-  // The whole 2D canvas keeps pushing in, and the cursor is never quite still.
+  // The whole 2D canvas keeps pushing in, and the cursor is never quite still. will-change keeps each layer's raster
+  // and scales the bitmap: re-rasterised at every scale, the glyphs snapped to the pixel grid and the push stuttered.
   const push = 1 + 0.045 * ease((t - shot.start_s) / dur(shot));
-  for (const id of CONTENT_2D) { $(id).style.scale = push; $(id).style.transformOrigin = '50% 45%'; }
+  for (const id of CONTENT_2D) Object.assign($(id).style, { scale: push, transformOrigin: '50% 45%', willChange: 'transform, scale' });
   const usesCursor = ['big_accept', 'accept_banner', 'cursor_regen_click'].some((n) => shot.layers.includes(n));
   if (!usesCursor) {
     show('cursor');
