@@ -635,3 +635,7 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 ## 2026-10-17T21:09:46-04:00 — C5 section 3 re-cut done
 
 - New `renders/c5/c5_3_chorus1.mp4` (frames 1776–2888): the S23 stamps match v8. Flash check: same 22 flagged runs as before, all intended. Sent to the human.
+
+## 2026-10-17T21:14:38-04:00 — C5 section 4 cut (Verse 2)
+
+- `renders/c5/c5_4_verse2.mp4`: S30–S34, frames 2888–3356. Compared with v8 at 25% and 75% of every shot: same framing and layers. Flash check: the S32 SOLD OUT stamp landing and the S33→S34 cut, both intended. Sent to the human.
