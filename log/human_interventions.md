@@ -241,3 +241,15 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human asked to "rewrite all commits to use 'Albert Armea <github@albertarmea.com>' as the author and committer" (keeping the Co-Authored-By lines), then to "set https://github.com/Derivative-Work/ghost-in-the-machine as the remote and push". The agent did both. No production content changed.
 - **Rule:** R3 (repository administration the agent doesn't decide).
+
+## 2026-10-18T15:59:33-04:00 — Plan changes from the brief's author: 4K, mastered audio, end card, licences
+
+- **What:** The human asked for:
+  - renders at 4K, not 1080p (the brief says 1080p). Asked about the vertical cut, the human chose 2160×3840 from the 4K plates;
+  - the final audio to be the cleaned master in `~/Code/music-deslop`, "which is the repository that did the cleanup, and it also documents which one to use";
+  - the end card to credit it as "Mastered by: Claude, referencing CC audio" (or similar);
+  - the repo to include the attributions for the data sources used to train that model, which stays private for now;
+  - the remote as the end card's GitHub link, with the torrent and Internet Archive left off the card and added to the repo README once the human has them;
+  - the video and its assets under CC BY-NC-SA, stated on the card, and the code under MIT. Asked whose name goes on the notices, the human chose "Albert Armea";
+  - the brief (Claude Doc and `docs/brief.md`) updated to match.
+- **Rule:** exception. These change the brief's deliverables, its end-card text and the project's licensing; none of R1–R4 covers that. The brief's author made them as the plan's owner. The cleaned master itself falls under R3/R4 (supplied by the human, made with the human's tool). The end-card wording was given by the human ("or similar"); the agent sets the final text.

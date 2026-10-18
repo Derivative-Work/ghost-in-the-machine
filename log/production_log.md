@@ -826,3 +826,15 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - The difference ramps from mean 0.03 to a peak of 0.41 (f5383) and back to under 0.001 at f5394 (identical from f5395).
   - Frame-to-frame motion is identical in both versions to 0.01 levels (f5393→5394 step 11.00 in each), so the reviewed cut has no step at the seam. Nothing to re-render, but the c5 plates of S53 are a mix of the two code versions.
 - **Conclusion:** the 5090 reproduces the 970's Eevee output exactly, so 5090 plates can be mixed with 970 plates inside one cut.
+
+## 2026-10-18T15:59:33-04:00 — Plan change: 4K masters, cleaned audio, new end card, licences
+
+- The human's instructions are logged in `log/human_interventions.md` (same timestamp). Work, in order, each step logged and committed separately:
+  1. **Audio master.** Take the release chain's output from music-deslop. Checked first:
+     - `music-deslop-data/e2e_eval/source/ghost-in-the-machine-suno.wav` is byte-identical to `audio/track/Ghost in the Machine.wav` (sha256 `78a7464c…`);
+     - the restored file has the same length (9,120,000 samples at 48 kHz), 0 lag and a change of −35.3 dB RMS, so `timing/timing_map.json` is unaffected.
+  2. **Licences and credits:** `LICENSE` (MIT, code), `LICENSE-media.md` (CC BY-NC-SA 4.0, video and assets), and a `README.md` with the training-data attributions and a placeholder for the torrent and Internet Archive links.
+  3. **End card:** mastering credit, licence, and the GitHub link; no torrent or IA line.
+  4. **Brief:** update the Claude Doc and re-export `docs/brief.md`.
+  5. **4K:** main video 3840×2160 from 4608×2160 plates; vertical 2160×3840 from the same plates. Overlays at 4K need a sharpness check first. Then re-cut the C5 sections at 4K for review.
+- **Correction:** the parity entry above is headed 2026-10-18T16:02:00, a time the agent typed by hand. It was written and committed at 15:47:53 (commit b981f5d). From here on, entry times come from `date`.
