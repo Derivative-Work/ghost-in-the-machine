@@ -7,6 +7,9 @@ set -euo pipefail
 tier=$1; profile=$2; step=$3; shift 3
 out="$PWD/renders/$tier/plates"
 mkdir -p "$out"
+# A profile may name its own screen-texture set (e.g. the 2x panels for 4K); plates.py reads it from GITM_PANELS.
+panels=$(.venv/bin/python -c "import json;print(json.load(open('config/render_profiles.json'))['$profile'].get('panels',''))")
+[ -n "$panels" ] && export GITM_PANELS="$PWD/$panels"
 want=" $* "
 [ $# -eq 0 ] && want=" ALL tiles "
 n=$(.venv/bin/python -c "import json;print(len(json.load(open('shots/shots.json'))['render_jobs']))")

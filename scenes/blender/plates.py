@@ -13,6 +13,7 @@ step-th frame of a job is rendered (animatic).
 """
 import json
 import math
+import os
 import random
 import sys
 from pathlib import Path
@@ -28,7 +29,8 @@ from mathutils import Matrix, Vector  # noqa: E402
 ROOT = G.ROOT
 SHOTS = json.loads((ROOT / "shots" / "shots.json").read_text())
 FPS = SHOTS["fps"]
-PANELS = ROOT / "renders" / "animatic" / "panels"
+# Screen textures (overlays/panels/*.html rendered to PNG); a render profile can point at a sharper set (GITM_PANELS).
+PANELS = Path(os.environ["GITM_PANELS"]) if os.environ.get("GITM_PANELS") else ROOT / "renders" / "animatic" / "panels"
 SHOT = {s["id"]: s for s in SHOTS["shots"]}
 OUT_ROOT = None  # renders/<tier>/plates of the current run (set by render_job/probe): the river screen reads frames here
 SCREEN_NAMES = ["consent", "counter", "chat", "terminal", "playlist", "rating"]

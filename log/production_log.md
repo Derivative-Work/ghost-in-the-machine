@@ -919,3 +919,25 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - At 3840×2160, high-frequency energy (Laplacian²) is 3.5–8.0× that of the 1080p frame upscaled with Lanczos. The `will-change` push layers (S12, S45) are native too (4.8×, 4.3×).
   - S50's 3.5× is limited by its 1080p live plate in this test.
   - S45's soft reply text is the intended `degrade` CSS blur, the same at both sizes.
+
+## 2026-10-18T16:12:35-04:00 — 4K: render profile, 2× screen textures, test plates
+
+- **Profile `4k`** (`config/render_profiles.json`): the untested `c5v` renamed and documented. Twice the c5 sizes:
+  - 4608×2160 (default);
+  - S50-live 3840×2160;
+  - S48 2304×1080;
+  - S49 1536×720;
+  - feed thumbnails unchanged at 640×360, at most ~600 px on screen at 4K.
+
+  Serves both the 3840×2160 main video (centre crop) and the 2160×3840 vertical (the human's choice: 3D crops upscaled 1.78×, as in the 1080p vertical). Tier: `renders/c5_4k/`.
+- **Screen textures at 2×:** the panels (`overlays/panels/*.html` → PNG) were 1200×700, 1600×900 (THE END) and 600×340 (allusion cards), already upscaled on close shots and zoom-throughs at 1080p.
+  - `scripts/render_html.mjs` takes an optional scale (Puppeteer `deviceScaleFactor`).
+  - Rendered at scale 2 into `renders/c5_4k/panels/`: `node scripts/render_html.mjs overlays/panels/<name>.html renders/c5_4k/panels/<file>.png <w> <h> 2` for all 12, with the sizes above.
+  - Checks:
+    - At scale 1 today, all 12 reproduce `renders/animatic/panels` bit for bit, so the HTML hasn't changed since.
+    - The 2× set is exactly double size, same modes, and box-downscaled differs from the 1× by 0.04–0.36 levels (antialiasing).
+  - `scenes/blender/plates.py` reads the folder from `GITM_PANELS`; the default, `renders/animatic/panels`, is unchanged. `scripts/render_plates.sh` exports it from a profile's `panels` key.
+- **Test:** `scripts/render_plates.sh c5_4k 4k 1 S07 S20`. S07 41 frames in 42 s; S20 117 frames in 121 s (~1.0 s/frame, ~10 MB/frame).
+  - Box-downscaled to 2304×1080, the frames match `renders/c5/plates` to mean |diff| 0.76–0.87 and p99 5–6 levels: render noise and AA, same framing.
+- **Size of the full run:** 33 jobs × 4608×2160 (3,246 frames), 1 × 3840×2160 (650), 4 × 2304×1080 (464), 9 × 1536×720 (1,044), 23 × 640×360 (14,950). About 45 GB; 135 GB free.
+- Manifest re-run (the 2× panels).

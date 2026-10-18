@@ -64,8 +64,8 @@
       }
     ]
   },
-  "c5v": {
-    "_doc": "The vertical cut's plates (S35-S56): twice the c5 sizes, so the 9:16 crop of a 3D shot is ~1:1 at 1080x1920 instead of upscaled 1.78x. Feed thumbnails stay small. Render into renders/c5v and cut with assemble.py c5v ... --vertical.",
+  "4k": {
+    "_doc": "4K masters (2026-10-18): twice the c5 sizes, for the 3840x2160 main video and the 2160x3840 vertical cut (which crops and upscales the 3D plates 1.78x, as the 1080p vertical did). Feed thumbnails stay 640x360 (at most ~600 px on screen at 4K). Screen textures from the 2x panel set. Was 'c5v', never used.",
     "default": [
       4608,
       2160,
@@ -114,6 +114,7 @@
         ],
         "why": "9-up: portrait cells crop a 9:16 slice of each tile"
       }
-    ]
+    ],
+    "panels": "renders/c5_4k/panels"
   }
 }
