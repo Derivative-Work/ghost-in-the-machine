@@ -815,3 +815,14 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - `render_plates.sh` runs one job at a time. Running 3 at once means splitting the shot list across 3 invocations; they skip frames already on disk and write separate job directories.
 - **Outputs:** `renders/bench/antiai-aiclub_rtx5090/` (benchmark stills and overlay frames); `renders/bench5090/plates/` (7.4 GB scratch-tier frame sequence, regenerable, not archived). The `parity` comparison has not been run yet.
 - **Manifest:** `scripts/manifest.sh` re-run: 1,283 → 1,367 files, the 84 new benchmark files only.
+
+## 2026-10-18T16:02:00-04:00 — RTX 5090 parity with the 970: bit-identical
+
+- **`scripts/gpu_parity.sh`** (first frame per shot): S07, S27 and S25 have 0 pixels differing from the 970's `renders/c5/plates`.
+  - The script's old default S53 gave mean |diff| 12.3 (58% of pixels). That isn't the GPU: S53's video tiles read frames from the output directory, which is empty in a parity run, so its screens render blank.
+  - Default changed to S07 S27 S25, and the script now says why video_tiles and river_screen shots can't be checked this way. `docs/handoff.md` updated to match.
+- **Every frame of the end-to-end benchmark run** (`renders/bench5090/plates`: 34 job directories, 16,054 frames covering S07, S20, S25, the nine S49 split jobs, the 23 S50 tiles, S50 live and S53) compared with `renders/c5/plates` (scratchpad `parity_all.py`): **all bit-identical except S53 f5366–5394 (29 frames).**
+  - These frames come from the S53 roll-flip fix (2026-10-18T06:05). On the 970 only f5394–5506 were re-rendered after the camera change; f5366–5393 still come from the old code, while the 5090 rendered all of S53 with the current code.
+  - The difference ramps from mean 0.03 to a peak of 0.41 (f5383) and back to under 0.001 at f5394 (identical from f5395).
+  - Frame-to-frame motion is identical in both versions to 0.01 levels (f5393→5394 step 11.00 in each), so the reviewed cut has no step at the seam. Nothing to re-render, but the c5 plates of S53 are a mix of the two code versions.
+- **Conclusion:** the 5090 reproduces the 970's Eevee output exactly, so 5090 plates can be mixed with 970 plates inside one cut.

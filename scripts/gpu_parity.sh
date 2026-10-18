@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 # Render the first frame of a few C5 plate jobs on this machine and compare them with the plates already in
 # renders/c5/plates (rendered on the GTX 970), so a new GPU's differences are measured before its plates are mixed in.
-# Usage: scripts/gpu_parity.sh [SHOT_ID ...]   (default: S07 S27 S53, i.e. robot glow, landscape, stream)
+# Usage: scripts/gpu_parity.sh [SHOT_ID ...]   (default: S07 S27 S25, i.e. robot glow, stream, cloud + rays)
+# Only shots that read no other plates: video_tiles (S50, S53) and river_screen (S54, S55) read frames from the
+# output directory, which is empty here, so they render blank screens. Compare those from a full run instead.
 set -euo pipefail
-shots=${*:-S07 S27 S53}
+shots=${*:-S07 S27 S25}
 out="$PWD/renders/parity/$(hostname)"
 mkdir -p "$out"
 for shot in $shots; do

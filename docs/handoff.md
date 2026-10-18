@@ -64,7 +64,7 @@ sha256sum -c --quiet MANIFEST.sha256                   # every published large f
 ## 4. First things to run on the new box
 
 1. `scripts/check_seeds.sh`: per-machine reproducibility (log, step 4 says it must be rerun on the 5090). Log the result.
-2. `scripts/gpu_parity.sh`: renders the first frame of S07, S27 and S53 and compares with the 970's plates. On the 970 it gives 0 difference. Log the numbers. They decide whether 5090 plates can be mixed with 970 plates inside one cut. Eevee differences between GPUs are usually tiny noise, but measure it.
+2. `scripts/gpu_parity.sh`: renders the first frame of S07, S27 and S25 and compares with the 970's plates. On the 970 it gives 0 difference. Log the numbers. They decide whether 5090 plates can be mixed with 970 plates inside one cut. Eevee differences between GPUs are usually tiny noise, but measure it.
 3. Time one job before any long run, e.g. `scripts/render_plates.sh c5 c5 1 S07` into a scratch tier, so estimates are real.
 
 ## 5. Work that remains, in order
