@@ -656,3 +656,12 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 
 - `scripts/render_plates.sh c5 c5 1`: 20:06:42–23:53:33, 3 h 47 min (estimate ~3.7 h). 20,354 plate frames across 70 jobs, plus 23 feed thumbnail stills, under `renders/c5/plates` (frame sequences, not archived). No errors.
 - Slower than benchmarked: the S50 live tile with video_tiles took 3.45 s/frame (estimated ~2) and S53 took 4.9 s/frame. The projected video tiles cost more than the benchmark scenes, which had no tiles.
+
+## 2026-10-18T00:05:39-04:00 — Section 7 review: two defects (both already in v8); fixes; stream plates re-rendering; all sections re-cut
+
+Found by the agent's flash check on `c5_7_final_chorus.mp4`. Both were already in the approved animatic v8.
+
+1. **First frame of S50 showed S49's token rain on black.** Cause, systemic: the overlay chose the shot by time (`start_s`), the assembly by frame. `start_s` sits up to one frame after `start_frame` in 32 shots, so each of their first frames got the previous shot's overlay. Fix (`overlays/video.js`): `shotAt` goes by frame, and so do the feed's `dancing`/S51-dark checks and the version schedule. Checked: f5043 now shows the live tile at full frame.
+2. **S53, f5390–5398: large pale shapes under the top-down camera.** Cause: the loss landscape clamps the hills at z = 0, and z = 0 is a contour level, so whole plains were drawn in the line colour. At the low S26/S27 angles they read as pale flats; from S53's 24 m camera they looked like blobs. Fix (`plates.py` contour material): no line where |z| < 0.004. Checked on f5395: the plains are dark with a thin contour at their edge. The fix has to apply to every stream plate, because S53 cuts to S54's river screen, which is textured from the S50 live tile.
+   - Moved the 29 stream/river job dirs (S26, S27, S50 ×24, S53, S54, S55) to `renders/c5/plates_superseded_flat_contours/` and started `scripts/render_plates.sh c5 c5 1 S26 S27 S50 S53 S54 S55` (log `renders/c5/logs/plates2.log`; ~2.3 h estimated).
+- Every section is being re-cut for fix 1, and sections 3 and 7 for fix 2 as well (`renders/c5/logs/sections2.log`). The previous cuts are archived in `archive/renders/c5/` (`*_superseded_first_frame_overlay`, `c5_3_chorus1_superseded_flat_contours`, `c5_7_final_chorus_rejected_s53_blobs_s50_first_frame`).

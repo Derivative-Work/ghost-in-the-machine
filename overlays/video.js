@@ -22,7 +22,9 @@ const easeOut = (x) => 1 - (1 - Math.min(1, Math.max(0, x))) ** 2;
 const clamp01 = (x) => Math.min(1, Math.max(0, x));
 const SHOTS = D.shots.shots;
 const SHOT = Object.fromEntries(SHOTS.map((s) => [s.id, s]));
-const shotAt = (t) => SHOTS.find((s) => t >= s.start_s && t < s.end_s) ?? SHOTS[SHOTS.length - 1];
+// By frame, as the assembly does (C5 fix): start_s can fall up to a frame after start_frame, which put the previous
+// shot's overlay on the first frame of 32 shots.
+const shotAt = (t) => { const f = Math.round(t * fps); return SHOTS.find((s) => f >= s.start_frame && f < s.end_frame) ?? SHOTS[SHOTS.length - 1]; };
 const dur = (s) => s.end_s - s.start_s;
 const BEATS = D.timing.beats, DOWNBEATS = D.timing.downbeats;
 const pulse = (t, beats, decay = 0.18) => {
@@ -80,8 +82,8 @@ const VERSIONS = [
   [0, 'v1.0'], [sectionStart('Verse 1'), 'v1.0.1'], [sectionStart('Bridge 1'), 'v1.0.2'],
   [sectionStart('Pre-Chorus 1'), 'v1.0.3'], [sectionStart('Chorus 1'), 'v1.0.4'], [T_GOOD, 'v1.1'],
   [sectionStart('Bridge 2'), 'v1.1.1'], [sectionStart('Pre-Chorus 2'), 'v1.2'], [T_TRUNC, 'v1.2.7'],
-  [SHOT.S47.start_s, 'v1.2.7.1-rc1'], [SHOT.S50.start_s, 'v1.2.7.10.3-rc4'],
-  [SHOT.S55.start_s, 'v1.2.7.10.3-final-FINAL'], [SHOT.S56.start_s, 'v1.0'],
+  [SHOT.S47.start_frame / fps, 'v1.2.7.1-rc1'], [SHOT.S50.start_frame / fps, 'v1.2.7.10.3-rc4'],
+  [SHOT.S55.start_frame / fps, 'v1.2.7.10.3-final-FINAL'], [SHOT.S56.start_frame / fps, 'v1.0'],
 ];
 const version = (t) => VERSIONS.filter(([at]) => t >= at).pop()[1];
 
@@ -849,7 +851,7 @@ async function feed(t, shot, mode) {
   $('grid').style.opacity = 1;
   const liveFrame = Math.min(Math.round(t * fps), SHOT.S55.end_frame - 1);
   const pad = (n) => String(n).padStart(5, '0');
-  const dancing = t >= SHOT.S50.start_s;  // every feed tile, this video's included, is the robot dancing in the data stream
+  const dancing = Math.round(t * fps) >= SHOT.S50.start_frame;  // every feed tile, this video's included, is the robot dancing in the data stream
   const frameOf = async (dir) => (await load(`${PLATES}/${dir}/${pad(liveFrame)}.png`)) ?? (await load(`${PLATES}/${dir}/${pad(liveFrame - 1)}.png`));
   const feedDir = (seedName) => D.shots.render_jobs.find((j) => j.shot === 'S50' && j.seed === seedName).dir;
   const live = await frameOf(dancing ? feedDir('main') : 'chorus-orbit__main');
@@ -867,7 +869,7 @@ async function feed(t, shot, mode) {
   g.setTransform(S, 0, 0, S, tx, ty);
   const speed = ['scroll', 'decel'].includes(mode) ? scrollSpeed(t) : 0;
   // Tiles darkened in S51 stay dark as the S52 scroll begins (continuity); fresh rows scroll in alive.
-  const nDark = mode === 'dark' ? beatsSince(t, shot.start_s) * 4 : t >= SHOT.S51.end_s ? beatsSince(SHOT.S51.end_s, SHOT.S51.start_s) * 4 : 0;
+  const nDark = mode === 'dark' ? beatsSince(t, shot.start_s) * 4 : Math.round(t * fps) >= SHOT.S51.end_frame ? beatsSince(SHOT.S51.end_s, SHOT.S51.start_s) * 4 : 0;
   const r0 = Math.floor((off - Y0) / ROW_H) - 1;
   for (let row = r0; row < r0 + 7; row++) {
     for (let col = 0; col < COLS; col++) {

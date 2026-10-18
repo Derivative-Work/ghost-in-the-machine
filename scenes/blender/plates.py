@@ -863,6 +863,12 @@ def plate_stream(job, seed):
     mul = N("ShaderNodeMath"); mul.operation = "MULTIPLY"; mul.inputs[1].default_value = 3.0; L(sep.outputs["Z"], mul.inputs[0])
     fr = N("ShaderNodeMath"); fr.operation = "FRACT"; L(mul.outputs[0], fr.inputs[0])
     lt = N("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.06; L(fr.outputs[0], lt.inputs[0])
+    # No line on the flat ground where the hills clamp to z = 0 (C5 fix: z = 0 sits on a contour, so whole plains
+    # rendered in the line colour, big pale blobs under S53's top-down camera).
+    ab = N("ShaderNodeMath"); ab.operation = "ABSOLUTE"; L(sep.outputs["Z"], ab.inputs[0])
+    gt = N("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.004; L(ab.outputs[0], gt.inputs[0])
+    both = N("ShaderNodeMath"); both.operation = "MULTIPLY"; L(lt.outputs[0], both.inputs[0]); L(gt.outputs[0], both.inputs[1])
+    lt = both
     base = N("ShaderNodeBsdfPrincipled"); base.inputs["Base Color"].default_value = G.lin("#121117"); base.inputs["Roughness"].default_value = 0.6
     line = N("ShaderNodeEmission"); line.inputs["Color"].default_value = G.lin("#6a6276"); line.inputs["Strength"].default_value = 2.0
     mix = N("ShaderNodeMixShader"); L(lt.outputs[0], mix.inputs[0]); L(base.outputs[0], mix.inputs[1]); L(line.outputs[0], mix.inputs[2])
