@@ -675,3 +675,9 @@ Found by the agent's flash check on `c5_7_final_chorus.mp4`. Both were already i
 ## 2026-10-18T00:19:05-04:00 — Section 3 re-cut with the contour fix
 
 - `renders/c5/c5_3_chorus1.mp4` from the re-rendered S26/S27 plates. Against the archived cut: 51 changed frames inside S27 (the pale flats are now dark ground with a thin contour at their edge), S26 below the diff threshold, and first frames at S23, S24, S27, S28, S29. Flash check: the same 22 intended runs. Sent to the human.
+
+## 2026-10-18T02:28:51-04:00 — Stream re-render done; section 7 cut; all eight C5 sections out for review
+
+- Re-render `scripts/render_plates.sh c5 c5 1 S26 S27 S50 S53 S54 S55`: 2026-10-18T00:05:16-04:00 to 2026-10-18T02:23:36-04:00, no errors.
+- `renders/c5/c5_7_final_chorus.mp4` (S47–S55, frames 4754–5693): the S49→S50 cut is clean (f5043 is the live tile at full frame), S53 f5390–5398 has no pale blobs, and S53's end matches S54's river screen. Flash check: the S48 zoom entrance, the S50 zoom-out, S53's peel and flow, and an ordinary caption change at the end of S52, all intended. Sent to the human.
+- C5 status: all eight sections are cut and sent; none has an explicit approval yet. Every cut is from the current code. Archived cuts: `archive/renders/c5/`.
