@@ -671,3 +671,7 @@ Found by the agent's flash check on `c5_7_final_chorus.mp4`. Both were already i
 - New `scripts/cut_diff.py` (frame-by-frame difference between a re-cut and the cut it replaces). Against the archived cuts, the only changed frames are shot first frames: S04 | S11, S11b, S12, S13, S14 | S30, S34 | S37 | S42, S45 | none in section 8. Section 1 also changed at S04, whose start time is 0.013 s late.
 - Section 8 (S56–S57): matches v8; flash check shows only the S56 repack and the tip onto the dark face. Sent all six to the human.
 - To do before C6: the end card's "Human interventions: 23" comes from the last overlay-data export; re-export so it counts the C5 rejections.
+
+## 2026-10-18T00:19:05-04:00 — Section 3 re-cut with the contour fix
+
+- `renders/c5/c5_3_chorus1.mp4` from the re-rendered S26/S27 plates. Against the archived cut: 51 changed frames inside S27 (the pale flats are now dark ground with a thin contour at their edge), S26 below the diff threshold, and first frames at S23, S24, S27, S28, S29. Flash check: the same 22 intended runs. Sent to the human.
