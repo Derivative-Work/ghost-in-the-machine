@@ -754,3 +754,64 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 
 - **Authorship:** all 68 commits on `main` rewritten (`git filter-branch --env-filter`) to author and committer `Albert Armea <github@albertarmea.com>`. Messages (all 68 keep their Co-Authored-By line), dates and trees unchanged: `git diff` against the old tip is empty. The old history is kept locally as branch `backup/pre-author-rewrite` (and `refs/original/`). There was no remote, tag or other branch.
 - **Remote:** `origin` = `https://github.com/Derivative-Work/ghost-in-the-machine` (was empty); `main` pushed and tracking. The backup branch is not pushed.
+
+## 2026-10-18T15:44:09-04:00 — RTX 5090 box: setup and render-time benchmark
+
+- **Box:** RTX 5090 (32 GB, driver 595.99.02), 24 cores, 34 GB RAM, Ubuntu 26.04. Blender 5.2.2 LTS (snap) and ffmpeg 8.0.1, the same as the 970 box.
+- **Setup (handoff §3):**
+  - `uv sync` recreated `.venv`; the copied one pointed at the old box's Python.
+  - Node v24.22.0 via nvm 0.40.3, loaded from `~/.bashrc`.
+  - `npm ci`; `chrome-headless-shell` 148.0.7778.97.
+  - Eevee gets a GPU context headless with no changes.
+- **Plates, render only** (`plates.py bench`, 2nd/3rd frame; same jobs and settings as the 970 benchmark of 2026-10-17T19:45):
+
+  | Shot | Size | 970 s/frame | 5090 s/frame |
+  | --- | --- | --- | --- |
+  | S06 robot set | 2304×1080 s64 | 1.82 | 0.30 |
+  | S20 orbit + ghost | 2304×1080 s64 | 2.15 | 0.31 |
+  | S21 dolly zoom | 2304×1080 s64 | 1.77 | 0.31 |
+  | S25 cloud + rays | 2304×1080 s64 | 3.48 | 0.39 |
+  | S26 data stream | 2304×1080 s64 | 2.3 | 0.33 |
+  | S33 arena | 2304×1080 s64 | 1.93 | 0.34 |
+  | S34 tear | 2304×1080 s64 | 1.59 | 0.29 |
+  | S48 split tile | 2304×1080 s64 | 1.76 | 0.31 |
+  | feed tile | 640×360 s32 | 0.30 | 0.09 |
+
+  - First frame of a job: 0.6–0.7 s (8.2 s on the very first job, a cold shader cache).
+  - `c5v` sizes: S06, S25, S53 and S54 at 4608×2160 take 1.06–1.24 s; S50-live at 3840×2160 0.94; S48 at 2304×1080 0.31; S49 at 1536×720 0.18.
+  - `bench` mode reads video tiles from `animatic_v8` plates, so it understates S50 and S53. Use the end-to-end times below for those.
+- **Plates, end to end** (`scripts/render_plates.sh bench5090 c5 1 S07 S20 S25 S49 S50 S53`, 15:07:37–15:38:12, scene build and all writes included, against `renders/c5/logs/plates.log`):
+
+  | Job | 970 | 5090 | Speed-up |
+  | --- | --- | --- | --- |
+  | S07 | 66 s | 13 s | 5.1× |
+  | S20 | 246 s | 38 s | 6.5× |
+  | S25 | 276 s | 39 s | 7.1× |
+  | S49 split, each of 9 | 43 s | 13–14 s | 3.2× |
+  | S50 feed tile, each of 23 | 194 s | 58–60 s | 3.3× |
+  | S50 live (650 frames) | 2244 s | 211 s | 10.6× |
+  | S53 | 689 s | 61 s | 11.3× |
+  | Total | 8384 s | 1835 s | 4.6× |
+
+- **Why the GPU looks idle** (the human asked "is there any reason why it seems to barely be using the GPU"):
+  - During the tile jobs the GPU sat at ~22% utilization and ~105 W of 575 W; Blender used ~5 of 24 cores.
+  - Profile of one frame (scratchpad `profile_frame.py`), 2304×1080: scene update 0.002 s, `render` (GPU and readback) 0.19 s, PNG write 0.13 s. At 640×360: 0.06 s render, 0.013 s write.
+  - So up to ~40% of a frame is single-process CPU work (mostly the PNG encode) while the GPU waits. On the 970 the GPU itself took 1.6–3.5 s, so this didn't show.
+  - PNG compression 0 gives identical pixels in half the write time but 3.7× the file size (10 MB a frame), too big for the vertical run on this disk. Not used.
+  - **Parallel processes fill the gap.** `bench` S06 2304×1080 s64, 25 frames per process:
+
+    | Processes | frames/s |
+    | --- | --- |
+    | 1 | 3.46 |
+    | 2 | 5.88 |
+    | 3 | 8.05 |
+    | 4 | 8.43 |
+
+    At c5v size (S53 4608×2160): 0.89 → 1.50 (2 processes) → 1.87 (3) frames/s, ~300 W.
+- **Overlay** (`render_frames.mjs overlays/video.html`, 1920×1080, one process, launch included): 0.09 s/frame for 60 frames from f2100 (970: 0.23); 0.21 s/frame for 30 feed frames from f5200 (970: 0.38).
+- **Estimates for this box:**
+  - Full c5 plate set (970: 13,579 s, 3.8 h): ~46 min serial; ~20–25 min with 3 processes.
+  - Vertical `c5v` run (48 jobs, 18,289 frames, mostly the S50 tiles at unchanged 640×360): ~1.4 h serial; ~45–50 min with 3 processes.
+  - `render_plates.sh` runs one job at a time. Running 3 at once means splitting the shot list across 3 invocations; they skip frames already on disk and write separate job directories.
+- **Outputs:** `renders/bench/antiai-aiclub_rtx5090/` (benchmark stills and overlay frames); `renders/bench5090/plates/` (7.4 GB scratch-tier frame sequence, regenerable, not archived). The `parity` comparison has not been run yet.
+- **Manifest:** `scripts/manifest.sh` re-run: 1,283 → 1,367 files, the 84 new benchmark files only.
