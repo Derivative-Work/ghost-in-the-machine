@@ -651,3 +651,8 @@ Append-only. One entry per action: timestamp, step, what, exact command/prompt/s
 ## 2026-10-17T21:30:42-04:00 — Thumbnail draft
 
 - `.venv/bin/python scripts/assemble.py c5 1920 1080 1 1 --frames 4782:4783 --still --name thumbnail_s47_f4782` → `renders/c5/thumbnail_s47_f4782.png`, scaled to 1280×720 as `deliverables/thumbnail.jpg`. Per the brief: the S47 split frame (seed 41 | seed 42) with both seed labels visible, as the full-quality composite including captions and chrome. Sent to the human for review.
+
+## 2026-10-17T23:53:47-04:00 — C5 plate run complete (GTX 970)
+
+- `scripts/render_plates.sh c5 c5 1`: 20:06:42–23:53:33, 3 h 47 min (estimate ~3.7 h). 20,354 plate frames across 70 jobs, plus 23 feed thumbnail stills, under `renders/c5/plates` (frame sequences, not archived). No errors.
+- Slower than benchmarked: the S50 live tile with video_tiles took 3.45 s/frame (estimated ~2) and S53 took 4.9 s/frame. The projected video tiles cost more than the benchmark scenes, which had no tiles.
