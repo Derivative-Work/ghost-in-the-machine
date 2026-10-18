@@ -874,3 +874,26 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - The music-deslop training data is credited with the same attributions as that repo's NOTICE: Slakh2100 redux, VocalSet 1.2, CSTR VCTK 0.92, all CC BY 4.0, plus the ACE-Step 1.5 VAE, DAC and FFmpeg used to make training inputs.
   - The model is described as private, with no link to its repo.
 - The question of whether `reference/stills/` ships at all is still open (handoff §5.8). The licence only says they aren't covered.
+
+## 2026-10-18T16:04:26-04:00 — S57 end card: mastering credit, GitHub link, licence; overlay data re-exported
+
+- **`overlays/video.js` `endCard`**, now 11 lines:
+  1. Written by: the average of five songs
+  2. Music: Suno v6, with the take ID under it
+  3. Lyrics: Claude, merged by a human, revised by Suno
+  4. Animation and edit: Claude Code with Opus 5.5
+  5. **Mastered by: Claude, referencing CC audio** (new, the human's wording)
+  6. Seeds: 41–50
+  7. Human interventions: N
+  8. **Full production log:**, with `github.com/Derivative-Work/ghost-in-the-machine` (mono) under it. This replaces "[repo link and torrent magnet, added at publish]"; the torrent and IA go in the README, per the human.
+  9. **Video and assets: CC BY-NC-SA 4.0 · Code: MIT** (new, mono)
+- **Timing:** a mono line under a heading (the take ID, the repo link) now fades in with its heading, and steps are 0.7 s apart instead of 0.8 s. The last line is in by 6.3 s of the card's 8 s.
+  - At the old timing, 11 lines would have finished at 7.9 s.
+- **Layout:** `overlays/video.html` `#endcard .lines` top 260 → 150 px so the taller block fits the 1080-tall stage; portrait is unchanged and fits.
+  - Checked f6015 at 1920×1080, 1080×1920 (UI pass) and 3840×2160: no clipping. At 4K the text rasterises natively.
+  - Stills are in the scratchpad (`endcard/`).
+- **`scripts/export_overlay_data.py`** re-run (handoff §5.4):
+  - Human interventions 23 → 32 (entry headings in `log/human_interventions.md`). That counts the C5 rejections, the move to the 5090 box, the repository-admin entry and today's plan changes.
+  - S30's scrolling diff now shows `plates.py` as it is today. Of 160 lines, 6 contour-fix lines are added and 7 S53 lines changed, all from the C5 fixes. That's by design ("real code as it stands at export time").
+  - Everything else in `data.js` is unchanged.
+- Takes effect in the next cuts of sections 4 (S30) and 8 (S57).

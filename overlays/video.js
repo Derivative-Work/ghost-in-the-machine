@@ -942,12 +942,18 @@ function endCard(t, shot) {
     ['mono', `take ${D.meta.takeId}`],
     ['', 'Lyrics: Claude, merged by a human, revised by Suno'],
     ['', 'Animation and edit: Claude Code with Opus 5.5'],
+    ['', 'Mastered by: Claude, referencing CC audio'],
     ['', 'Seeds: 41–50'],
     ['', `Human interventions: ${D.meta.humanInterventions}`],
-    ['mono', 'Full production log: [repo link and torrent magnet, added at publish]'],
+    ['', 'Full production log:'],
+    ['mono', 'github.com/Derivative-Work/ghost-in-the-machine'],
+    ['mono', 'Video and assets: CC BY-NC-SA 4.0 · Code: MIT'],
   ];
+  // A mono line under a heading (take ID, repo link) fades in with it; one step every 0.7 s ends by ~6.3 s of 8.
+  let step = -1;
+  const steps = lines.map(([c], i) => (c === 'mono' && i > 0 && lines[i - 1][0] === '' ? step : ++step));
   $('endcard').querySelector('.lines').innerHTML = lines.map(([c, s], i) =>
-    `<div class="${c}" style="opacity:${clamp01((tl - 0.4 - i * 0.8) / 0.3)}">${s}</div>`).join('');
+    `<div class="${c}" style="opacity:${clamp01((tl - 0.4 - steps[i] * 0.7) / 0.3)}">${s}</div>`).join('');
 }
 
 // ---------- frame ----------
