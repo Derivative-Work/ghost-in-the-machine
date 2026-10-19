@@ -1056,3 +1056,8 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - the agent's git address appears, as it does in every commit;
   - **the human's personal email address appears 9 times**, all in context Claude Code injected automatically. Redaction is the human's decision; noted in `docs/handoff.md`.
 - **Not run by the agent:** the auto-mode permission classifier blocked the agent's copy out of `~/.claude`. The human runs `scripts/export_transcripts.sh` on the draft box (R3) as the last step before copying the directory, which also captures this session's final messages.
+
+## 2026-10-18T20:46:59-04:00 — Transcripts exported (draft box)
+
+- The human ran `scripts/export_transcripts.sh`. `transcripts/claude-code/` holds both sessions and the offloaded tool result, all git-ignored and in `MANIFEST.sha256` (1,286 files). The b87d228d snapshot at export: 9,790 lines, SHA-256 `28a089bde1e88696…`.
+- The few messages after the export (this entry) aren't in the snapshot. Rerunning the script before copying captures them; the prefix check allows it.

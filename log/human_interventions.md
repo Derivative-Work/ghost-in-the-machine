@@ -275,3 +275,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** Asked about the open C6 items, the human said "keep the thumbnail, don't ship the stills (update the manifest to include when in the video they came from by frame number), use a GitHub Release". When the agent started matching each still to its exact frame, the human stopped it: "oh in that case just use the time with fraction".
 - **Rule:** R1 for the thumbnail (approve a render). The stills and the publishing channel are an exception: they change the brief's publishing plan, a decision for the brief's author.
+
+## 2026-10-18T20:46:59-04:00 — Human ran the transcript export
+
+- **What:** The human ran `scripts/export_transcripts.sh` on the draft box. The agent's own run was blocked by the auto-mode permission classifier. Output: `30dea770…` 6 lines; `b87d228d…` 9,790 lines, 118M; 1,286 files in the manifest.
+- **Rule:** R3 (fix a technical failure the agent can't).
