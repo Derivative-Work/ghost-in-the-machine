@@ -1109,3 +1109,23 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 ## 2026-10-18T21:41:27-04:00 — End card count kept at 35; draft release next
 
 - The human kept the approved main video's count, which reflects the interventions up to the final render. Next: a draft GitHub Release (`v1.0`) on the private repo. The transcripts are uploaded last, after the human's final export.
+
+## 2026-10-18T21:46:40-04:00 — Draft GitHub Release v1.0
+
+- **Repo:** `gh release create v1.0 --draft --target main --title "Ghost in the Machine v1.0"` on Derivative-Work/ghost-in-the-machine, which is private; the draft isn't public and the tag is created only on publishing.
+- **Notes** (scratchpad `release_notes.md`): a file table, the regeneration note pointing at `MANIFEST.sha256`, and the licences. Links are absolute, because relative links don't resolve in release notes.
+- **Files**, staged under clean names (hard links, scratchpad `release/`). GitHub's sha256 digest for each matches the local file and `MANIFEST.sha256`:
+
+  | Release file | Repo path | sha256 |
+  | --- | --- | --- |
+  | `ghost_in_the_machine_3840x2160.mp4` | `renders/c5_4k/ghost_in_the_machine.mp4` | `f0d940fe…` |
+  | `ghost_in_the_machine_vertical_2160x3840.mp4` | `renders/c5_4k/vertical.mp4` | `738b12e1…` |
+  | `ghost_in_the_machine_master.flac` | `audio/master/Ghost in the Machine (master).flac` | `93f8e63f…` |
+  | `ghost_in_the_machine_suno.wav` | `audio/track/Ghost in the Machine.wav` | `78a7464c…` |
+  | `ghost_in_the_machine_suno.mp3` | `audio/track/Ghost in the Machine.mp3` | `268251a8…` |
+  | `ghost_in_the_machine_suno_stems.zip` | `audio/Ghost in the Machine Stems.zip` | `78a7c745…` |
+  | `ghost_in_the_machine.en.srt` | `deliverables/ghost_in_the_machine.en.srt` | `48a72d01…` |
+  | `ghost_in_the_machine_thumbnail.jpg` | `deliverables/thumbnail.jpg` | `1d5371eb…` |
+
+  The stems zip is Suno's download as received; it holds all 36 files of `audio/stems/` (12 stems × WAV/MP3/MIDI), so the loose stems aren't uploaded separately.
+- **Still to add** after the human's final `scripts/export_transcripts.sh` run: `transcripts_claude_code.tar.gz` (`transcripts/claude-code/`) and `SHA256SUMS.txt` covering every file. Then the human publishes.
