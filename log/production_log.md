@@ -1042,3 +1042,17 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - Mean difference per section 0.04–0.19 levels, max 0.41; no frame over 2.0. That's re-encoding noise; the only content change is the end card's interventions count (35, not 32).
 - **Started** `assemble.py c5_4k 2160 3840 1 8 --vertical --crf 18 --name vertical` (log `renders/c5_4k/logs/vertical.log`). Its scene pass renders 16:9 at 3840 tall (6827×3840, canvases at K = 3.56).
 - Manifest re-run.
+
+## 2026-10-18T20:44:28-04:00 — Session transcript export (brief: published with the large files)
+
+- The human asked to "export this conversation per the spec so that I can bring it to the 5090 box to publish with the repo". The brief lists Claude Code session transcripts among the large files: out of git, in `MANIFEST.sha256`, published in the torrent. `.gitignore` and `manifest.sh` already provide `transcripts/`.
+- **`scripts/export_transcripts.sh`** (new): verbatim copies of this project's sessions from `~/.claude/projects/<path>/` (each `.jsonl` plus its side directory of offloaded tool results) into `transcripts/claude-code/`, then regenerates the manifest. Transcripts are append-only, so a later export replaces an earlier snapshot only if the old file is an exact prefix of the new one.
+- Sessions on the draft box:
+  - `b87d228d-f2f7-4dc6-a9be-1ebd8959e099`: 117 MiB, 9,679 lines when checked; the whole production so far, plus one offloaded tool result;
+  - `30dea770-19a5-475f-9631-701fd862ad66`: 2 KB, an `/exit` before the main session.
+- **Pre-publication scan of the main session:**
+  - no API keys, tokens, private keys or passwords;
+  - "cookie" occurs only as scene content;
+  - the agent's git address appears, as it does in every commit;
+  - **the human's personal email address appears 9 times**, all in context Claude Code injected automatically. Redaction is the human's decision; noted in `docs/handoff.md`.
+- **Not run by the agent:** the auto-mode permission classifier blocked the agent's copy out of `~/.claude`. The human runs `scripts/export_transcripts.sh` on the draft box (R3) as the last step before copying the directory, which also captures this session's final messages.

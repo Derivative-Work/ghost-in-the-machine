@@ -127,7 +127,12 @@ sha256sum -c --quiet MANIFEST.sha256                   # every published large f
    - `deliverables/ghost_in_the_machine.en.srt`: regenerate with `scripts/export_srt.py` if any timing changed.
    - Burned-in captions are already in the cut.
    - Thumbnail `deliverables/thumbnail.jpg` (S47 f4782): **the human hasn't decided** between keeping it as the brief describes and enlarging the labels or dropping the caption.
-8. **C6:** final approval, log audit, `scripts/manifest.sh`, then publishing (torrent + Internet Archive; brief).
+8. **Session transcripts:** the brief publishes the Claude Code session transcripts with the large files.
+   - `scripts/export_transcripts.sh` copies this project's sessions verbatim from `~/.claude/projects/<path>/` into `transcripts/claude-code/` (git-ignored, hashed in the manifest).
+   - The draft box's session is `b87d228d-f2f7-4dc6-a9be-1ebd8959e099`. The human exports it on the draft box before copying.
+   - Run the script on the 5090 box too, at the end, for its own sessions.
+   - The draft session contains the human's personal email address 9 times. It comes from context Claude Code injects automatically, not from the work. **Ask the human whether to redact it** in a separate copy before publishing; keep the verbatim export unchanged.
+9. **C6:** final approval, log audit, `scripts/manifest.sh`, then publishing (torrent + Internet Archive; brief).
    - Open question to raise then: `reference/stills/` holds frames taken from the inspiration videos and is in the manifest. The brief says never publish the inspiration videos; confirm with the human whether those stills ship.
 
 ## 6. Production rules (from the brief; easy to break)
