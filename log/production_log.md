@@ -1061,3 +1061,17 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 
 - The human ran `scripts/export_transcripts.sh`. `transcripts/claude-code/` holds both sessions and the offloaded tool result, all git-ignored and in `MANIFEST.sha256` (1,286 files). The b87d228d snapshot at export: 9,790 lines, SHA-256 `28a089bde1e88696…`.
 - The few messages after the export (this entry) aren't in the snapshot. Rerunning the script before copying captures them; the prefix check allows it.
+
+## 2026-10-18T20:53:34-04:00 — Draft-box transcripts and commits brought over
+
+- **The human** pointed to the draft box's last commits, the transcript export there, and the planning chat (https://claude.ai/share/a6ed7466-9b29-4a36-8713-28484e011115). The agent is to rewrite the author "as before".
+- **Transcripts:** `rsync -a --ignore-existing kepler:Projects/ghost-in-the-machine/transcripts/ transcripts/`. All three files are byte-identical to the draft box's manifest hashes: `b87d228d…` 118 MB (`28a089bd…`), `30dea770…` (`7c85628f…`), and the one offloaded tool result (`933b78f7…`).
+- **Commits:** `git fetch kepler`. The two new commits (d75e037, 6e4c408) branch from 90411f6, the pre-rewrite tip.
+  - Each was cherry-picked onto `main` with its message, its Co-Authored-By/Claude-Session lines and its original dates kept, and author and committer set to "Albert Armea <github@albertarmea.com>", as in the morning's rewrite. They are now 948b32e and 72e3161.
+  - Conflicts were only appends: the draft box's log lines (43 + 6) go after this box's entries, which keeps the logs in time order (draft 20:44 and 20:46 after 20:42).
+  - `docs/handoff.md` §5.8 applied cleanly. It still says "torrent + Internet Archive"; §0 records the switch to a GitHub Release.
+  - `MANIFEST.sha256` regenerated: it now includes `transcripts/`. It also hashed `renders/c5_4k/vertical.mp4` mid-render, so it gets regenerated when the vertical finishes.
+- **Planning chat:** already archived on 2026-10-17 from that link (`docs/planning_chat/`, 32 messages, `scripts/fetch_share.mjs`). The README now links the share and the archive, and names the transcripts as part of the release.
+- **Still open:**
+  - this box's session transcript (the human runs `scripts/export_transcripts.sh` at the end, as on the draft box);
+  - whether to redact the human's email address (9 times in the draft transcript; the draft session asked to leave this to the human).

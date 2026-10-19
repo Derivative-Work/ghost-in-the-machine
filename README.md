@@ -21,7 +21,11 @@ from.
 
 ## The making-of record
 
+- [The planning chat](https://claude.ai/share/a6ed7466-9b29-4a36-8713-28484e011115) that led to the video, archived
+  in [docs/planning_chat/](docs/planning_chat/planning_chat.md).
 - [docs/brief.md](docs/brief.md): the production brief and shot list.
+- The Claude Code session transcripts: in the GitHub Release (`transcripts/claude-code/`, exported with
+  `scripts/export_transcripts.sh`).
 - [log/production_log.md](log/production_log.md): every action the agent took, with commands and outputs.
 - [log/human_interventions.md](log/human_interventions.md): every human action, with the rule that allowed it.
 - [log/prompts/](log/prompts/): every prompt sent to Suno and other models.
