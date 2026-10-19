@@ -1099,3 +1099,9 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - Part 1: f3356–4165, 6.8 MiB. Part 2: f4166–4975, 29.5 MiB. Part 3: f4976–5375, 17.2 MiB. Part 4: f5376–5782, 16.3 MiB.
   - The unused capped copy and a three-part split whose third part was 33.3 MiB stay in the scratchpad.
 - **The main video's flash check** was stopped: `flash_check.py` re-decodes the 4K file for every strip it writes. The main video already matches the eight approved sections frame for frame (entry at 20:42:15).
+
+## 2026-10-18T21:40:00-04:00 — C6 log audit
+
+- **Check:** for every file in `MANIFEST.sha256` (1,035) and in git (100), the production log or the interventions log names its path, its file name, or a folder it sits in. Script inline; recorded here.
+- **Result:** 1,035/1,035 and 100/100 covered. The test is lenient: frame folders, for example, are logged by folder, not by file.
+- **End card count:** the approved main video's card says "Human interventions: 35". The interventions log now has 39 entries: the C6 decisions, the two transcript exports and the C6 approval all came after the final cut. That's for the human to decide: keep, or re-cut S57.
