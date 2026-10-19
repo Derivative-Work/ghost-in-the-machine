@@ -7,11 +7,17 @@ and ran Suno, and every such action is logged.
 
 ## Downloads
 
-The video, the vertical cut, the music and stems, every intermediate render and the session transcripts are too
-large for git. They are listed with SHA-256 hashes in [MANIFEST.sha256](MANIFEST.sha256) and will be published as:
+Large files stay out of git and are published as a **GitHub Release** of this repository (*link added at
+publish*). The release holds everything that can't be regenerated, plus the finished videos:
 
-- Torrent: *added at publish*
-- Internet Archive: *added at publish*
+- the main video (3840×2160) and the vertical cut (2160×3840);
+- the Suno track, stems and MIDI, and the mastered track;
+- the session transcripts.
+
+Everything else, every plate, overlay frame, animatic and superseded cut, regenerates from the code with the commands
+in the production log. [MANIFEST.sha256](MANIFEST.sha256) lists all of them with SHA-256 hashes to check a rebuild
+against. The reference stills are not published; [reference/stills.tsv](reference/stills.tsv) says where each came
+from.
 
 ## The making-of record
 

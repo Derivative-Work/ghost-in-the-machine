@@ -23,6 +23,12 @@ Read this first. It supersedes parts of §1 and §5 below.
   1. Cut the eight sections at 4K and check them (flash check, compare with the 1080p C5 cuts).
   2. Send them to the human for C5 approval. 4K masters are far over the 30 MiB upload limit, so ask how they want to review.
   3. Then the main video, the vertical (`--vertical`, 2160 3840), the thumbnail and C6, as in §5.
+- **Later (same day):** C5 was approved (all eight 4K sections; chorus 2's degradation made heavier first). The human decided:
+  - keep the thumbnail as it is;
+  - don't ship `reference/stills` (out of the manifest; `reference/stills.tsv` gives each one's source and time);
+  - publish large files as a GitHub Release instead of a torrent and the Internet Archive.
+
+  This replaces §5.7's thumbnail question and §5.8's stills question and torrent/IA plan. The brief (rev 95) and README match.
 
 ## 1. Where things stand
 

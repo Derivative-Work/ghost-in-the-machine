@@ -24,7 +24,8 @@ The code is under the MIT licence instead: see [LICENSE](LICENSE).
 - **Fonts** (`assets/fonts/`): Inter, Instrument Serif and JetBrains Mono, each under the SIL Open Font License 1.1 by
   their authors (the `*-OFL.txt` file beside each font).
 - **Reference stills** (`reference/stills/`): frames from other creators' videos, kept as style references. They are
-  not ours to license and are not covered here.
+  not ours to license, not covered here and not published; [reference/stills.tsv](reference/stills.tsv) lists the
+  source video and time of each.
 - **The inspiration videos:** never published; [reference/inspiration.md](reference/inspiration.md) links to them.
 
 ## Attribution

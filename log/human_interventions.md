@@ -270,3 +270,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   - `renders/c5_4k/c5_1_intro_verse1.mp4` … `c5_8_ending.mp4`, with `c5_6_chorus2.mp4` the v2 re-cut;
   - reviewed as 1080p copies, the human's choice.
 - **Rule:** R1 (approve a render).
+
+## 2026-10-18T20:41:16-04:00 — C6 decisions: thumbnail kept, stills not shipped, GitHub Release
+
+- **What:** Asked about the open C6 items, the human said "keep the thumbnail, don't ship the stills (update the manifest to include when in the video they came from by frame number), use a GitHub Release". When the agent started matching each still to its exact frame, the human stopped it: "oh in that case just use the time with fraction".
+- **Rule:** R1 for the thumbnail (approve a render). The stills and the publishing channel are an exception: they change the brief's publishing plan, a decision for the brief's author.

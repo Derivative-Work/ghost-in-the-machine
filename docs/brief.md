@@ -1,4 +1,4 @@
-<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 91, 2026-10-18. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
+<!-- Exported by the agent from https://claude.ai/artifact/X6qhGA5gWTDVtmLZHcsUcp at doc rev 95, 2026-10-18. The live doc is the source of truth; re-export if it changes. Lyrics are in lyrics/as_sung.txt and log/prompts/suno/lyrics_submitted.txt. -->
 
 # Ghost in the Machine: Shot List and Production Brief
 
@@ -16,7 +16,7 @@
 - 9:16 vertical cut (2160×3840) of the bridge through the ending (section 7)
 - Burned-in captions plus a separate SRT file
 - Thumbnail
-- The complete production log and every intermediate asset (section 2)
+- The complete production log, with every intermediate asset hashed in the manifest and regenerable from it (section 2)
 
 ## Production rules
 
@@ -41,7 +41,7 @@ A human never rewrites lyrics, redraws an asset or adjusts a creative choice by 
 - Never delete or overwrite an asset. Rejected takes, failed renders and superseded scripts move to `archive/` with a note in the log.
 - Use git for all code and text, with one commit per logged step.
 
-All of this, plus this document and the chat that produced it, will be published as the making-of record. Git holds code, scripts, logs and text. Large files (final renders, WAVs and stems, Suno takes, reference stills, .blend files, Claude Code session transcripts) are excluded from git, listed in a committed SHA-256 manifest, and published as a torrent seeded from a VPS with an HTTP web seed, mirrored to the Internet Archive. Frame sequences, Blender caches, tool caches, model weights, venvs and node_modules are never archived; log their versions and the commands that regenerate them instead. The inspiration videos are never published; link to them. Before the first commit, set up `.gitignore` and a pre-commit check that rejects any file over 50 MiB.
+All of this, plus this document and the chat that produced it, will be published as the making-of record. Git holds code, scripts, logs and text. Large files (final renders, WAVs and stems, Suno takes, .blend files, Claude Code session transcripts) are excluded from git, listed in a committed SHA-256 manifest, and the ones that can't be regenerated (the Suno audio, stems and MIDI, the mastered track, the session transcripts) are published with the finished videos as a GitHub Release of the repo; everything else regenerates from the logged commands. Frame sequences, Blender caches, tool caches, model weights, venvs and node_modules are never archived; log their versions and the commands that regenerate them instead. The inspiration videos are never published; link to them. Before the first commit, set up `.gitignore` and a pre-commit check that rejects any file over 50 MiB.
 
 ## Inputs
 
@@ -187,6 +187,6 @@ The agent stops at each checkpoint and waits for approval. Approvals and rejecti
 **Open items**
 
 - The Suno take ID, prompt, settings and rejected takes, for the retroactive log.
-- The VPS web seed URL and the Internet Archive item, for the repo README.
+- Decided: large files ship as a GitHub Release (no torrent or Internet Archive); its link goes in the repo README at publish. The reference stills are not published; reference/stills.tsv records each one's source video and time.
 - Frame rate is 30 fps (style spec, approved at C1). The track is 190.0 s at 123 bpm; S56 and S57 run past its end.
 - Decided: the public repo is github.com/Derivative-Work/ghost-in-the-machine.

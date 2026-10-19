@@ -1019,3 +1019,17 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 
 - `scripts/export_overlay_data.py`: human interventions 32 → 35 (the RAM increase, the section 6 rejection and the C5 approval). Nothing else changed.
 - Started `assemble.py c5_4k 3840 2160 1 8 --crf 18 --name ghost_in_the_machine` (all 6,023 frames, master audio; log `renders/c5_4k/logs/main.log`).
+
+## 2026-10-18T20:41:16-04:00 — Stills indexed and out of the manifest; GitHub Release replaces torrent/IA; thumbnail kept
+
+- **Thumbnail:** `deliverables/thumbnail.jpg` (S47 f4782) stays as it is, per the human.
+- **Reference stills:** not published.
+  - New `scripts/stills_index.py` writes `reference/stills.tsv` (in git): for each of the 423 stills, its sha256, YouTube ID, kind and time in seconds, plus a link.
+  - Scene stills take ffmpeg's logged `pts_time` (`scene_times.txt`; counts match for all five videos); interval stills are on the 5 s grid.
+  - The human asked for frame numbers, then said "just use the time with fraction". A first version that matched each still to an exact decoded frame was stopped before it ran.
+  - The other 20 files there (contact sheets, ffmpeg logs, time lists) are derived from the stills.
+  - `scripts/manifest.sh` no longer hashes `reference/stills`: MANIFEST 1,470 → 1,029 entries (−443 stills and derived files, +2 new renders). `LICENSE-media.md` points to the TSV.
+- **Publishing:** a GitHub Release of the repo holds the files that can't be regenerated (Suno track, stems, MIDI, the mastered track, session transcripts) plus the main and vertical videos. Everything else regenerates and is checked against `MANIFEST.sha256`.
+  - `README.md` Downloads rewritten.
+  - Brief (Claude Doc rev 91 → 95, mirrored): the publishing sentence, the "every intermediate asset" deliverable, the open item (decided) and "reference stills" removed from the manifest list.
+  - `docs/handoff.md` §0 noted.
