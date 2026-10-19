@@ -1014,3 +1014,8 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 
 - The human approved all eight 4K sections (R1, `log/human_interventions.md`). Checkpoint C5 is done; C6 is next: the main video (3840×2160), the vertical (2160×3840), the thumbnail decision, captions and the log audit.
 - The end card's interventions count must be re-exported right before the final cut: it reads 32, and the log now has 35 entries.
+
+## 2026-10-18T20:24:04-04:00 — C6: overlay data re-exported; main video cut started
+
+- `scripts/export_overlay_data.py`: human interventions 32 → 35 (the RAM increase, the section 6 rejection and the C5 approval). Nothing else changed.
+- Started `assemble.py c5_4k 3840 2160 1 8 --crf 18 --name ghost_in_the_machine` (all 6,023 frames, master audio; log `renders/c5_4k/logs/main.log`).
