@@ -1086,3 +1086,16 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 
   Redaction is still the human's decision.
 - **Vertical:** `renders/c5_4k/vertical.mp4` finished at 20:56:12. 2160×3840, H.264, BT.709, 80.9 s (S35–S56, f3356–5783), 20.5 Mb/s, 207 MB; master audio. The manifest the export regenerated hashes the finished file (`738b12e1…`).
+
+## 2026-10-18T21:21:57-04:00 — Vertical checked; review copies
+
+- **Contact sheet** of the vertical at f3400, 4100, 4300, 4520, 4790, 4870, 4980, 5100, 5300, 5440, 5560 and 5740 (scratchpad `vert/sheet.png`). Checked:
+  - S35 freeze with devtools; S39 crane;
+  - S42/S44 degraded, with S44's tokens in the JPEG pass and the context meter clean on the portrait UI;
+  - S47 2-up stacked; S48 4-up and S49 9-up grids;
+  - the feed (S50, S52), S53, S54 and the S56 ending.
+- **Flash check:** 185 short states over f3356–5782. There's no earlier vertical to compare against; this stretch is dense with glitches and re-rolls.
+- **Review copies at 1080×1920**, crf 18, `-tune grain`, BT.709, AAC 192k: four parts, because the whole is 69 MiB at crf 18 and a single capped copy would be 2.9 Mb/s.
+  - Part 1: f3356–4165, 6.8 MiB. Part 2: f4166–4975, 29.5 MiB. Part 3: f4976–5375, 17.2 MiB. Part 4: f5376–5782, 16.3 MiB.
+  - The unused capped copy and a three-part split whose third part was 33.3 MiB stay in the scratchpad.
+- **The main video's flash check** was stopped: `flash_check.py` re-decodes the 4K file for every strip it writes. The main video already matches the eight approved sections frame for frame (entry at 20:42:15).
