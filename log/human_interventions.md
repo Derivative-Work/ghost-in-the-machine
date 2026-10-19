@@ -285,3 +285,10 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human ran `scripts/export_transcripts.sh` on this box (a first try, `scripts/export`, was an incomplete path). Output: this session `8bd64ce5-993e-45de-836d-8a8a4e583356`, 3,611 lines, 34 MB; manifest 1,035 files. The agent's copy out of `~/.claude` needs the human, as on the draft box.
 - **Rule:** R3 (a technical step the agent can't do itself).
+
+## 2026-10-18T21:39:38-04:00 — C6: main video and vertical approved; transcripts ship unredacted
+
+- **What:** The human said "both look good, approve them, and email addresses can stay in the transcripts (they're dedicated accounts for each purpose, as the names imply)":
+  - approved the main video `renders/c5_4k/ghost_in_the_machine.mp4` (3840×2160) and the vertical `renders/c5_4k/vertical.mp4` (2160×3840, reviewed as four 1080×1920 parts);
+  - decided that the transcripts are published verbatim, email addresses included.
+- **Rule:** R1 (approve renders). The transcript decision is an exception: a publishing choice for the brief's author.
