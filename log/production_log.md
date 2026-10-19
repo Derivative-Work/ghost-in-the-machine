@@ -1033,3 +1033,12 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - `README.md` Downloads rewritten.
   - Brief (Claude Doc rev 91 → 95, mirrored): the publishing sentence, the "every intermediate asset" deliverable, the open item (decided) and "reference stills" removed from the manifest list.
   - `docs/handoff.md` §0 noted.
+
+## 2026-10-18T20:42:15-04:00 — C6: main video cut at 4K and checked; vertical cut started
+
+- **`renders/c5_4k/ghost_in_the_machine.mp4`:** `assemble.py c5_4k 3840 2160 1 8 --crf 18 --name ghost_in_the_machine`, 20:24 → 20:39.
+  - 3840×2160, H.264, BT.709, 200.77 s, 20.4 Mb/s average, 513 MB; master audio (AAC 48 kHz).
+- **Against the eight approved sections** (192×108 thumbnails, at each section's frames): all 6,023 frames present.
+  - Mean difference per section 0.04–0.19 levels, max 0.41; no frame over 2.0. That's re-encoding noise; the only content change is the end card's interventions count (35, not 32).
+- **Started** `assemble.py c5_4k 2160 3840 1 8 --vertical --crf 18 --name vertical` (log `renders/c5_4k/logs/vertical.log`). Its scene pass renders 16:9 at 3840 tall (6827×3840, canvases at K = 3.56).
+- Manifest re-run.
