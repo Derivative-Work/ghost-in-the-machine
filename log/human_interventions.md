@@ -263,3 +263,10 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human first reported "section 6 appears to have pretty severe encoding artifacts". The agent showed that the review copy matches the master (49 dB PSNR) and that the blocks are the brief's intended chorus-2 degradation. The human replied: "oh, in that case, task failed successfully. on small screens, it needs to be more obvious though -- decrease the resolution even more, and also include the tokens (but not the lyrics or the "context window") in the part that's JPEG-ed". The agent made the change and re-cut the section.
 - **Rule:** R1 (reject a render, with the change said in words; the agent made it).
+
+## 2026-10-18T20:23:52-04:00 — C5 approved: all eight sections (4K)
+
+- **What:** After section 6 v2, the human said "they all look great now", approving all eight 4K C5 sections:
+  - `renders/c5_4k/c5_1_intro_verse1.mp4` … `c5_8_ending.mp4`, with `c5_6_chorus2.mp4` the v2 re-cut;
+  - reviewed as 1080p copies, the human's choice.
+- **Rule:** R1 (approve a render).

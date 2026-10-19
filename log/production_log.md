@@ -1009,3 +1009,8 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
   - Flash check: 115 short states (111 before), from the coarser blocks shimmering.
 - **Review copy:** `c5_6_chorus2_v2_review1080.mp4` (scratchpad, crf 18, 24.7 MiB).
 - Manifest re-run.
+
+## 2026-10-18T20:23:52-04:00 — C5 closed
+
+- The human approved all eight 4K sections (R1, `log/human_interventions.md`). Checkpoint C5 is done; C6 is next: the main video (3840×2160), the vertical (2160×3840), the thumbnail decision, captions and the log audit.
+- The end card's interventions count must be re-exported right before the final cut: it reads 32, and the log now has 35 entries.
