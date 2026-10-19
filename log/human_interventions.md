@@ -280,3 +280,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human ran `scripts/export_transcripts.sh` on the draft box. The agent's own run was blocked by the auto-mode permission classifier. Output: `30dea770…` 6 lines; `b87d228d…` 9,790 lines, 118M; 1,286 files in the manifest.
 - **Rule:** R3 (fix a technical failure the agent can't).
+
+## 2026-10-18T21:09:35-04:00 — Human ran the transcript export (RTX 5090 box)
+
+- **What:** The human ran `scripts/export_transcripts.sh` on this box (a first try, `scripts/export`, was an incomplete path). Output: this session `8bd64ce5-993e-45de-836d-8a8a4e583356`, 3,611 lines, 34 MB; manifest 1,035 files. The agent's copy out of `~/.claude` needs the human, as on the draft box.
+- **Rule:** R3 (a technical step the agent can't do itself).

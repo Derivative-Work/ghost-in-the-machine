@@ -1075,3 +1075,14 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - **Still open:**
   - this box's session transcript (the human runs `scripts/export_transcripts.sh` at the end, as on the draft box);
   - whether to redact the human's email address (9 times in the draft transcript; the draft session asked to leave this to the human).
+
+## 2026-10-18T21:09:35-04:00 — This session's transcript exported; vertical cut finished; manifest final for both cuts
+
+- **Transcript:** `transcripts/claude-code/8bd64ce5-993e-45de-836d-8a8a4e583356.jsonl` (the human ran the export, R3). It's a snapshot; a re-export at the very end captures the rest (the script's prefix check allows it).
+- **Addresses at `@albertarmea.com`** across the three transcripts (`grep -o`):
+  - `claude-ai@`: draft session 17 times, this session 3. This is the address Claude Code injects as context.
+  - `github@`: this session 44 times; this is the commit identity.
+  - `derivative-work-agent@`: draft 11, this session 24; this is the old commit identity.
+
+  Redaction is still the human's decision.
+- **Vertical:** `renders/c5_4k/vertical.mp4` finished at 20:56:12. 2160×3840, H.264, BT.709, 80.9 s (S35–S56, f3356–5783), 20.5 Mb/s, 207 MB; master audio. The manifest the export regenerated hashes the finished file (`738b12e1…`).
