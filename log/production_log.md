@@ -1129,3 +1129,11 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 
   The stems zip is Suno's download as received; it holds all 36 files of `audio/stems/` (12 stems × WAV/MP3/MIDI), so the loose stems aren't uploaded separately.
 - **Still to add** after the human's final `scripts/export_transcripts.sh` run: `transcripts_claude_code.tar.gz` (`transcripts/claude-code/`) and `SHA256SUMS.txt` covering every file. Then the human publishes.
+
+## 2026-10-18T21:52:28-04:00 — Transcripts and checksums added to the draft release
+
+- **Transcript export** (the human, R3). It replaced the earlier snapshot of `8bd64ce5…` (the prefix check passed): 4,038 lines, `10bb66ca…`. `MANIFEST.sha256` regenerated; every transcript file matches it.
+- **`transcripts_claude_code.tar.gz`** (65.5 MB, `6b1fabce…`): `tar --sort=name --mtime='2026-10-18 00:00Z' --owner=0 --group=0 --numeric-owner -cf - transcripts/claude-code | gzip -n -9`. That's reproducible from the same files. It holds the three sessions (draft `b87d228d…` and `30dea770…`, this box `8bd64ce5…`) and the offloaded tool result.
+- **`SHA256SUMS.txt`** (`41536696…`): all nine release files.
+- Both uploaded; GitHub's digests match. The draft now has 10 files. This session's messages after the export aren't in the archive, as on the draft box.
+- What's left for the human: publish the draft. That creates tag `v1.0` on `main` and, if the repo is made public, makes it visible. After publishing, add the release link to the README Downloads section.

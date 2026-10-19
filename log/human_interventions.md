@@ -297,3 +297,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** Asked whether to re-cut the end card (it says 35 interventions; the log had 39), the human said "keep the count, push it, and make the draft release".
 - **Rule:** R1 (approve the render as it stands). Asking for the release is an exception (publishing, the brief's author's call).
+
+## 2026-10-18T21:52:28-04:00 — Human ran the final transcript export (RTX 5090 box)
+
+- **What:** The human ran `scripts/export_transcripts.sh` again for the release. This session is now 4,038 lines, 41 MB; manifest 1,035 files.
+- **Rule:** R3 (a technical step the agent can't do itself).
