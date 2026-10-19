@@ -29,6 +29,7 @@ Read this first. It supersedes parts of §1 and §5 below.
   - publish large files as a GitHub Release instead of a torrent and the Internet Archive.
 
   This replaces §5.7's thumbnail question and §5.8's stills question and torrent/IA plan. The brief (rev 95) and README match.
+- **Published (2026-10-18):** C6 approved. The release is https://github.com/Derivative-Work/ghost-in-the-machine/releases/tag/v1.0 (tag on d96d8cc), the repo is public, and the video is on YouTube: https://www.youtube.com/watch?v=6RcYUoG1t0I. The production is complete.
 
 ## 1. Where things stand
 

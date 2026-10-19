@@ -302,3 +302,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
 
 - **What:** The human ran `scripts/export_transcripts.sh` again for the release. This session is now 4,038 lines, 41 MB; manifest 1,035 files.
 - **Rule:** R3 (a technical step the agent can't do itself).
+
+## 2026-10-18T22:28:05-04:00 — Published
+
+- **What:** The human published draft release v1.0 (2026-10-19T02:26:39Z; tag `v1.0` on d96d8cc), made the repo public and uploaded the video to YouTube: https://www.youtube.com/watch?v=6RcYUoG1t0I.
+- **Rule:** exception: publishing, the brief's author's step (the agent has no YouTube access and left the publish button to the human).

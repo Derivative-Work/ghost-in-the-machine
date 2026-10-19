@@ -1137,3 +1137,9 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - **`SHA256SUMS.txt`** (`41536696…`): all nine release files.
 - Both uploaded; GitHub's digests match. The draft now has 10 files. This session's messages after the export aren't in the archive, as on the draft box.
 - What's left for the human: publish the draft. That creates tag `v1.0` on `main` and, if the repo is made public, makes it visible. After publishing, add the release link to the README Downloads section.
+
+## 2026-10-18T22:28:05-04:00 — Published; links added
+
+- Release: https://github.com/Derivative-Work/ghost-in-the-machine/releases/tag/v1.0, with 10 files. The repo is public. YouTube: https://www.youtube.com/watch?v=6RcYUoG1t0I.
+- `README.md` has a "Watch" link and the release link in Downloads (replacing "link added at publish"). `docs/handoff.md` §0 marks the production complete.
+- These commits come after the `v1.0` tag. They change text only, none of the released files.

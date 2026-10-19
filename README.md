@@ -5,10 +5,12 @@ AI-made songs about AI it belongs to. Claude Code (Opus 5.5) wrote and rendered 
 and ffmpeg; Suno v6 made the music. A human only approved or rejected work, corrected sync, fixed technical failures
 and ran Suno, and every such action is logged.
 
+**Watch:** https://www.youtube.com/watch?v=6RcYUoG1t0I
+
 ## Downloads
 
-Large files stay out of git and are published as a **GitHub Release** of this repository (*link added at
-publish*). The release holds everything that can't be regenerated, plus the finished videos:
+Large files stay out of git and are published as the **[v1.0 GitHub Release](https://github.com/Derivative-Work/ghost-in-the-machine/releases/tag/v1.0)**.
+It holds everything that can't be regenerated, plus the finished videos:
 
 - the main video (3840×2160) and the vertical cut (2160×3840);
 - the Suno track, stems and MIDI, and the mastered track;
