@@ -1105,3 +1105,7 @@ Not the render depth or resolution. The plates are clean: Blender dithers its 8-
 - **Check:** for every file in `MANIFEST.sha256` (1,035) and in git (100), the production log or the interventions log names its path, its file name, or a folder it sits in. Script inline; recorded here.
 - **Result:** 1,035/1,035 and 100/100 covered. The test is lenient: frame folders, for example, are logged by folder, not by file.
 - **End card count:** the approved main video's card says "Human interventions: 35". The interventions log now has 39 entries: the C6 decisions, the two transcript exports and the C6 approval all came after the final cut. That's for the human to decide: keep, or re-cut S57.
+
+## 2026-10-18T21:41:27-04:00 — End card count kept at 35; draft release next
+
+- The human kept the approved main video's count, which reflects the interventions up to the final render. Next: a draft GitHub Release (`v1.0`) on the private repo. The transcripts are uploaded last, after the human's final export.

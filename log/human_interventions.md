@@ -292,3 +292,8 @@ Every human action: timestamp, what, why, and which production rule allows it. R
   - approved the main video `renders/c5_4k/ghost_in_the_machine.mp4` (3840×2160) and the vertical `renders/c5_4k/vertical.mp4` (2160×3840, reviewed as four 1080×1920 parts);
   - decided that the transcripts are published verbatim, email addresses included.
 - **Rule:** R1 (approve renders). The transcript decision is an exception: a publishing choice for the brief's author.
+
+## 2026-10-18T21:41:27-04:00 — End card count kept; draft GitHub Release requested
+
+- **What:** Asked whether to re-cut the end card (it says 35 interventions; the log had 39), the human said "keep the count, push it, and make the draft release".
+- **Rule:** R1 (approve the render as it stands). Asking for the release is an exception (publishing, the brief's author's call).
